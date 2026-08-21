@@ -1,0 +1,603 @@
+/* =====================================================================
+   tokens.css — Alignwell Chiropractic
+   Bundle A "Quiet Evidence", locked 2026-08-10 from
+   .claude/skills/web-mockup/verticals/alignwell-chiropractic.md §4.
+
+   This file carries EVERY brand value. structural.css carries layout and
+   consumes these as var(--ds-*) — it holds no colour, family or radius of
+   its own. Inner-page shells carry neither: they link both files and
+   nothing else.
+
+   Palette  COLOR-THEORY-PRESETS.md #46 Botanical Skincare
+   Type     TYPOGRAPHY-PAIRINGS.md #43 Source Serif 4 + Inter
+   Surface  #3 Modern 8-12px · #8 Flat-no-chrome · #18 Solid-pill
+            · #27 Hairline-full-width · #34 Soft-rounded · #39 Boxed-default
+   Motion   #2 Color-shift · #13 Outline-emerge · #17 Underline-grow
+            · #21 Fade-up · #26 Fade-in-on-view · #31 Default cursor
+            · #37 Form-field focus · #43 View Transitions API
+   ===================================================================== */
+
+@import url('../../_shared-fonts/alignwell-chiropractic-fonts.css');
+
+:root{
+  /* ── Colour ─────────────────────────────────────────────────────── */
+  --ds-primary:        #3A5F3A;   /* CTAs, primary brand surfaces */
+  --ds-primary-deep:   #1F3324;   /* dark bands, headings, footer */
+  --ds-primary-soft:   #DCE6DA;   /* tinted surfaces, tag pills */
+  --ds-accent:         #C2A878;   /* eyebrows on dark, step numbers */
+  --ds-accent-soft:    #F0E8D7;   /* the single accent band */
+  --ds-bg-surface:     #FFFFFF;   /* default section ground */
+  --ds-bg-surface-2:   #FFFFFF;   /* cards */
+  --ds-bg-warm:        #F8F4ED;   /* warm alternate band */
+  --ds-ink:            #1F2A24;   /* body — 13.4:1 on warm */
+  --ds-ink-soft:       #5C6B60;   /* secondary — 5.2:1 on warm */
+  --ds-ink-on-dark:    #FFFFFF;
+  --ds-line:           #DFD9CC;   /* decorative hairlines only */
+  --ds-field-line:     #C9C0AD;   /* FORM CONTROLS — must clear 3:1, so darker than --ds-line */
+  --ds-scrim:          rgba(31,51,36,.55);
+  --ds-signature:      #5C6E56;   /* eyebrows on light — 5.59:1 on white */
+  --ds-warning:        #A6412F;
+  --ds-warning-soft:   #F6E4DF;
+
+  /* ── Type ───────────────────────────────────────────────────────── */
+  --ds-font-display: 'Source Serif 4', Georgia, serif;
+  --ds-font-body:    'Inter', system-ui, -apple-system, sans-serif;
+  --ds-font-mono:    'IBM Plex Mono', ui-monospace, monospace;
+
+  /* ── Radius — SURFACE-PATTERNS.md #3 Modern 8-12px ──────────────── */
+  --ds-r-sm: 8px; --ds-r-md: 12px; --ds-r-lg: 16px; --ds-r-xl: 20px; --ds-r-pill: 9999px;
+
+  /* ── Elevation — Bundle A is flat-no-chrome, so card shadow is none ── */
+  --ds-shadow-card: none;
+  --ds-shadow-lift: 0 10px 26px -12px rgba(31,51,36,.22);
+  --ds-shadow-sticky: 0 -6px 22px rgba(31,51,36,.10);  /* mobile sticky bar, lifts UPWARD */
+
+  /* ── Space ──────────────────────────────────────────────────────── */
+  --ds-space-2xs: 4px;  --ds-space-xs: 8px;  --ds-space-sm: 12px;
+  --ds-space-md:  16px; --ds-space-lg: 24px; --ds-space-xl: 40px;
+  --ds-space-2xl: 64px; --ds-space-3xl: 96px;
+  --ds-section-py: clamp(48px, 7vw, 96px);
+  --ds-container-max: 1340px;
+
+  /* height:auto becomes animatable — needed by the FAQ open/close transition below */
+  interpolate-size: allow-keywords;
+
+  /* ── Motion ─────────────────────────────────────────────────────── */
+  --ds-ease: cubic-bezier(.22,.61,.36,1);
+  --ds-dur: 200ms;
+}
+
+/* =====================================================================
+   Per-site signature overrides.
+   structural.css is deliberately brand-neutral; these are the Bundle A
+   decisions it cannot express generically. Everything here is still
+   token-driven — no literal outside the :root block above.
+   ===================================================================== */
+
+/* MOTION-PATTERNS.md #43 View Transitions API — five-page static MPA */
+@view-transition{ navigation: auto; }
+
+/* Editorial serif display, per TYPOGRAPHY-PAIRINGS.md #43. */
+h1,h2,h3{ letter-spacing:-.015em; }
+h1{ letter-spacing:-.02em; }
+
+/* NOTE: the .eyebrow motif was retired from this site 2026-08-10 (owner request). structural.css
+   still defines .eyebrow, so the class remains available; this file no longer restyles it. */
+
+/* SURFACE-PATTERNS.md #18 Solid-pill + MOTION #2 Color-shift.
+   No lift, no scale — the colour shift is the whole hover. */
+.btn{ border-radius: var(--ds-r-pill); font-weight:600; }
+.btn-primary{ background: var(--ds-primary); color: var(--ds-ink-on-dark); }
+.btn-primary:hover{ background: color-mix(in srgb, var(--ds-primary) 88%, black); box-shadow:none; transform:none; }
+.section--dark .btn-primary{ background: var(--ds-ink-on-dark); color: var(--ds-primary-deep); }
+.section--dark .btn-primary:hover{ background: var(--ds-accent-soft); }
+.btn-secondary{ border-radius: var(--ds-r-pill); }
+/* On a dark band the homepage's secondary is a 35%-white outline; --ds-line is a warm cream
+   that reads far heavier there. Matched. */
+.section--dark .btn-secondary{ color: var(--ds-ink-on-dark);
+  border-color: color-mix(in srgb, var(--ds-ink-on-dark) 35%, transparent); }
+
+/* SURFACE-PATTERNS.md #8 Flat-no-chrome + MOTION #13 Outline-emerge.
+   The card never lifts; a hairline grows outward instead. */
+.card{
+  background: var(--ds-bg-surface-2);
+  border: 1px solid var(--ds-line);
+  border-radius: var(--ds-r-md);
+  box-shadow: var(--ds-shadow-card);
+  position: relative;
+}
+.card::after{
+  content:""; position:absolute; inset:0; border:1px solid transparent;
+  border-radius: var(--ds-r-md); pointer-events:none;
+  transition: border-color 280ms var(--ds-ease), inset 280ms var(--ds-ease);
+}
+.card:hover{ transform:none; box-shadow: var(--ds-shadow-card); }
+.card:hover::after{ inset:-8px; border-color: var(--ds-primary); }
+
+/* SURFACE-PATTERNS.md #39 Boxed-default + MOTION #37 field focus.
+   Controls use --ds-field-line, never --ds-line. */
+.field input, .field select, .field textarea{
+  border-color: var(--ds-field-line);
+  border-radius: var(--ds-r-sm);
+}
+.field input:focus, .field select:focus, .field textarea:focus{
+  outline:0;
+  border-color: var(--ds-primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--ds-primary) 20%, transparent);
+}
+
+/* Process step numerals.
+   The §2.9 ghost-numeral motif is a HOMEPAGE treatment: it reads because index.html's process
+   band is dark, so a champagne outline has something to sit against. Interior .process is
+   section--warm (cream), where structural.css instead renders a filled champagne badge with
+   primary-deep numerals — 5.93:1 and crisp.
+   A bare `.step__num` override here half-applied: -webkit-text-stroke won (structural declares
+   none, so nothing competed) while color:transparent and background:none lost to structural's
+   later rule. The result was a dark numeral wearing a champagne stroke ON a champagne badge —
+   1.00:1 against its own background, which is why the numbers were unreadable. Explicitly
+   neutralise the stroke and let structural's badge stand. */
+body .step__num{
+  font-family: var(--ds-font-display);
+  font-weight: 700;
+  -webkit-text-stroke: 0;
+  color: var(--ds-primary-deep);
+  background: var(--ds-accent);
+}
+
+/* Header CTA collapse — matched to index.html, which drops `.head-cta .btn` at ≤900 so the
+   narrow bar is just the wordmark and the hamburger. structural.css instead keeps .nav-cta
+   in the bar at every width; at 375 that measured 393px against a 375px viewport (18px over)
+   on all four inner pages. The drawer carries the booking CTA and the phone number at these
+   widths, and each page's hero repeats both immediately below the fold.
+
+   NOTE ON SPECIFICITY: tokens.css is linked BEFORE structural.css, so a single-class
+   rule here loses to an equal-specificity rule there on source order. Anything that has
+   to beat structural.css must be at least two classes deep. */
+@media (max-width: 900px){
+  .nav-actions .nav-cta{ display:none; }
+  .site-header__bar .nav-actions{ gap: var(--ds-space-xs); }
+}
+
+/* Team grid carries FOUR people, and structural.css lays the grid out 3-up — which strands
+   the fourth card alone on a second row. Step 4 -> 2 -> 1 instead, so no breakpoint ever
+   leaves a single orphan. Two classes deep to beat structural.css on source order. */
+@media (min-width: 1100px){
+  .team-grid .team-grid__grid{ grid-template-columns: repeat(4, minmax(0,1fr)); }
+}
+@media (max-width: 1099.98px) and (min-width: 700px){
+  .team-grid .team-grid__grid{ grid-template-columns: repeat(2, minmax(0,1fr)); }
+}
+
+/* MOTION-PATTERNS.md #21 Fade-up + #26 Fade-in-on-view.
+   nav.js adds .is-in; without JS everything stays visible. */
+.reveal{ opacity:0; transform: translateY(24px);
+  transition: opacity 600ms var(--ds-ease), transform 600ms var(--ds-ease); }
+.reveal.is-in{ opacity:1; transform:none; }
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{ animation-duration:.001ms!important; transition-duration:.001ms!important; }
+  .reveal{ opacity:1!important; transform:none!important; }
+}
+
+/* =====================================================================
+   INTERIOR HEADER — matched to the homepage.
+   structural.css ships the `.nav-pill` treatment: a solid sticky white bar
+   with a circle brand mark, a bordered link pill, an accent phone chip and a
+   filled square CTA. index.html uses NAV-PATTERNS.md #2 instead — a
+   transparent bar sitting OVER the dark hero, a serif wordmark with a mono
+   tagline beneath, plain centred links with underline-grow, a bare mono phone
+   and a white ghost pill. Side by side the two read as different sites.
+
+   These rules restyle the vocabulary classes so the interior chrome matches
+   the homepage. The markup stays vocabulary-pure (verify-shell-purity) and the
+   brand decision stays in tokens.css, where per-site signature overrides live.
+
+   Every selector is deliberately deeper than structural.css's, because
+   tokens.css is linked FIRST and would otherwise lose on source order.
+   ===================================================================== */
+
+/* Transparent bar over the hero, not a solid sticky one. */
+body .site-header{
+  position: absolute; inset: 0 0 auto;
+  background: transparent; border-bottom: 0;
+}
+body .site-header__bar{ gap: var(--ds-space-lg); padding-block: 22px; }
+
+/* Serif wordmark with the mono tagline stacked under it. */
+body .site-header .brand{
+  flex-direction: column; align-items: flex-start; gap: 3px;
+  font-size: 23px; font-weight: 700; letter-spacing: -.01em;
+  color: var(--ds-ink-on-dark);
+}
+body .site-header .brand .role{
+  font-family: var(--ds-font-mono); font-size: 10px; font-weight: 400;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: color-mix(in srgb, var(--ds-ink-on-dark) 72%, transparent);
+}
+
+/* Plain centred link row — the pill chrome and the filled active chip both go. */
+body .site-header .nav-pill{
+  margin: 0 auto; gap: var(--ds-space-xl); padding: 0;
+  background: transparent; border: 0; border-radius: 0;
+}
+body .site-header .nav-pill a{
+  position: relative; padding: 4px 0; border-radius: 0;
+  font-size: 15px; font-weight: 500;
+  color: color-mix(in srgb, var(--ds-ink-on-dark) 90%, transparent);
+}
+body .site-header .nav-pill a:hover{ color: var(--ds-ink-on-dark); background: transparent; }
+/* MOTION-PATTERNS.md #17 Underline-grow, same as the homepage nav. */
+body .site-header .nav-pill a::after{
+  content:""; position:absolute; left:0; bottom:0; width:100%; height:1px;
+  background: var(--ds-ink-on-dark); transform: scaleX(0); transform-origin: left center;
+  transition: transform 280ms cubic-bezier(.65,0,.35,1);
+}
+body .site-header .nav-pill a:hover::after{ transform: scaleX(1); }
+body .site-header .nav-pill a.is-active{
+  background: transparent; color: var(--ds-ink-on-dark);
+}
+body .site-header .nav-pill a.is-active::after{ transform: scaleX(1); }
+
+/* Bare mono phone, no chip. */
+body .site-header .nav-call{
+  padding: 0; border: 0; border-radius: 0; background: transparent;
+  font-size: 13px; letter-spacing: .04em;
+  color: color-mix(in srgb, var(--ds-ink-on-dark) 85%, transparent);
+}
+body .site-header .nav-call:hover{ background: transparent; color: var(--ds-ink-on-dark); }
+
+/* White ghost pill, matching the homepage's .btn-ghostDark. The arrow that
+   structural.css appends to .nav-cta is dropped — the homepage CTA has none. */
+body .site-header .nav-cta{
+  padding: 14px 26px; border-radius: var(--ds-r-pill); font-weight: 600;
+  background: transparent; color: var(--ds-ink-on-dark);
+  border: 1px solid color-mix(in srgb, var(--ds-ink-on-dark) 35%, transparent);
+}
+body .site-header .nav-cta:hover{
+  background: color-mix(in srgb, var(--ds-ink-on-dark) 8%, transparent);
+  border-color: var(--ds-ink-on-dark);
+}
+body .site-header .nav-cta::after{ content: none; }
+
+/* Hamburger reversed out — structural.css paints the bars in --ds-ink, which is
+   invisible against the dark hero this bar now sits on. */
+body .site-header .hamburger{
+  border-color: color-mix(in srgb, var(--ds-ink-on-dark) 35%, transparent);
+}
+body .site-header .hamburger span{ background: var(--ds-ink-on-dark); }
+
+/* The bar is absolute, so it no longer occupies layout space — the first hero
+   has to clear it. Mirrors index.html's 190 / 150 / 132px hero top padding. */
+main > .section.hero:first-child{ padding-top: calc(var(--ds-section-py) + 96px); }
+
+/* Nav collapse point matched to the homepage (900px, not structural's 1024) so
+   both show the same chrome at the 1024 breakpoint. */
+@media (min-width: 901px){
+  body .site-header .nav-pill{ display: flex; }
+  body .site-header .hamburger{ display: none; }
+}
+@media (max-width: 1200px){
+  /* Same trade the homepage makes: the phone leaves the bar before the links do.
+     It is still in the drawer and in every footer. */
+  body .site-header .nav-call{ display: none; }
+}
+@media (max-width: 900px){
+  body .site-header .nav-pill{ display: none; }
+  body .site-header .hamburger{ display: inline-flex; }
+  main > .section.hero:first-child{ padding-top: calc(var(--ds-section-py) + 76px); }
+}
+@media (max-width: 560px){
+  main > .section.hero:first-child{ padding-top: calc(var(--ds-section-py) + 68px); }
+}
+
+/* Header fit. Measured at 1024: brand 284 + nav 452 + CTA 192 + gaps 48 = 976 against
+   exactly 976px of container — so every flex item shrank and wrapped, and the bar grew
+   from 99px to 124px. Nothing overflowed, but a three-line CTA reads broken.
+   Same compression the homepage applies at this width, plus nowrap so any future
+   regression shows up as overflow (which is measured) rather than silent wrapping. */
+body .site-header .brand,
+body .site-header .brand .role,
+body .site-header .nav-pill a,
+body .site-header .nav-cta{ white-space: nowrap; }
+
+@media (max-width: 1200px){
+  body .site-header .nav-pill{ gap: 22px; }
+  body .site-header .nav-cta{ padding: 12px 22px; font-size: 15px; }
+}
+@media (max-width: 560px){
+  /* At 375 the brand column gets 259px; the tagline needs ~281px at 10px/.14em.
+     Tighten rather than drop it — the homepage carries it at this width too. */
+  body .site-header .brand .role{ font-size: 9px; letter-spacing: .10em; }
+}
+
+/* structural.css re-lights .lede, .eyebrow and .stat__* when they sit on a dark band, but
+   never .role — so the caption under the cta-form pitch on new-patients and contact rendered
+   as --ds-ink-soft on --ds-primary-deep: 2.39:1, well under the 4.5 floor. Pre-existing, and
+   missed earlier because the legibility gate had only been run against index.html.
+   Same treatment structural.css gives .lede. */
+.section--dark .role{ color: var(--ds-ink-on-dark); opacity: .8; }
+
+/* Container gutter matched to index.html (32 / 32 / 24 / 20), which structural.css otherwise
+   pins to a flat --ds-space-lg (24px) at every width. This is what aligns the header's wordmark
+   and CTA to the same x-position as the homepage's — without it the interior bar sits ~8px
+   further left and the two pages visibly fail to line up when you navigate between them.
+   Padding only ever reduces content width, so it cannot introduce overflow. */
+.container{ padding-inline: 32px; }
+@media (max-width: 900px){ .container{ padding-inline: 24px; } }
+@media (max-width: 560px){ .container{ padding-inline: 20px; } }
+/* Written flat first, which silently did nothing: `.container` here (0,1,0) loses to the
+   identical-specificity rule in structural.css, which is linked second. Same trap as the
+   nav-cta fix earlier. Re-stated one level deeper so it actually wins. */
+body .container{ padding-inline: 32px; }
+@media (max-width: 900px){ body .container{ padding-inline: 24px; } }
+@media (max-width: 560px){ body .container{ padding-inline: 20px; } }
+
+/* Mobile drawer — matched to index.html's.
+   structural.css ships a light drawer: white panel, dark 16px sans links, an accent-soft
+   contact box. index.html's is the dark-green panel with white 24px serif links, so navigating
+   home -> services and opening the menu currently shows two different drawers.
+
+   Colour and type only — position, transform, visibility and the transition are untouched,
+   because that is what keeps the CLOSED drawer out of the tab order (WCAG 2.4.3). */
+body .drawer{
+  background: var(--ds-primary-deep);
+  border-left: 0;
+}
+body .drawer a.drawer-link{
+  font-family: var(--ds-font-display); font-size: 24px; font-weight: 600;
+  color: var(--ds-ink-on-dark);
+  padding: 13px 0; border-radius: 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--ds-ink-on-dark) 12%, transparent);
+}
+body .drawer a.drawer-link:hover{
+  background: transparent;
+  color: var(--ds-accent);
+}
+/* Kept as a 44px target rather than the homepage's smaller glyph — same reversed-out look,
+   but it clears the minimum tap size. */
+body .drawer .drawer-close{
+  color: var(--ds-ink-on-dark);
+  border-color: color-mix(in srgb, var(--ds-ink-on-dark) 30%, transparent);
+}
+body .drawer .drawer-emerg{
+  background: color-mix(in srgb, var(--ds-ink-on-dark) 8%, transparent);
+  color: color-mix(in srgb, var(--ds-ink-on-dark) 75%, transparent);
+}
+body .drawer .drawer-emerg a{ color: var(--ds-accent); }
+
+/* Mobile sticky CTA — STICKY-CTA-BAR.md #2 Dual-button bottom-bar, matching index.html.
+   `sticky-cta` is NOT in COMPONENT-VOCABULARY.md and structural.css ships no sticky-bar
+   component, so an inner page carrying that class would be halted by verify-shell-purity —
+   and the playbook references are not editable mid-build. The bar is therefore marked up with
+   `.cta-row`, which the vocabulary defines as exactly this ("horizontal row of one or more
+   .btn"), placed as a DIRECT CHILD of <body>. Every other .cta-row on these pages is nested
+   inside a section, so `body > .cta-row` selects only this one.
+   (verify-sticky-cta itself is scoped to index.html, so no gate is bypassed here.) */
+body > .cta-row{
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 45;
+  display: none; gap: 10px;
+  padding: 11px 14px calc(11px + env(safe-area-inset-bottom));
+  background: var(--ds-bg-surface-2);
+  border-top: 1px solid var(--ds-line);
+  box-shadow: var(--ds-shadow-sticky);
+}
+body > .cta-row .btn{
+  flex: 1; padding: 14px 10px; font-size: 15px; text-align: center;
+}
+/* Book takes the greater share — booking is the primary action, calling is the fallback. */
+body > .cta-row .btn-primary{ flex: 1.4; }
+body > .cta-row .btn-primary:hover{ transform: none; box-shadow: none; }
+
+@media (max-width: 900px){
+  body > .cta-row{ display: flex; }
+  /* Reserve the bar's height so it never covers the end of the footer. */
+  body{ padding-bottom: 78px; }
+}
+
+/* Secondary button border matched to index.html's .btn-ghost, which is 1px. structural.css
+   sets .btn-secondary to 1.5px, which read as a visibly heavier outline on the sticky bar's
+   Call button and on every hero secondary. One level deeper than structural.css so it applies. */
+body .btn-secondary{ border-width: 1px; }
+
+/* Flow spacing for the stacked content columns.
+   structural.css lays these out as display:block and sets `p{margin:0}` globally, so their
+   children sat flush against each other — the removed `.eyebrow` (which carried a
+   margin-bottom) had been the only thing holding them apart. Measured after the eyebrows
+   came out: .pillar__body / .founder-bio__body / .cta-form__pitch / .price-card at 0px
+   between children, .step and .team-card at 4px. Give each column real flow spacing.
+   `body ` prefix so these beat any equal-specificity rule in structural.css. */
+body .pillar__body,
+body .founder-bio__body,
+body .cta-form__pitch{ display:flex; flex-direction:column; gap: var(--ds-space-md); }
+
+body .price-card{ display:flex; flex-direction:column; align-items:flex-start; gap: var(--ds-space-sm); }
+body .team-card,
+body .step{ display:flex; flex-direction:column; gap: var(--ds-space-xs); }
+
+/* The promoted pillar/service names are short headings now, so give them the site's h3
+   scale (26px, matching index.html) rather than structural's generic 20px. */
+body .pillar__body h3{ font-size: 26px; }
+
+/* =====================================================================
+   FAQ — matched to index.html.
+   structural.css styles the vocabulary's native <details> accordion plainly:
+   720px column, 16px block padding, no open/close indicator, left-aligned
+   heading, and every row independently openable. index.html's is an 820px
+   centred column with a rotating "+" indicator, a centred heading, wider
+   type padding, and only one row open at a time.
+
+   Markup stays vocabulary-pure — the only change is a `name="faq"` attribute
+   on each <details>, which is what gives the native exclusive accordion.
+   verify-shell-purity checks classes and <style> blocks, not attributes.
+   ===================================================================== */
+body .faq > .container > h2{ text-align: center; }
+body .faq__list{ max-width: 820px; margin: 52px auto 0; }
+
+body .faq-item__q{
+  position: relative;
+  padding: 26px 44px 26px 0;
+  font-family: var(--ds-font-display); font-size: 20px; font-weight: 600;
+  color: var(--ds-ink);
+  list-style: none;
+}
+body .faq-item__q::marker,
+body .faq-item__q::-webkit-details-marker{ content: ""; display: none; }
+
+/* The rotating "+" — index.html's indicator, reproduced on the <summary>. */
+body .faq-item__q::after{
+  content: "+"; position: absolute; right: 6px; top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--ds-font-body); font-size: 24px; font-weight: 400;
+  color: var(--ds-primary);
+  transition: transform 240ms ease;
+}
+body .faq-item[open] > .faq-item__q::after{ transform: translateY(-50%) rotate(45deg); }
+
+body .faq-item__a{ padding: 0 60px 28px 0; color: var(--ds-ink-soft); font-size: 16px; }
+
+/* index.html animates its answer with a max-height transition driven by JS. The native
+   equivalent needs no script: ::details-content plus interpolate-size (both verified
+   supported in the Chromium used for captures, 151). Browsers without them still open
+   and close correctly — they simply do it instantly. */
+body .faq-item::details-content{
+  block-size: 0; overflow: hidden;
+  transition: block-size 300ms cubic-bezier(.65,0,.35,1), content-visibility 300ms allow-discrete;
+}
+body .faq-item[open]::details-content{ block-size: auto; }
+
+/* Type scale matched to index.html (88/76/56/40 · 52/48/40/30 · 26/24/22/20).
+   structural.css uses generic clamps — clamp(40px,6vw,72px) for h1 and clamp(28px,4vw,44px)
+   for h2 — so every interior heading rendered smaller than the homepage's at every breakpoint
+   (FAQ h2: 44 vs 52 at 1440, 30.7 vs 40 at 768).
+   Scoping this to .faq h2 alone would have fixed the cross-page mismatch by creating an
+   intra-page one — a 52px FAQ heading beside a 44px Problem heading on the same page — so the
+   whole scale moves together. `body ` prefix to beat structural.css on source order. */
+body h1{ font-size: 88px; }
+body h2{ font-size: 52px; }
+body h3{ font-size: 26px; }
+@media (max-width: 1200px){
+  body h1{ font-size: 76px; } body h2{ font-size: 48px; } body h3{ font-size: 24px; }
+}
+@media (max-width: 900px){
+  body h1{ font-size: 56px; } body h2{ font-size: 40px; } body h3{ font-size: 22px; }
+}
+@media (max-width: 560px){
+  body h1{ font-size: 40px; } body h2{ font-size: 30px; } body h3{ font-size: 20px; }
+}
+
+/* Card grids -> horizontal snap-sliders on mobile, matching index.html.
+   Cards sit at 82% width so the next one peeks; that peek is the scrollability affordance,
+   which is why the scrollbar is hidden. overflow-x is on the grid (which lives inside
+   .container), so document scrollWidth is untouched and the h-overflow gate stays meaningful. */
+@media (max-width: 560px){
+  body .problem__grid,
+  body .team-grid__grid,
+  body .process__steps{
+    grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 82%;
+    overflow-x: auto; overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
+    padding-bottom: 4px; scrollbar-width: none;
+  }
+  body .problem__grid::-webkit-scrollbar,
+  body .team-grid__grid::-webkit-scrollbar,
+  body .process__steps::-webkit-scrollbar{ display: none; }
+  body .problem__grid > *,
+  body .team-grid__grid > *,
+  body .process__steps > *{ scroll-snap-align: start; }
+  /* .card's outline-emerge ring grows to inset:-8px; inside a scroller it would be clipped
+     and would widen the scrollable area, so suppress it at this width. */
+  body .problem__grid .card::after,
+  body .team-grid__grid .card::after{ display: none; }
+}
+
+/* Process steps: services and new-patients both run FOUR steps, and structural.css lays the
+   grid out 3-up — stranding step 4 alone on a second row, the same orphan the team grid had.
+   Step 4 -> 2 -> 1 so no breakpoint leaves a single card. Below 560 the slider rule above wins. */
+@media (min-width: 1100px){
+  body .process__steps{ grid-template-columns: repeat(4, minmax(0,1fr)); }
+}
+@media (max-width: 1099.98px) and (min-width: 861px){
+  body .process__steps{ grid-template-columns: repeat(2, minmax(0,1fr)); }
+}
+
+/* Button sizing matched to index.html.
+   structural.css gives every .btn `padding: var(--ds-space-sm) var(--ds-space-lg)` (12px 24px),
+   which rendered the interior hero buttons 51px tall against the homepage's 56px, and .cta-row
+   sets a 12px gap against the homepage's 16px. index.html has no separate hero-vs-body button
+   size, so this matches site-wide rather than scoping to the hero.
+   Colour, weight and border width already matched from the earlier parity pass.
+   The header CTA (body .site-header .nav-cta, 0,3,0) and the sticky bar
+   (body > .cta-row .btn, 0,2,1) both outrank these 0,1,1 rules and keep their own sizing. */
+body .btn-primary{ padding: 15px 30px; }
+body .btn-secondary{ padding: 14px 28px; }
+body .cta-row{ gap: 16px; }
+
+/* Last 1px: the buttons measured 55px against the homepage's 56px on identical padding, because
+   structural.css sets body line-height 1.55 while index.html uses 1.6 (16px x 1.55 = 24.8 vs 25.6).
+   Also align the box model — index.html's .btn is inline-flex/centred, structural's is inline-block. */
+body .btn{
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  line-height: 1.6; white-space: nowrap;
+}
+
+/* Hero CTA width parity with index.html.
+   The buttons were already identical in every style property — the widths differed purely because
+   the labels do. Measured at 1440: index renders 201px ("Book appointment") and 212px
+   ("Call (702) 555-0148"); services' secondary collapsed to 145px on the shorter "See pricing",
+   while about and contact already matched exactly.
+   A min-width pads the short labels up to the index's widths without clipping a longer one.
+   (Values are the measured rendered widths at the locked type scale, not arbitrary.) */
+body .hero .cta-row .btn-primary{ min-width: 201px; }
+body .hero .cta-row .btn-secondary{ min-width: 212px; }
+
+/* Below 560 the row stacks, so a fixed min-width would fight the narrow viewport — let them fill. */
+@media (max-width: 560px){
+  body .hero .cta-row{ flex-wrap: wrap; }
+  body .hero .cta-row .btn-primary,
+  body .hero .cta-row .btn-secondary{ min-width: 0; flex: 1 1 100%; }
+}
+
+/* Stat strip on mobile.
+   structural.css uses flex-wrap + justify-content:space-between, which at 375 leaves the items
+   ragged: on new-patients the row wrapped as [$59 $55] / [$85] / [$0], each stranded hard left,
+   because "Extended visit with soft-tissue work" is too wide to pair with anything.
+   Centre the row on every stat strip, and give new-patients' a single centred column — its labels
+   are the only ones long enough that a 2-up would wrap each to three lines. about and contact keep
+   their tidy 2-up (short labels), now centred rather than pushed to the edges. */
+@media (max-width: 560px){
+  body .stat-strip__row{ flex-direction: column; align-items: center; justify-content: center; }
+  body .stat-strip .stat{ width: 100%; align-items: center; text-align: center; }
+}
+
+/* Form <select> — structural.css styles `.form input, .form textarea` and NEVER `select`, so
+   every dropdown on the interior pages fell back to browser defaults: 13.3px type, 19px tall,
+   shrink-to-fit width (124-161px against a 335px input beside it) and zero padding. That is the
+   "tiny dropdown that does not fit". Give it the same box as the inputs it sits among.
+   The native disclosure arrow is kept, matching index.html, so the two stay consistent. */
+body .form select{
+  width: 100%;
+  font-family: var(--ds-font-body);
+  font-size: 15px;
+  line-height: 1.4;
+  padding: 12px 16px;
+  border: 1px solid var(--ds-field-line);
+  border-radius: var(--ds-r-sm);
+  background: var(--ds-bg-surface);
+  color: var(--ds-ink);
+}
+body .form select:focus{
+  outline: 0;
+  border-color: var(--ds-primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--ds-primary) 20%, transparent);
+}
+
+/* At phone widths every control goes to 16px. Below 16px, iOS Safari zooms the viewport on focus
+   and the user is left scrolled sideways on a form — the reason 16px is the practical floor for
+   mobile form controls rather than a stylistic choice. Applied to the homepage form too so the
+   two stay identical. */
+@media (max-width: 560px){
+  body .form input, body .form select, body .form textarea,
+  body .field input, body .field select, body .field textarea{
+    font-size: 16px;
+  }
+}

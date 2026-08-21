@@ -1,0 +1,36 @@
+# SGEN · Chiropractic Local SEO + AEO
+
+> Chiropractic practices are the clientele here. SGEN works on two things for them: position within Google search and Maps, and whether the major assistants reference the practice when a user asks about treatment or about providers in the area. Charged as one monthly retainer opening at $497, with no setup fee and no minimum term.
+
+There are two searches in this profession. One asks whether chiropractic helps. The other asks who is nearby. Most practices only ever compete in the second. SGEN puts a practice into both answers: the listings and the map panel on one side, and what ChatGPT, Gemini, Perplexity and Claude say about the profession and about the practice within it on the other.
+
+## Pages
+- [Chiropractic Local SEO + AEO](https://www.sgen.com/chiropractic-local-seo-aeo): the chiropractic landing page. Approach, plans, reporting, evidence and questions.
+
+## Plans
+- Local SEO · $497 monthly. For practices needing to appear in front of anyone in the service area who is already looking for treatment.
+- Local AEO · $797 monthly. For practices intending to be cited when an assistant is asked about the treatment or about who provides it locally.
+- Local SEO + AEO · $1,297 monthly. Placement and citation worked in parallel, with the content and link programs running at full rate.
+Stripe bills the practice monthly. There is no setup fee, no onboarding item, and nothing a practice is required to add. Cancel whenever you choose: the practice ends it in the Stripe portal, with no notice period and no retention call.
+
+## The method
+Six stages, developed across 500+ chiropractic practices.
+1. Week 1 · Audit and entity mapping. The Google footprint is assessed, current assistant descriptions of the practice are recorded, the citation profiles of practices ranking above are examined, and an entity graph is constructed across 14 AI surfaces.
+2. Week 2 · Foundation rebuild. Chiropractic schema with MedicalWebPage applied to research content, an llms.txt file, patient questions given structure, a Business Profile completed properly with credentials included, and page speed brought inside Core Web Vitals thresholds.
+3. Ongoing · Content engine. Between 8 and 24 pages each month, on the subjects patients genuinely ask about: what an adjustment involves, whether it hurts, how many visits a complaint usually takes, and where the evidence is strong against where it is thinner.
+4. Ongoing · Citation network. Local and regional press, the chiropractic directories worth appearing in, association listings, and the reference material assistants draw on.
+5. Weekly · Track and iterate. Visibility is reported each week across Google and the four assistants. Work that performs receives further investment; work that does not is discontinued.
+6. Month 4+ · Scale. Additional locations, further service lines such as decompression, rehabilitation or personal injury work, then voice search and local video.
+
+## Presentations covered
+General and family chiropractic, sciatica and disc care, spinal decompression, auto and personal injury work, sports and performance chiropractic, prenatal and pediatric care, posture and scoliosis programs, chiropractic combined with massage or rehabilitation, and chronic pain and neuropathy programs. Solo practitioners through to multi-practitioner groups.
+
+## The questions asked most
+- How long before anything moves? Google position generally shifts between day 60 and day 120. Assistant citations tend to arrive sooner, often inside the first month or two. Form a view at the twelve week mark.
+- Is there a term? No. Billing is monthly and you cancel whenever you choose, in the Stripe portal, with no notice period and no termination charge.
+- What separates AEO from SEO? SEO governs placement among listed results and across the map panel. AEO governs whether an assistant mentions the practice at all, including when the question asked is about the treatment rather than about any particular provider.
+- What happens to the work if a practice leaves? Everything produced up to that date stays published and stays theirs. The invoicing simply stops.
+
+## Contact
+- Apply: https://www.sgen.com/chiropractic-local-seo-aeo#get-started
+- Email: sales@sgen.com

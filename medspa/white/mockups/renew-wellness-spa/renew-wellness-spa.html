@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Renew Wellness Spa — Restore From Within</title>
+<meta name="description" content="An integrative medi spa offering advanced aesthetic care and evidence-based wellness — rooted in the belief that outer radiance begins with inner wellbeing.">
+<link rel="stylesheet" href="../_shared-fonts/renew-wellness-spa-fonts.css">
+<style>
+:root{
+  --forest:#2f4434;--forest-d:#1f2e24;--forest-2:#3a5141;
+  --terra:#bb6440;--terra-d:#a5552f;--terra-cta:#974a28;
+  --oat:#f3ece0;--oat-2:#faf6ee;--sage:#dde4d8;--sage-2:#e7ece1;
+  --charcoal:#3b362e;--body:#544e44;--muted:#8b8274;
+  --line:rgba(47,68,52,.15);--line-2:rgba(47,68,52,.08);
+  --r:14px;--r-l:22px;--pill:9999px;
+  --shadow:0 20px 46px -20px rgba(31,46,36,.3);--shadow-s:0 2px 12px rgba(31,46,36,.08);
+  --ease:cubic-bezier(.2,.6,.2,1);--t:.28s ease;--wrap:1180px;
+  --sans:'Jost',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --serif:'Lora',Georgia,serif;
+}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--oat);color:var(--body);font-family:var(--sans);font-size:16.5px;line-height:1.7;font-weight:400;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{margin:0;font-family:var(--sans);font-weight:500;color:var(--forest);line-height:1.1;letter-spacing:-.01em}
+p{margin:0 0 1em}a{color:inherit;text-decoration:none}img{display:block;max-width:100%}
+em{font-family:var(--serif);font-style:italic;color:var(--terra-d);font-weight:500}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 28px}
+.eyebrow{display:inline-flex;align-items:center;gap:11px;font-size:12px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--terra-d)}
+.eyebrow::before{content:"";width:22px;height:1.5px;background:var(--terra);display:inline-block}
+.eyebrow.c{justify-content:center}
+.leaf{width:13px;height:13px;display:inline-block;vertical-align:middle}
+
+.btn{display:inline-flex;align-items:center;gap:9px;font-family:var(--sans);font-weight:500;font-size:14px;letter-spacing:.02em;padding:14px 28px;border-radius:var(--pill);cursor:pointer;border:1.5px solid transparent;transition:var(--t)}
+.btn .a{transition:transform var(--t)}.btn:hover .a{transform:translateX(4px)}
+.btn-forest{background:var(--forest);color:var(--oat);border-color:var(--forest)}
+.btn-forest:hover{background:var(--forest-d);border-color:var(--forest-d)}
+.btn-terra{background:var(--terra-cta);color:#fff;border-color:var(--terra-cta)}
+.btn-terra:hover{background:var(--terra-d);border-color:var(--terra-d)}
+.btn-outline{background:transparent;color:var(--forest);border-color:rgba(47,68,52,.3)}
+.btn-outline:hover{border-color:var(--forest);background:rgba(47,68,52,.04)}
+.btn-light{background:var(--oat);color:var(--forest);border-color:var(--oat)}
+.btn-light:hover{background:transparent;color:var(--oat);border-color:rgba(243,236,224,.6)}
+
+/* nav */
+.nav{position:sticky;top:0;z-index:90;background:rgba(47,68,52,.96);backdrop-filter:blur(10px);color:var(--oat);border-bottom:1px solid rgba(255,255,255,.08)}
+.nav .wrap{display:flex;align-items:center;gap:8px;height:66px}
+.brand{margin-right:auto;display:flex;align-items:center;gap:9px;color:var(--oat)}
+.brand .n{font-size:23px;font-weight:500;letter-spacing:.01em}
+.brand svg{stroke:var(--terra)}
+.navlinks{display:flex;align-items:center;gap:2px}
+.navlinks a{font-size:13.5px;font-weight:400;color:#d6dcd2;padding:9px 14px;border-radius:var(--pill);transition:var(--t)}
+.navlinks a:hover{color:var(--oat);background:rgba(255,255,255,.08)}
+.navlinks a.book{display:none}
+.nav-cta .btn{padding:10px 20px}
+.burger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:8px;margin-left:6px}
+.burger span{width:24px;height:2px;background:var(--oat);display:block}
+
+/* hero */
+.hero{position:relative;overflow:hidden;background:linear-gradient(180deg,var(--oat),#efe6d6)}
+.hero .lv{position:absolute;inset:0;z-index:0;background:url('../_shared-img/renew-wellness-spa-leaves.webp') center/cover;opacity:.36;filter:blur(2px) saturate(1.05)}
+.hero .lvwash{position:absolute;inset:0;z-index:0;background:linear-gradient(102deg,rgba(243,236,224,.95) 0%,rgba(243,236,224,.82) 44%,rgba(243,236,224,.5) 100%)}
+.hero>.wrap{position:relative;z-index:1}
+.hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center;padding-top:78px;padding-bottom:88px}
+.hero .eyebrow{margin-bottom:22px}
+.hero h1{font-size:clamp(46px,6.6vw,88px);font-weight:300;line-height:1.02;letter-spacing:-.02em}
+.hero h1 .ln{display:block;overflow:hidden}
+.hero h1 .ln>span{display:inline-block;transform:translateY(108%);transition:transform .8s var(--ease)}
+.hero.go h1 .ln>span{transform:translateY(0)}
+.hero.go h1 .ln:nth-child(2)>span{transition-delay:.1s}
+.hero .sub{margin-top:24px;max-width:30em;font-size:clamp(15.5px,1.5vw,18px);color:var(--body);line-height:1.7}
+.hero .ctas{margin-top:30px;display:flex;flex-wrap:wrap;gap:13px}
+.hero-media{position:relative}
+.hero-media .fr{position:relative;border-radius:var(--r-l);overflow:hidden;box-shadow:var(--shadow);aspect-ratio:4/5;background:var(--sage)}
+.hero-media .fr img{width:100%;height:100%;object-fit:cover;object-position:50% 32%}
+.hero-media .badge{position:absolute;left:-18px;bottom:34px;background:var(--forest);color:var(--oat);border-radius:var(--r);padding:16px 20px;max-width:200px;box-shadow:var(--shadow)}
+.hero-media .badge .s{font-family:var(--serif);font-style:italic;font-size:16px;line-height:1.35;color:var(--oat)}
+
+/* sections */
+.sec{padding:100px 0}
+.sec-head{max-width:760px}.sec-head.c{margin:0 auto;text-align:center}
+.sec-head h2{font-size:clamp(30px,4.2vw,50px);font-weight:300;margin-top:16px;letter-spacing:-.015em}
+.sec-head .dek{margin-top:16px;font-size:17px;color:var(--body);max-width:600px;line-height:1.7}
+.sec-head.c .dek{margin-left:auto;margin-right:auto}
+.ground-sage{background:linear-gradient(180deg,var(--oat),var(--sage))}
+.ground-oat2{background:var(--oat-2)}
+
+/* philosophy */
+.phil .wrap{display:grid;grid-template-columns:1fr 1.05fr;gap:64px;align-items:center}
+.phil .media{position:relative}
+.phil .media img{width:100%;aspect-ratio:4/5;object-fit:cover;object-position:50% 50%;border-radius:var(--r-l);box-shadow:var(--shadow)}
+.phil .copy h2{font-size:clamp(28px,3.6vw,44px);font-weight:300}
+.phil .copy p{margin-top:20px;font-family:var(--serif);font-size:18.5px;line-height:1.85;color:var(--charcoal)}
+.phil .copy .sig{margin-top:22px;font-family:var(--serif);font-style:italic;font-size:19px;color:var(--terra-d)}
+
+/* treatments 2-col */
+.treat .cols{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:52px}
+.col{background:var(--oat-2);border:1px solid var(--line);border-radius:var(--r-l);overflow:hidden;box-shadow:var(--shadow-s)}
+.col .ph{aspect-ratio:16/9;overflow:hidden}
+.col .ph img{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease)}
+.col:hover .ph img{transform:scale(1.04)}
+.col .bd{padding:30px 32px 34px}
+.col .ic{width:46px;height:46px;border-radius:50%;background:var(--sage);display:grid;place-items:center;margin-bottom:14px}
+.col .ic svg{width:22px;height:22px;stroke:var(--forest)}
+.col h3{font-size:27px;font-weight:400}
+.col p{margin:10px 0 0;font-size:15px;color:var(--body)}
+.col ul{list-style:none;margin:18px 0 0;padding:0}
+.col li{padding:9px 0;border-top:1px solid var(--line-2);font-size:14.5px;display:flex;gap:10px}
+.col li::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--terra);margin-top:8px;flex:0 0 auto}
+
+/* approach */
+.approach{position:relative;overflow:hidden;background:var(--forest);color:var(--oat)}
+.approach .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center}
+.approach h2{color:var(--oat);font-size:clamp(28px,3.6vw,46px);font-weight:300}
+.approach .eyebrow{color:#e3b79f}.approach .eyebrow::before{background:var(--terra)}
+.approach .steps{margin-top:6px}
+.approach .step{display:flex;gap:18px;padding:18px 0;border-bottom:1px solid rgba(255,255,255,.14)}
+.approach .step:last-child{border-bottom:none}
+.approach .step .n{font-family:var(--serif);font-style:italic;font-size:22px;color:#e3b79f;flex:0 0 auto;width:30px}
+.approach .step h4{color:var(--oat);font-size:18px;font-weight:500}
+.approach .step p{margin:3px 0 0;color:rgba(243,236,224,.78);font-size:14px;line-height:1.55}
+.approach .media img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:var(--r-l);box-shadow:var(--shadow)}
+
+/* pairing banner */
+.pair{position:relative;overflow:hidden;color:var(--oat);text-align:center}
+.pair::before{content:"";position:absolute;inset:0;background:url('../_shared-img/renew-wellness-spa-pairing.webp') center/cover}
+.pair::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(31,46,36,.74),rgba(31,46,36,.82))}
+.pair .wrap{position:relative;z-index:1;padding:96px 28px}
+.pair .eyebrow{color:#e3b79f;justify-content:center}.pair .eyebrow::before{background:var(--terra)}
+.pair h2{color:var(--oat);font-size:clamp(28px,4vw,48px);font-weight:300;max-width:18ch;margin:16px auto 0}
+.pair p{max-width:46ch;margin:18px auto 0;color:rgba(243,236,224,.85);font-size:17px}
+
+/* team */
+.team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-top:52px}
+.member{text-align:center}
+.member .ph{aspect-ratio:1/1;border-radius:var(--r-l);overflow:hidden;box-shadow:var(--shadow-s);background:var(--sage)}
+.member .ph img{width:100%;height:100%;object-fit:cover}
+.member h3{margin-top:20px;font-size:23px;font-weight:400}
+.member .role{margin-top:5px;font-size:11.5px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--terra-d)}
+.member .phil2{margin-top:12px;font-family:var(--serif);font-style:italic;font-size:15px;color:var(--forest);max-width:26ch;margin-left:auto;margin-right:auto}
+
+/* results */
+.results .gal{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:50px}
+.results figure{margin:0;position:relative;border-radius:var(--r-l);overflow:hidden;box-shadow:var(--shadow);aspect-ratio:3/2;background:var(--sage)}
+.results figure img{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease)}
+.results figure:hover img{transform:scale(1.04)}
+.results figcaption{position:absolute;left:0;right:0;bottom:0;padding:40px 24px 20px;background:linear-gradient(180deg,transparent,rgba(31,46,36,.84));color:var(--oat)}
+.results figcaption .em{font-family:var(--serif);font-style:italic;font-size:19px;display:block;margin-bottom:4px}
+.results figcaption .tn{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#e3b79f}
+.disc{margin-top:24px;text-align:center;font-size:12.5px;color:var(--muted);max-width:680px;margin-left:auto;margin-right:auto}
+
+/* membership */
+.member-portal{background:linear-gradient(180deg,var(--sage),var(--oat))}
+.mp{margin-top:52px;display:grid;grid-template-columns:1fr 1.2fr;gap:30px;align-items:start}
+.dash{background:var(--forest);color:var(--oat);border-radius:var(--r-l);padding:32px 32px 30px;box-shadow:var(--shadow)}
+.dash .top{display:flex;align-items:center;justify-content:space-between}
+.dash .top .l{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#bcd0c0}
+.dash .top .tier{font-size:12px;background:var(--terra);color:#fff;padding:4px 11px;border-radius:var(--pill);font-weight:500}
+.dash .pts{font-size:52px;font-weight:300;margin-top:10px;letter-spacing:-.02em}
+.dash .pts span{font-size:16px;color:#bcd0c0}
+.dash .bar{height:8px;background:rgba(255,255,255,.14);border-radius:var(--pill);margin-top:18px;overflow:hidden}
+.dash .bar i{display:block;height:100%;width:62%;background:var(--terra);border-radius:var(--pill)}
+.dash .next{margin-top:10px;font-size:13px;color:#cdd8cf}
+.dash .rewards{margin-top:22px;display:grid;gap:10px}
+.dash .rw{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:var(--r)}
+.dash .rw .t{font-size:14px}.dash .rw .c{font-size:12px;color:#e3b79f;font-weight:500}
+.tiers{display:grid;gap:14px}
+.tier{background:var(--oat-2);border:1.5px solid var(--line);border-radius:var(--r-l);padding:24px 26px;cursor:pointer;transition:var(--t)}
+.tier:hover{border-color:var(--terra)}
+.tier.on{border-color:var(--forest);box-shadow:var(--shadow-s)}
+.tier .h{display:flex;align-items:center;justify-content:space-between}
+.tier .h .nm{font-size:21px;font-weight:500;color:var(--forest);display:flex;align-items:center;gap:9px}
+.tier .h .pr{font-size:13px;color:var(--muted)}
+.tier .desc{margin-top:8px;font-size:14px;color:var(--body)}
+.tier .perks{margin-top:12px;display:flex;flex-wrap:wrap;gap:8px}
+.tier .perks span{font-size:12px;color:var(--forest);background:var(--sage);padding:5px 11px;border-radius:var(--pill)}
+.tier .dot{width:11px;height:11px;border-radius:50%}
+
+/* journal */
+.journal{background:var(--oat-2)}
+.j-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:50px}
+.jcard{background:var(--oat);border:1px solid var(--line);border-radius:var(--r-l);padding:30px 30px;display:flex;flex-direction:column;min-height:270px;transition:var(--t)}
+.jcard:hover{transform:translateY(-5px);box-shadow:var(--shadow)}
+.jcard .cat{font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--terra-d)}
+.jcard h3{margin-top:16px;font-size:23px;font-weight:400;line-height:1.2}
+.jcard p{margin-top:12px;font-size:14.5px;color:var(--body);line-height:1.6;flex:1}
+.jcard .read{margin-top:16px;font-family:var(--serif);font-style:italic;font-size:15px;color:var(--forest)}
+
+/* reviews */
+.reviews{background:linear-gradient(180deg,var(--oat),var(--sage))}
+.rgrid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:48px}
+.rev{background:var(--oat-2);border:1px solid var(--line);border-radius:var(--r-l);padding:32px 32px}
+.rev p{font-family:var(--serif);font-size:18.5px;line-height:1.6;color:var(--charcoal);font-style:italic}
+.rev .who{margin-top:16px;font-size:13px;letter-spacing:.04em;color:var(--terra-d)}
+.reviews .disc{color:var(--muted)}
+
+/* faq */
+.faq .wrap{display:grid;grid-template-columns:.8fr 1.2fr;gap:56px;align-items:start}
+.faq .aside{position:sticky;top:108px}
+.acc{border-top:1px solid var(--line)}
+.acc .item{border-bottom:1px solid var(--line)}
+.acc .q{width:100%;text-align:left;background:none;border:none;cursor:pointer;padding:23px 4px;display:flex;align-items:center;gap:16px;font-size:20px;font-weight:500;color:var(--forest)}
+.acc .q .pl{margin-left:auto;width:28px;height:28px;border-radius:50%;border:1px solid var(--line);position:relative;flex:0 0 auto;transition:var(--t)}
+.acc .q .pl::before,.acc .q .pl::after{content:"";position:absolute;top:50%;left:50%;background:var(--terra-d);transition:var(--t)}
+.acc .q .pl::before{width:11px;height:1.5px;transform:translate(-50%,-50%)}.acc .q .pl::after{width:1.5px;height:11px;transform:translate(-50%,-50%)}
+.acc .item.open .q .pl{background:var(--forest);border-color:var(--forest)}
+.acc .item.open .q .pl::before,.acc .item.open .q .pl::after{background:var(--oat)}
+.acc .item.open .q .pl::after{transform:translate(-50%,-50%) rotate(90deg);opacity:0}
+.acc .a{max-height:0;overflow:hidden;transition:max-height .4s var(--ease)}
+.acc .a p{margin:0;padding:0 36px 23px 4px;font-size:15px;color:var(--body);line-height:1.7}
+
+/* final */
+.final{position:relative;overflow:hidden;background:var(--sage);text-align:center}
+.final::before{content:"";position:absolute;inset:0;background:radial-gradient(600px 320px at 50% 0%,rgba(187,100,64,.16),transparent 60%)}
+.final .wrap{position:relative;z-index:1;padding:104px 28px}
+.final h2{font-size:clamp(32px,5vw,62px);font-weight:300}
+.final p{margin:18px auto 0;max-width:32em;color:var(--body);font-size:17px}
+.final .ctas{margin-top:32px;display:flex;gap:13px;justify-content:center;flex-wrap:wrap}
+
+/* footer */
+.foot{background:var(--forest-d);color:rgba(243,236,224,.6);font-size:13.5px;border-top:1px solid rgba(255,255,255,.1)}
+.foot .top{display:grid;grid-template-columns:1.5fr 1fr 1fr 1.2fr;gap:36px;padding:60px 0 40px}
+.foot .n{font-size:24px;color:var(--oat);font-weight:500}
+.foot p{margin:14px 0 0;max-width:24em;line-height:1.65;color:rgba(243,236,224,.5)}
+.foot h4{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--oat);margin-bottom:13px}
+.foot ul{list-style:none;margin:0;padding:0}.foot li{margin-bottom:9px}.foot a:hover{color:#e3b79f}
+.foot .contact div{margin-bottom:11px;line-height:1.5}.foot .contact b{display:block;color:var(--oat);font-size:11px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:2px}
+.foot .bottom{border-top:1px solid rgba(255,255,255,.1);padding:20px 0;display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center}
+.foot .bottom .note{margin-right:auto;color:rgba(243,236,224,.38);font-size:12px;max-width:62ch;line-height:1.5}
+
+.sticky-book{display:none;position:fixed;left:0;right:0;bottom:0;z-index:80;background:var(--forest);color:var(--oat);align-items:center;justify-content:center;gap:9px;padding:15px;font-weight:500;font-size:14px;transform:translateY(100%);transition:transform .3s var(--ease)}
+.sticky-book.show{transform:translateY(0)}
+
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+.stagger>*{opacity:0;transform:translateY(22px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+.stagger.in>*{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal,.stagger>*{opacity:1!important;transform:none!important}.hero h1 .ln>span{transform:none!important}}
+
+@media (max-width:980px){
+  .hero .wrap,.phil .wrap,.approach .wrap,.faq .wrap,.mp{grid-template-columns:1fr;gap:44px}
+  .hero-media,.phil .media{max-width:440px}
+  .treat .cols,.team-grid,.results .gal,.j-grid,.rgrid{grid-template-columns:1fr 1fr}
+  .team-grid{grid-template-columns:1fr 1fr}
+  .approach .media{max-width:420px}
+  .faq .aside{position:static}
+}
+@media (max-width:680px){
+  .navlinks,.nav-cta{display:none}.burger{display:flex}
+  .nav.open .navlinks{display:flex;position:absolute;top:66px;left:0;right:0;flex-direction:column;align-items:stretch;background:var(--forest);padding:10px 18px 16px;border-bottom:1px solid rgba(255,255,255,.1)}
+  .nav.open .navlinks a{padding:13px 10px}
+  .nav.open .navlinks a.book{display:block;background:var(--terra-cta);color:#fff;text-align:center;margin-top:10px;border-radius:var(--pill)}
+  .sec{padding:64px 0}
+  .treat .cols,.team-grid,.results .gal,.j-grid,.rgrid{grid-template-columns:1fr}
+  .hero .ctas,.final .ctas{flex-direction:column;align-items:stretch}.hero .ctas .btn,.final .ctas .btn{width:100%;justify-content:center}
+  .foot .top{grid-template-columns:1fr}
+  .sticky-book{display:flex}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="wrap">
+    <a class="brand" href="#top"><svg class="leaf" viewBox="0 0 24 24" fill="none" stroke-width="1.8" style="width:18px;height:18px"><path d="M11 21c-4 0-8-3-8-9 0-5 4-9 9-9 0 6-1 18-1 18z"/><path d="M11 21c0-5 1-9 4-12"/></svg><span class="n">Renew</span></a>
+    <div class="navlinks">
+      <a href="#treatments">Treatments</a>
+      <a href="#approach">Our Approach</a>
+      <a href="#membership">Membership</a>
+      <a href="#journal">Journal</a>
+      <a class="book" href="#book">Book a Consultation</a>
+    </div>
+    <span class="nav-cta"><a class="btn btn-terra" href="#book">Book a Consultation</a></span>
+    <button class="burger" id="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<span id="top"></span>
+<header class="hero" id="hero">
+  <div class="lv"></div><div class="lvwash"></div>
+  <div class="wrap">
+    <div class="lead">
+      <span class="eyebrow">Where science meets nature</span>
+      <h1><span class="ln"><span>Restore</span></span><span class="ln"><span>From <em>Within.</em></span></span></h1>
+      <p class="sub">Advanced aesthetic care rooted in whole-person wellness. Because outer radiance begins with how well you feel underneath it all.</p>
+      <div class="ctas">
+        <a class="btn btn-forest" href="#treatments">Explore Treatments <span class="a">→</span></a>
+        <a class="btn btn-outline" href="#book">Book a Consultation</a>
+      </div>
+    </div>
+    <div class="hero-media">
+      <div class="fr"><img src="../_shared-img/renew-wellness-spa-hero.webp" alt="A woman in warm golden light, healthy and at ease in nature" loading="eager" decoding="async"></div>
+      <div class="badge"><div class="s">When your body feels better, your skin shows it.</div></div>
+    </div>
+  </div>
+</header>
+
+<!-- PHILOSOPHY -->
+<section class="sec phil">
+  <div class="wrap">
+    <div class="media reveal"><img src="../_shared-img/renew-wellness-spa-philosophy.webp" alt="A woman at rest in a sunlit forest" loading="lazy" decoding="async"></div>
+    <div class="copy reveal">
+      <span class="eyebrow">Our Philosophy</span>
+      <h2>Radiance is not applied. It is <em>cultivated.</em></h2>
+      <p>We believe the most lasting results come from understanding the whole picture. Skin is the body's largest organ — and it reflects everything happening within. So we don't just treat the surface. We listen first, look deeper, and build care around the connection between how you live and how you glow.</p>
+      <p class="sig">Real results. Realistic timelines. Genuine care.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TREATMENTS -->
+<section class="sec treat ground-oat2" id="treatments">
+  <div class="wrap">
+    <div class="sec-head c reveal">
+      <span class="eyebrow c">What We Offer</span>
+      <h2>Two paths, <em>one whole you.</em></h2>
+      <p class="dek">Advanced aesthetics and evidence-based wellness — designed to work together, not apart.</p>
+    </div>
+    <div class="cols stagger reveal">
+      <article class="col"><div class="ph"><img src="../_shared-img/renew-wellness-spa-treat-aesthetic.webp" style="object-position:50% 30%" alt="Warm, healthy skin after aesthetic care" loading="lazy" decoding="async"></div><div class="bd">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round"><path d="M12 3l2.4 5.4L20 9l-4 4 1 6-5-3-5 3 1-6-4-4 5.6-.6z"/></svg></div>
+        <h3>Aesthetic Treatments</h3><p>Medical-grade, naturally considered.</p>
+        <ul class="reveal stagger"><li>Advanced skin rejuvenation &amp; facials</li><li>Injectables, delivered with restraint</li><li>Laser, peels &amp; collagen therapies</li><li>Glow-focused skin health programs</li></ul>
+      </div></article>
+      <article class="col"><div class="ph"><img src="../_shared-img/renew-wellness-spa-treat-wellness.webp" style="object-position:50% 45%" alt="A restorative wellness treatment in warm light" loading="lazy" decoding="async"></div><div class="bd">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round"><path d="M12 21c-4 0-8-3-8-9 0-5 4-9 9-9 0 6-1 18-1 18z"/></svg></div>
+        <h3>Wellness Programs</h3><p>Evidence-based, deeply restorative.</p>
+        <ul class="reveal stagger"><li>Lymphatic &amp; restorative body therapies</li><li>Nutrition &amp; skin-health guidance</li><li>Stress, sleep &amp; recovery support</li><li>Mindful movement &amp; breathwork</li></ul>
+      </div></article>
+    </div>
+  </div>
+</section>
+
+<!-- APPROACH -->
+<section class="sec approach" id="approach">
+  <div class="wrap">
+    <div class="reveal">
+      <span class="eyebrow">The Renew Approach</span>
+      <h2>We listen first, recommend second.</h2>
+      <div class="steps">
+        <div class="step"><span class="n">i.</span><div><h4>Listen</h4><p>We start with your story — your goals, your health, your life right now.</p></div></div>
+        <div class="step"><span class="n">ii.</span><div><h4>Understand</h4><p>We look at the whole picture, inside and out, before recommending anything.</p></div></div>
+        <div class="step"><span class="n">iii.</span><div><h4>Design</h4><p>A considered plan that pairs aesthetic and wellness care around you.</p></div></div>
+        <div class="step"><span class="n">iv.</span><div><h4>Treat</h4><p>Expert, grounded care delivered at a pace that respects your body.</p></div></div>
+        <div class="step"><span class="n">v.</span><div><h4>Support</h4><p>We stay with you — adjusting as your skin, body, and goals evolve.</p></div></div>
+      </div>
+    </div>
+    <div class="media reveal"><img src="../_shared-img/renew-wellness-spa-approach.webp" style="object-position:50% 50%" alt="A calm treatment room with natural materials" loading="lazy" decoding="async"></div>
+  </div>
+</section>
+
+<!-- PAIRING -->
+<section class="pair">
+  <div class="wrap reveal">
+    <span class="eyebrow c">Wellness + Aesthetics</span>
+    <h2>When the inside is cared for, the outside follows.</h2>
+    <p>The science is clear: healthier sleep, lower stress, and balanced nutrition show up in your skin. That's why every Renew plan pairs visible aesthetic care with the wellness foundations that make results last.</p>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head c reveal">
+      <span class="eyebrow c">Your Practitioners</span>
+      <h2>Grounded experts who <em>genuinely care.</em></h2>
+    </div>
+    <div class="team-grid stagger reveal">
+      <article class="member"><div class="ph"><img src="../_shared-img/renew-wellness-spa-team-1.webp" style="object-position:50% 25%" alt="Renew practitioner portrait" loading="lazy" decoding="async"></div><h3>Dr. Iris Calloway</h3><div class="role">Integrative Physician · Founder</div><p class="phil2">"When your body feels better, your skin shows it. That connection is everything we do."</p></article>
+      <article class="member"><div class="ph"><img src="../_shared-img/renew-wellness-spa-team-2.webp" style="object-position:50% 30%" alt="Renew practitioner portrait" loading="lazy" decoding="async"></div><h3>Tessa Moreau</h3><div class="role">Wellness &amp; Body Therapist</div><p class="phil2">"Rest and recovery aren't extras. They're where real renewal begins."</p></article>
+      <article class="member"><div class="ph"><img src="../_shared-img/renew-wellness-spa-team-3.webp" style="object-position:55% 30%" alt="Renew practitioner portrait" loading="lazy" decoding="async"></div><h3>Sara Whitfield</h3><div class="role">Senior Aesthetic Practitioner</div><p class="phil2">"Natural-looking results, built on healthy skin. Never overdone."</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section class="sec results ground-sage" id="results">
+  <div class="wrap">
+    <div class="sec-head c reveal">
+      <span class="eyebrow c">Real Clients. Real Renewal.</span>
+      <h2>Results you can <em>see and feel.</em></h2>
+    </div>
+    <div class="gal stagger reveal">
+      <figure><img src="../_shared-img/renew-wellness-spa-result-1.webp" style="object-position:42% 28%" alt="A radiant client in warm natural light" loading="lazy" decoding="async"><figcaption><span class="em">"My skin — and my energy — came back."</span><span class="tn">Skin program + wellness · 4 months</span></figcaption></figure>
+      <figure><img src="../_shared-img/renew-wellness-spa-result-2.webp" style="object-position:55% 45%" alt="A client at peace in nature" loading="lazy" decoding="async"><figcaption><span class="em">"I feel restored, not just refreshed."</span><span class="tn">Integrative renewal program · ongoing</span></figcaption></figure>
+    </div>
+    <p class="disc">Representative imagery shown for this design concept. On the live site, before-and-after results use real client photography with written consent — warmly and consistently presented, with results AND how clients felt.</p>
+  </div>
+</section>
+
+<!-- MEMBERSHIP -->
+<section class="sec member-portal" id="membership">
+  <div class="wrap">
+    <div class="sec-head c reveal">
+      <span class="eyebrow c">The Renew Circle</span>
+      <h2>A membership that <em>grows with you.</em></h2>
+      <p class="dek">Earn points with every visit, unlock deeper care, and watch your wellbeing compound — like anything well-tended.</p>
+    </div>
+    <div class="mp reveal">
+      <div class="dash">
+        <div class="top"><span class="l">Your balance</span><span class="tier">Bloom member</span></div>
+        <div class="pts"><span id="ptsNum">0</span> <span>points</span></div>
+        <div class="bar"><i></i></div>
+        <div class="next">380 points until your next reward — a complimentary lymphatic facial.</div>
+        <div class="rewards">
+          <div class="rw"><span class="t">Complimentary glow facial</span><span class="c">1,500 pts</span></div>
+          <div class="rw"><span class="t">Wellness consultation</span><span class="c">2,000 pts</span></div>
+          <div class="rw"><span class="t">Half-day restorative ritual</span><span class="c">3,500 pts</span></div>
+        </div>
+      </div>
+      <div class="tiers" id="tiers">
+        <div class="tier" data-tier="roots"><div class="h"><span class="nm"><span class="dot" style="background:#9caa8f"></span>Roots</span><span class="pr">Free to join</span></div><p class="desc">Start your journey. Earn 1 point per $1, with member-only pricing on first visits.</p><div class="perks"><span>1× points</span><span>Birthday treat</span><span>Journal access</span></div></div>
+        <div class="tier on" data-tier="bloom"><div class="h"><span class="nm"><span class="dot" style="background:var(--terra)"></span>Bloom</span><span class="pr">Most popular</span></div><p class="desc">For the committed. Accelerated points, priority booking, and seasonal wellness check-ins.</p><div class="perks"><span>1.5× points</span><span>Priority booking</span><span>Quarterly check-in</span></div></div>
+        <div class="tier" data-tier="grove"><div class="h"><span class="nm"><span class="dot" style="background:var(--forest)"></span>Grove</span><span class="pr">By invitation</span></div><p class="desc">Whole-person care, fully tended. Bespoke programs, double points, and a dedicated practitioner.</p><div class="perks"><span>2× points</span><span>Dedicated practitioner</span><span>Annual ritual</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- JOURNAL -->
+<section class="sec journal" id="journal">
+  <div class="wrap">
+    <div class="sec-head c reveal">
+      <span class="eyebrow c">The Journal</span>
+      <h2>Notes on living <em>well.</em></h2>
+    </div>
+    <div class="j-grid stagger reveal">
+      <article class="jcard"><span class="cat">Skin Health</span><h3>Your gut, your stress, your glow</h3><p>The surprising science connecting what's happening inside to what shows up on your skin.</p><span class="read">Read the journal →</span></article>
+      <article class="jcard"><span class="cat">Wellness</span><h3>Why rest is the most underrated treatment</h3><p>Sleep and recovery do more for your skin than most serums. Here's how to make them count.</p><span class="read">Read the journal →</span></article>
+      <article class="jcard"><span class="cat">Integrative Care</span><h3>What "whole-person" actually means</h3><p>Beyond the buzzword — a grounded look at how aesthetic and wellness care work together.</p><span class="read">Read the journal →</span></article>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="sec reviews" id="reviews">
+  <div class="wrap">
+    <div class="sec-head c reveal">
+      <span class="eyebrow c">In Their Words</span>
+      <h2>More than results. <em>A renewal.</em></h2>
+    </div>
+    <div class="rgrid stagger reveal">
+      <div class="rev"><p>"I came in for my skin and left feeling like someone had finally looked at the whole of me. My complexion is glowing — but honestly, so am I."</p><div class="who">Elena M. · Integrative skin &amp; wellness</div></div>
+      <div class="rev"><p>"Grounded, warm, and never pushy. They built a plan around my actual life. Six months in, I sleep better, stress less, and my skin shows it."</p><div class="who">David R. · Renewal program</div></div>
+    </div>
+    <p class="disc">Sample testimonials shown to illustrate tone. The live site features real, consented client stories — never fabricated.</p>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="sec faq ground-oat2">
+  <div class="wrap">
+    <div class="aside reveal">
+      <span class="eyebrow">Good to Know</span>
+      <h2 style="font-size:clamp(28px,3.4vw,42px);font-weight:300;margin-top:16px">Questions, gently answered.</h2>
+      <p style="margin-top:14px;color:var(--body)">Honest, grounded answers — never vague, never preachy.</p>
+    </div>
+    <div class="acc reveal" id="acc">
+      <div class="item open"><button class="q" aria-expanded="true">What does "integrative care" actually mean?<span class="pl"></span></button><div class="a"><p>It means we treat you as a whole person. Alongside medical-grade aesthetic treatments, we consider sleep, stress, nutrition, and movement — because they genuinely shape your skin and your results.</p></div></div>
+      <div class="item"><button class="q" aria-expanded="false">Are your aesthetic treatments safe and credible?<span class="pl"></span></button><div class="a"><p>Yes. Every aesthetic treatment is medical-grade and delivered by qualified practitioners. Our wellness approach complements clinical care — it never replaces it.</p></div></div>
+      <div class="item"><button class="q" aria-expanded="false">Do I have to join the wellness programs?<span class="pl"></span></button><div class="a"><p>Not at all. You're welcome to come for aesthetic treatments alone. The wellness side is there if and when you want to go deeper — at your pace.</p></div></div>
+      <div class="item"><button class="q" aria-expanded="false">How does booking work?<span class="pl"></span></button><div class="a"><p>Every journey begins with a single consultation. We'll listen, understand your goals, and design a plan together — with no pressure to commit.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL -->
+<section class="final" id="book">
+  <div class="wrap reveal">
+    <span class="eyebrow c">Begin where it counts</span>
+    <h2>Begin Your <em>Renewal.</em></h2>
+    <p>A single consultation is where every transformation begins. Let's tend to the whole of you.</p>
+    <div class="ctas">
+      <a class="btn btn-terra" href="#book">Book Now <span class="a">→</span></a>
+      <a class="btn btn-outline" href="#treatments">Explore Treatments</a>
+    </div>
+  </div>
+</section>
+
+<footer class="foot" id="footer">
+  <div class="wrap">
+    <div class="top">
+      <div><div class="n">Renew <span style="font-size:11px;letter-spacing:.2em;color:#e3b79f">WELLNESS SPA</span></div><p>An integrative medi spa where outer radiance begins with inner wellbeing. Restore from within.</p></div>
+      <div><h4>Care</h4><ul><li><a href="#treatments">Aesthetic Treatments</a></li><li><a href="#treatments">Wellness Programs</a></li><li><a href="#approach">Our Approach</a></li><li><a href="#membership">The Renew Circle</a></li></ul></div>
+      <div><h4>Explore</h4><ul><li><a href="#results">Results</a></li><li><a href="#journal">Journal</a></li><li><a href="#reviews">Reviews</a></li><li><a href="#book">Book a Consultation</a></li></ul></div>
+      <div class="contact"><h4>Visit</h4><div><b>By appointment</b>Rooted in your community</div><div><b>Phone</b><a href="tel:+10000000000">+1 (000) 000 0000</a></div><div><b>Email</b><a href="mailto:hello@renewwellnessspa.com">hello@renewwellnessspa.com</a></div></div>
+    </div>
+    <div class="bottom">
+      <span class="note">© 2026 Renew Wellness Spa. Design concept — placeholder imagery, sample copy, and sample membership data shown for layout only. All treatments require consultation; results vary.</span>
+      <a href="#top">Privacy</a><a href="#top">Terms</a><a href="#top">Back to top ↑</a>
+    </div>
+  </div>
+</footer>
+
+<a class="sticky-book" id="stickyBook" href="#book">Book a Consultation →</a>
+
+<script>
+(function(){
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var hero=document.getElementById('hero');
+  requestAnimationFrame(function(){ hero.classList.add('go'); });
+  var nav=document.getElementById('nav'),burger=document.getElementById('burger');
+  burger.addEventListener('click',function(){var o=nav.classList.toggle('open');burger.setAttribute('aria-expanded',o?'true':'false');});
+  nav.querySelectorAll('.navlinks a').forEach(function(a){a.addEventListener('click',function(){nav.classList.remove('open');});});
+  var sticky=document.getElementById('stickyBook');
+  function st(){if(!sticky)return;var past=window.scrollY>(hero.offsetHeight*0.7);var near=(window.innerHeight+window.scrollY)>(document.body.scrollHeight-260);sticky.classList.toggle('show',past&&!near);}
+  window.addEventListener('scroll',st,{passive:true});st();
+
+  /* membership points count-up */
+  var counted=false,ptsEl=document.getElementById('ptsNum');
+  function cnt(){if(counted||!ptsEl)return;var r=document.getElementById('membership').getBoundingClientRect();if(r.top>window.innerHeight||r.bottom<0)return;counted=true;var to=1620;if(reduce){ptsEl.textContent=to.toLocaleString();return;}var s=null;function step(ts){if(!s)s=ts;var p=Math.min((ts-s)/1400,1);ptsEl.textContent=Math.round((1-Math.pow(1-p,3))*to).toLocaleString();if(p<1)requestAnimationFrame(step);}requestAnimationFrame(step);}
+  window.addEventListener('scroll',cnt,{passive:true});cnt();
+
+  /* membership tier select */
+  var tiers=document.getElementById('tiers');
+  tiers.addEventListener('click',function(e){var t=e.target.closest('.tier');if(!t)return;tiers.querySelectorAll('.tier').forEach(function(x){x.classList.remove('on');});t.classList.add('on');});
+
+  /* accordion */
+  var acc=document.getElementById('acc');
+  function so(it,o){var p=it.querySelector('.a');it.classList.toggle('open',o);it.querySelector('.q').setAttribute('aria-expanded',o?'true':'false');p.style.maxHeight=o?(p.scrollHeight+'px'):'0px';}
+  acc.querySelectorAll('.item').forEach(function(it){so(it,it.classList.contains('open'));it.querySelector('.q').addEventListener('click',function(){var w=!it.classList.contains('open');acc.querySelectorAll('.item').forEach(function(o){if(o!==it)so(o,false);});so(it,w);});});
+  window.addEventListener('resize',function(){var o=acc.querySelector('.item.open');if(o){var p=o.querySelector('.a');p.style.maxHeight=p.scrollHeight+'px';}});
+
+  /* reveal */
+  var rev=[].slice.call(document.querySelectorAll('.reveal'));
+  function stag(el){if(!el.classList.contains('stagger'))return;var k=el.children;for(var i=0;i<k.length;i++){k[i].style.transitionDelay=(i*80)+'ms';}}
+  if(reduce||!('IntersectionObserver' in window)){rev.forEach(function(el){el.classList.add('in');});}
+  else{var io=new IntersectionObserver(function(en){en.forEach(function(e){if(e.isIntersecting){stag(e.target);e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.1,rootMargin:'0px 0px -7% 0px'});rev.forEach(function(el){io.observe(el);});}
+})();
+</script>
+</body>
+</html>

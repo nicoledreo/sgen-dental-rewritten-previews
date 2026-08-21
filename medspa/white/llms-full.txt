@@ -1,0 +1,70 @@
+# SGEN · Med Spa Local SEO and AEO
+
+> SGEN is a local search agency for medical spas and aesthetic clinics. We win map pack and organic positions in Google, and we build clinic websites that ChatGPT, Gemini, Perplexity and Claude are willing to quote. Delivered as one monthly retainer starting at $497 a month, with no setup fee and no minimum term.
+
+Two jobs run under a single invoice. The first is placement: where a clinic sits in Google's organic results and in the Maps three-pack for the treatments that carry its margin. The second is inclusion: whether an assistant names that clinic at all when somebody asks where to get treated nearby. Single-room injectable studios through to multi-site aesthetic groups. Stripe bills monthly, nothing is charged to start, and there is nothing to sign.
+
+## Pages
+- [Med Spa Local SEO and AEO](https://www.sgen.com/med-spa-local-seo-aeo): the med spa landing page, covering how the work runs, what each tier costs, sample results and the full FAQ.
+
+## Pricing
+- Local SEO · $497/month
+- Local AEO · $797/month
+- SEO + AEO · $1,297/month
+Stripe collects the retainer monthly. Cancelling takes two clicks in the customer portal. There is no setup fee, no onboarding charge and no exit fee, and everything already built stays on the clinic's own domain.
+
+## Method
+Six stages: audit and entity mapping across 14 AI surfaces; foundation rebuild covering MedicalClinic and HealthAndBeautyBusiness schema, llms.txt, structured client questions, Google Business Profile and Core Web Vitals; a content engine of 8 to 24 treatment pages a month; a citation network spanning local press, RealSelf, Healthgrades, AmSpa and the supplier clinic locators; weekly visibility reporting across Google and the four assistants; then scaling into further locations and treatment lines.
+
+## Treatments served
+Injectables including tox and filler, laser hair removal, laser resurfacing and IPL, body contouring, skin tightening by radiofrequency and ultrasound, facials and skin health programmes, medical weight loss, hormone therapy and IV wellness, PRP and hair restoration, and medical-grade skincare.
+
+## Key answers
+- How fast does it work? Local ranking movement usually becomes visible in the 60 to 120 day band. Mentions inside ChatGPT, Gemini or Perplexity tend to arrive earlier, often inside the first month or two, because assistants refresh their sources far more often than Google reranks.
+- Can the retainer be stopped? Yes. Stripe bills monthly and the clinic cancels itself in the customer portal. There is no retention call and no exit fee. Every page, post, citation and link already built remains live and under the clinic's control.
+- What is AEO? Answer Engine Optimization. SEO competes for a position on a results page. AEO decides whether an assistant names the clinic at all in the single answer a client now reads instead of opening anyone's site.
+- Is there a contract? None. Month to month, nothing to set up and nothing to sign.
+
+## Contact
+- Apply: https://www.sgen.com/med-spa-local-seo-aeo#get-started
+
+## Pricing detail
+- Local SEO · $497/month. A tracked target list of 15 primary keywords, 4 client-facing articles
+  published monthly, page-level optimisation on 5 or more pages, the Google Business Profile
+  cleaned up and kept current, 10 local citations placed monthly, 3 or more quality backlinks
+  earned monthly, schema markup deployed sitewide, and a written report at each month end.
+- Local AEO · $797/month. 10 prompts monitored inside ChatGPT, Gemini, Perplexity and Claude,
+  copy engineered for citation rather than ranking alone, a question library of 2 or more cited
+  posts monthly, the entity graph mapped and the knowledge panel taken over, an llms.txt file
+  written with agent permissions set, conversational schema, and a single dashboard covering
+  visibility across all four assistants.
+- SEO + AEO · $1,297/month. Both engines together, plus a managed list of 40 or more primary
+  keywords, 20 monitored prompts, 12 client articles and 4 or more cited question posts monthly,
+  page-level work on 25 or more pages, 40 or more citations and 25 or more links monthly, and up
+  to 6 programmatic location or treatment pages a month.
+All tiers bill monthly through Stripe and are cancellable in the customer portal. Nothing is
+charged to set up. The one item priced separately is Google Ads management, quoted on its own
+where a clinic wants that channel run too.
+
+## Common questions
+- How much does med spa SEO cost per month? One retainer at three levels: $497 for Local SEO,
+  $797 for Local AEO, $1,297 for both engines together. Nothing is charged to set up, no
+  onboarding fee applies, and no extras are compulsory.
+- Do you only work with med spas? Aesthetics is the whole focus, from single-room studios through
+  to multi-site groups, plus dermatology and plastic surgery practices running an aesthetics arm.
+- How do med spas get recommended by ChatGPT? Assistants quote sources they can parse and are
+  willing to trust: questions answered the way clients phrase them, structured data the crawler
+  can read, clinic details that match across every listing, and pages that answer directly rather
+  than burying the point under a booking prompt.
+- Is it worth it for a single-location clinic? One site competes for one catchment, which is
+  precisely the fight map pack visibility was designed to win. The competition is the handful of
+  clinics inside a twenty minute drive, not a national advertiser.
+- Who does the work? Strategy, on-page, technical work, AEO and reporting are in-house. Writing
+  and outreach go to a small group of specialists who understand aesthetics and the advertising
+  sensitivities attached to it. The point of contact does not rotate.
+
+## Proof and disclosure
+Case study figures, Search Console dashboards and the logo wall shown on the landing page are
+illustrative sample data, labelled as such on the page itself. Third-party statistics cited on
+the page carry their sources: SparkToro (2025) for zero-click search, Similarweb (2026) for AI
+referral growth, and Local SEO Guide (2026) for assistant usage in local clinic discovery.

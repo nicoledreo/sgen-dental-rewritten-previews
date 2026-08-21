@@ -1,0 +1,47 @@
+# SGEN Veterinary — Apache config
+# Addresses the audit items a static bundle cannot: response headers (SEC-011..015),
+# HTTPS (SEC-007) and compression (PERF-007). Drop this at the site root.
+
+# ---------- Security headers ----------
+<IfModule mod_headers.c>
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+  # NOTE: start CSP in Report-Only. The page uses inline <script>/<style> and 20 innerHTML
+  # assignments, so an enforcing CSP without 'unsafe-inline' WILL break it. Tighten with
+  # nonces/hashes once you have report data.
+  Header always set Content-Security-Policy-Report-Only "default-src 'self'; img-src 'self' data: https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.redditstatic.com https://staging.dashboard.sgen.com; connect-src 'self' https:; frame-ancestors 'self'"
+</IfModule>
+
+# ---------- Force HTTPS ----------
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTPS} !=on
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+# ---------- Compression ----------
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml application/javascript application/json image/svg+xml
+</IfModule>
+<IfModule mod_brotli.c>
+  AddOutputFilterByType BROTLI_COMPRESS text/html text/css text/plain text/xml application/javascript application/json image/svg+xml
+</IfModule>
+
+# ---------- Caching ----------
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType text/html "access plus 0 seconds"
+</IfModule>
+
+# ---------- Correct type for the AEO text files ----------
+<Files "llms.txt">ForceType text/plain</Files>
+<Files "llms-full.txt">ForceType text/plain</Files>
+<Files "ai.txt">ForceType text/plain</Files>

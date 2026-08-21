@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alignwell Chiropractic — Walk-In Chiropractor in Las Vegas, NV</title>
+<meta name="description" content="Neighbourhood chiropractic care in southwest Las Vegas. Walk in without an appointment, open until 7pm weeknights and Saturdays, no referral needed. Auto-accident recovery, family, prenatal and sports care. $59 new patient exam and consultation.">
+
+
+<link rel="stylesheet" href="../_shared-fonts/alignwell-chiropractic-fonts.css">
+<style>
+/* ═══════════════════════════════════════════════════════════════════════════
+   ALIGNWELL CHIROPRACTIC — homepage
+   Bundle A "Quiet Evidence", locked 2026-08-10 from verticals/alignwell-chiropractic.md §4.
+   Palette  COLOR-THEORY-PRESETS.md #46 Botanical Skincare
+   Type     TYPOGRAPHY-PAIRINGS.md #43 Source Serif 4 + Inter
+   Nav      NAV-PATTERNS.md #2 Classic full-bar over hero (centered links + outline CTA)
+   Hero     HERO-COMPOSITIONS.md #7 Full-bleed image + floating cards/stats overlay
+   Footer   FOOTER-STYLES.md #14 Hours-and-contact prominent
+   Cards    CARD-VARIATIONS.md #2 Light feature card with embedded mini-visual
+   CTA      CTA-PATTERNS.md #3 Arrow-circle CTA
+   Divider  DIVIDER-PATTERNS.md #1 Hard edge
+   Surface  #3 Modern 8-12px · #8 Flat-no-chrome · #18 Solid-pill · #27 Hairline-full-width
+            · #34 Soft-rounded · #39 Boxed-default
+   Motion   #2 Color-shift · #13 Outline-emerge · #17 Underline-grow · #21 Fade-up
+            · #26 Fade-in-on-view · #31 Default cursor · #37 Form-field focus
+            · #43 View Transitions API
+   Shared   FORM-LAYOUTS.md #2 · FAQ-ACCORDION.md #1 · STICKY-CTA-BAR.md #2
+   CSS is written for 1440 / 1024 / 768 / 375 in one pass — never desktop-first.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root{
+  --aw-primary:#3A5F3A; --aw-primary-deep:#1F3324; --aw-primary-soft:#DCE6DA;
+  --aw-accent:#C2A878;  --aw-accent-soft:#F0E8D7;
+  --aw-bg:#F8F4ED;      --aw-bg-2:#FFFFFF;
+  --aw-ink:#1F2A24;     --aw-ink-soft:#5C6B60; --aw-line:#DFD9CC; --aw-signature:#5C6E56;
+
+  --aw-font-display:'Source Serif 4',Georgia,serif;
+  --aw-font-body:'Inter',system-ui,-apple-system,sans-serif;
+  --aw-font-mono:'IBM Plex Mono',ui-monospace,monospace;
+
+  --aw-radius-sm:8px; --aw-radius-md:12px; --aw-radius-lg:16px;
+
+  --aw-container:1340px;
+  --aw-pad-y:96px; --aw-pad-x:32px; --aw-card-pad:36px; --aw-gap:28px;
+
+  --aw-h1:88px; --aw-h2:52px; --aw-h3:26px;
+  --aw-body:17px; --aw-small:14px; --aw-eyebrow:11px; --aw-btn:16px;
+}
+
+*,*::before,*::after{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0; background:var(--aw-bg); color:var(--aw-ink);
+  font-family:var(--aw-font-body); font-size:var(--aw-body); line-height:1.6;
+  -webkit-font-smoothing:antialiased; overflow-x:hidden;
+}
+img{max-width:100%; display:block;}
+h1,h2,h3{font-family:var(--aw-font-display); font-weight:600; line-height:1.1; margin:0;}
+h1{font-size:var(--aw-h1); letter-spacing:-.02em;}
+h2{font-size:var(--aw-h2); letter-spacing:-.015em;}
+h3{font-size:var(--aw-h3); letter-spacing:-.01em;}
+p{margin:0;}
+.container{max-width:var(--aw-container); margin:0 auto; padding:0 var(--aw-pad-x);}
+.section{padding:var(--aw-pad-y) 0;}
+.lede{font-size:19px; color:var(--aw-ink-soft); max-width:62ch;}
+.rule{height:1px; background:var(--aw-line); border:0; margin:0;}
+
+/* ── Buttons — SURFACE-PATTERNS.md #18 Solid-pill + MOTION #2 Color-shift ───────── */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:10px;
+  font-family:var(--aw-font-body); font-size:var(--aw-btn); font-weight:600;
+  text-decoration:none; cursor:pointer; border:0; white-space:nowrap;
+  transition:background-color 160ms ease,color 160ms ease,border-color 160ms ease;
+}
+.btn-primary{padding:15px 30px; background:var(--aw-primary); color:#fff; border-radius:9999px;}
+.btn-primary:hover{background:color-mix(in srgb,var(--aw-primary) 88%,black);}
+.btn-primary:active{background:color-mix(in srgb,var(--aw-primary) 78%,black);}
+.btn-ghost{
+  padding:14px 28px; background:transparent; color:var(--aw-ink);
+  border:1px solid var(--aw-line); border-radius:9999px;
+}
+.btn-ghost:hover{border-color:var(--aw-primary); color:var(--aw-primary);}
+.btn-onDark{background:#fff; color:var(--aw-primary-deep);}
+.btn-onDark:hover{background:var(--aw-accent-soft);}
+.btn-ghostDark{
+  padding:14px 28px; background:transparent; color:#fff;
+  border:1px solid rgba(255,255,255,.35); border-radius:9999px;
+}
+.btn-ghostDark:hover{border-color:#fff; background:rgba(255,255,255,.08);}
+
+/* Arrow-circle CTA — CTA-PATTERNS.md #3 */
+.cta-arrow{
+  display:inline-flex; align-items:center; gap:14px; text-decoration:none;
+  color:var(--aw-ink); font-weight:600; font-size:var(--aw-btn);
+}
+.cta-arrow::after{
+  content:"→"; display:inline-flex; align-items:center; justify-content:center;
+  width:42px; height:42px; border-radius:9999px; border:1px solid var(--aw-line);
+  font-size:15px; flex:none;
+  transition:background-color 200ms ease,color 200ms ease,border-color 200ms ease,transform 200ms ease;
+}
+.cta-arrow:hover::after{background:var(--aw-primary); color:#fff; border-color:var(--aw-primary); transform:translateX(3px);}
+
+/* Text links — MOTION-PATTERNS.md #17 Underline-grow */
+.tlink{position:relative; text-decoration:none; color:var(--aw-primary); font-weight:600;}
+.tlink::after{
+  content:""; position:absolute; left:0; bottom:-2px; width:100%; height:1px;
+  background:currentColor; transform:scaleX(0); transform-origin:left center;
+  transition:transform 280ms cubic-bezier(.65,0,.35,1);
+}
+.tlink:hover::after{transform:scaleX(1);}
+
+/* ── Nav — NAV-PATTERNS.md #2 Classic full-bar over hero ───────────────────────── */
+.site-head{position:absolute; inset:0 0 auto; z-index:40;}
+.head-inner{
+  max-width:var(--aw-container); margin:0 auto; padding:22px var(--aw-pad-x);
+  display:flex; align-items:center; gap:28px;
+}
+.brand{display:flex; flex-direction:column; text-decoration:none; color:#fff; flex:none;}
+.brand-name{font-family:var(--aw-font-display); font-size:23px; font-weight:700; letter-spacing:-.01em;}
+.brand-tag{
+  font-family:var(--aw-font-mono); font-size:10px; letter-spacing:.14em;
+  text-transform:uppercase; color:rgba(255,255,255,.72); margin-top:3px;
+}
+.nav{display:flex; gap:30px; margin:0 auto;}
+.nav a{
+  color:rgba(255,255,255,.9); text-decoration:none; font-size:15px; font-weight:500;
+  position:relative; padding:4px 0;
+}
+.nav a::after{
+  content:""; position:absolute; left:0; bottom:0; width:100%; height:1px; background:#fff;
+  transform:scaleX(0); transform-origin:left center; transition:transform 280ms cubic-bezier(.65,0,.35,1);
+}
+.nav a:hover::after,.nav a[aria-current="page"]::after{transform:scaleX(1);}
+.head-cta{display:flex; align-items:center; gap:14px; flex:none;}
+.head-phone{
+  color:#fff; text-decoration:none; font-family:var(--aw-font-mono); font-size:13px;
+  letter-spacing:.04em; opacity:.85;
+}
+.head-phone:hover{opacity:1;}
+.nav-toggle{
+  display:none; width:44px; height:44px; align-items:center; justify-content:center;
+  background:transparent; border:1px solid rgba(255,255,255,.35); border-radius:var(--aw-radius-sm);
+  cursor:pointer; padding:0;
+}
+.nav-toggle span{display:block; width:18px; height:1.5px; background:#fff; position:relative;}
+.nav-toggle span::before,.nav-toggle span::after{
+  content:""; position:absolute; left:0; width:18px; height:1.5px; background:#fff;
+}
+.nav-toggle span::before{top:-6px;} .nav-toggle span::after{top:6px;}
+
+.drawer{
+  position:fixed; inset:0 0 0 auto; width:min(86vw,340px); background:var(--aw-primary-deep);
+  z-index:60; transform:translateX(100%); transition:transform 320ms cubic-bezier(.65,0,.35,1);
+  padding:28px 26px; display:flex; flex-direction:column; gap:6px; overflow-y:auto;
+}
+.drawer[data-open="true"]{transform:translateX(0);}
+.drawer a{
+  color:#fff; text-decoration:none; font-family:var(--aw-font-display); font-size:24px;
+  font-weight:600; padding:13px 0; border-bottom:1px solid rgba(255,255,255,.12);
+}
+.drawer-close{
+  align-self:flex-end; background:transparent; border:0; color:#fff; font-size:26px;
+  cursor:pointer; line-height:1; padding:4px 8px; margin-bottom:10px;
+}
+.drawer-meta{margin-top:22px; color:rgba(255,255,255,.75); font-size:14px; line-height:1.7;}
+.drawer .btn{margin-top:18px;}
+.scrim{
+  position:fixed; inset:0; background:rgba(31,51,36,.55); z-index:50;
+  opacity:0; pointer-events:none; transition:opacity 320ms ease;
+}
+.scrim[data-open="true"]{opacity:1; pointer-events:auto;}
+
+/* ── 1 · HERO — bg dark · unsplash full-bleed · open-layout ────────────────────── */
+.hero{
+  background:var(--aw-primary-deep);
+  position:relative; padding:190px 0 96px; overflow:hidden; color:#fff;
+}
+.hero-visual{
+  position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+  opacity:.62; z-index:0;
+}
+/* Legibility scrim, weighted to the left where the copy sits, so the photograph
+   still reads as an actual adjustment on the right rather than green texture. */
+.hero-veil{
+  position:absolute; inset:0; z-index:1;
+  background:linear-gradient(100deg,rgba(31,51,36,.95) 0%,rgba(31,51,36,.88) 34%,rgba(31,51,36,.55) 66%,rgba(31,51,36,.30) 100%);
+}
+.hero .container{position:relative; z-index:2;}
+/* max-width was 16ch, which wrapped the 27-character headline at 1200/1024/900 even though it
+   only needs 756px of 1136 available. Unconstrained it sits on ONE line from 560 up; at 375 it
+   genuinely cannot fit (419px needed vs 335 available) and wraps, which is correct there. */
+.hero h1{color:#fff; max-width:none;}
+.hero h1 em{font-style:italic; font-weight:400; color:var(--aw-accent);}
+.hero-sub{margin:26px 0 34px; font-size:19px; line-height:1.55; color:rgba(255,255,255,.86); max-width:54ch;}
+.hero-actions{display:flex; align-items:center; gap:16px; flex-wrap:wrap;}
+.hero-proofs{
+  display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:var(--aw-gap);
+  margin-top:64px;
+}
+.hero-proof{
+  background:rgba(15,26,18,.66); border:1px solid rgba(255,255,255,.10);
+  border-radius:var(--aw-radius-md); padding:26px 28px; backdrop-filter:blur(8px);
+}
+.hero-proof-k{
+  font-family:var(--aw-font-mono); font-size:var(--aw-eyebrow); letter-spacing:.16em;
+  text-transform:uppercase; color:var(--aw-accent); margin:0 0 10px;
+}
+.hero-proof-v{font-family:var(--aw-font-display); font-size:21px; font-weight:600; color:#fff; margin:0 0 6px;}
+.hero-proof-n{font-size:14px; color:rgba(255,255,255,.72); margin:0;}
+
+/* ── 2 · HOURS — bg light · no imagery · hairline-card ────────────────────────── */
+.hours{background:var(--aw-bg-2);}
+.hours-grid{display:grid; grid-template-columns:1.05fr 1fr; gap:56px; align-items:start;}
+.hours-card{
+  background:var(--aw-bg-2); border:1px solid var(--aw-line);
+  border-radius:var(--aw-radius-md); padding:var(--aw-card-pad);
+}
+.hours-row{
+  display:flex; justify-content:space-between; gap:20px; padding:15px 0;
+  border-bottom:1px solid var(--aw-line); font-size:16px;
+}
+/* .hours-note is the last CHILD of .hours-card, so :last-child matched no row and the
+   Sunday hairline stacked against the note's border-top. :last-of-type targets the last
+   div among the siblings, which is the Sunday row. */
+.hours-row:last-of-type{border-bottom:0;}
+.hours-row b{font-weight:600;}
+.hours-row.today{color:var(--aw-primary); font-weight:600;}
+.hours-note{
+  margin-top:22px; font-size:var(--aw-small); color:var(--aw-ink-soft);
+  padding-top:20px; border-top:1px solid var(--aw-line);
+}
+.badges{display:flex; flex-direction:column; gap:14px; margin-top:30px;}
+.badge{display:flex; gap:14px; align-items:flex-start;}
+.badge-dot{
+  width:26px; height:26px; border-radius:9999px; background:var(--aw-primary-soft);
+  color:var(--aw-primary); display:flex; align-items:center; justify-content:center;
+  font-size:13px; font-weight:700; flex:none; margin-top:2px;
+}
+.badge b{display:block; font-weight:600;}
+.badge span{color:var(--aw-ink-soft); font-size:15px;}
+
+/* ── 3 · INSURANCE — bg warm · decorative · open-layout ───────────────────────── */
+.insurance{background:var(--aw-bg);}
+.ins-head{display:flex; justify-content:space-between; align-items:flex-end; gap:40px; flex-wrap:wrap;}
+.carriers{
+  display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:16px; margin-top:44px;
+}
+.carrier-chip{
+  background:var(--aw-bg-2); border:1px solid var(--aw-line); border-radius:var(--aw-radius-sm);
+  padding:20px 12px; text-align:center; font-family:var(--aw-font-display);
+  font-size:16px; font-weight:600; color:var(--aw-ink-soft); letter-spacing:.01em;
+}
+.ins-foot{
+  margin-top:32px; font-size:var(--aw-small); color:var(--aw-ink-soft);
+  display:flex; gap:10px; align-items:center; flex-wrap:wrap;
+}
+
+/* ── 4 · SERVICES — bg light · unsplash inset · hairline-card ─────────────────── */
+.services{background:var(--aw-bg-2);}
+.svc-grid{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:var(--aw-gap); margin-top:56px;}
+.svc-card{
+  background:var(--aw-bg-2); border:1px solid var(--aw-line); border-radius:var(--aw-radius-md);
+  padding:0; overflow:hidden; display:flex; flex-direction:column; position:relative;
+}
+.svc-card::after{
+  content:""; position:absolute; inset:0; border:1px solid transparent;
+  border-radius:var(--aw-radius-md); pointer-events:none;
+  transition:border-color 280ms ease,inset 280ms cubic-bezier(.65,0,.35,1);
+}
+.svc-card:hover::after{inset:-8px; border-color:var(--aw-primary);}
+.svc-figure{width:100%; aspect-ratio:16/11; object-fit:cover; background:var(--aw-primary-soft);}
+.svc-body{padding:28px 26px 30px; display:flex; flex-direction:column; flex:1;}
+.svc-card h3{margin-bottom:12px;}
+.svc-card p{font-size:15.5px; color:var(--aw-ink-soft); margin-bottom:22px;}
+.svc-card .tlink{margin-top:auto;}
+
+/* ── 5 · QUALIFIER — bg accent · unsplash tile bg · image-overlay ─────────────── */
+.qualifier{background:var(--aw-accent-soft);}
+.qual-grid{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:var(--aw-gap); margin-top:52px;}
+.qual-tile{
+  position:relative; min-height:290px; border-radius:var(--aw-radius-md); overflow:hidden;
+  display:flex; flex-direction:column; justify-content:flex-end; padding:30px 28px;
+  color:#fff; text-decoration:none;
+  background-image:linear-gradient(to top,rgba(31,51,36,.96) 30%,rgba(31,51,36,.72) 66%,rgba(31,51,36,.34) 100%),url('../_shared-img/100615882.webp');
+  background-size:cover; background-position:center;
+}
+.qual-tile.t2{background-image:linear-gradient(to top,rgba(31,51,36,.96) 30%,rgba(31,51,36,.72) 66%,rgba(31,51,36,.34) 100%),url('../_shared-img/171628948.webp');}
+.qual-tile.t3{background-image:linear-gradient(to top,rgba(31,51,36,.96) 30%,rgba(31,51,36,.72) 66%,rgba(31,51,36,.34) 100%),url('../_shared-img/71622634.webp');}
+.qual-tile h3{color:#fff; margin-bottom:9px;}
+.qual-tile p{color:rgba(255,255,255,.82); font-size:15px;}
+.qual-tile .go{
+  margin-top:16px; font-family:var(--aw-font-mono); font-size:var(--aw-eyebrow);
+  letter-spacing:.16em; text-transform:uppercase; color:var(--aw-accent);
+}
+
+/* ── 6 · PROCESS — bg dark · unsplash inset · dark-anchor-panel ───────────────── */
+.process{background:var(--aw-primary-deep); color:#fff;}
+.process h2{color:#fff;}
+.process .lede{color:rgba(255,255,255,.78);}
+.proc-wrap{display:grid; grid-template-columns:1fr .82fr; gap:64px; align-items:start; margin-top:52px;}
+.proc-steps{display:grid; gap:18px;}
+.step-panel{
+  background:rgba(255,255,255,.06); border-radius:var(--aw-radius-md);
+  padding:26px 28px; display:flex; gap:22px; align-items:flex-start;
+}
+.step-n{
+  font-family:var(--aw-font-display); font-size:44px; font-weight:600; line-height:1;
+  color:transparent; -webkit-text-stroke:1.25px var(--aw-accent); flex:none; min-width:56px;
+}
+.step-panel h3{color:#fff; font-size:20px; margin-bottom:7px;}
+.step-panel p{color:rgba(255,255,255,.74); font-size:15px;}
+.proc-figure{width:100%; aspect-ratio:4/5; object-fit:cover; border-radius:var(--aw-radius-md);}
+.proc-cap{margin-top:16px; font-size:var(--aw-small); color:rgba(255,255,255,.6);}
+
+/* ── 7 · VOICES — bg light · monogram avatars · hairline-card ─────────────────── */
+.voices{background:var(--aw-bg-2);}
+.voice-grid{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:var(--aw-gap); margin-top:52px;}
+.quote-card{
+  background:var(--aw-bg-2); border:1px solid var(--aw-line); border-radius:var(--aw-radius-md);
+  padding:var(--aw-card-pad); display:flex; flex-direction:column;
+}
+.q-tag{
+  align-self:flex-start; font-family:var(--aw-font-mono); font-size:10px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--aw-primary); background:var(--aw-primary-soft);
+  padding:6px 11px; border-radius:9999px; margin-bottom:20px;
+}
+.q-stars{color:var(--aw-accent); letter-spacing:.16em; font-size:14px; margin-bottom:14px;}
+.quote-card blockquote{
+  margin:0 0 24px; font-family:var(--aw-font-display); font-size:18px; line-height:1.5;
+  color:var(--aw-ink);
+}
+.q-who{display:flex; align-items:center; gap:13px; margin-top:auto;}
+.q-mono{
+  width:40px; height:40px; border-radius:9999px; background:var(--aw-primary);
+  color:#fff; display:flex; align-items:center; justify-content:center;
+  font-family:var(--aw-font-mono); font-size:13px; font-weight:500; flex:none;
+}
+.q-who b{display:block; font-size:15px; font-weight:600;}
+.q-who span{font-size:13px; color:var(--aw-ink-soft);}
+/* `.q-who span` (0,1,1) outranks `.q-mono` (0,1,0) and was repainting the monogram
+   ink-soft on green — 1.30:1. Scoped override restores white at 6.4:1. */
+.q-who .q-mono{color:#fff; font-size:13px;}
+
+/* ── 8 · OFFER — bg warm · unsplash inset · hairline-card ─────────────────────── */
+.offer{background:var(--aw-bg);}
+.offer-card{
+  background:var(--aw-bg-2); border:1px solid var(--aw-line); border-radius:var(--aw-radius-lg);
+  overflow:hidden; display:grid; grid-template-columns:1.15fr .85fr;
+}
+.offer-body{padding:52px 56px;}
+.offer-price{display:flex; align-items:baseline; gap:12px; margin:22px 0 6px;}
+.offer-price b{font-family:var(--aw-font-display); font-size:64px; font-weight:700; line-height:1; color:var(--aw-primary);}
+.offer-price span{font-size:15px; color:var(--aw-ink-soft);}
+.offer-list{list-style:none; margin:26px 0 30px; padding:0; display:grid; gap:12px;}
+.offer-list li{display:flex; gap:12px; font-size:16px; align-items:flex-start;}
+.offer-list li::before{content:"✓"; color:var(--aw-primary); font-weight:700; flex:none;}
+.offer-fine{font-size:13px; color:var(--aw-ink-soft); margin-top:20px;}
+.offer-figure{width:100%; height:100%; object-fit:cover; min-height:340px;}
+
+/* ── 9 · FAQ — bg light · text-only · open-layout (FAQ-ACCORDION.md #1) ───────── */
+.faq{background:var(--aw-bg-2);}
+.faq-list{max-width:820px; margin:52px auto 0;}
+.faq-row{border-bottom:1px solid var(--aw-line);}
+.faq-q{
+  width:100%; background:transparent; border:0; cursor:pointer; text-align:left;
+  padding:26px 44px 26px 0; position:relative;
+  font-family:var(--aw-font-display); font-size:20px; font-weight:600; color:var(--aw-ink);
+}
+.faq-q::after{
+  content:"+"; position:absolute; right:6px; top:50%; transform:translateY(-50%);
+  font-family:var(--aw-font-body); font-size:24px; font-weight:400; color:var(--aw-primary);
+  transition:transform 240ms ease;
+}
+.faq-row[data-open="true"] .faq-q::after{transform:translateY(-50%) rotate(45deg);}
+.faq-a{max-height:0; overflow:hidden; transition:max-height 300ms cubic-bezier(.65,0,.35,1);}
+.faq-a p{padding:0 60px 28px 0; color:var(--aw-ink-soft); font-size:16px;}
+
+/* ── 10 · VISIT — bg light · unsplash panel bg · image-overlay ────────────────── */
+.visit{background:var(--aw-bg-2);}
+.visit-grid{display:grid; grid-template-columns:1fr .92fr; gap:56px; align-items:start; margin-top:52px;}
+.form-grid{display:grid; grid-template-columns:1fr 1fr; gap:18px;}
+.field{display:flex; flex-direction:column; gap:8px;}
+.field.full{grid-column:1/-1;}
+.field label{
+  font-family:var(--aw-font-mono); font-size:10px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--aw-ink-soft);
+}
+.field input,.field select,.field textarea{
+  width:100%; padding:13px 15px; background:var(--aw-bg-2); color:var(--aw-ink);
+  border:1px solid var(--aw-line); border-radius:var(--aw-radius-sm);
+  font:400 15px/1.4 var(--aw-font-body);
+  transition:border-color 200ms ease,box-shadow 200ms ease;
+}
+.field textarea{min-height:96px; resize:vertical;}
+.field input:focus,.field select:focus,.field textarea:focus{
+  outline:0; border-color:var(--aw-primary);
+  box-shadow:0 0 0 3px color-mix(in srgb,var(--aw-primary) 20%,transparent);
+}
+.map-panel{
+  border-radius:var(--aw-radius-md); overflow:hidden; min-height:260px;
+  background-image:linear-gradient(to top,rgba(31,51,36,.86) 0%,rgba(31,51,36,.12) 60%),url('../_shared-img/169376991.webp');
+  background-size:cover; background-position:center;
+  display:flex; align-items:flex-end; padding:28px; color:#fff;
+}
+.map-panel b{font-family:var(--aw-font-display); font-size:20px; display:block; margin-bottom:5px;}
+.map-panel span{font-size:14px; color:rgba(255,255,255,.82);}
+.visit-facts{display:grid; gap:20px; margin-top:28px;}
+.fact b{display:block; font-family:var(--aw-font-mono); font-size:10px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--aw-ink-soft); margin-bottom:6px;}
+.fact span{font-size:16px;}
+
+/* ── 11 · CLOSING — bg dark · unsplash full-bleed · open-layout ───────────────── */
+.closing{background:var(--aw-primary-deep); position:relative; overflow:hidden; color:#fff; text-align:center;}
+.closing-visual{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.22; z-index:0;}
+.closing .container{position:relative; z-index:2;}
+.closing h2{color:#fff; max-width:19ch; margin:0 auto 22px;}
+.closing p{color:rgba(255,255,255,.8); max-width:52ch; margin:0 auto 36px; font-size:18px;}
+.closing-actions{display:flex; gap:16px; justify-content:center; flex-wrap:wrap;}
+
+/* ── Footer — FOOTER-STYLES.md #14 Hours-and-contact prominent ───────────────── */
+.site-foot{background:var(--aw-bg); border-top:1px solid var(--aw-line); padding:72px 0 34px;}
+.foot-grid{display:grid; grid-template-columns:1.4fr 1fr 1fr 1.1fr; gap:44px;}
+.foot-brand .brand-name{color:var(--aw-ink); font-size:24px;}
+.foot-brand p{color:var(--aw-ink-soft); font-size:15px; margin-top:14px; max-width:32ch;}
+.foot-h{
+  font-family:var(--aw-font-mono); font-size:10px; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--aw-ink-soft); margin:0 0 18px;
+}
+.foot-list{list-style:none; margin:0; padding:0; display:grid; gap:11px;}
+.foot-list a{color:var(--aw-ink); text-decoration:none; font-size:15px;}
+.foot-list a:hover{color:var(--aw-primary); text-decoration:underline; text-underline-offset:4px;}
+.foot-hours{display:grid; gap:9px; font-size:14.5px;}
+.foot-hours div{display:flex; justify-content:space-between; gap:14px;}
+.foot-bottom{
+  margin-top:52px; padding-top:26px; border-top:1px solid var(--aw-line);
+  display:flex; justify-content:space-between; gap:20px; flex-wrap:wrap;
+  font-size:13px; color:var(--aw-ink-soft);
+}
+
+/* ── Sticky CTA — STICKY-CTA-BAR.md #2 Dual-button bottom-bar (mobile only) ──── */
+.sticky-cta{
+  position:fixed; left:0; right:0; bottom:0; z-index:45; display:none;
+  gap:10px; padding:11px 14px calc(11px + env(safe-area-inset-bottom));
+  background:var(--aw-bg-2); border-top:1px solid var(--aw-line);
+  box-shadow:0 -6px 22px rgba(31,51,36,.10);
+}
+.sticky-cta .btn{flex:1; padding:14px 10px; font-size:15px;}
+.sticky-cta .btn-primary{flex:1.4;}
+
+/* ── Motion — #21 Fade-up entrance + #26 Fade-in-on-view scroll ──────────────── */
+.entrance{opacity:0; transform:translateY(20px); animation:fadeUp 600ms cubic-bezier(.22,.61,.36,1) forwards;}
+.entrance--2{animation-delay:120ms;} .entrance--3{animation-delay:240ms;} .entrance--4{animation-delay:360ms;}
+@keyframes fadeUp{to{opacity:1; transform:none;}}
+.reveal{opacity:0; transform:translateY(24px); transition:opacity 600ms cubic-bezier(.22,.61,.36,1),transform 600ms cubic-bezier(.22,.61,.36,1);}
+.reveal.is-in{opacity:1; transform:none;}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto;}
+  *,*::before,*::after{animation-duration:.001ms!important; transition-duration:.001ms!important;}
+  .entrance,.reveal{opacity:1!important; transform:none!important;}
+}
+@view-transition{navigation:auto;}
+
+/* ═══ 1024 ═══ */
+@media (max-width:1200px){
+  :root{--aw-h1:76px; --aw-h2:48px; --aw-h3:24px; --aw-pad-y:80px; --aw-card-pad:32px; --aw-gap:24px; --aw-body:16px;}
+  /* At 1024 the brand + 5 nav links + phone + CTA measured 1109px against a 1024 viewport
+     (64px over). Drop the phone — it is still in the drawer and the footer — and tighten
+     the nav gap so the bar fits without shrinking the tap targets. */
+  .head-phone{display:none;}
+  .nav{gap:22px;}
+  .head-inner{gap:20px;}
+  .head-cta .btn{padding:12px 22px; font-size:15px;}
+  .svc-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .carriers{grid-template-columns:repeat(3,minmax(0,1fr));}
+  .hours-grid,.proc-wrap,.visit-grid{gap:40px;}
+  .offer-body{padding:44px 42px;}
+  .foot-grid{grid-template-columns:1.3fr 1fr 1fr; }
+  .foot-hours-col{grid-column:1/-1;}
+}
+/* ═══ 768 ═══ */
+@media (max-width:900px){
+  :root{--aw-h1:56px; --aw-h2:40px; --aw-h3:22px; --aw-pad-y:64px; --aw-pad-x:24px; --aw-card-pad:28px; --aw-gap:20px;}
+  .nav,.head-phone{display:none;}
+  .nav-toggle{display:inline-flex;}
+  .head-inner{justify-content:space-between; gap:16px;}
+  .head-cta .btn{display:none;}
+  .hero{padding:150px 0 80px;}
+  .hero-proofs{grid-template-columns:1fr; gap:14px; margin-top:44px;}
+  .hours-grid,.proc-wrap,.visit-grid,.qual-grid,.voice-grid{grid-template-columns:1fr;}
+  .offer-card{grid-template-columns:1fr;}
+  .offer-figure{min-height:240px; order:-1;}
+  .sticky-cta{display:flex;}
+  body{padding-bottom:78px;}
+  .foot-grid{grid-template-columns:1fr 1fr;}
+}
+/* ═══ 375 ═══ */
+@media (max-width:560px){
+  /* Card grids become horizontal snap-sliders rather than long 1-col stacks.
+     Cards sit at 82% so the next one peeks — that peek is the affordance, which is why the
+     scrollbar is hidden. overflow-x lives on the grid (inside .container), so the document
+     itself never gains scrollWidth and the h-overflow gate stays honest. */
+  /* 16px floor on form controls: below 16px iOS Safari zooms the viewport on focus and leaves
+     the user scrolled sideways on a form. Mirrors the same rule in design-system/tokens.css. */
+  .field input,.field select,.field textarea{font-size:16px;}
+  .svc-grid,.voice-grid,.qual-grid{
+    grid-template-columns:none; grid-auto-flow:column; grid-auto-columns:82%;
+    overflow-x:auto; overscroll-behavior-x:contain;
+    scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch;
+    padding-bottom:4px; scrollbar-width:none;
+  }
+  .svc-grid::-webkit-scrollbar,.voice-grid::-webkit-scrollbar,.qual-grid::-webkit-scrollbar{display:none;}
+  .svc-grid>*,.voice-grid>*,.qual-grid>*{scroll-snap-align:start;}
+  /* The outline-emerge hover grows a ring at inset:-8px; inside a scroller that would be
+     clipped and would also widen the scroll area, so it is suppressed here. */
+  .svc-card::after{display:none;}
+
+  :root{--aw-h1:40px; --aw-h2:30px; --aw-h3:20px; --aw-pad-y:48px; --aw-pad-x:20px; --aw-card-pad:24px; --aw-gap:16px; --aw-body:15px; --aw-btn:15px;}
+  .hero{padding:132px 0 64px;}
+  .hero h1{max-width:none;}
+  .hero-actions{flex-direction:column; align-items:stretch;}
+  .hero-actions .btn{width:100%;}
+  .cta-arrow{justify-content:space-between;}
+  .carriers,.form-grid{grid-template-columns:1fr;}
+  .carriers{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .offer-price b{font-size:50px;}
+  .offer-body{padding:32px 24px;}
+  .foot-grid{grid-template-columns:1fr; gap:34px;}
+  .foot-bottom{flex-direction:column; gap:10px;}
+  .closing-actions{flex-direction:column;}
+  .closing-actions .btn{width:100%;}
+}
+</style>
+</head>
+<body>
+
+<a class="scrim" id="scrim" aria-hidden="true" tabindex="-1"></a>
+
+<header class="site-head">
+  <div class="head-inner">
+    <a class="brand" href="alignwell-chiropractic.html">
+      <span class="brand-name">Alignwell</span>
+      <span class="brand-tag">Walk-ins welcome · Evenings &amp; Saturdays</span>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a href="alignwell-chiropractic.html" aria-current="page">Home</a>
+      <a href="about.html">About</a>
+      <a href="services.html">Services</a>
+      <a href="new-patients.html">New Patients</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="head-cta">
+      <a class="head-phone" href="tel:+17025550148">(702) 555-0148</a>
+      <a class="btn btn-ghostDark" href="contact.html#book">Book appointment</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Open navigation menu" aria-expanded="false" aria-controls="siteDrawer"><span></span></button>
+    </div>
+  </div>
+</header>
+
+<aside class="drawer" id="siteDrawer" aria-hidden="true" aria-label="Mobile navigation">
+  <button class="drawer-close" id="drawerClose" aria-label="Close navigation menu">×</button>
+  <a href="alignwell-chiropractic.html">Home</a>
+  <a href="about.html">About</a>
+  <a href="services.html">Services</a>
+  <a href="new-patients.html">New Patients</a>
+  <a href="contact.html">Contact</a>
+  <a class="btn btn-primary" href="contact.html#book">Book appointment</a>
+  <p class="drawer-meta">
+    7250 W Sahara Ave, Suite 140<br>Las Vegas, NV 89117<br>
+    <a href="tel:+17025550148" style="color:var(--aw-accent);font-size:15px;border:0;padding:0;">(702) 555-0148</a><br>
+    Mon–Thu 8am–7pm · Sat 9am–2pm
+  </p>
+</aside>
+
+<!-- ═══ 1 · HERO — bg dark · full-bleed photo · open-layout ═══ -->
+<section class="section hero">
+  <img class="hero-visual" src="../_shared-img/205289221.webp" alt="A chiropractor pressing both palms into the upper back of a patient lying face down on a padded adjustment table" loading="eager" decoding="async">
+  <div class="hero-veil"></div>
+  <div class="container">
+    <h1 class="entrance entrance--2">Relief that fits <em>your week.</em></h1>
+    <p class="hero-sub entrance entrance--3">Evidence-based chiropractic care in the southwest valley. Walk in without an appointment, evenings and Saturdays, no referral needed. We bill most insurance and handle auto-accident claims directly.</p>
+    <!-- Primary inverts to the white pill on primary-deep, per design-system.html §4 —
+         the green pill drops below 3:1 against this field. -->
+    <div class="hero-actions entrance entrance--4">
+      <a class="btn btn-primary btn-onDark" href="contact.html#book">Book appointment</a>
+      <a class="btn btn-ghostDark" href="tel:+17025550148">Call (702) 555-0148</a>
+    </div>
+    <div class="hero-proofs">
+      <div class="hero-proof reveal">
+        <p class="hero-proof-k">New patient</p>
+        <p class="hero-proof-v">$59 exam + consultation</p>
+        <p class="hero-proof-n">One published price. No packages, no pressure to sign anything.</p>
+      </div>
+      <div class="hero-proof reveal">
+        <p class="hero-proof-k">Open today</p>
+        <p class="hero-proof-v">8am – 7pm</p>
+        <p class="hero-proof-n">Weeknights until 7, Saturday 9 to 2. Walk in or book online.</p>
+      </div>
+      <div class="hero-proof reveal">
+        <p class="hero-proof-k">After an accident</p>
+        <p class="hero-proof-v">Seen within 24 hours</p>
+        <p class="hero-proof-n">We document the claim and work with your adjuster directly.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 2 · HOURS — bg light · no imagery · hairline-card ═══ -->
+<section class="section hours">
+  <div class="container">
+    <div class="hours-grid">
+      <div class="reveal">
+        <h2>No appointment. No referral. No runaround.</h2>
+        <p class="lede" style="margin-top:20px;">Most people find us because something hurts and they need someone today. That is the whole reason we hold walk-in slots every day and stay open past five.</p>
+        <div class="badges">
+          <div class="badge"><span class="badge-dot">✓</span><span><b>Walk in any time we are open</b>We keep same-day slots back for walk-ins. If we are full, we will tell you honestly and give you a time.</span></div>
+          <div class="badge"><span class="badge-dot">✓</span><span><b>No referral required</b>Nevada is a direct-access state. You do not need a doctor to send you.</span></div>
+          <div class="badge"><span class="badge-dot">✓</span><span><b>Free parking at the door</b>Ground-level lot off West Sahara. No garage, no validation.</span></div>
+        </div>
+      </div>
+      <div class="hours-card reveal">
+        <div class="hours-row today"><b>Monday – Thursday</b><span>8:00am – 7:00pm</span></div>
+        <div class="hours-row"><b>Friday</b><span>8:00am – 5:00pm</span></div>
+        <div class="hours-row"><b>Saturday</b><span>9:00am – 2:00pm</span></div>
+        <div class="hours-row"><b>Sunday</b><span>Closed</span></div>
+        <p class="hours-note">Last walk-in taken 30 minutes before close. Holiday hours are posted at the door and on our Google listing.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 3 · INSURANCE — bg warm · decorative · open-layout ═══ -->
+<section class="section insurance">
+  <div class="container">
+    <div class="ins-head reveal">
+      <div>
+        <h2>We bill most insurance directly.</h2>
+      </div>
+      <a class="cta-arrow" href="new-patients.html#insurance">Check your coverage</a>
+    </div>
+    <div class="carriers reveal">
+      <div class="carrier-chip">Anthem</div>
+      <div class="carrier-chip">Aetna</div>
+      <div class="carrier-chip">Cigna</div>
+      <div class="carrier-chip">UnitedHealthcare</div>
+      <div class="carrier-chip">Health Plan of Nevada</div>
+      <div class="carrier-chip">Medicare</div>
+    </div>
+    <p class="ins-foot reveal">If you were in a car accident, we bill the at-fault carrier or your med-pay directly — you pay nothing at the visit. Not covered? The cash price is published on the New Patients page, and it does not change at the desk.</p>
+  </div>
+</section>
+
+<!-- ═══ 4 · SERVICES — bg light · inset photo · hairline-card ═══ -->
+<section class="section services">
+  <div class="container">
+    <div class="reveal">
+      <h2>Four things we do, all day, every day.</h2>
+      <p class="lede" style="margin-top:20px;">We are a general chiropractic clinic, not a specialist referral centre. These four make up almost everything that walks through the door.</p>
+    </div>
+    <div class="svc-grid">
+      <article class="svc-card reveal">
+        <img class="svc-figure" src="../_shared-img/117037965.webp" alt="A clinician cradling a seated patient's jaw and neck for a careful cervical assessment" loading="lazy" decoding="async">
+        <div class="svc-body">
+          <h3>Auto accident &amp; injury</h3>
+          <p>Whiplash, neck and lower-back injury after a collision. We examine, document for your claim, and coordinate with your adjuster or attorney so the paperwork is not your problem.</p>
+          <a class="tlink" href="services.html#auto-accident">Auto accident care</a>
+        </div>
+      </article>
+      <article class="svc-card reveal">
+        <img class="svc-figure" src="../_shared-img/163817329.webp" alt="A chiropractor crouched to a child's eye level with a hand on the child's upper back while the child's mother watches" loading="lazy" decoding="async">
+        <div class="svc-body">
+          <h3>Family, prenatal &amp; pediatric</h3>
+          <p>Gentle, low-force technique for children and for pregnancy-related pelvic and low-back pain. Webster-certified, and we will always tell you when an adjustment is not the right call.</p>
+          <a class="tlink" href="services.html#family">Family care</a>
+        </div>
+      </article>
+      <article class="svc-card reveal">
+        <img class="svc-figure" src="../_shared-img/197728823.webp" alt="A clinician performing a hip and knee mobilisation on a patient lying on a treatment table" loading="lazy" decoding="async">
+        <div class="svc-body">
+          <h3>Sports recovery</h3>
+          <p>For people who train. Mobility restriction, recurring strains and the shoulder or hip that will not settle. Adjustment plus soft-tissue work and the homework that keeps it fixed.</p>
+          <a class="tlink" href="services.html#sports">Sports recovery</a>
+        </div>
+      </article>
+      <article class="svc-card reveal">
+        <img class="svc-figure" src="../_shared-img/167749501.webp" alt="A practitioner palpating down the thoracic spine of a patient lying face down" loading="lazy" decoding="async">
+        <div class="svc-body">
+          <h3>Back, neck &amp; headaches</h3>
+          <p>The everyday reasons people come in: lower-back pain that will not lift, a neck locked from desk work, and tension headaches that turn out to be cervical.</p>
+          <a class="tlink" href="services.html#back-neck">Back &amp; neck pain</a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 5 · QUALIFIER — bg accent · photo tiles · image-overlay ═══ -->
+<section class="section qualifier">
+  <div class="container">
+    <div class="reveal">
+      <h2>Not sure if this is for you?</h2>
+      <p class="lede" style="margin-top:20px;">Pick the one that sounds most like your week. Each goes straight to what we would actually do about it.</p>
+    </div>
+    <div class="qual-grid">
+      <a class="qual-tile reveal" href="services.html#auto-accident">
+        <h3>I was in a crash</h3>
+        <p>Rear-ended on the 215 and now your neck is stiffening up. The first 72 hours matter, both clinically and for your claim.</p>
+        <span class="go">Post-accident care →</span>
+      </a>
+      <a class="qual-tile t2 reveal" href="services.html#back-neck">
+        <h3>My back has hurt for months</h3>
+        <p>It comes and goes, ibuprofen takes the edge off, and you have stopped doing things you used to do.</p>
+        <span class="go">Chronic pain →</span>
+      </a>
+      <a class="qual-tile t3 reveal" href="services.html#sports">
+        <h3>Something tweaked at the gym</h3>
+        <p>A shoulder or hip that keeps flaring up whenever you go back to training at full load.</p>
+        <span class="go">Sports recovery →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 6 · PROCESS — bg dark · inset photo · dark-anchor-panel ═══ -->
+<section class="section process">
+  <div class="container">
+    <div class="reveal">
+      <h2>Forty-five minutes. Most of it is us listening.</h2>
+      <p class="lede" style="margin-top:20px;">Nobody gets adjusted at Alignwell before we understand what is going on. If we do not think chiropractic is the right answer, we will say so and point you somewhere better.</p>
+    </div>
+    <div class="proc-wrap">
+      <div class="proc-steps">
+        <div class="step-panel reveal"><span class="step-n" aria-hidden="true">01</span><div><h3>We listen</h3><p>What happened, when it started, what makes it worse, and what you have already tried. Fifteen minutes, uninterrupted.</p></div></div>
+        <div class="step-panel reveal"><span class="step-n" aria-hidden="true">02</span><div><h3>We examine</h3><p>Posture, range of motion, orthopaedic and neurological screening. Imaging only if the exam actually calls for it.</p></div></div>
+        <div class="step-panel reveal"><span class="step-n" aria-hidden="true">03</span><div><h3>We explain</h3><p>What we found, in plain language, on a screen you can see. Including how long it should take and what it will cost.</p></div></div>
+        <div class="step-panel reveal"><span class="step-n" aria-hidden="true">04</span><div><h3>We treat</h3><p>Usually your first adjustment the same visit, plus two or three things to do at home. No twelve-month plan, no upfront package.</p></div></div>
+      </div>
+      <div class="reveal">
+        <img class="proc-figure" src="../_shared-img/67703232.webp" alt="A lumbar spine model showing vertebrae, nerve roots and one bulging disc" loading="lazy" decoding="async">
+        <p class="proc-cap">We use a segment model to show you exactly where the restriction is. Most people have never been shown their own spine before.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 7 · VOICES — bg light · monogram avatars · hairline-card ═══ -->
+<section class="section voices">
+  <div class="container">
+    <div class="reveal">
+      <h2>What people actually say afterwards.</h2>
+      <p class="lede" style="margin-top:20px;">4.9 average across 380+ Google reviews. These are edited only for length.</p>
+    </div>
+    <div class="voice-grid">
+      <article class="quote-card reveal">
+        <span class="q-tag">Auto accident</span>
+        <div class="q-stars" aria-label="5 out of 5 stars">★★★★★</div>
+        <blockquote>“I got rear-ended on the 215 and called three places. Alignwell got me in the same afternoon, handled the claim paperwork with my adjuster, and my neck stopped locking up within three weeks. I never once had to chase anybody for a form.”</blockquote>
+        <div class="q-who"><span class="q-mono">MR</span><span><b>Marisela R.</b><span>Spring Valley · seen within 24 hrs</span></span></div>
+      </article>
+      <article class="quote-card reveal">
+        <span class="q-tag">Chronic back pain</span>
+        <div class="q-stars" aria-label="5 out of 5 stars">★★★★★</div>
+        <blockquote>“Nine years of lower-back pain from driving a delivery route. Dr. Marsh spent the first appointment just asking questions, which no one had done. Six weeks in I got through a full shift without the ache. I am not exaggerating when I say it changed my job.”</blockquote>
+        <div class="q-who"><span class="q-mono">DT</span><span><b>Danny T.</b><span>Henderson · lower back</span></span></div>
+      </article>
+      <article class="quote-card reveal">
+        <span class="q-tag">Headaches</span>
+        <div class="q-stars" aria-label="5 out of 5 stars">★★★★★</div>
+        <blockquote>“I came in for shoulder tension and mentioned the headaches almost in passing. Turned out they were coming from my neck the whole time. Three visits and they were gone. Nobody tried to sell me a package — I paid the $59 and went from there.”</blockquote>
+        <div class="q-who"><span class="q-mono">PN</span><span><b>Priya N.</b><span>Summerlin · tension headaches</span></span></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 8 · OFFER — bg warm · inset photo · hairline-card ═══ -->
+<section class="section offer">
+  <div class="container">
+    <div class="offer-card reveal">
+      <div class="offer-body">
+        <h2>Start with the exam.</h2>
+        <div class="offer-price"><b>$59</b><span>exam + consultation<br>usually $145</span></div>
+        <ul class="offer-list">
+          <li>A full 45-minute first visit, not a 10-minute upsell</li>
+          <li>Posture, range-of-motion and orthopaedic screening</li>
+          <li>Your findings explained on screen, in plain language</li>
+          <li>Your first adjustment the same visit, if it is appropriate</li>
+          <li>A written plan with a realistic number of visits and what it costs</li>
+        </ul>
+        <a class="btn btn-primary" href="contact.html#book">Book the $59 exam</a>
+        <p class="offer-fine">Available to new patients. If you are here for an auto-accident injury we bill your claim instead, and this offer does not apply — you pay nothing at the visit.</p>
+      </div>
+      <img class="offer-figure" src="../_shared-img/65264312.webp" alt="A practitioner making two-hand spinal contact on the upper back of a relaxed patient in a bright treatment room" loading="lazy" decoding="async">
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 9 · FAQ — bg light · text-only · open-layout ═══ -->
+<section class="section faq">
+  <div class="container">
+    <div class="reveal" style="text-align:center;">
+      <h2>The questions we get asked most.</h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-row reveal"><button class="faq-q" aria-expanded="false">Do I need a referral to see a chiropractor in Nevada?</button><div class="faq-a"><p>No. Nevada is a direct-access state, so you can book or walk in without a physician referral. If your specific insurance plan requires one for reimbursement we will tell you before you are billed, not after.</p></div></div>
+      <div class="faq-row reveal"><button class="faq-q" aria-expanded="false">Can I really just walk in?</button><div class="faq-a"><p>Yes. We hold same-day slots back every day for walk-ins. Mornings and just after 5pm are the busiest. If the wait is longer than about twenty minutes we will say so honestly and offer you a time later that day rather than have you sit.</p></div></div>
+      <div class="faq-row reveal"><button class="faq-q" aria-expanded="false">I was in a car accident. How does the billing work?</button><div class="faq-a"><p>In most cases you pay nothing at the visit. We bill the at-fault driver's carrier or your own med-pay coverage, and we produce the documentation your adjuster or attorney needs. Bring your claim number if you have one — if you do not, we will help you get it.</p></div></div>
+      <div class="faq-row reveal"><button class="faq-q" aria-expanded="false">Will I be asked to sign up for a long treatment plan?</button><div class="faq-a"><p>No. We do not sell prepaid packages and there is no contract. After your exam you get a written estimate of how many visits we think you need and what each one costs. Most people are somewhere between four and twelve. You can stop whenever you like.</p></div></div>
+      <div class="faq-row reveal"><button class="faq-q" aria-expanded="false">Is an adjustment safe if I am pregnant, or for my child?</button><div class="faq-a"><p>Both are routine here, using low-force technique rather than the classic manual adjustment. Our prenatal care is Webster-certified. As with anything, if your history suggests chiropractic is not the right approach we will tell you and refer you on.</p></div></div>
+      <div class="faq-row reveal"><button class="faq-q" aria-expanded="false">What does it cost if I do not have insurance?</button><div class="faq-a"><p>The new-patient exam and consultation is $59. A standard adjustment visit after that is $55. Extended visits with soft-tissue work are $85. Those are the prices — they are on the New Patients page and they do not change at the front desk.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 10 · VISIT — bg light · photo panel · image-overlay ═══ -->
+<section class="section visit" id="book">
+  <div class="container">
+    <div class="reveal">
+      <h2>Tell us what is going on.</h2>
+      <p class="lede" style="margin-top:20px;">We answer booking requests within one business hour during opening times. In pain right now? Call us instead — or just come in.</p>
+    </div>
+    <div class="visit-grid">
+      <form class="reveal" onsubmit="return false;">
+        <div class="form-grid">
+          <div class="field"><label for="f-name">Your name</label><input id="f-name" type="text" placeholder="Jordan Alvarez"></div>
+          <div class="field"><label for="f-phone">Phone</label><input id="f-phone" type="tel" placeholder="(702) 555-0148"></div>
+          <div class="field"><label for="f-email">Email</label><input id="f-email" type="email" placeholder="you@example.com"></div>
+          <div class="field"><label for="f-status">Are you a new patient?</label><select id="f-status"><option>New patient</option><option>Returning patient</option></select></div>
+          <div class="field"><label for="f-reason">Reason for visit</label><select id="f-reason"><option>Back or neck pain</option><option>After a car accident</option><option>Headaches</option><option>Pregnancy-related pain</option><option>My child</option><option>Sports injury or mobility</option><option>Something else</option></select></div>
+          <div class="field"><label for="f-when">Preferred day &amp; time</label><input id="f-when" type="text" placeholder="Thursday after 5pm"></div>
+          <div class="field full"><label for="f-notes">Anything we should know</label><textarea id="f-notes" placeholder="When it started, what makes it worse, whether you have a claim number."></textarea></div>
+        </div>
+        <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-top:24px;">
+          <button class="btn btn-primary" type="submit">Request appointment</button>
+          <a class="cta-arrow" href="tel:+17025550148">Or call (702) 555-0148</a>
+        </div>
+      </form>
+      <div class="reveal">
+        <div class="map-panel"><div><b>7250 W Sahara Ave, Suite 140</b><span>Las Vegas, NV 89117 · at S Buffalo Dr</span></div></div>
+        <div class="visit-facts">
+          <div class="fact"><b>Parking</b><span>Free ground-level lot at the door. No garage, no validation.</span></div>
+          <div class="fact"><b>Hours</b><span>Mon–Thu 8am–7pm · Fri 8am–5pm · Sat 9am–2pm · Sun closed</span></div>
+          <div class="fact"><b>Languages</b><span>English and Spanish spoken daily.</span></div>
+          <div class="fact"><b>Accessibility</b><span>Step-free entry, accessible restroom, low-height adjustment table available.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 11 · CLOSING — bg dark · full-bleed photo · open-layout ═══ -->
+<section class="section closing">
+  <img class="closing-visual" src="../_shared-img/245414291.webp" alt="A practitioner with both palms flat on the mid-back of a patient lying face down in a bright treatment room" loading="lazy" decoding="async">
+  <div class="container">
+    <h2 class="reveal">You do not have to plan your week around it.</h2>
+    <p class="reveal">Walk in today, or pick a time that suits you. Either way the first visit is forty-five minutes and the price is on the page.</p>
+    <div class="closing-actions reveal">
+      <a class="btn btn-primary btn-onDark" href="contact.html#book">Book appointment</a>
+      <a class="btn btn-ghostDark" href="tel:+17025550148">Call (702) 555-0148</a>
+    </div>
+  </div>
+</section>
+
+<footer class="site-foot">
+  <div class="container">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <span class="brand-name">Alignwell</span>
+        <p>A neighbourhood chiropractic clinic in southwest Las Vegas. Evidence-based care, published prices, and a door that is open past five.</p>
+      </div>
+      <div>
+        <p class="foot-h">Care</p>
+        <ul class="foot-list">
+          <li><a href="services.html#auto-accident">Auto accident &amp; injury</a></li>
+          <li><a href="services.html#family">Family, prenatal &amp; pediatric</a></li>
+          <li><a href="services.html#sports">Sports recovery</a></li>
+          <li><a href="services.html#back-neck">Back, neck &amp; headaches</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="foot-h">Clinic</p>
+        <ul class="foot-list">
+          <li><a href="about.html">About us</a></li>
+          <li><a href="new-patients.html">New patients</a></li>
+          <li><a href="new-patients.html#insurance">Insurance &amp; pricing</a></li>
+          <li><a href="contact.html">Contact &amp; directions</a></li>
+        </ul>
+      </div>
+      <div class="foot-hours-col">
+        <p class="foot-h">Visit us</p>
+        <div class="foot-hours">
+          <div><span>Mon – Thu</span><span>8am – 7pm</span></div>
+          <div><span>Friday</span><span>8am – 5pm</span></div>
+          <div><span>Saturday</span><span>9am – 2pm</span></div>
+          <div><span>Sunday</span><span>Closed</span></div>
+        </div>
+        <p style="margin-top:18px;font-size:15px;line-height:1.6;">7250 W Sahara Ave, Suite 140<br>Las Vegas, NV 89117<br><a class="tlink" href="tel:+17025550148">(702) 555-0148</a></p>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Alignwell Chiropractic · Dr. Elena Marsh, DC · Nevada Chiropractic Physicians' Board lic. #NV-4471</span>
+      <span>Walk-ins welcome · Se habla español</span>
+    </div>
+  </div>
+</footer>
+
+<!-- STICKY-CTA-BAR.md #2 Dual-button bottom-bar — mobile conversion floor -->
+<div class="sticky-cta">
+  <a class="btn btn-primary" href="contact.html#book">Book appointment</a>
+  <a class="btn btn-ghost" href="tel:+17025550148">Call</a>
+</div>
+
+<script>
+/* Drawer — NAV-PATTERNS.md #2 mobile state */
+(function(){
+  var t=document.getElementById('navToggle'),d=document.getElementById('siteDrawer'),
+      s=document.getElementById('scrim'),c=document.getElementById('drawerClose');
+  function set(open){
+    d.setAttribute('data-open',open?'true':'false');
+    d.setAttribute('aria-hidden',open?'false':'true');
+    s.setAttribute('data-open',open?'true':'false');
+    t.setAttribute('aria-expanded',open?'true':'false');
+    document.body.style.overflow=open?'hidden':'';
+  }
+  t.addEventListener('click',function(){set(d.getAttribute('data-open')!=='true');});
+  c.addEventListener('click',function(){set(false);});
+  s.addEventListener('click',function(){set(false);});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')set(false);});
+  d.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){set(false);});});
+})();
+
+/* FAQ-ACCORDION.md #1 — height-aware expand rows */
+(function(){
+  document.querySelectorAll('.faq-row').forEach(function(row){
+    var q=row.querySelector('.faq-q'),a=row.querySelector('.faq-a');
+    q.addEventListener('click',function(){
+      var open=row.getAttribute('data-open')==='true';
+      document.querySelectorAll('.faq-row[data-open="true"]').forEach(function(o){
+        o.setAttribute('data-open','false');
+        o.querySelector('.faq-a').style.maxHeight='';
+        o.querySelector('.faq-q').setAttribute('aria-expanded','false');
+      });
+      if(!open){
+        row.setAttribute('data-open','true');
+        a.style.maxHeight=a.scrollHeight+'px';
+        q.setAttribute('aria-expanded','true');
+      }
+    });
+  });
+})();
+
+/* MOTION-PATTERNS.md #26 Fade-in-on-view — the calm scroll reveal the brief asked for */
+(function(){
+  var els=document.querySelectorAll('.reveal');
+  if(!('IntersectionObserver' in window)||window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    els.forEach(function(e){e.classList.add('is-in');}); return;
+  }
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){en.target.classList.add('is-in');io.unobserve(en.target);}
+    });
+  },{rootMargin:'0px 0px -8% 0px',threshold:.12});
+  els.forEach(function(e,i){e.style.transitionDelay=(i%4)*70+'ms';io.observe(e);});
+})();
+</script>
+</body>
+</html>

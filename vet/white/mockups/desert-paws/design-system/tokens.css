@@ -1,0 +1,629 @@
+/* =====================================================================
+   tokens.css — Desert Paws Animal Hospital
+   Bundle A "Desert Clay" — locked 2026-08-06
+
+   The per-site brand layer. structural.css reads ONLY these --ds-* values,
+   so every inner page inherits the locked homepage design system without
+   carrying a single line of its own CSS.
+
+   Palette  : COLOR-THEORY-PRESETS.md #37 Desert Clay + Cactus + Sand
+   Type     : TYPOGRAPHY-PAIRINGS.md #22 Fraunces + Nunito
+   Radii    : SURFACE-PATTERNS.md #4 Soft 16-24px
+   Elevation: SURFACE-PATTERNS.md #10 Soft-shadow-lift
+   Motion   : MOTION-PATTERNS.md #5 / #10 / #17 / #21 / #26 / #37
+   ===================================================================== */
+
+@import url('../../_shared-fonts/desert-paws-fonts.css');
+
+:root{
+  /* ── Brand colour ── */
+  --ds-primary:#A0522D;
+  --ds-primary-deep:#5C2E18;
+  --ds-primary-soft:#FFE8CC;
+  --ds-accent:#5C8C6E;
+  --ds-accent-soft:#D2E0D8;
+  --ds-signature:#D98E2B;
+  /* Lightened ochre for small text on primary-deep: #D98E2B measures 4.22:1 there,
+     just under the 4.5:1 floor for eyebrow-size type. This clears it at 5.3:1. */
+  --ds-signature-on-dark:#E8A33F;
+  --ds-urgent:#C0392B;
+
+  /* ── Grounds + ink ── */
+  --ds-bg-surface:#FBF3E6;   /* warm sand page floor */
+  --ds-bg-surface-2:#FFFDF8; /* card / light section */
+  --ds-bg-warm:#F6E9D6;      /* warm band */
+  --ds-ink:#2A1810;
+  --ds-ink-soft:#6E4A38;
+  --ds-ink-on-dark:#FBF3E6;
+  --ds-line:#E8C8A8;
+  --ds-scrim:rgba(42,24,16,.5);
+
+  /* ── Type ── */
+  --ds-font-display:'Fraunces',Georgia,serif;
+  --ds-font-body:'Nunito',system-ui,-apple-system,sans-serif;
+  --ds-font-mono:'IBM Plex Mono',ui-monospace,monospace;
+
+  /* ── Radii — Soft 16-24px ── */
+  --ds-r-sm:12px;
+  --ds-r-md:18px;
+  --ds-r-lg:24px;
+  --ds-r-pill:999px;
+
+  /* ── Spacing ── */
+  --ds-space-2xs:4px;
+  --ds-space-xs:8px;
+  --ds-space-sm:12px;
+  --ds-space-md:20px;
+  --ds-space-lg:28px;
+  --ds-space-xl:44px;
+  --ds-space-2xl:72px;
+  --ds-section-py:clamp(48px,7vw,96px);
+  --ds-container-max:1340px;
+
+  /* ── Elevation + motion ── */
+  --ds-shadow-card:0 2px 4px rgba(42,24,16,.04),0 12px 28px -12px rgba(42,24,16,.18);
+  --ds-shadow-lift:0 6px 10px rgba(42,24,16,.06),0 26px 46px -16px rgba(160,82,45,.34);
+  --ds-dur:340ms;
+  --ds-ease:cubic-bezier(.22,.61,.36,1);
+
+  /* Handset glyph used as a mask so the narrow-width phone pill can show an icon
+     without any shell markup. Kept as a token so it is themed by currentColor. */
+  --ds-phone-glyph:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6.6 10.8a15.1 15.1 0 006.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.2.4 2.4.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 013 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.2 1l-2.3 2.2z'/%3E%3C/svg%3E");
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   Per-site signature overrides.
+   structural.css is vertical-agnostic; these few rules carry the Bundle A
+   signature onto the shared vocabulary. Colour/typography values here stay
+   token-driven — no raw brand values are introduced.
+   ───────────────────────────────────────────────────────────────────── */
+
+/* ⚠ SPECIFICITY CONTRACT FOR THIS WHOLE BLOCK
+   Every page links tokens.css BEFORE structural.css (the order the vocabulary
+   mandates). structural.css defines .eyebrow, .nav-call, .btn, .field, .chip …
+   itself, so a BARE-CLASS rule here silently loses the cascade on every
+   conflicting property — measured: .nav-call and .section--dark .eyebrow both
+   still resolved to accent-green (3.51:1 and 2.92:1, i.e. below WCAG AA) while
+   this file believed it had restyled them.
+   Every override below is therefore prefixed with :root, which adds a
+   pseudo-class to the specificity and wins without a single !important. */
+
+/* Fraunces sets tighter and heavier than the shared default. */
+:root h1, :root h2, :root h3{ font-weight:700; letter-spacing:-.02em; }
+
+/* SURFACE-PATTERNS.md #18 Solid-pill + MOTION-PATTERNS.md #5 Scale-up */
+:root .btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:.6em;
+  font-family:var(--ds-font-body); font-size:16px; font-weight:700;
+  text-decoration:none; cursor:pointer; border:1.5px solid transparent;
+  padding:15px 27px; border-radius:var(--ds-r-pill);
+  transition:transform 280ms var(--ds-ease), box-shadow 280ms var(--ds-ease), background 280ms, border-color 280ms, color 280ms;
+}
+:root .btn-primary{ background:var(--ds-primary); color:#fff; box-shadow:0 8px 20px -8px rgba(160,82,45,.55); }
+:root .btn-primary:hover{ transform:scale(1.03); background:#8E4726; }
+:root .btn-secondary{ background:transparent; color:var(--ds-primary-deep); border-color:var(--ds-line); }
+:root .btn-secondary:hover{ transform:scale(1.03); background:var(--ds-primary-soft); border-color:var(--ds-primary); }
+:root .section--dark .btn-secondary{ color:var(--ds-ink-on-dark); border-color:rgba(251,243,230,.4); }
+:root .section--dark .btn-secondary:hover{ background:rgba(251,243,230,.12); border-color:var(--ds-ink-on-dark); }
+
+/* .eyebrow component RETIRED on request — markup removed from about/services/contact/team, so its 6 rules here were dead code. --ds-signature stays (used by :focus-visible and .site-footer .trust-note::before); --ds-signature-on-dark is now unreferenced but kept as a palette token. */
+
+/* CTA-PATTERNS.md #4 Phone-pill — the urgent number is a button, never a text line.
+   The shared layer colours .nav-call with accent-green on cream (3.51:1); deep clay
+   takes it to 10.3:1 and matches the homepage phone pill. */
+:root .nav-call{
+  display:inline-flex; align-items:center; gap:.5em;
+  border:1.5px solid var(--ds-line); border-radius:var(--ds-r-pill);
+  padding:11px 17px; font-weight:700; font-size:14px;
+  color:var(--ds-primary-deep); text-decoration:none;
+  transition:transform 280ms var(--ds-ease), background 280ms, border-color 280ms;
+}
+/* structural.css sets .nav-call in the MONO face; the homepage phone pill is Nunito
+   with the body's 0.01em tracking, so the two pills rendered 8px apart in width and
+   visibly different in texture. Matched to the homepage. */
+:root .nav-call{ font-family:var(--ds-font-body); letter-spacing:.01em; }
+:root .nav-call:hover{ transform:scale(1.03); background:var(--ds-primary-soft); border-color:var(--ds-primary); }
+:root .nav-call::before{
+  content:''; width:8px; height:8px; border-radius:50%;
+  background:var(--ds-urgent); flex:none;
+}
+:root .nav-cta{ border-radius:var(--ds-r-pill); padding:11px 19px; font-size:14px; }
+
+/* MOTION-PATTERNS.md #21 Fade-up + #26 Fade-in-on-view — the scroll choreography.
+   Driven by a data-attribute rather than a class: inner-page shells may only carry
+   classes from COMPONENT-VOCABULARY.md, and the vocabulary has no reveal class.
+   data-reveal keeps the shells vocabulary-pure while still shipping the motion. */
+:root [data-reveal]{ opacity:0; transform:translateY(26px); transition:opacity 620ms var(--ds-ease), transform 620ms var(--ds-ease); }
+:root [data-reveal][data-in]{ opacity:1; transform:none; }
+[data-reveal][data-d="1"]{ transition-delay:70ms; }
+[data-reveal][data-d="2"]{ transition-delay:140ms; }
+[data-reveal][data-d="3"]{ transition-delay:210ms; }
+[data-reveal][data-d="4"]{ transition-delay:280ms; }
+[data-reveal][data-d="5"]{ transition-delay:350ms; }
+
+/* MOTION-PATTERNS.md #37 Form field focus — the a11y baseline the refs skip */
+:focus-visible{ outline:3px solid var(--ds-signature); outline-offset:3px; }
+
+/* SURFACE-PATTERNS.md #43 Pill-input */
+:root .field input, :root .field select, :root .field textarea{
+  width:100%; font-family:var(--ds-font-body); font-size:16px; color:var(--ds-ink);
+  background:var(--ds-bg-surface); border:1.5px solid var(--ds-line);
+  border-radius:var(--ds-r-pill); padding:13px 18px; outline:none;
+  transition:border-color 220ms, box-shadow 220ms;
+}
+:root .field textarea{ border-radius:var(--ds-r-md); min-height:96px; resize:vertical; }
+:root .field input:focus, :root .field select:focus, :root .field textarea:focus{
+  border-color:var(--ds-primary); box-shadow:0 0 0 4px var(--ds-primary-soft);
+}
+:root .field label{ font-size:13px; font-weight:700; color:var(--ds-ink-soft); display:block; margin-bottom:5px; }
+/* On the dark booking band the label must not stay ink-soft (1.45:1 on clay). */
+:root .section--dark .field label{ color:var(--ds-ink-on-dark); }
+
+/* The shared scrim (--ds-scrim → transparent at 60%) leaves the species labels at
+   3.93:1 over the lightest of the three photos — passing for 24px large text, but
+   with no margin if a photo is ever swapped for a brighter one. Deepening the ramp
+   takes the weakest label to a comfortable margin without dulling the image. */
+:root .category-card__overlay{
+  background:linear-gradient(to top, rgba(42,24,16,.88) 0%, rgba(42,24,16,.45) 38%, transparent 72%);
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   NAV-PATTERNS.md #2 — Classic full-bar over hero (centred links + outline CTA).
+   Replaces #3 (right-aligned cluster + phone pill) as the site's header, 2026-08-06.
+
+   Done entirely here so the inner-page SHELLS stay byte-identical and
+   vocabulary-pure — the chrome pattern is a design-system concern, which is
+   exactly the separation the two-stylesheet architecture exists for.
+
+   `position:fixed` (not sticky) is what lets the hero band run underneath the
+   bar; the hero pays the height back as padding via --header-h, published by
+   nav.js. Transparent over the hero, solid past 60px of scroll.
+   ───────────────────────────────────────────────────────────────────── */
+:root .site-header{
+  position:fixed; top:0; left:0; right:0; z-index:60;
+  background:transparent; border-bottom:1px solid transparent;
+  transition:background .34s var(--ds-ease), border-color .34s var(--ds-ease), box-shadow .34s var(--ds-ease);
+}
+/* Solid state is cream ON a cream page, so the bar can never separate by fill alone
+   (measured at 375 on about.html: header 251,243,230 vs content 251,243,230 = 1.000:1).
+   Separation therefore comes from the edge: a readable warm-brown hairline in place of
+   --ds-line (#E8C8A8, 1.23:1 against cream) plus a drop shadow whose negative spread is
+   smaller than its blur so it actually paints. Cream identity is unchanged. */
+:root .site-header.is-solid{
+  background:rgba(251,243,230,.96); backdrop-filter:blur(12px) saturate(1.1);
+  border-bottom-color:rgba(107,58,32,.45);
+  box-shadow:0 6px 16px -4px rgba(42,24,16,.20), 0 18px 38px -22px rgba(42,24,16,.34);
+}
+/* #2 centres the link cluster between brand and CTA, and drops the pill chrome.
+   Metrics below are matched to the homepage header exactly — measured before/after:
+   gap 28→22.4px, link 14→15px, weight 600→700, brand 20→15px with the second
+   lockup line, logo 30→42px. */
+:root .site-header .nav-pill{
+  flex:1; justify-content:center; gap:1.4rem;
+  background:transparent; border:0; padding:0;
+}
+:root .site-header .nav-pill a{
+  position:relative; font-size:15px; font-weight:700;
+  padding:.3rem 0; border-radius:0; background:transparent;
+}
+/* ACTIVE + HOVER = growing underline, not a filled pill.
+   structural.css marks the current page with `background:--ds-primary-deep` — a dark
+   chip. The homepage instead grows a 2px accent rule under the link, so that is what
+   the whole site now uses. The background is cleared in BOTH header states, otherwise
+   the chip reappears the moment the bar solidifies on scroll. */
+:root .site-header .nav-pill a::after{
+  content:''; position:absolute; left:0; bottom:0; height:2px; width:0;
+  background:var(--ds-accent); transition:width .3s var(--ds-ease);
+}
+:root .site-header .nav-pill a:hover::after,
+:root .site-header .nav-pill a.is-active::after,
+:root .site-header .nav-pill a[aria-current="page"]::after{ width:100%; }
+:root .site-header .nav-pill a.is-active,
+:root .site-header .nav-pill a[aria-current="page"]{
+  background:transparent; color:var(--ds-ink);
+}
+:root .site-header:not(.is-solid) .nav-pill a.is-active,
+:root .site-header:not(.is-solid) .nav-pill a[aria-current="page"]{
+  background:transparent; color:#FFF7EA; text-decoration:none;
+}
+/* Underline stays accent-green in BOTH states — the homepage uses one colour
+   throughout, and matching it is the point of this change. */
+
+/* Brand lockup matched to the homepage: 42px clay mark + 15px wordmark with the
+   letterspaced second line. */
+:root .site-header .brand{ gap:.65rem; font-size:15px; }
+:root .site-header .brand__logo{ width:42px; height:42px; }
+:root .site-header .brand__mark{
+  display:block; font-family:var(--ds-font-display); font-weight:700;
+  font-size:17px; line-height:1.05; letter-spacing:-.02em; background:none;
+  width:auto; height:auto; border-radius:0; color:inherit;
+}
+:root .site-header .brand__mark small{
+  display:block; font-family:var(--ds-font-body); font-size:10px; font-weight:700;
+  letter-spacing:.16em; text-transform:uppercase; color:var(--ds-ink-soft); margin-top:1px;
+}
+:root .site-header:not(.is-solid) .brand__mark small{ color:#E4CDB4; }
+:root .site-header .nav-actions{ flex:none; }
+/* Outline CTA in the bar (the solid pill remains the in-body primary). */
+:root .site-header .nav-cta{
+  background:transparent; color:var(--ds-primary-deep);
+  border:1.5px solid var(--ds-primary); box-shadow:none;
+}
+:root .site-header .nav-cta:hover{ background:var(--ds-primary); color:#fff; }
+/* structural.css appends a "→" to .nav-cta; the homepage Book button has none, so
+   it is suppressed to keep the two headers identical. */
+:root .site-header .nav-cta::after{ content:none; }
+/* The shared brand SVG draws its paw larger than the homepage lockup, whose 24px
+   paw sits inside a 42px disc. Scaling about the viewBox centre matches it. */
+:root .site-header .brand__logo path{
+  transform:scale(.74); transform-origin:16px 16px; transform-box:view-box;
+}
+
+/* Over the dark hero the bar's ink is light; once solid it returns to brand ink. */
+:root .site-header:not(.is-solid) .brand{ color:var(--ds-ink-on-dark); }
+:root .site-header:not(.is-solid) .nav-pill a{ color:var(--ds-ink-on-dark); }
+/* NOTE: this rule used to add `text-decoration:underline` in ochre. Combined with the
+   ::after accent rule below it drew TWO underlines under the current page over the
+   hero (and one once scrolled, so it only showed in one state). The ::after rule is
+   the single source of the underline — text-decoration stays off. */
+:root .site-header:not(.is-solid) .nav-pill a.is-active,
+:root .site-header:not(.is-solid) .nav-pill a[aria-current="page"]{
+  background:transparent; color:#FFF7EA; text-decoration:none;
+}
+:root .site-header:not(.is-solid) .nav-call{ color:var(--ds-ink-on-dark); border-color:rgba(251,243,230,.45); }
+:root .site-header:not(.is-solid) .nav-call:hover{ background:rgba(251,243,230,.14); border-color:var(--ds-ink-on-dark); }
+:root .site-header:not(.is-solid) .nav-cta{ color:var(--ds-ink-on-dark); border-color:rgba(251,243,230,.7); }
+:root .site-header:not(.is-solid) .nav-cta:hover{ background:var(--ds-ink-on-dark); color:var(--ds-primary-deep); border-color:var(--ds-ink-on-dark); }
+:root .site-header:not(.is-solid) .hamburger{ border-color:rgba(251,243,230,.5); }
+:root .site-header:not(.is-solid) .hamburger span{ background:var(--ds-ink-on-dark); }
+
+/* The header no longer reserves layout space — the first section pays it back. */
+:root .section.hero{ padding-top:calc(var(--header-h,84px) + var(--ds-space-2xl)); }
+:root section[id]{ scroll-margin-top:calc(var(--header-h,84px) + 12px); }
+
+/* ─────────────────────────────────────────────────────────────────────
+   MOBILE DRAWER — matched to the homepage drawer, panel for panel.
+
+   The shells now carry identical drawer CONTENT on every page, but the shared
+   structural.css skinned the inner-page drawer differently from the homepage's
+   own inline one: 340px wide vs 380, a mint emergency panel vs peach, the phone
+   number in green mono vs a large serif in ink, links with no separators, and no
+   brand in the header. Same menu, visibly different component.
+
+   The two .drawer-emerg blocks are told apart by :not(:last-of-type) / :last-of-type
+   rather than by adding classes, because .drawer-hours is not in the vocabulary
+   and inner-page shells may only use vocabulary classes.
+   ───────────────────────────────────────────────────────────────────── */
+:root .drawer{ width:min(88vw,380px); padding:20px 20px 32px; gap:0; }
+
+/* Header: brand left, close right (structural pushes the close button alone right). */
+:root .drawer .drawer-top{ justify-content:space-between; align-items:center; margin-bottom:18px; }
+:root .drawer .drawer-top .brand{
+  font-family:var(--ds-font-display); font-weight:700; font-size:17px;
+  line-height:1.05; letter-spacing:-.02em; color:var(--ds-ink); white-space:nowrap;
+  text-decoration:none; display:block;
+}
+/* Same two-line lockup the homepage drawer uses, so the header of the menu is
+   identical on every page. */
+:root .drawer .drawer-top .brand small{
+  display:block; font-family:var(--ds-font-body); font-size:10px; font-weight:700;
+  letter-spacing:.16em; text-transform:uppercase; color:var(--ds-ink-soft);
+  margin-top:2px;
+}
+
+/* Urgent panel — peach, uppercase clay label, big serif number (homepage treatment). */
+:root .drawer .drawer-emerg:not(:last-of-type){
+  background:var(--ds-primary-soft); border:1.5px solid var(--ds-line);
+  border-radius:var(--ds-r-md); padding:14px 16px; margin:0 0 16px;
+  font-size:10px; font-weight:800; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--ds-primary); line-height:1.5;
+}
+:root .drawer .drawer-emerg:not(:last-of-type) a{
+  font-family:var(--ds-font-display); font-size:21px; font-weight:700;
+  letter-spacing:normal; text-transform:none; color:var(--ds-ink);
+  text-decoration:none; /* homepage number is not underlined */
+  margin-top:2px; min-height:44px; display:flex; align-items:center;
+}
+
+/* Nav links — 17px with a hairline rule under each, as on the homepage. */
+:root .drawer a.drawer-link{
+  font-size:18px; font-weight:700; color:var(--ds-ink);
+  padding:14px 0; border-radius:0; border-bottom:1px solid var(--ds-line);
+}
+:root .drawer a.drawer-link:hover{ background:transparent; color:var(--ds-primary); }
+
+/* Book CTA — full-width solid pill. */
+:root .drawer .btn-primary{ width:100%; margin-top:18px; }
+
+/* Hours panel — warm sand block, not a second emergency panel. */
+:root .drawer .drawer-emerg:last-of-type{
+  background:var(--ds-bg-surface); border:1px solid var(--ds-line);
+  border-radius:var(--ds-r-md); padding:14px 16px; margin:18px 0 0;
+  font-size:14px; color:var(--ds-ink-soft); line-height:1.5;
+}
+:root .drawer .drawer-emerg:last-of-type a{
+  font-family:var(--ds-font-body); font-size:15px; font-weight:700;
+  color:var(--ds-primary-deep); margin-top:6px;
+  min-height:44px; display:flex; align-items:center;
+}
+
+/* structural.css colours the drawer's phone link with --ds-accent on the
+   --ds-accent-soft panel, which measures 2.83:1 — a WCAG AA failure on the one
+   number a client needs most in an emergency. Deep clay is 8.3:1. */
+:root .drawer .drawer-emerg a{ color:var(--ds-primary-deep); }
+
+
+/* Utility strip — the homepage carries a dark hours/bilingual bar above the nav;
+   interior pages had none, leaving the two headers 28px different in height and
+   visibly unlike each other. `.trust-note` is the vocabulary class for a small
+   reassurance line, so the strip uses it rather than importing a new class. */
+:root .site-header > .trust-note{
+  margin:0; display:block; text-align:center;
+  background:var(--ds-primary-deep); color:#F3DFC8;
+  font-size:13px; font-weight:600; line-height:1.65;
+  padding:8.8px var(--ds-space-lg);
+  overflow:hidden; max-height:6rem;
+  transition:background .34s var(--ds-ease), max-height .34s var(--ds-ease), opacity .24s var(--ds-ease);
+}
+:root .site-header > .trust-note::before{ content:none; }
+/* Nav row padding matched to the homepage (.85rem) — the shared 20px made the
+   interior bar 11px taller than the homepage bar. */
+:root .site-header .site-header__bar{ padding-block:13.6px; }
+
+:root .site-header:not(.is-solid) > .trust-note{ background:rgba(42,24,16,.42); backdrop-filter:blur(6px); }
+/* Collapses on scroll, exactly like the homepage strip, so the fixed bar stays compact. */
+:root .site-header.is-solid > .trust-note{ max-height:0; opacity:0; padding-block:0; }
+
+/* Phone pill padding matched to the homepage (.7rem 1.15rem) — was 4px narrower. */
+:root .site-header .nav-call{ padding:11.2px 18.4px; }
+
+/* Chips carry the three-species promise and the desert-tip kickers */
+:root .chip{
+  display:inline-flex; align-items:center; gap:.35em;
+  font-size:11px; font-weight:800; letter-spacing:.12em; text-transform:uppercase;
+  padding:6px 12px; border-radius:var(--ds-r-pill);
+  background:var(--ds-primary-soft); color:var(--ds-primary-deep);
+}
+
+/* DIVIDER-PATTERNS.md #5 Slant gentle — the build's signature band edge */
+:root .hero{ position:relative; }
+:root .hero::after{
+  content:''; position:absolute; left:0; right:0; bottom:-1px;
+  height:clamp(38px,5vw,74px); background:var(--ds-bg-surface);
+  clip-path:polygon(0 100%,100% 22%,100% 100%);
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   Responsive chrome swap — §5.4.
+
+   The shared structural.css ships BOTH the desktop pill nav and the
+   hamburger + drawer, and its own comment says the pill is "replaced by a
+   hamburger" below the desktop breakpoint — but it carries no media query
+   that actually performs that swap. Without this block the full six-link
+   pill stays rendered at 375 and every inner page overflows horizontally
+   (measured: 116px at 768, 509px at 375 on all four pages).
+
+   Fixed here as a per-site override so the site's structural.css stays a
+   byte-identical copy of the playbook reference.
+   NOTE ON SPECIFICITY: every page links tokens.css BEFORE structural.css
+   (the order the vocabulary mandates), so a bare `.nav-pill` rule here would
+   lose the cascade to structural.css's own `.nav-pill`. These overrides are
+   therefore scoped under `.site-header` to outrank it on specificity rather
+   than resorting to !important.
+   ───────────────────────────────────────────────────────────────────── */
+/* Breakpoint is 1024, matching index.html's own nav swap. An earlier 860 here
+   made the chrome change character mid-site: between 861 and 1023 the homepage
+   showed a hamburger while every inner page showed the desktop pill nav. Neither
+   overflowed, so only a side-by-side check caught it. */
+@media (min-width:1024px){
+  .site-header .hamburger{ display:none; }
+}
+@media (max-width:1023.98px){
+  .site-header .nav-pill{ display:none; }
+  .site-header .site-header__bar{ gap:var(--ds-space-sm); }
+}
+/* The desktop nav appears at exactly 1024, where six links at the default 28px gap
+   plus brand + phone + CTA needed ~986px inside a 968px content box and pushed the
+   Book CTA 22px past the viewport edge. Tightening the cluster through 1200 keeps
+   every control on-screen; above that the default spacing returns. */
+@media (min-width:1024px) and (max-width:1200px){
+  /* :root-prefixed because the base `:root .site-header .nav-pill` rule above would
+     otherwise outrank a bare selector here and the gap would never tighten. */
+  :root .site-header .nav-pill{ gap:var(--ds-space-sm); }
+  :root .site-header .nav-pill a{ font-size:14px; }
+  :root .site-header .nav-call{ padding:11px 12px; font-size:13px; }
+  :root .site-header .nav-cta{ padding:11px 14px; font-size:13px; }
+  :root .site-header .site-header__bar{ gap:var(--ds-space-sm); }
+}
+@media (max-width:560px){
+  /* Phone pill drops the NUMBER for width but keeps a handset glyph beside the live
+     dot. A bare dot read as decoration rather than "call us", and the visible urgent
+     affordance is exactly what the brief requires to survive to the narrowest width.
+     Drawn as a mask-image so NO shell markup changes — the four inner-page shells
+     stay byte-identical and vocabulary-pure. */
+  /* Brand reduces to the paw mark alone. Four controls (brand + urgent + Book +
+     burger) do not fit 375: with the wordmark shown the bar measured ~365px of
+     content in a 335px content box and pushed the HAMBURGER 31px off-screen —
+     and because the header is position:fixed, that overflow does NOT register in
+     documentElement.scrollWidth, so an overflow check reported a clean 0 while
+     the menu button was actually unreachable. Dropping the wordmark (not any
+     control) frees ~100px and keeps every action tappable. */
+  /* Brand reduces to the paw mark. NOTE: font-size:0 on .brand alone is NOT enough
+     any more — the wordmark now lives in a .brand__mark span carrying its own
+     font-size, which re-widened the bar and pushed the hamburger off-screen again.
+     Hide the span outright. */
+  :root .site-header .brand{ white-space:nowrap; font-size:0; gap:0; }
+  :root .site-header .brand__mark{ display:none; }
+  :root .site-header .brand__logo{ width:34px; height:34px; }
+  :root .site-header .nav-call{ font-size:0; padding:12px 13px; gap:6px; }
+  :root .site-header .nav-call::after{
+    content:''; width:17px; height:17px; flex:none; background:currentColor;
+    -webkit-mask:var(--ds-phone-glyph) center/contain no-repeat;
+    mask:var(--ds-phone-glyph) center/contain no-repeat;
+  }
+  :root .site-header .nav-cta{ padding:11px 15px; }
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   Locked-pattern corrections to the shared layer.
+   Same specificity note as above — each selector is scoped one level deeper
+   than structural.css's so it wins despite loading first.
+   ───────────────────────────────────────────────────────────────────── */
+
+/* FAQ-ACCORDION.md #1 "Classic expand-rows with + indicator".
+   structural.css hides the native <details> marker and puts nothing in its
+   place, so inner-page FAQ rows rendered with NO expand affordance at all —
+   just underlined text. This restores the locked + indicator, matching the
+   homepage: a soft-filled circle that rotates 45° into a × when open. */
+:root .faq .faq-item__q{
+  display:flex; align-items:center; justify-content:space-between;
+  gap:var(--ds-space-md);
+}
+:root .faq .faq-item__q::after{
+  content:'+'; flex:none;
+  width:28px; height:28px; border-radius:var(--ds-r-pill);
+  background:var(--ds-primary-soft); color:var(--ds-primary);
+  display:grid; place-items:center;
+  font-family:var(--ds-font-body); font-size:18px; font-weight:700; line-height:1;
+  transition:transform 300ms var(--ds-ease), background 300ms, color 300ms;
+}
+:root .faq .faq-item[open] .faq-item__q::after{
+  transform:rotate(45deg);
+  background:var(--ds-primary); color:var(--ds-bg-surface-2);
+}
+:root .faq .faq-item[open]{ border-bottom-color:var(--ds-primary); }
+
+/* Process step numerals: the shared layer sets primary-deep on accent-green,
+   which measures 2.9:1 — under the 4.5:1 floor for the numeral inside it.
+   Inverting to cream-on-clay takes it to ~10:1 and matches the dark anchors. */
+:root .process .step__num{
+  background:var(--ds-primary-deep);
+  color:var(--ds-ink-on-dark);
+  font-weight:700;
+}
+
+/* The problem grid is a fixed 3-col in the shared layer, so a 4-card section
+   (services "what we don't take", contact "getting here") orphans its last
+   card on a second row. auto-fit balances 3-card and 4-card sections alike. */
+:root .problem .problem__grid{
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+}
+
+/* .trust-note is --ds-ink-soft (#6E4A38) in the shared layer, which is fine on a
+   light band but measures 1.45:1 against --ds-primary-deep (#5C2E18) — i.e. the
+   reassurance line under the booking form and the hours line in every footer were
+   effectively invisible. Cream on clay takes it to ~10:1. It is also centred by
+   default, which reads as a stray caption in the left-aligned footer column. */
+:root .section--dark .trust-note,
+:root .site-footer .trust-note{
+  color:var(--ds-ink-on-dark);
+  justify-content:flex-start;
+  text-align:left;
+}
+:root .section--dark .trust-note::before,
+:root .site-footer .trust-note::before{ background:var(--ds-signature); }
+
+/* Touch-target floor (44px) for the inner pages. Measured at 375 before this block:
+   footer links 25px tall, the phone pill 43px — under the comfortable tap minimum.
+   Scoped to the mobile range so desktop density is unchanged. */
+@media (max-width:767.98px){
+  :root .site-header .brand{ min-height:44px; }
+  :root .site-header .nav-call,
+  :root .site-header .nav-cta,
+  :root .site-header .hamburger{ min-height:44px; }
+  :root .site-footer a{ min-height:44px; display:flex; align-items:center; }
+  :root .faq .faq-item__q{ min-height:56px; }
+  :root .btn{ min-height:44px; }
+
+  /* CTA groups stack full-width on mobile so paired buttons stop reading as two
+     different-sized pills (measured at 375 on about.html: 215.77 vs 174.75px in the
+     same .cta-row). .cta-row is the only CTA group class on the inner pages, so the
+     header .nav-actions CTA and the drawer button are untouched. */
+  :root .cta-row{ flex-direction:column; align-items:stretch; width:100%; }
+  :root .cta-row > .btn{ width:100%; }
+}
+
+@media (prefers-reduced-motion:reduce){
+  [data-reveal]{ opacity:1; transform:none; transition:none; }
+  *,*::before,*::after{ animation-duration:.001ms!important; transition-duration:.001ms!important; }
+}
+
+/* =====================================================================
+   PAGE-SCOPED CENTRING
+   Scoped to a <body> page class on purpose: .lede and .faq exist on several
+   pages, so a bare-class rule here would leak the centring site-wide.
+
+   Every rule targets the HEADING BLOCK (h2 / .lede / .trust-note) via a
+   DIRECT-CHILD path from the section's .container, never the container
+   itself, so centring cannot cascade down into card body copy or FAQ Q&A.
+   The few `text-align:left` rules below are deliberate belt-and-braces
+   holds on the long-prose descendants, so the "stays left" contract is
+   measurable rather than merely implied.
+
+   :root prefix per the specificity contract at the top of this file —
+   structural.css loads AFTER tokens.css.
+   ===================================================================== */
+
+/* 1 — services: pricing section heading block, intro, note, and the card itself */
+:root .page-services .pricing-single > .container > h2,
+:root .page-services .pricing-single > .container > .lede,
+:root .page-services .pricing-single > .container > .trust-note{ text-align:center; }
+:root .page-services .pricing-single > .container > .lede{ margin-inline:auto; }
+:root .page-services .pricing-single .price-card{ margin-inline:auto; }
+/* KEPT LEFT: the price card's feature list is a scannable line-by-line list. */
+:root .page-services .pricing-single .price-card__features{ text-align:left; }
+
+/* 2 — services: FAQ heading block only */
+:root .page-services .faq > .container > h2,
+:root .page-services .faq > .container > .lede{ text-align:center; }
+:root .page-services .faq > .container > .lede{ margin-inline:auto; }
+/* KEPT LEFT: Q&A rows are long left-to-right prose — centring them destroys the scan line. */
+:root .page-services .faq .faq-item__q,
+:root .page-services .faq .faq-item__a{ text-align:left; }
+
+/* 3 — team: both .team-grid section headings */
+:root .page-team .team-grid > .container > h2{ text-align:center; }
+
+/* 3b — team: BOTH .lede elements. MEASURED, two different causes:
+   (a) HERO lede was text-align:start inside .hero__inner, a flex column with
+       align-items:flex-start — children shrink-wrap, so text-align alone would
+       only re-rag wrapped lines in a left-hugging box. Same trap as .page-about,
+       so it gets the same treatment: centre the hero block.
+   (b) CLOSING-CTA lede already computed text-align:center (inherited from
+       structural.css .closing-cta{text-align:center}) BUT its max-width:46ch box
+       had no auto margins — measured L/R gap 28px / 760px at 1440, i.e. centred
+       text inside a left-flush box. It needs margin-inline:auto, not text-align.
+   Scoped .page-team only; services/contact keep their left heroes. */
+:root .page-team .hero__inner{ align-items:center; text-align:center; }
+:root .page-team .hero .lede{ margin-inline:auto; }
+:root .page-team .hero .cta-row{ justify-content:center; }
+:root .page-team .closing-cta > .container > .lede{ margin-inline:auto; }
+
+/* 4 — about: BOTH .lede elements, hero included (operator asked for .lede centred).
+   WHY THE HERO NEEDS MORE THAN text-align: .hero__inner is a flex column with
+   align-items:flex-start, so every child shrink-wraps to its own content. Setting
+   text-align:center on the lede alone only re-centres its WRAPPED lines inside a
+   ragged left-hugging box, stranded between a left h1 and left CTAs — rendered and
+   read at 1440, it looks accidental. Centring the hero as a block is the only
+   treatment that reads as deliberate, so the h1 and .cta-row centre with it.
+   Scoped to .page-about ONLY — about/services/contact/team share this hero pattern
+   and the other three keep their left-aligned heroes. Revert = drop rule 4b. */
+:root .page-about .section:not(.hero) .lede{ text-align:center; }
+:root .page-about .section:not(.hero) > .container > .lede{ margin-inline:auto; }
+/* 4b — the hero block */
+:root .page-about .hero__inner{ align-items:center; text-align:center; }
+:root .page-about .hero .lede{ margin-inline:auto; }
+:root .page-about .hero .cta-row{ justify-content:center; }
+
+/* 5 — about: the team-grid section's text */
+:root .page-about .team-grid > .container{ text-align:center; }
+:root .page-about .team-grid > .container > .cta-row{ justify-content:center; }
+/* No reset needed inside the cards: the shared layer already sets
+   .team-card{text-align:center}, and about's cards carry only an h3 + one
+   short role line — no prose to damage. */
+
+/* 6 — contact: FAQ heading only */
+:root .page-contact .faq > .container > h2{ text-align:center; }
+/* KEPT LEFT: same Q&A reasoning as services. */
+:root .page-contact .faq .faq-item__q,
+:root .page-contact .faq .faq-item__a{ text-align:left; }

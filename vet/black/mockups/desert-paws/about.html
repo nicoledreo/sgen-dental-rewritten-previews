@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>About Desert Paws — An Independent Las Vegas Animal Hospital Since 2014</title>
+  <meta name="description" content="Desert Paws is owned by the veterinarians who work here. Independent since 2014 in southwest Las Vegas — same-day urgent care, seven-day hours, dogs, cats and exotics, English y Español.">
+  <!-- Design system owns ALL styling, tokens, fonts, hover and motion. This shell defines none. -->
+  <link rel="stylesheet" href="design-system/tokens.css">
+  <link rel="stylesheet" href="design-system/structural.css">
+</head>
+<body class="page-about">
+
+<a class="skip-link" href="#top">Skip to main content</a>
+
+<header class="site-header">
+  <p class="trust-note" data-hours>&#9737; Open today until 7:00 PM &middot; Walk-ins welcome for urgent care &middot; Se habla espa&ntilde;ol</p>
+  <div class="container site-header__bar">
+    <a class="brand" href="desert-paws.html">
+      <svg class="brand__logo" viewBox="0 0 32 32" aria-hidden="true">
+        <circle cx="16" cy="16" r="16"></circle>
+        <path d="M16 18c-3.5 0-7 2.5-7 5.6 0 2.1 1.7 3.4 4 3.4 1.3 0 2.3-.4 3-.4s1.7.4 3 .4c2.3 0 4-1.3 4-3.4 0-3.1-3.5-5.6-7-5.6zM8.5 16c1.5 0 2.5-1.6 2.3-3.5-.3-1.9-1.6-3.2-3.1-3.2s-2.5 1.6-2.2 3.5C5.7 14.7 7 16 8.5 16zm15 0c1.5 0 2.8-1.3 3.1-3.2.2-1.9-.8-3.5-2.3-3.5s-2.8 1.3-3.1 3.2c-.2 1.9.8 3.5 2.3 3.5zM13.2 11.5c1.6 0 2.7-1.7 2.4-3.9-.3-2-1.6-3.4-3.2-3.4S9.7 5.6 10 7.6c.3 2.1 1.6 3.9 3.2 3.9zm5.6 0c1.6 0 3.2-1.8 3.5-3.9.3-2-.9-3.4-2.5-3.4s-2.9 1.4-3.2 3.4c-.3 2.1.6 3.9 2.2 3.9z"></path>
+      </svg>
+      <span class="brand__mark">Desert Paws<small>Animal Hospital</small></span>
+    </a>
+    <nav class="nav-pill" aria-label="Primary">
+      <a href="desert-paws.html">Home</a>
+      <a href="services.html">Services</a>
+      <a href="team.html">Our team</a>
+      <a href="about.html" class="is-active">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="nav-actions">
+      <a class="nav-call" href="tel:+17025550199">(702) 555-0199</a>
+      <a class="btn btn-primary nav-cta" href="contact.html#book">Book</a>
+      <button class="hamburger" id="navToggle" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobileDrawer"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<div class="scrim" id="navScrim"></div>
+<aside class="drawer" id="mobileDrawer" aria-hidden="true" aria-label="Site menu">
+  <div class="drawer-top">
+    <a class="brand" href="desert-paws.html">Desert Paws<small>Animal Hospital</small></a>
+    <button class="drawer-close" id="drawerClose" type="button" aria-label="Close navigation menu">&times;</button>
+  </div>
+  <!-- Urgent line FIRST, then links, then the booking CTA — identical order and
+       content to the homepage drawer, which previously differed on every page. -->
+  <div class="drawer-emerg">Urgent care line &mdash; answered during open hours<a href="tel:+17025550199">(702) 555-0199</a></div>
+  <a class="drawer-link" href="desert-paws.html">Home</a>
+  <a class="drawer-link" href="services.html">Services</a>
+  <a class="drawer-link" href="team.html">Our team</a>
+  <a class="drawer-link" href="about.html" aria-current="page">About</a>
+  <a class="drawer-link" href="contact.html">Contact</a>
+  <a class="btn btn-primary" href="contact.html#book">Book an appointment</a>
+  <div class="drawer-emerg">Open 7 days &mdash; Mon&ndash;Fri 7:00a&ndash;7:00p &middot; Sat 8:00a&ndash;5:00p &middot; Sun 9:00a&ndash;3:00p<a href="tel:+17025557297">Main: (702) 555-7297</a></div>
+</aside>
+
+<main id="top" tabindex="-1">
+
+  <!-- SC#1 Hero -->
+  <section class="section hero section--dark">
+    <div class="container hero__inner">
+      <h1 data-reveal data-d="1">The vet down the road, not a chain.</h1>
+      <p class="lede" data-reveal data-d="2">Desert Paws is owned by the veterinarians who work here. That single fact decides almost everything else about how this clinic runs.</p>
+      <div class="cta-row" data-reveal data-d="3">
+        <a class="btn btn-primary" href="contact.html#book">Book an appointment</a>
+        <a class="btn btn-secondary" href="tel:+17025550199">(702) 555-0199</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SC#8 Manifesto -->
+  <section class="section manifesto">
+    <div class="container">
+      <p class="manifesto__text" data-reveal>We tell you the price before we do the thing. Everything else here follows from that.</p>
+    </div>
+  </section>
+
+  <!-- SC#16 Founder bio split -->
+  <section class="section founder-bio">
+    <div class="container founder-bio__layout">
+      <figure class="founder-bio__media" data-reveal>
+        <img src="../_shared-img/b54ebd2f884c.webp" alt="Dr. Elena Márquez, DVM, co-owner of Desert Paws Animal Hospital" loading="eager" fetchpriority="high" decoding="async">
+      </figure>
+      <div class="founder-bio__body" data-reveal data-d="1">
+        <h2>Dr. Elena M&aacute;rquez, DVM</h2>
+        <p class="role">Co-owner &amp; chief of staff &middot; Exotic companion medicine</p>
+        <p>Elena grew up in North Las Vegas translating for her parents at doctors' offices, and she has never forgotten what it feels like to be the family that does not quite understand what is happening. She opened Desert Paws in 2014 with Dr. Okafor on two conditions: that the practice stay independent, and that nobody would ever be handed a bill they had not already agreed to.</p>
+        <p>She trained in exotic companion medicine because Las Vegas is full of bearded dragons, conures and rabbits whose owners were being turned away by every dog-and-cat clinic in the valley. Today roughly one visit in six here is an exotic.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SC#3 Stat strip -->
+  <section class="section stat-strip section--warm">
+    <div class="container stat-strip__row">
+      <div class="stat" data-reveal><span class="stat__num">2014</span><span class="stat__label">Independent since</span></div>
+      <div class="stat" data-reveal data-d="1"><span class="stat__num">7 days</span><span class="stat__label">Open every week</span></div>
+      <div class="stat" data-reveal data-d="2"><span class="stat__num">1 in 6</span><span class="stat__label">Visits are exotics</span></div>
+      <div class="stat" data-reveal data-d="3"><span class="stat__num">5 staff</span><span class="stat__label">Bilingual, daily</span></div>
+    </div>
+  </section>
+
+  <!-- SC#7 Problem framing — what independence actually buys you -->
+  <section class="section problem">
+    <div class="container">
+      <h2 data-reveal data-d="1">Three things a corporate group would not let us do.</h2>
+      <div class="problem__grid" data-slider="mobile" tabindex="0" role="group" aria-label="Three things a corporate group would not let us do, horizontally scrollable">
+        <article class="card problem-card" data-reveal>
+          <h3>Hold slots open</h3>
+          <p>A chain fills every appointment slot weeks out because utilisation is the metric. We deliberately leave same-day openings unbooked, every day including weekends, so the dog who ate a skewer this morning can be seen this afternoon.</p>
+        </article>
+        <article class="card problem-card" data-reveal data-d="1">
+          <h3>Publish the price</h3>
+          <p>Our exam fees are on the website: $59 standard, $95 urgent, $39 for a new client's first visit. Anything past the exam is quoted in writing before we start, and we phone you before any number changes.</p>
+        </article>
+        <article class="card problem-card" data-reveal data-d="2">
+          <h3>Say yes to the reptile</h3>
+          <p>Exotics take longer, need specific training, and do not fit a fifteen-minute template. That is exactly why most clinics decline them &mdash; and exactly why we do not.</p>
+        </article>
+      </div>
+      <div class="slider-dots" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <!-- SC#27 Process steps -->
+  <section class="section process section--warm">
+    <div class="container">
+      <h2 data-reveal>What a visit actually looks like.</h2>
+      <div class="process__steps" data-slider="mobile" tabindex="0" role="group" aria-label="What a visit looks like, three steps, horizontally scrollable">
+        <article class="step" data-reveal><span class="step__num">1</span><h3>You call or book</h3><p>A person answers &mdash; in English or Spanish. If it is urgent we find you a slot that day rather than putting you on a waitlist.</p></article>
+        <article class="step" data-reveal data-d="1"><span class="step__num">2</span><h3>We examine and explain</h3><p>The doctor examines your pet, tells you what they think is going on in plain language, and writes down what it will cost before anything else happens.</p></article>
+        <article class="step" data-reveal data-d="2"><span class="step__num">3</span><h3>You decide, then we treat</h3><p>Nothing proceeds until you have agreed to the written plan. If circumstances change mid-visit, we stop and call you.</p></article>
+      </div>
+      <div class="slider-dots" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <!-- SC#18 Team grid -->
+  <section class="section team-grid">
+    <div class="container">
+      <h2 data-reveal>The people who will actually see you.</h2>
+      <div class="team-grid__grid" data-slider="mobile" tabindex="0" role="group" aria-label="The people who will see you, horizontally scrollable">
+        <article class="team-card" data-reveal><img class="team-card__photo" src="../_shared-img/233878111476.webp" alt="Dr. Samuel Okafor, DVM" loading="lazy" decoding="async"><h3>Dr. Samuel Okafor, DVM</h3><p class="role">Co-owner &middot; Urgent care &amp; surgery</p></article>
+        <article class="team-card" data-reveal data-d="1"><img class="team-card__photo" src="../_shared-img/f7ca1d1ad162.webp" alt="Dr. Priya Raman, DVM" loading="lazy" decoding="async"><h3>Dr. Priya Raman, DVM</h3><p class="role">Feline medicine &amp; dentistry</p></article>
+        <article class="team-card" data-reveal data-d="2"><img class="team-card__photo" src="../_shared-img/971bfa497aa0.webp" alt="Marisol Chávez, CVT" loading="lazy" decoding="async"><h3>Marisol Ch&aacute;vez, CVT</h3><p class="role">Lead technician &middot; Espa&ntilde;ol</p></article>
+      </div>
+      <div class="slider-dots" aria-hidden="true"></div>
+      <div class="cta-row" data-reveal data-d="3">
+        <a class="btn btn-secondary" href="team.html">Meet the whole team</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SC#41 Closing CTA -->
+  <section class="section closing-cta section--dark">
+    <div class="container">
+      <h2 data-reveal data-d="1">Come meet us before you need us.</h2>
+      <p class="lede" data-reveal data-d="2">New clients pay $39 for a first exam. Any species we treat, seven days a week.</p>
+      <div class="cta-row" data-reveal data-d="3">
+        <a class="btn btn-primary" href="contact.html#book">Book an appointment</a>
+        <a class="btn btn-secondary" href="tel:+17025550199">(702) 555-0199</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container site-footer__cols">
+    <div>
+      <a href="desert-paws.html"><strong>Desert Paws Animal Hospital</strong></a>
+      <p>An independent, veterinarian-owned neighbourhood practice in southwest Las Vegas since 2014. Dogs, cats and exotics. English y Espa&ntilde;ol.</p>
+      <p class="trust-note" data-hours>Open today until 7:00 PM &middot; Walk-ins welcome for urgent care &middot; Se habla espa&ntilde;ol</p>
+    </div>
+    <div>
+      <strong>Care</strong>
+      <a href="services.html">Wellness &amp; prevention</a>
+      <a href="services.html#urgent">Same-day urgent care</a>
+      <a href="services.html#species">Exotic pets</a>
+      <a href="services.html#pricing">Pricing</a>
+    </div>
+    <div>
+      <strong>Visit</strong>
+      <a href="contact.html">8420 W. Warm Springs Rd, Suite 110</a>
+      <a href="tel:+17025557297">Main: (702) 555-7297</a>
+      <a href="tel:+17025550199">Urgent: (702) 555-0199</a>
+      <a href="team.html">Our team</a>
+    </div>
+  </div>
+</footer>
+
+<script src="design-system/nav.js"></script>
+<script src="design-system/slider.js" defer></script>
+</body>
+</html>

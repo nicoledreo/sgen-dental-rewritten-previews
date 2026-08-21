@@ -1,0 +1,2999 @@
+/* =============================================================================
+   sperbeck-chiropractic  ·  STRUCTURAL SHEET  (consumes sperbeck-chiropractic-tokens.css)
+   DERIVED at the SYSTEM stage 2026-08-06 from the slug-neutral template
+   .claude/skills/client-site-build/_design-templates/__client__-structural.css
+   by substituting the skin-prefix placeholder __client__ -> bw (203 occurrences).
+
+   WHY bw AND NOT THE SLUG: verify-dom-structure.mjs hardcodes /^(?:bw|kit)-/ as THE skin
+   prefixes for its R5 structure-carries-skin rule. bw- is the brand-agnostic SHARED build-skin
+   namespace, not a brand name (SKILL.md, FORCED DOM-STRUCTURE GRAMMAR). Renaming it to the slug
+   would leave the sheet looking correct while silently blinding that gate.
+
+   TOKEN-PURE: zero brand hex. Every colour, radius, type step and motion value resolves through
+   var(--ds-*). The 55 --ds-* tokens it consumes are all defined by the locked tokens sheet,
+   verified 0-missing at derivation time.
+   ============================================================================= */
+/* ============================================================================
+   CLIENT DESIGN FOUNDATION, STRUCTURAL  (consumes bw-tokens.css)
+   ----------------------------------------------------------------------------
+   PARAMETERIZED STUB — token-pure on the --ds-* vocabulary. Copies VERBATIM per
+   client (no edits needed): every color / radius / type / motion value resolves
+   through var(--ds-*); there is ZERO brand hex in this file
+   (grep-checkable: `rg '#[0-9a-fA-F]{3,6}' <slug>-structural.css` => 0 hits).
+   The ONLY non-ds vars are the two slug-overridable compare labels
+   (--compare-us-label / --compare-them-label) and the optional grid-accent overrides.
+   Surface-aware: drop class="surface-dark" on any <section> and every component
+   re-skins to the dark premium treatment automatically (the --ds-* tokens flip).
+   Motion is reduced-motion gated. A dark-panel ink RE-ASSERT block guarantees a
+   stray light panel dropped inside a dark section recovers legible ink (the
+   recurring dark-on-dark / cream-on-white contrast trap).
+   ============================================================================ */
+
+/* ============================================================================
+   THE `bw-` SKIN NAMESPACE — brand-agnostic, shared across EVERY client build.
+   ----------------------------------------------------------------------------
+   `bw-` is the SHARED build-skin namespace (the STRUCTURAL skin) used by every
+   client build this skill produces — it is NOT a brand / client / company name
+   (the two letters are a legacy mnemonic only). Together with `kit-` it is the
+   canonical component-SKIN prefix: skin classes live on the OBJECT inside a
+   `.col`, NEVER on a `.container` / `.row` / `.col` structure layer (R5).
+   The DOM-structure gate HARD-CODES this namespace —
+   `verify-dom-structure.mjs:189` selects skin classes with `/^(?:bw|kit)-/` —
+   so `bw-` / `kit-` are load-bearing: renaming the prefix would SILENTLY BLIND
+   the R5 structure-carries-skin check. (Promoted structures in this stub are
+   authored under the slug-parameterized `bw-*` form of that same skin.)
+   ============================================================================ */
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: var(--ds-font-body);
+  font-size: var(--ds-fs-body);
+  line-height: var(--ds-lh-body);
+  color: var(--ds-ink);
+  background: var(--ds-bg-surface);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+.skip { position: fixed; top: -60px; left: 12px; z-index: var(--ds-z-toast); background: var(--ds-accent); color: var(--ds-on-accent);
+  padding: 12px 18px; border-radius: 0 0 var(--ds-r-control) var(--ds-r-control); font-weight: 700; font-size: 14px; transition: top var(--ds-dur-fast) var(--ds-ease); }
+.skip:focus { top: 0; outline: 2px solid var(--ds-on-accent); outline-offset: 2px; }
+
+/* ---- SURFACE + ATMOSPHERE -------------------------------------------------- */
+.surface { background: var(--ds-bg-surface); color: var(--ds-ink); }
+.surface-dark { background: var(--ds-bg-surface); color: var(--ds-ink); position: relative; isolation: isolate; }
+.surface-dark.has-atmos { overflow: clip; }
+.surface-dark.has-atmos::before {
+  content: ""; position: absolute; inset: 0; z-index: var(--ds-z-base); pointer-events: none;
+  background: var(--ds-glow-wash); mix-blend-mode: screen;
+}
+.surface-dark.has-atmos::after {
+  content: ""; position: absolute; inset: 0; z-index: var(--ds-z-base); pointer-events: none;
+  background: repeating-linear-gradient(0deg, rgba(255,255,255,.6) 0 1px, transparent 1px 3px);
+  opacity: var(--ds-opacity-texture); mix-blend-mode: overlay;
+}
+.surface-dark > * { position: relative; z-index: var(--ds-z-raised); }
+
+.sec  { padding: var(--ds-section-py) 24px; }
+.wrap { max-width: var(--ds-container-max); margin-inline: auto; }
+.readw { max-width: 720px; }
+.sec--warm { background: var(--ds-bg-warm); }
+.sec--soft { background: var(--ds-accent-soft); }
+.sec--alt  { background: var(--ds-bg-surface-2); }
+
+/* ============================================================================
+   UNIFORM SECTION SPACING CADENCE — the inter-section rhythm is the section
+   padding ALONE (PROMOTED FROM THE REFERENCE IMPL, owner T8).
+   ----------------------------------------------------------------------------
+   THE LAW: every section's EFFECTIVE top+bottom rhythm is uniform regardless of
+   inner pattern AND regardless of display:contents, so leading == trailing ==
+   the section rhythm token (--ds-section-py) at EVERY breakpoint. The
+   verify-section-rhythm.mjs RENDER gate enforces this (top-gap ≈ bottom-gap and
+   the same cadence across all sections, tolerance ~8px).
+
+   THE DEFECT it kills (seen at 375 on the reference impl): the section padding is
+   already symmetric, but the mobile reading-order INTERLEAVE puts a copy wrapper
+   at display:contents and reorders the leaf children with `order`. A
+   display:contents wrapper BREAKS margin-collapse through it, so the reordered
+   LAST leaf child's bottom margin stacks ON TOP of the section padding (inflating
+   ONLY the trailing edge of the interleaved sections) while the FIRST child's top
+   margin collapses normally — desyncing the cadence on exactly those sections.
+
+   THE FIX (slug-neutral, pattern-INDEPENDENT, display:contents-proof):
+   (1) Zero the FIRST flow child's top margin + the LAST flow child's bottom margin
+       inside every section's measure col, so the ONLY space at a section's two
+       edges is the symmetric .sec / .bw-flow padding. :first-child /
+       :last-child are layout-position selectors (no brand classes) — slug-neutral. */
+.sec > .container--full > .row > .col > :first-child,
+.col--measure > :first-child { margin-block-start: 0; }
+.sec > .container--full > .row > .col > :last-child,
+.col--measure > :last-child  { margin-block-end: 0; }
+
+/* (2) display:contents NEUTRALIZER (the load-bearing half). A reading-order
+   interleave puts a copy wrapper at display:contents so its children join the
+   section grid as direct items; margin no longer collapses through the vanished
+   wrapper. Pin block margins to 0 on (a) the display:contents wrapper itself and
+   (b) the GRID ITEMS of a single-column interleave grid, so NO reordered leaf can
+   leak space at either edge — the grid GAP owns inter-item spacing, the section
+   padding owns the EDGES. SLUG-NEUTRAL HOOKS: any wrapper a slug sets to
+   display:contents for the mobile interleave should carry a *__copy class (the
+   convention the reference impl uses, e.g. .<slug>-split__copy), and any grid that
+   collapses to one column at ≤1024 owns its edges through the section padding. The
+   [class*="__copy"] match makes the neutralizer fire on a NEW slug's interleave
+   wrapper without re-authoring this rule. */
+[class*="__copy"] { margin-block: 0; }
+@media (max-width: 1024px) {
+  /* when the interleave collapses to one column the reordered leaves are direct grid
+     items — zero their block margins so the order:-1 heading adds nothing to the
+     leading edge and the order:1 body adds nothing to the trailing edge. */
+  [class*="__copy"] > * { margin-block: 0; }
+}
+
+/* ============================================================================
+   HERO SECTION — vertical-rhythm STANDARD (HERO-MOBILE-TOP-PADDING).
+   ----------------------------------------------------------------------------
+   THE FAILURE THIS STOPS (owner, live build, MOBILE 375): a big dead zone
+   between the header and the hero eyebrow. ROOT CAUSE pattern: a hero that
+   (a) vertically CENTERS short content inside a tall min-height box, so on a
+   narrow viewport the content floats to the middle, AND (b) sets its interior
+   top padding to a DESKTOP one-off (a clamp whose px FLOOR, e.g. 96px, is huge
+   on mobile) instead of the SECTION rhythm token. Both inflate the top gap.
+
+   THE STANDARD (inherit this — do NOT re-author per slug):
+     1) The fixed header is cleared ONCE by `main{padding-top:<header>}` in the
+        chrome. The hero's own top padding is INTERIOR rhythm ONLY and must NOT
+        re-reserve header height (that double-counts -> dead-space).
+     2) Hero interior top padding = the SECTION rhythm token (--ds-section-py), the
+        SAME scale every other section uses. Never a bespoke clamp/px floor.
+     3) On mobile, drop vertical centering to flex-start so short content sits
+        just below the header, and relax min-height toward content so the box
+        stops over-running. A desktop hero MAY center within a tall box; a
+        mobile hero MUST top-align.
+   A slug overlays brand FEEL (photo, scrim, type scale) on top — never the
+   vertical-rhythm rules below. --ds-section-py already cascades to a mobile-
+   appropriate value via the token clamp, so the top gap tracks the scale at every width. */
+.bw-hero {
+  position: relative; overflow: hidden; isolation: isolate;
+  min-height: clamp(560px, 84vh, 900px);
+  display: flex; align-items: center;          /* desktop: center within the tall box */
+}
+.bw-hero__inner {
+  position: relative; z-index: var(--ds-z-raised);
+  padding-block: var(--ds-section-py);          /* INTERIOR rhythm = the section token, NOT a one-off */
+  width: 100%; max-width: var(--ds-container-max); margin-inline: auto;
+  padding-inline: 24px;
+}
+@media (max-width: 640px) {
+  /* MOBILE: top-align short content + relax the box so it sizes near content.
+     padding-block top = --ds-section-py (scale token, mobile-clamped); no header re-reserve. */
+  .bw-hero { align-items: flex-start; min-height: clamp(420px, 70vh, 600px); }
+}
+
+/* ---- TYPOGRAPHY ----------------------------------------------------------- */
+.eyebrow {
+  font-family: var(--ds-font-mono); font-size: var(--ds-fs-caption); font-weight: 700;
+  letter-spacing: var(--ds-tracking-label); text-transform: uppercase; color: var(--ds-accent);
+  display: inline-flex; align-items: center; gap: .6em; margin: 0 0 18px;
+}
+.surface-dark .eyebrow { color: var(--ds-accent-bright); }
+.eyebrow::before { content: ""; width: 22px; height: 2px; background: currentColor; opacity: .9; }
+
+.h-hero { font-family: var(--ds-font-display); font-size: var(--ds-fs-display); font-weight: 800; line-height: .96; letter-spacing: var(--ds-tracking-disp); margin: 0; }
+h1, .h1 { font-family: var(--ds-font-display); font-size: var(--ds-fs-h1); font-weight: 800; line-height: var(--ds-lh-tight); letter-spacing: -.03em; margin: 0; }
+h2, .h2 { font-family: var(--ds-font-display); font-size: var(--ds-fs-h2); font-weight: 800; line-height: 1.02; letter-spacing: -.028em; margin: 0; }
+h3, .h3 { font-family: var(--ds-font-display); font-size: var(--ds-fs-h3); font-weight: 700; line-height: 1.1; letter-spacing: -.018em; margin: 0; }
+.lead { font-size: clamp(18px, 1.5vw, 21px); line-height: 1.55; color: var(--ds-ink-soft); max-width: 62ch; }
+p { color: var(--ds-ink-soft); }
+.mono { font-family: var(--ds-font-mono); }
+.label { font-family: var(--ds-font-mono); font-size: 11px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--ds-ink-faint, var(--ds-ink-soft)); }
+
+.grad {
+  background: linear-gradient(100deg, var(--ds-accent-strong), var(--ds-accent) 55%, var(--ds-accent-bright));
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
+}
+.stat {
+  font-family: var(--ds-font-display); font-size: clamp(42px, 6vw, 80px); font-weight: 800; line-height: 1; letter-spacing: -.035em;
+  font-variant-numeric: tabular-nums;
+  background: linear-gradient(120deg, var(--ds-ink), var(--ds-ink-soft)); -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
+}
+.stat .z { -webkit-text-fill-color: var(--ds-accent-bright); color: var(--ds-accent-bright); }
+
+.bigtype {
+  position: absolute; inset: auto 0 -.12em 0; z-index: var(--ds-z-base); pointer-events: none;
+  text-align: center; font-family: var(--ds-font-display); font-weight: 800; line-height: .8; white-space: nowrap;
+  font-size: clamp(64px, 13vw, 190px); letter-spacing: -.04em;
+  color: var(--ds-accent-soft);
+  -webkit-text-stroke: 1px var(--ds-line);
+}
+
+/* ---- BUTTONS -------------------------------------------------------------- */
+.btn {
+  display: inline-flex; align-items: center; gap: .55em;
+  font-family: var(--ds-font-body); font-size: 15px; font-weight: 700; line-height: 1;
+  padding: 15px 24px; border-radius: var(--ds-r-control); border: 1.5px solid transparent;
+  cursor: pointer; transition: transform .08s var(--ds-ease), box-shadow var(--ds-dur-fast), background-color .18s, color .18s, border-color .18s, filter .16s;
+}
+.btn .arr { transition: transform var(--ds-dur-fast) var(--ds-ease); }
+.btn:hover .arr { transform: translateX(5px); }
+.btn:active { transform: scale(.97); }
+.btn-primary { background: var(--ds-accent); color: var(--ds-on-accent); box-shadow: var(--ds-glow); }
+.btn-primary:hover { background: var(--ds-accent-strong); box-shadow: var(--ds-glow); filter: brightness(1.04); }
+.btn-secondary { background: transparent; color: var(--ds-ink); border-color: var(--ds-line); }
+.btn-secondary:hover { border-color: var(--ds-accent); color: var(--ds-accent); }
+.surface-dark .btn-secondary { color: var(--ds-ink); border-color: rgba(255,255,255,.22); }
+.surface-dark .btn-secondary:hover { background: var(--ds-ink); color: var(--ds-bg-surface); border-color: var(--ds-ink); }
+
+/* ---- CARDS (dual-surface; auto re-skins to glass on .surface-dark) --------- */
+.card {
+  background: var(--ds-bg-surface-2); border: 1px solid var(--ds-glass-border);
+  border-radius: var(--ds-r-surface); padding: 28px; color: var(--ds-ink);
+  box-shadow: var(--ds-shadow-rest);
+  transition: transform .25s var(--ds-ease), box-shadow .25s var(--ds-ease), border-color .25s;
+}
+.card:hover { transform: translateY(-5px); box-shadow: var(--ds-shadow-lift); }
+.surface-dark .card { box-shadow: var(--ds-inset-hi); }
+.surface-dark .card:hover { border-color: var(--ds-accent-soft); box-shadow: var(--ds-glow), var(--ds-inset-hi); }
+.card.featured { box-shadow: 0 0 0 1.5px var(--ds-accent), var(--ds-shadow-lift); }
+.surface-dark .card.featured { box-shadow: 0 0 0 1.5px var(--ds-accent), var(--ds-glow), var(--ds-inset-hi); }
+
+/* ---- CHIPS / PILLS / BADGES ----------------------------------------------- */
+.pill {
+  display: inline-flex; align-items: center; gap: .5em; padding: 7px 14px;
+  border-radius: var(--ds-r-pill); font-family: var(--ds-font-mono); font-size: 11px;
+  font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  background: var(--ds-accent-soft); color: var(--ds-accent-strong); border: 1px solid transparent;
+}
+.surface-dark .pill { background: rgba(255,255,255,.05); color: var(--ds-ink); border-color: var(--ds-line); }
+.pill .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--ds-accent); box-shadow: 0 0 0 4px var(--ds-accent-soft); }
+.surface-dark .pill .dot { box-shadow: 0 0 0 4px var(--ds-accent-soft); animation: cl-pulse 2.4s var(--ds-ease) infinite; }
+
+/* ---- TEXT-OVERLAP LAW (badge/eyebrow vs title) ---------------------------- *
+   Owner hard-fail (screenshot 5): a "Partner-facilitated"-style flag stacked on
+   the card TITLE because the flag was position:absolute over flowing text.
+   RULE — a badge/eyebrow that sits INSIDE a card/content body is IN-FLOW and
+   stacks above the heading with spacing; it is NEVER absolutely positioned over
+   text. The ONLY place absolute is allowed is a badge floating over a PHOTO
+   header (a .*__media block), where no flowing text sits beneath it.
+   This is the fail-safe default: any slug-level flag class (e.g. .<slug>-cap__flag)
+   must inherit IN-FLOW behavior and opt INTO absolute only inside a media frame.
+   Enforced at render by verify-no-text-overlap.mjs (bounding-box intersection of
+   text nodes at 375 AND desktop = hard fail).                                  */
+.flag, [class*="__flag"], [class*="-flag"] {
+  display: inline-flex; align-items: center; align-self: flex-start;
+  max-width: 100%; margin: 0 0 12px;            /* IN-FLOW: stacks above the title with spacing */
+}
+/* the ONE valid absolute case: a badge painted over a photo header */
+[class*="__media"] > .flag,
+[class*="__media"] > [class*="__flag"],
+[class*="__media"] > [class*="-flag"] {
+  position: absolute; left: 14px; top: 14px; margin: 0; z-index: var(--ds-z-raised);
+}
+
+/* ---- DIVIDER -------------------------------------------------------------- */
+.divider { height: 2px; border: 0; margin: 40px 0; background: linear-gradient(to right, transparent, var(--ds-divider) 50%, transparent); }
+
+/* ---- GRID HELPERS --------------------------------------------------------- */
+.grid { display: grid; gap: 22px; }
+.g-2 { grid-template-columns: repeat(2, 1fr); }
+.g-3 { grid-template-columns: repeat(3, 1fr); }
+.g-4 { grid-template-columns: repeat(4, 1fr); }
+.flex { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+
+/* ---- ICON CHIP (service tiles) -------------------------------------------- */
+.ico { width: 44px; height: 44px; border-radius: var(--ds-r-control); background: var(--ds-accent-soft); display: grid; place-items: center; margin-bottom: 16px; transition: background .2s, color .2s; }
+.ico .m { width: 18px; height: 18px; border-radius: 5px; background: var(--ds-accent); }
+.card:hover .ico { background: var(--ds-accent); }
+
+/* ---- DARK-PANEL INK RE-ASSERT --------------------------------------------- *
+   The recurring contrast trap: a light .card/.panel dropped inside a dark
+   section keeps the section's flipped (cream) ink and renders cream-on-white;
+   a dark console dropped in a light section inherits light ink and renders
+   dark-on-dark. These rules re-pin ink to the LOCAL ground so a panel is always
+   legible regardless of the section surface it sits inside.                    */
+.surface-dark .ink-light,
+.surface-dark .panel-light,
+.surface-dark .card.is-light {
+  color: var(--ds-ink);                 /* recover ink against a re-lit local bg   */
+  background: var(--ds-bg-surface);
+  --ds-ink:      var(--ds-ink);
+  --ds-ink-soft: var(--ds-ink-soft);
+}
+.ink-dark,
+.panel-dark,
+.console {                              /* a dark console inside a LIGHT section    */
+  color: var(--ds-ink);
+  --surface-is: dark;
+}
+.surface-dark .ink-on-dark { color: var(--ds-ink); }   /* explicit re-assert hook   */
+
+/* ---- MOTION UTILITIES (reduced-motion gated) ------------------------------ */
+.reveal { opacity: 0; transform: translateY(28px); transition: opacity var(--ds-dur-slow) var(--ds-ease), transform var(--ds-dur-slow) var(--ds-ease); }
+.reveal.in { opacity: 1; transform: none; }
+.reveal[data-d="1"] { transition-delay: .08s; }
+.reveal[data-d="2"] { transition-delay: .16s; }
+.reveal[data-d="3"] { transition-delay: .24s; }
+.reveal[data-d="4"] { transition-delay: .32s; }
+.hover-zoom { overflow: hidden; }
+.hover-zoom img, .hover-zoom .art { transition: transform .45s var(--ds-ease-out); }
+.hover-zoom:hover img, .hover-zoom:hover .art { transform: scale(1.06); }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+  .reveal { opacity: 1 !important; transform: none !important; }
+}
+
+@keyframes cl-pulse { 0%,100% { box-shadow: 0 0 0 0 var(--ds-accent-soft); } 70% { box-shadow: 0 0 0 7px rgba(255,255,255,0); } }
+
+/* ============================================================================
+   DOM-STRUCTURE GRAMMAR PRIMITIVES — the FORCED structural spine (G-DOM).
+   ----------------------------------------------------------------------------
+   PROMOTED FROM THE REFERENCE IMPL (the shared build-skin, slug-neutralized
+   bw-* -> bw-* on the --ds-* token vocabulary). Owner law:
+   EVERY region (header · each <main> section · footer · drawer · mega) is built
+   section/root -> div.container -> div.row -> div.col -> OBJECT. These LAYOUT-ONLY
+   classes are that spine; the component SKIN (bw-* / site-* / nav__* …) lives
+   on the OBJECT inside the .col, NEVER on .container/.row/.col (R5).
+
+   VISUAL-PRESERVING DEFAULT: .row and .col default to a TRANSPARENT block
+   pass-through (display:block; the col stretches full width) so wrapping an existing
+   layout object in .row > .col does NOT change its rendering — the inner object keeps
+   its OWN grid/flex. Where a region's layout genuinely lives on the spine we OPT IN
+   with a row/col MODIFIER below (layout on the structure, skin on the object).
+   Token-pure: every value is a var(--ds-*) or a trivial layout literal (no brand hex).
+   ============================================================================ */
+.container--full { width: 100%; max-width: none; margin-inline: 0; padding-inline: 0; }
+.row {}                                            /* transparent pass-through by default */
+.col, .col--full { display: block; min-width: 0; }  /* a leaf cell — full width, never overflows */
+[class*="col--span-"] { display: block; min-width: 0; }
+/* the body section measure — reproduces the page measure (max-width centred + inline padding) */
+.col--measure { width: 100%; max-width: var(--ds-container-max); margin-inline: auto; padding-inline: clamp(16px,4vw,32px); }
+
+/* row/col LAYOUT MODIFIERS — opt-in flex/grid on the structure layer */
+.row--flex { display: flex; align-items: center; gap: clamp(14px,2vw,28px); }
+.row--flex-between { display: flex; align-items: center; justify-content: space-between; gap: clamp(24px,4vw,56px); flex-wrap: wrap; }
+.row--bar { display: flex; align-items: center; gap: clamp(14px,2vw,28px); }   /* the header bar row */
+.row--stretch { display: flex; align-items: stretch; }
+.col--grow { flex: 1 1 auto; min-width: 0; }
+.col--auto { flex: 0 0 auto; }
+.col--push { margin-left: auto; }                  /* push a col to the far end of a flex row */
+.col--center { margin-inline: auto; }
+.col--fill { width: 100%; }                        /* a col that spans its container's full width */
+
+/* ============================================================================
+   GRID ACCENT — opt-in (the technical-grid is an ACCENT, not blanket wallpaper).
+   ----------------------------------------------------------------------------
+   PROMOTED FROM THE REFERENCE IMPL (.bw-gridded -> .bw-gridded). To grant a
+   grid accent to any surface, add .bw-gridded to its markup (host must be
+   position:relative; the host's content should sit above on z 1). The ::before is
+   masked top-faded + pointer-inert so it never costs legibility or interaction.
+   --ds-grid + --ds-grid-size resolve from the tokens sheet (token-pure); a build
+   may override --grid-accent / --grid-accent-size locally for a bespoke accent.
+   ============================================================================ */
+.bw-gridded { position: relative; }
+.bw-gridded::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none; z-index: var(--ds-z-base);
+  /* self-contained grid from the --ds-grid token (a NEW slug inherits a WORKING accent).
+     To customise, override --grid-accent / --grid-accent-size in the host's style. */
+  background: var(--grid-accent, var(--ds-grid));
+  background-size: var(--grid-accent-size, var(--ds-grid-size));
+  background-position: center top;
+  -webkit-mask-image: linear-gradient(180deg, transparent, var(--ds-ink) 90%);
+  mask-image: linear-gradient(180deg, transparent, var(--ds-ink) 90%);
+  opacity: .7;
+}
+.bw-gridded > * { position: relative; z-index: var(--ds-z-raised); }
+
+/* ============================================================================
+   MEDIA + 2x2-CARD GRID — the COMPACT media/cards split (PAGE-COMPOSITION LAW).
+   ----------------------------------------------------------------------------
+   PROMOTED FROM THE REFERENCE IMPL (.bw-media-grid -> .bw-media-grid).
+   THE FIX for the dead-space arm: a media+cards section must NOT be a SINGLE capped
+   media beside a 1xN (>=4) vertical card STACK — that pairs a short capped image
+   against a tall column and leaves a column of dead space. Instead the cards form a
+   2x2 (or 2-3 item) GRID and the MEDIA COLUMN STRETCHES to the grid's full height so
+   the two columns end level — no void. (CARD-VARIATIONS #1 dark service tile in a
+   2x2; SECTION-COMPONENTS #11 service-pillars-2col-with-image shell.)
+   Caps at <=1024 to media-on-top + a 2-up card grid (still a grid, not a stack), and
+   at <=640 to a single column.
+   ============================================================================ */
+.bw-media-grid {
+  display: grid; grid-template-columns: 1fr 1fr;       /* media | cards, balanced split */
+  gap: clamp(20px,3vw,44px); align-items: stretch;     /* STRETCH so the media matches the grid height — kills the void */
+}
+.bw-media-grid__media {
+  position: relative; overflow: hidden; margin: 0;
+  align-self: stretch; width: 100%; min-width: 0; height: 100%; min-height: 0;  /* ANCHOR: width:100%; min-width:0 — the media FITS its grid track (never computes wider than the 1fr column -> no h-overflow); stretches to grid height */
+  border: 1px solid var(--ds-line); border-radius: var(--ds-r-surface);
+  box-shadow: var(--ds-shadow-lift), var(--ds-inset-hi);
+  /* NB: NO aspect-ratio cap here (that is what shrank the media against a tall stack);
+     the frame takes its height from the stretched grid track instead. */
+}
+.bw-media-grid__media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; }
+.bw-media-grid__media::after {              /* a neutral bottom scrim so the photo integrates + a badge reads AA */
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(180deg, rgba(0,0,0,.05) 0%, rgba(0,0,0,.40) 100%);
+}
+/* the RIGHT column is a 2-col card GRID (2x2 / 2x1 / 2-then-1) — NEVER a 1xN vertical stack */
+.bw-media-grid__cards {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: clamp(14px,1.6vw,22px); align-content: stretch;
+}
+.bw-media-grid__cards > * { height: 100%; }   /* cards fill their grid cell so the 2x2 reads as a tidy block */
+
+@media (max-width: 1024px) {
+  .bw-media-grid { grid-template-columns: 1fr; }       /* one column: HEADING (in the head block above) -> MEDIA -> CARDS */
+  /* READING ORDER (owner law, non-negotiable): on mobile a media-split must read HEADING -> MEDIA ->
+     BODY -> CTA; the media must NEVER paint above the section's heading. The section HEADING lives in a
+     standalone head block ABOVE this grid, and the media is FIRST in SOURCE ORDER inside the grid (the
+     media figure precedes .bw-media-grid__cards), so a single-column grid stacks heading -> media
+     -> cards with NO order override. The media-first order:-1 is REMOVED (it was the rejected media-above
+     flip; source order alone is correct). ANCHOR (width:100%; min-width:0) retained so the media fits its track. */
+  .bw-media-grid__media { width: 100%; min-width: 0; min-height: 300px; height: auto; aspect-ratio: 16 / 9; }  /* ANCHOR retained + a sane cap once stacked */
+}
+@media (max-width: 640px) {
+  .bw-media-grid__cards { grid-template-columns: 1fr; }  /* single column only at phone width */
+  .bw-media-grid__media { aspect-ratio: 4 / 3; }
+}
+
+/* ============================================================================
+   MEDIACOMPARE — CAPPED MEDIA | COMPARE TABLE (the COMPACT FEATURE-ROW law, (a)).
+   ----------------------------------------------------------------------------
+   PROMOTED FROM THE REFERENCE IMPL (.bw-mediacompare -> .bw-mediacompare).
+   For a COMPARE row: never a full-width media STACKED ABOVE the matrix (that sprawls
+   past the G-DENSITY ceiling). The media column is CAPPED (aspect-ratio + max-height)
+   and STRETCHES to the table's height so the two columns end level; the compare matrix
+   fills the wider RIGHT column. Shape = MEDIA + TABLE.
+   ============================================================================ */
+.bw-mediacompare {
+  display: grid; grid-template-columns: minmax(0,0.82fr) minmax(0,1.18fr);  /* media | table (table wider) */
+  gap: clamp(20px,3vw,44px); align-items: stretch;
+}
+.bw-mediacompare__media {
+  position: relative; overflow: hidden; margin: 0;
+  align-self: stretch; width: 100%; min-width: 0; height: 100%; min-height: 0;   /* ANCHOR: width:100%; min-width:0 — the media FITS its grid track (aspect-ratio+stretch would otherwise compute width from height and overlap the table); stretches to table height */
+  aspect-ratio: 4 / 3; max-height: clamp(300px,40vh,440px);   /* CAP — can never balloon the row */
+  border: 1px solid var(--ds-line); border-radius: var(--ds-r-surface);
+  box-shadow: var(--ds-shadow-lift), var(--ds-inset-hi);
+}
+.bw-mediacompare__media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; }
+.bw-mediacompare__media::after {            /* the same neutral scrim, so the photo integrates AA */
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(180deg, rgba(0,0,0,.05) 0%, rgba(0,0,0,.40) 100%);
+}
+.bw-mediacompare > .bw-compare { align-self: stretch; }   /* the matrix fills the right column */
+
+/* ============================================================================
+   COMPARE MATRIX — the 3-col us-vs-them table (SECTION-COMPONENTS #15).
+   ----------------------------------------------------------------------------
+   PROMOTED FROM THE REFERENCE IMPL (.bw-compare -> .bw-compare). A dense
+   token-built matrix: LABEL | US | THEM. Desktop = a real 3-col grid with a head
+   row. MOBILE (<=640) does NOT just collapse to one column with an orphaned THEM
+   cell — that reads as broken (the THEM value floats under the US value with no
+   column meaning). Instead each ROW becomes a self-contained CARD: the cost label
+   as the card heading, then US + THEM as a labeled 2-up pair, each option carrying
+   its OWN source label so neither is orphaned (see RESPONSIVE block below).
+
+   SLUG-NEUTRAL: the two option labels are driven by CSS vars set on .bw-compare
+   (--compare-us-label / --compare-them-label) with sane generic fallbacks, so the
+   mobile labels are NOT hardcoded to any one brand. Set them per build, e.g.
+   style="--compare-us-label:'Through Acme'; --compare-them-label:'Build it yourself'".
+   ============================================================================ */
+.bw-compare {
+  --compare-us-label: "With us";        /* slug-neutral fallback — override per build */
+  --compare-them-label: "Without us";   /* slug-neutral fallback — override per build */
+  border: 1px solid var(--ds-divider); border-radius: var(--ds-r-surface); overflow: hidden;
+  box-shadow: var(--ds-shadow-lift);
+  background: linear-gradient(180deg, var(--ds-bg-surface-2) 0%, var(--ds-bg-surface) 100%);
+}
+.bw-compare__row { display: grid; grid-template-columns: 1.4fr 1fr 1fr; align-items: center; }
+.bw-compare__row + .bw-compare__row { border-top: 1px solid var(--ds-line); }
+.bw-compare__row--head .bw-compare__cell {
+  font-family: var(--ds-font-mono); font-size: 11px; letter-spacing: var(--ds-tracking-label);
+  text-transform: uppercase; color: var(--ds-accent); padding-block: clamp(14px,1.6vw,20px);
+}
+.bw-compare__cell {
+  padding: clamp(13px,1.5vw,18px) clamp(14px,1.8vw,24px);
+  font-family: var(--ds-font-body); font-size: 14px; color: var(--ds-ink);
+  display: flex; align-items: center; gap: 9px;
+}
+.bw-compare__cell--label {
+  font-family: var(--ds-font-mono); font-size: 12px; letter-spacing: .03em;
+  text-transform: uppercase; color: var(--ds-ink-soft);
+}
+.bw-compare__cell--us { background: var(--ds-accent-soft); color: var(--ds-ink); font-weight: 600; }
+/* --them is the competing option: targetable so it gets its OWN label on mobile (never orphaned) */
+.bw-compare__cell--them { color: var(--ds-ink-soft); }
+.bw-mk { width: 18px; height: 18px; flex: 0 0 auto; fill: none; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.bw-mk--yes { stroke: var(--ds-accent-bright, var(--ds-accent)); }
+.bw-mk--no { stroke: var(--ds-ink-soft); opacity: .7; }
+
+/* ============================================================================
+   BANNER — NARROW capped media | HORIZONTAL 3-card strip (COMPACT FEATURE-ROW, (b)).
+   ----------------------------------------------------------------------------
+   PROMOTED FROM THE REFERENCE IMPL (.bw-banner -> .bw-banner). For a cross-link
+   / umbrella row: a NARROW capped media panel (LEFT) beside a HORIZONTAL 3-card strip
+   (RIGHT). The cards run ACROSS in a 3-col strip (not stacked, not a 2x2), so the row
+   reads as one wide designed band, not media-then-an-orphan-card-row. Distinct from
+   every other split. Shape = MEDIA + 3-ACROSS CARDS.
+   ============================================================================ */
+.bw-banner {
+  display: grid; grid-template-columns: minmax(0,0.62fr) minmax(0,1.38fr);  /* narrow media | wide card strip */
+  gap: clamp(20px,3vw,44px); align-items: stretch;
+}
+.bw-banner__media {
+  position: relative; overflow: hidden; margin: 0;
+  align-self: stretch; width: 100%; min-width: 0; height: 100%; min-height: 0;   /* ANCHOR: width:100%; min-width:0 — the media FITS its grid track (same fix as mediacompare) */
+  aspect-ratio: 3 / 4; max-height: clamp(280px,38vh,420px);   /* CAP — a tall-ish banner panel, can never balloon */
+  border: 1px solid var(--ds-line); border-radius: var(--ds-r-surface);
+  box-shadow: var(--ds-shadow-lift), var(--ds-inset-hi);
+}
+.bw-banner__media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; }
+.bw-banner__media::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(180deg, rgba(0,0,0,.05) 0%, rgba(0,0,0,.45) 100%);
+}
+.bw-banner__cards {
+  display: grid; grid-template-columns: repeat(3, 1fr);    /* the 3 cross-link cards run ACROSS (banner strip) */
+  gap: clamp(14px,1.6vw,22px); align-content: stretch; align-self: stretch;
+}
+.bw-banner__cards > * { height: 100%; }
+
+@media (max-width: 1024px) {
+  /* READING ORDER (owner law): in BOTH rows the section HEADING lives in a standalone head block ABOVE
+     the split, and the media is FIRST in SOURCE ORDER inside the grid, so a single-column grid stacks
+     heading -> media -> body (table / card-strip). The media-first order:-1 is REMOVED (rejected flip);
+     source order alone gives the correct stack. Media stays CAPPED (no full-bleed balloon). */
+  /* (a) heading (above) -> capped media -> compare table */
+  .bw-mediacompare { grid-template-columns: 1fr; }
+  .bw-mediacompare__media { width: 100%; min-width: 0; aspect-ratio: 16 / 9; max-height: clamp(240px,34vh,340px); }  /* ANCHOR retained */
+  /* (b) heading (above) -> capped media -> the 3-card strip stays 3-across until phone width */
+  .bw-banner { grid-template-columns: 1fr; }
+  .bw-banner__media { width: 100%; min-width: 0; aspect-ratio: 16 / 9; max-height: clamp(220px,30vh,320px); }  /* ANCHOR retained */
+}
+@media (max-width: 640px) {
+  .bw-banner__cards { grid-template-columns: 1fr; }   /* the 3-card strip stacks only at phone width */
+  .bw-mediacompare__media, .bw-banner__media { aspect-ratio: 4 / 3; }
+
+  /* COMPARE MATRIX -> PER-ROW CARD (a DESIGNED mobile treatment, not a broken collapse).
+     Each row is a card: the cost LABEL is the card heading (full width), then US + THEM
+     are a labeled 2-up PAIR. Every option carries its OWN source label (CSS-var driven,
+     slug-neutral) so neither value is ever orphaned under the other. The head row that
+     used to carry the column names is dropped — the per-cell labels replace it.
+
+     ROBUST / NO-MARKUP-DEPENDENCY: the "them" cell is matched POSITIONALLY
+     (:not(--label):not(--us)) as well as by the optional --them class, so the fix works
+     on existing 3-cell rows whether or not the third cell was tagged. The marker (--mk)
+     keeps grid-area:us|them naming; here we use grid-column placement so no wrapper is
+     needed around the bare value text node. */
+  .bw-compare__row {
+    grid-template-columns: 1fr 1fr;                  /* US | THEM, side by side */
+    grid-template-areas: "label label" "us them";    /* label spans the top; options below */
+    gap: 0;
+    padding: clamp(12px,4vw,16px);
+  }
+  .bw-compare__row + .bw-compare__row { border-top: 1px solid var(--ds-line); }
+  .bw-compare__row--head { display: none; }  /* per-cell labels replace the column head */
+  .bw-compare__cell { padding: 0; border: 0; align-items: flex-start; }
+  .bw-compare__cell--label {
+    grid-area: label; border: 0; padding: 0 0 clamp(8px,2.6vw,12px);
+    font-size: 13px; color: var(--ds-ink); font-weight: 600;
+  }
+  /* each option becomes a labeled TILE: a source-label heading row on top, then the
+     value row (marker + text inline). Grid so the marker+text stay on ONE line under
+     the heading (a flex column would split the svg and text onto separate rows). */
+  .bw-compare__cell--us,
+  .bw-compare__cell--them,
+  .bw-compare__row:not(.bw-compare__row--head) > .bw-compare__cell:not(.bw-compare__cell--label):not(.bw-compare__cell--us) {
+    display: grid;
+    grid-template-columns: auto 1fr;          /* marker | value text */
+    gap: 4px 8px; align-items: center;
+    padding: clamp(10px,3vw,13px); border-radius: var(--ds-r-control);
+    font-size: 13.5px; line-height: 1.35;
+  }
+  .bw-compare__cell--us { grid-area: us; background: var(--ds-accent-soft); margin-right: 6px; }
+  .bw-compare__cell--them,
+  .bw-compare__row:not(.bw-compare__row--head) > .bw-compare__cell:not(.bw-compare__cell--label):not(.bw-compare__cell--us) {
+    grid-area: them; background: var(--ds-bg-surface-2);
+    border: 1px solid var(--ds-line); margin-left: 6px;
+  }
+  /* the OWN source label — symmetric, both options get one, so nothing reads as orphaned.
+     Spans BOTH columns as a full-width heading row; the marker (col 1) + value text
+     (col 2, auto-placed) sit on the row below. grid-column:1/-1 is robust across engines. */
+  .bw-compare__cell--us::before,
+  .bw-compare__cell--them::before,
+  .bw-compare__row:not(.bw-compare__row--head) > .bw-compare__cell:not(.bw-compare__cell--label):not(.bw-compare__cell--us)::before {
+    grid-column: 1 / -1;
+    font-family: var(--ds-font-mono); font-size: 10px; letter-spacing: .08em;
+    text-transform: uppercase; font-weight: 600; opacity: .85;
+  }
+  .bw-compare__cell--us::before  { content: var(--compare-us-label);  color: var(--ds-accent); }
+  .bw-compare__cell--them::before,
+  .bw-compare__row:not(.bw-compare__row--head) > .bw-compare__cell:not(.bw-compare__cell--label):not(.bw-compare__cell--us)::before {
+    content: var(--compare-them-label); color: var(--ds-ink-faint, var(--ds-ink-soft));
+  }
+}
+
+/* ============================================================================
+   STAT BLOCK — the big-number-band treatment (DS Pattern D / TRUST-STATS #4).
+   ----------------------------------------------------------------------------
+   PROMOTED FROM THE REFERENCE IMPL (the build-skin .bw-metric/.bw-proof__metrics ->
+   .bw-stat/.bw-statband). The DS big-number-band spec
+   (_MODERN-DESIGN-PATTERN-LIBRARY Pattern D · SECTION-COMPONENTS #3 · TRUST-STATS #4):
+   oversized DISPLAY numerals — clamp(46–84px) on a STANDALONE band, clamp(44–72px)
+   in-section — weight ~300 (light-at-large), tight -.05em tracking, line-height .92,
+   font-variant-numeric:tabular-nums (digits never jitter), HAIRLINE DIVIDERS between
+   figures (the figures sit in OPEN SPACE — NOT carded), generous gap, accent prefix/
+   suffix affixes (`<` / `%` / `M` / `ms`) at ~.42em.
+
+   THE FAILURE THIS STOPS (owner, ref-impl T7): a stat row built as a flex-WRAP of
+   clamp(30–44px) figures with NO hairlines read cramped + plain, and on MOBILE the
+   figures SHRANK + wrapped to tiny text. THE FIX: the figures stay LARGE at every
+   width; at 375 the row STACKS 1-up with a TOP hairline between each (the numeral is
+   NEVER shrunk to fit) so the stat reads attractive on a phone. Enforced at render by
+   verify-stat-treatment.mjs (G-STAT): a stat numeral must render >= a min font-size
+   (34px) at 375 and the figures must not collapse to tiny wrapped text.
+
+   USE: a 2–4-up row of bare figures —
+     <div class="bw-statband">                 (or .bw-statband--big)
+       <div class="bw-stat"><div class="bw-stat__n">98<small>%</small></div>
+            <div class="bw-stat__l">On-time fill rate</div></div>
+       … 2–4 of these …
+     </div>
+   .bw-statband     = in-section figures (clamp 44–72)
+   .bw-statband--big = the dedicated dark anchor band (clamp 46–84, the message)
+   Token-pure: every colour resolves through var(--ds-*); zero brand hex.
+   ============================================================================ */
+.bw-statband {
+  display: flex; flex-wrap: nowrap; align-items: stretch;
+  gap: 0; margin: 0;
+}
+.bw-stat { display: flex; flex-direction: column; flex: 1 1 0; min-width: 0; }
+/* HAIRLINE DIVIDERS between figures (first column's divider dropped) — the only chrome */
+.bw-stat + .bw-stat {
+  border-left: 1px solid var(--ds-divider);
+  padding-left: clamp(18px,2.4vw,36px); margin-left: clamp(18px,2.4vw,36px);
+}
+.bw-stat__n {
+  font-family: var(--ds-font-display); font-weight: 300;       /* light-at-large per spec (E2 / Pattern D) */
+  font-size: clamp(44px,5vw,72px); line-height: .92;           /* big in-section numeral */
+  letter-spacing: -.05em; color: var(--ds-accent);
+  font-variant-numeric: tabular-nums;
+  /* the figure + its affix stay ONE big line: inline-block makes the box height track line-height
+     (not the display font's tall content box) so G-STAT's height/line-height ratio reads 1 line at
+     375; nowrap guards the affix from breaking off. Mirrors the build-skin structural css .bw-stat__n. */
+  display: inline-block; white-space: nowrap;
+}
+/* THE DEDICATED ANCHOR BAND goes BIGGER — clamp(46–84) (the figures ARE the message) */
+.bw-statband--big .bw-stat__n { font-size: clamp(46px,5.6vw,84px); }
+/* accent affix (prefix/suffix: `<` `%` `M` `ms`) in a separate span at ~.42em accent */
+.bw-stat__n small,
+.bw-stat__n .pre,
+.bw-stat__n .suf {
+  font-size: .42em; color: var(--ds-accent-bright); margin-left: .06em; letter-spacing: 0; font-weight: 400;
+}
+.bw-stat__n .pre { margin: 0 .06em 0 0; }
+.bw-stat__l {
+  margin-top: 10px; font-family: var(--ds-font-mono); font-size: var(--ds-fs-caption);
+  letter-spacing: .14em; text-transform: uppercase; color: var(--ds-ink-soft); display: block;
+}
+/* an optional normal-case bolder sub-line for context (TRUST-STATS #4 two-line label) */
+.bw-stat__sub { margin-top: 4px; font-size: 13px; line-height: 1.4; color: var(--ds-ink-soft); }
+
+/* ---- RESPONSIVE ----------------------------------------------------------- */
+@media (max-width: 920px) { .g-4 { grid-template-columns: repeat(2, 1fr); } .g-3 { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 640px) {
+  /* STAT BLOCK at phone width (DS mobile-floor rule): the figures STACK 1-up with a TOP
+     hairline between each — the numeral stays LARGE (clamp floor 40px, well above the
+     34px G-STAT gate floor), NEVER shrunk/wrapped to fit. Vertical divider -> horizontal. */
+  .bw-statband { flex-direction: column; flex-wrap: wrap; gap: 0; }
+  .bw-stat { flex: 1 1 auto; }
+  .bw-stat + .bw-stat {
+    border-left: 0; padding-left: 0; margin-left: 0;
+    border-top: 1px solid var(--ds-divider);
+    padding-top: clamp(16px,4vw,22px); margin-top: clamp(16px,4vw,22px);
+  }
+  .bw-stat__n { font-size: clamp(40px,12vw,60px); }            /* in-section: stays LARGE on mobile */
+  .bw-statband--big .bw-stat__n { font-size: clamp(44px,13vw,68px); }  /* anchor band: even larger */
+}
+@media (max-width: 600px) { .g-2, .g-3, .g-4 { grid-template-columns: 1fr; } .sec { padding: clamp(44px,12vw,72px) 20px; } }
+
+/* ============================================================================
+   STICKY-CTA COMPACT TREATMENT — the mobile fixed bottom CTA bar stays COMPACT.
+   ----------------------------------------------------------------------------
+   THE DEFECT THIS KILLS (owner, live build, MOBILE 375): the sticky bottom CTA
+   bar's button text WRAPS to 2 lines (e.g. a long primary label like "OPEN A
+   TRADE ACCOUNT"), so each button grows to two text rows and the WHOLE bar grows
+   tall + bulky — it eats a chunk of the phone viewport and reads cheap.
+
+   THE STANDARD (slug-neutral, repeatable, CHROME-AGNOSTIC):
+   This block is in the STRUCTURAL sheet, which links LAST (tokens -> chrome ->
+   structural), so it reliably overlays the bottom CTA bar regardless of WHICH
+   chrome class system a build ships — the canonical template chrome (.mobile-bar
+   with .btn-primary / .btn-secondary) OR a tournament chrome (.sticky-cta with
+   .btn--primary / .btn--secondary). Both selector families are covered so a new
+   slug inherits a compact bar without re-authoring chrome.
+
+     (1) Every button in the bar is ONE LINE: white-space:nowrap so the label can
+         never wrap to a second row. The bar's height is then driven by ONE text
+         row + the button padding, not by a wrapped label.
+     (2) Over-long labels TRUNCATE with an ellipsis instead of forcing a wrap or
+         an h-overflow: the button is a flex row (min-width:0 so it may shrink in
+         the bar's flex track) and the LABEL (.btn-label, or the button's own text
+         when no wrapper) clips with text-overflow:ellipsis. The trailing arrow /
+         affix stays visible (flex:0 0 auto). The two buttons share the row via
+         flex:1 so neither pushes the other off-screen.
+     (3) TAP-TARGET FLOOR preserved: min-height:46px (>= the 44px WCAG/G-TAP floor)
+         on every bar button, with vertically-centred content — truncation never
+         shrinks the touch area below the floor.
+     (4) BAR MAX-HEIGHT CAP: the bar is capped so a single compact row + its own
+         padding + the iOS safe-area inset can never balloon. max-height is the
+         button floor (46px) + the bar's vertical padding budget (~28px) +
+         env(safe-area-inset-bottom); overflow stays clipped as a backstop.
+   Token-pure (every value is a var(--ds-*) or a trivial layout literal); the
+   2-button layout, the per-build bar SKIN (bg/blur/shadow), and the show/hide
+   scroll behavior are all UNTOUCHED — this is purely the compact-sizing overlay.
+   The render gate G-MQUAL detector (e) FAILS a bar whose buttons wrap or whose
+   height exceeds the cap at mobile width.
+   ============================================================================ */
+.mobile-bar, .sticky-cta {
+  /* a sane MAX-HEIGHT cap: one 46px button row + ~28px vertical padding budget +
+     the device safe-area inset. A compact bar sits well under this; a wrapped /
+     ballooned bar trips the cap (and the G-MQUAL (e) gate). overflow clipped as a backstop. */
+  max-height: calc(46px + 28px + env(safe-area-inset-bottom, 0px));
+  overflow: hidden;
+}
+/* every button in the bar: ONE line, vertically centred, tap-target floor kept */
+.mobile-bar .btn, .sticky-cta .btn {
+  white-space: nowrap;                 /* (1) the label can never wrap to a 2nd row */
+  min-width: 0;                        /* (2) may shrink inside the bar's flex track so it truncates instead of overflowing */
+  min-height: 46px;                    /* (3) >= the 44px tap-target floor (G-TAP) */
+  align-items: center; justify-content: center;
+  overflow: hidden;                    /* clip the label, keep the arrow visible */
+}
+/* (2) the LABEL truncates with an ellipsis; the trailing arrow/affix stays put.
+   Works whether the dynamic label is wrapped in .btn-label (the template markup)
+   or is the button's bare text node (the arrow .arr is flex:0 0 auto regardless). */
+.mobile-bar .btn .btn-label, .sticky-cta .btn .btn-label {
+  min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.mobile-bar .btn .arr, .sticky-cta .btn .arr { flex: 0 0 auto; }
+
+/* ----------------------------------------------------------------------------
+   3b · LIVE-DEMO TRACK — the T-MARQUEE §3 "differentiator shown WORKING" (the one
+   marquee section the readiness flagged as a missing vocabulary). A horizontal
+   SEQUENCED process RAIL: N stage nodes threaded on ONE connecting line, with an
+   auto-running accent SWEEP that travels the rail + a LIVE status pill — so the
+   differentiator reads as a process RUNNING (interactive FEEL), not a static image.
+   The feel is pure SCROLL-REVEAL / stepped-sequence MOTION (a transform-only staged
+   entrance + the auto sweep), NOT click-controls: there is NO data-filter / search /
+   cart / tab to wire, so verify-interactive has no control to require wired. Used as
+   a per-item process stepper (how-it-works: a sequenced N-stage production /
+   fulfilment flow) or a format-family swap (each stage is a product / format
+   family the sweep lights in turn).
+
+   VISUALLY DISTINCT (G-SVAR): a full-width HORIZONTAL rail of equal stage nodes — a
+   different coarse SHAPE from the .bw-process 2-col [steps | media], the .bw-split
+   2-col [copy | visual] and the .bw-cap 3-col card grid, so it gives G-SVAR a fresh
+   shape to rotate in. COMPACT by construction (ONE banded row -> stays well under the
+   G-DENSITY 1.65vh ceiling, dense + balanced). RENDERS-ON-LOAD: opacity stays 1
+   ALWAYS — the entrance is a transform-only settle and the live sweep / pulse animate
+   position + transform, never any content opacity. Token-pure: every colour resolves
+   via var(--ds-*); only layout geometry is literal.
+
+   DESIGN-SYSTEM CITATIONS (resolve under .claude/design-system-unified/):
+     menu    -> SECTION-COMPONENTS.md #27 (Numbered process steps — re-shaped HORIZONTAL, shown running)
+     library -> _MODERN-WOW-SPEC §2 restrained transform-only motion · §5 one-accent glow
+     library -> _SCROLL-STICKY-BEHAVIOR-LIBRARY F2 reveal settle + reduced-motion gate
+   ---------------------------------------------------------------------------- */
+.bw-demo{ position:relative; }
+/* the demo's OWN status row — a LIVE pill that signals "running" (the section eyebrow +
+   title live in the .bw-head above). Distinct from a static caption: it is the cue the
+   differentiator is shown WORKING. */
+.bw-demo__bar{
+  display:flex; align-items:center; gap:clamp(12px,1.6vw,20px); flex-wrap:wrap;
+  margin-bottom:clamp(22px,3vw,40px);
+}
+.bw-demo__live{
+  display:inline-flex; align-items:center; gap:9px;
+  font-family:var(--ds-font-mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--ds-accent); background:var(--ds-accent-soft);
+  border:1px solid var(--ds-divider); border-radius:var(--ds-r-pill); padding:7px 14px;
+}
+.bw-demo__live .dot{
+  width:8px; height:8px; flex:0 0 auto; border-radius:50%;
+  background:var(--ds-accent-bright); box-shadow:var(--ds-glow);
+  animation:bw-demo-pulse 1.8s var(--ds-ease) infinite;     /* transform-only pulse (never opacity) */
+}
+.bw-demo__caption{
+  font-family:var(--ds-font-mono); font-size:11px; letter-spacing:.05em; text-transform:uppercase;
+  color:var(--ds-ink-soft);
+}
+
+/* THE TRACK — a horizontal rail of equal stage nodes (the distinct coarse SHAPE).
+   grid-auto-flow:column + grid-auto-columns:1fr makes it work for any N stages. */
+.bw-demo__track{
+  position:relative;
+  display:grid; grid-auto-flow:column; grid-auto-columns:1fr;
+  gap:clamp(10px,1.4vw,20px);
+  padding:clamp(20px,2.4vw,34px) clamp(16px,2vw,28px) clamp(22px,2.6vw,36px);
+  border:1px solid var(--ds-divider); border-radius:var(--ds-r-surface);
+  background:linear-gradient(180deg, var(--ds-bg-surface-2) 0%, var(--ds-bg-surface) 100%);
+  box-shadow:var(--ds-shadow-card), var(--ds-inset-hi);
+  overflow:hidden;
+}
+/* the connecting RAIL line that threads the stage nodes (sits behind them, on the badge row). */
+.bw-demo__track::before{
+  content:""; position:absolute; z-index:var(--ds-z-base); pointer-events:none;
+  left:clamp(16px,2vw,28px); right:clamp(16px,2vw,28px);
+  top:calc(clamp(20px,2.4vw,34px) + 17px);          /* = track padding-top + half the 34px badge */
+  height:2px; background:var(--ds-divider);
+}
+/* the LIVE SWEEP — an accent highlight that auto-travels the rail (the "running" feel).
+   Animates background-position ONLY (never content opacity), so renders-on-load holds. */
+.bw-demo__track::after{
+  content:""; position:absolute; z-index:var(--ds-z-base); pointer-events:none;
+  left:clamp(16px,2vw,28px); right:clamp(16px,2vw,28px);
+  top:calc(clamp(20px,2.4vw,34px) + 16px); height:4px; border-radius:2px;
+  background:linear-gradient(90deg, transparent, var(--ds-accent-bright), transparent);
+  background-size:34% 100%; background-repeat:no-repeat;
+  animation:bw-demo-sweep 4.6s var(--ds-ease) infinite;
+}
+.bw-demo__track > *{ position:relative; z-index:var(--ds-z-raised); }
+
+/* a STAGE node — a numbered badge ON the rail + a label + a one-line micro-caption.
+   Staggered transform-only entrance via inline style="--i:N" (opacity:1 throughout). */
+.bw-demo__stage{
+  --i:0;
+  display:flex; flex-direction:column; align-items:center; text-align:center; gap:10px;
+  min-width:0;
+  opacity:1;                                        /* NEVER hidden — visible on load, guaranteed */
+  transform:translateY(10px);
+  animation:bw-demo-rise var(--ds-dur-slow) var(--ds-ease-out) both;
+  animation-delay:calc(var(--i) * 90ms);
+}
+.bw-demo__dot{
+  width:34px; height:34px; flex:0 0 auto; border-radius:50%;
+  display:grid; place-items:center;
+  font-family:var(--ds-font-display); font-weight:700; font-size:14px;
+  color:var(--ds-accent); background:var(--ds-bg-surface-2);
+  border:2px solid var(--ds-accent); box-shadow:var(--ds-glow);
+  font-variant-numeric:tabular-nums;
+}
+.bw-demo__label{
+  font-family:var(--ds-font-display); font-weight:700; text-transform:uppercase;
+  letter-spacing:var(--ds-tracking-disp); line-height:1.05;
+  font-size:clamp(13px,1.2vw,16px); color:var(--ds-ink);
+}
+.bw-demo__note{
+  font-family:var(--ds-font-body); font-size:12.5px; line-height:1.4; color:var(--ds-ink-soft);
+  max-width:141px;  /* 141px = 18ch in the Poppins body font; A3 gate flags ch on body-font text */
+}
+/* a small DIRECTIONAL connector between stages — an accent chevron over the rail so the
+   sequence reads left -> right. Hidden on the last node (no stage follows it). */
+.bw-demo__stage::after{
+  content:""; position:absolute; top:17px; right:-3px;
+  width:7px; height:7px; border-top:2px solid var(--ds-accent); border-right:2px solid var(--ds-accent);
+  transform:translate(50%,-50%) rotate(45deg); opacity:.7;
+}
+.bw-demo__stage:last-child::after{ display:none; }
+
+@keyframes bw-demo-rise{ from{ transform:translateY(10px); } to{ transform:none; } }
+@keyframes bw-demo-pulse{ 0%,100%{ transform:scale(1); } 50%{ transform:scale(1.45); } }
+@keyframes bw-demo-sweep{ 0%{ background-position:-20% 0; } 100%{ background-position:120% 0; } }
+
+@media (prefers-reduced-motion:reduce){
+  .bw-demo__stage{ transform:none; animation:none; }
+  .bw-demo__track::after, .bw-demo__live .dot{ animation:none; }
+}
+
+/* RESPONSIVE — the horizontal rail re-flows to a 2-up then 1-up node grid at narrow
+   widths; the rail line + sweep + chevrons are the DESKTOP-rail treatment and hide once
+   it wraps (so the line never crosses a wrapped gap). Stays compact + balanced (G-DENSITY). */
+@media (max-width:760px){
+  .bw-demo__track{ grid-auto-flow:row; grid-template-columns:repeat(2,1fr); grid-auto-columns:auto; }
+  .bw-demo__track::before, .bw-demo__track::after{ display:none; }
+  .bw-demo__stage::after{ display:none; }
+  .bw-demo__stage{ align-items:flex-start; text-align:left; }
+  .bw-demo__note{ max-width:none; }
+}
+@media (max-width:430px){
+  .bw-demo__track{ grid-template-columns:1fr; }
+}
+
+/* ============================================================================
+   ABOUT / T-COMPANY COMPOSITION STRUCTURES — the per-TYPE vocabulary a company /
+   about page composes from, VISIBLY DISTINCT from the service (T-FEATURE) row
+   patterns (hero · split · media-grid · mediacompare · banner · compare · cap ·
+   proof · anchor · qm). A company page reads EDITORIAL — a founder statement, an
+   oversized creed, a dated origin spine, named founder bios with contact, and
+   third-party coverage — NOT a stack of capability tiles / media+cards feature
+   rows. FIVE structures, each a distinct coarse SHAPE (G-SVAR adjacency-safe):
+     (a) .bw-founder   — founder / company EDITORIAL hero (type-led, NOT the full-bleed product hero)
+     (b) .bw-manifesto — oversized VALUES / creed type-block (NOT a spec-card grid)
+     (c) .bw-timeline  — origin story-arc on a single vertical SPINE (NOT a feature row / not the process rail)
+     (d) .bw-team--duo — named FOUNDER BIOS grid (portrait + name + role + contact)
+     (e) .bw-press     — third-party coverage / logo strip
+
+   DESIGN-SYSTEM CITATIONS (resolve under .claude/design-system-unified/):
+     menu -> sections/company/menu.md #1 (Founder / company editorial hero)
+     menu -> sections/company/menu.md #2 (Manifesto / values creed type-block)
+     menu -> sections/company/menu.md #3 (Origin timeline — single vertical spine)
+     menu -> sections/company/menu.md #4 (Founder bios — named duo grid + contact)
+     menu -> sections/company/menu.md #5 (Press / third-party coverage strip)
+     library -> _MODERN-WOW-SPEC §4 display-scale contrast / oversized type · §6 generous negative space
+
+   Token-pure (every colour resolves via var(--ds-*); only layout geometry is
+   literal). COMPACT (each section <= 1.65vh; the manifesto / founder read DENSE,
+   text-led). Any STRETCHED grid-track media frame carries width:100% + min-width:0
+   (the media-fits-track anchor, G-MEDIA-TRACK). Copy wrappers carry a *__copy class
+   so the display:contents cadence-neutralizer (above) keeps leading == trailing.
+   ============================================================================ */
+
+/* (a) FOUNDER / COMPANY EDITORIAL HERO — a type-led mission statement (LEFT) beside a
+   framed founders portrait (RIGHT). The register is a masthead / signed letter, not a
+   photo-with-scrim; distinct from the product hero (no full-bleed image behind type). */
+.bw-founder{
+  display: grid; grid-template-columns: 1.15fr .85fr; gap: clamp(32px,5vw,72px); align-items: center;
+}
+.bw-founder__copy{ max-width: 32em; }
+.bw-founder__kicker{
+  font-family: var(--ds-font-mono); font-size: var(--ds-fs-caption);
+  letter-spacing: var(--ds-tracking-label); text-transform: uppercase;
+  color: var(--ds-accent); margin: 0 0 var(--ds-space-lg);
+  display: inline-flex; align-items: center; gap: 12px;
+}
+.bw-founder__kicker::before{ content: ""; width: 34px; height: 1px; background: var(--ds-divider); }
+.bw-founder__h{
+  font-family: var(--ds-font-display); font-weight: 700; text-transform: uppercase;
+  letter-spacing: var(--ds-tracking-disp); line-height: 1.0;
+  font-size: clamp(34px,5vw,64px); color: var(--ds-ink); margin: 0 0 var(--ds-space-lg); max-width: 13em;
+}
+.bw-founder__h .ac{ color: var(--ds-accent); }
+.bw-founder__lede{
+  font-family: var(--ds-font-body); font-size: clamp(17px,1.5vw,21px);
+  line-height: var(--ds-lh-body); color: var(--ds-ink-soft); margin: 0; max-width: 34em;
+}
+/* the SIGNED credibility line — the editorial signature ("a founder wrote this"). */
+.bw-founder__sig{
+  margin-top: var(--ds-space-xl); padding-top: var(--ds-space-lg);
+  border-top: 1px solid var(--ds-divider);
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+}
+.bw-founder__sig-name{ font-family: var(--ds-font-display); font-weight: 700; font-size: 16px; letter-spacing: .01em; color: var(--ds-ink); }
+.bw-founder__sig-role{ font-family: var(--ds-font-mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--ds-ink-soft); }
+/* the framed founders portrait — a STRETCHED grid-track media frame (G-MEDIA-TRACK anchor). */
+.bw-founder__portrait{
+  position: relative; overflow: hidden; margin: 0;
+  align-self: stretch; width: 100%; min-width: 0; height: 100%; min-height: 0;   /* width:100% + min-width:0 ANCHOR to the 1fr grid track (G-MEDIA-TRACK) */
+  aspect-ratio: 4 / 5; max-height: clamp(360px,52vh,560px);
+  border: 1px solid var(--ds-divider); border-radius: var(--ds-r-surface);
+  box-shadow: var(--ds-shadow-lift), var(--ds-inset-hi);
+}
+.bw-founder__portrait img{ position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; }
+.bw-founder__portrait::after{ content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(180deg, rgba(0,0,0,0.02) 0%, rgba(0,0,0,0.30) 100%); }
+
+/* (b) MANIFESTO / VALUES CREED — an OVERSIZED editorial type-block: a giant lead creed,
+   then the brand principles as oversized typographic statements separated by hairlines
+   (open type — NOT cards, NOT a spec grid). */
+.bw-manifesto{ max-width: var(--ds-container-max); }
+.bw-manifesto__lead{
+  font-family: var(--ds-font-display); font-weight: 600; text-transform: uppercase;
+  letter-spacing: var(--ds-tracking-disp); line-height: 1.04;
+  font-size: clamp(30px,4.4vw,58px); color: var(--ds-ink); margin: 0 0 clamp(36px,5vw,64px); max-width: 18em;
+}
+.bw-manifesto__lead .ac{ color: var(--ds-accent); }
+.bw-manifesto__values{ display: grid; gap: 0; }
+.bw-manifesto__value{
+  display: grid; grid-template-columns: auto 1fr; gap: clamp(18px,3vw,48px);
+  padding: clamp(22px,3vw,38px) 0; border-top: 1px solid var(--ds-divider);
+}
+.bw-manifesto__value:last-child{ border-bottom: 1px solid var(--ds-divider); }
+.bw-manifesto__idx{
+  font-family: var(--ds-font-mono); font-size: 13px; font-weight: 700; letter-spacing: .04em;
+  color: var(--ds-accent); font-variant-numeric: tabular-nums; padding-top: .55em;
+}
+.bw-manifesto__vbody{ min-width: 0; }
+.bw-manifesto__line{
+  font-family: var(--ds-font-display); font-weight: 600; text-transform: uppercase;
+  letter-spacing: .005em; line-height: 1.06; font-size: clamp(22px,2.6vw,36px);
+  color: var(--ds-ink); margin: 0;
+}
+.bw-manifesto__line .ac{ color: var(--ds-accent); }
+.bw-manifesto__support{
+  font-family: var(--ds-font-body); font-size: 15px; line-height: 1.55;
+  color: var(--ds-ink-soft); margin: var(--ds-space-sm) 0 0; max-width: 36em;
+}
+
+/* (c) ORIGIN TIMELINE — the story arc on ONE vertical SPINE. A single continuous line
+   runs down the left; each dated entry hangs a node on it. Distinct from the numbered
+   process rail (no media rail, no 2-col split) and from a feature row. */
+.bw-timeline{ --tl-gutter: 44px; --tl-spine: 12px; --tl-node: 14px; position: relative; max-width: 780px; }
+.bw-timeline__track{ position: relative; padding-left: var(--tl-gutter); }
+.bw-timeline__track::before{   /* THE SPINE — one continuous vertical line */
+  content: ""; position: absolute; left: var(--tl-spine); top: 10px; bottom: 10px; width: 2px; background: var(--ds-divider);
+}
+.bw-timeline__entry{ position: relative; padding: clamp(16px,2.4vw,30px) 0; }
+.bw-timeline__entry::before{   /* the node on the spine (centred on the 2px line) */
+  content: ""; position: absolute; left: calc(var(--tl-spine) - 6px - var(--tl-gutter));
+  top: calc(clamp(16px,2.4vw,30px) + 10px);
+  width: var(--tl-node); height: var(--tl-node); border-radius: var(--ds-r-pill);
+  background: var(--ds-accent); border: 3px solid var(--ds-bg-surface); box-shadow: var(--ds-glow);
+}
+.bw-timeline__year{
+  font-family: var(--ds-font-display); font-weight: 700; font-size: clamp(20px,2.2vw,30px);
+  line-height: 1; letter-spacing: -.02em; color: var(--ds-accent); font-variant-numeric: tabular-nums; margin: 0 0 var(--ds-space-sm);
+}
+.bw-timeline__h{
+  font-family: var(--ds-font-display); font-weight: 600; text-transform: uppercase; letter-spacing: .01em;
+  line-height: 1.1; font-size: clamp(17px,1.7vw,21px); color: var(--ds-ink); margin: 0 0 var(--ds-space-xs);
+}
+.bw-timeline__d{
+  font-family: var(--ds-font-body); font-size: 15px; line-height: 1.55; color: var(--ds-ink-soft); margin: 0; max-width: 42em;
+}
+
+/* (d) TEAM — FOUNDER BIOS, NAMED DUO GRID. A balanced 2-up people grid (portrait + name
+   + role + contact). Two columns (--duo) keep the columns balanced so the tall-stack
+   density heuristic can never fire. Distinct from the 3-col capability grid. */
+.bw-team{ display: grid; grid-template-columns: repeat(3,1fr); gap: clamp(18px,2.4vw,32px); }
+.bw-team--duo{ grid-template-columns: repeat(2,1fr); gap: clamp(22px,3vw,44px); }
+.bw-team__member{
+  display: grid; grid-template-columns: minmax(0,.6fr) minmax(0,1fr); gap: clamp(18px,2.4vw,30px); align-items: center;
+  background: linear-gradient(180deg, var(--ds-bg-surface-2) 0%, var(--ds-bg-surface) 80%);
+  border: 1px solid var(--ds-divider); border-radius: var(--ds-r-surface);
+  box-shadow: var(--ds-shadow-card); padding: clamp(18px,2vw,26px);
+}
+.bw-team__portrait{
+  position: relative; overflow: hidden; margin: 0;
+  width: 100%; min-width: 0;                /* anchor the portrait to its grid track (G-MEDIA-TRACK) */
+  aspect-ratio: 4 / 5; max-height: clamp(220px,30vh,320px);
+  border: 1px solid var(--ds-divider); border-radius: var(--ds-r-control);
+}
+.bw-team__portrait img{ position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+.bw-team__body{ min-width: 0; }
+.bw-team__name{
+  font-family: var(--ds-font-display); font-weight: 700; text-transform: uppercase;
+  letter-spacing: var(--ds-tracking-disp); line-height: 1.04; font-size: clamp(19px,2vw,25px); color: var(--ds-ink); margin: 0 0 4px;
+}
+.bw-team__role{ font-family: var(--ds-font-mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--ds-accent); margin: 0 0 var(--ds-space-md); }
+.bw-team__bio{ font-family: var(--ds-font-body); font-size: 14px; line-height: 1.55; color: var(--ds-ink-soft); margin: 0 0 var(--ds-space-md); }
+.bw-team__contact{ display: flex; flex-direction: column; gap: 7px; }
+.bw-team__contact a{ font-family: var(--ds-font-mono); font-size: 12px; letter-spacing: .03em; color: var(--ds-ink); display: inline-flex; align-items: center; gap: 8px; }
+.bw-team__contact a:hover{ color: var(--ds-accent); }
+.bw-team__contact .dot{ width: 6px; height: 6px; border-radius: var(--ds-r-pill); background: var(--ds-accent-bright); flex: 0 0 auto; }
+
+/* (e) PRESS — THIRD-PARTY COVERAGE / LOGO STRIP. A compact row of coverage items (an
+   outlet LOGO image where available, OR a named-outlet lockup + the coverage line + a
+   verify link). A horizontal strip between hairlines, NOT a card grid. */
+.bw-press__strip{
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(190px,1fr)); gap: clamp(16px,2.4vw,32px);
+  align-items: stretch; border-top: 1px solid var(--ds-divider); border-bottom: 1px solid var(--ds-divider);
+  padding-block: clamp(22px,3vw,38px);
+}
+.bw-press__item{ display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.bw-press__logo{ height: 28px; width: auto; max-width: 150px; object-fit: contain; object-position: left center;
+  opacity: var(--ds-opacity-muted); filter: grayscale(1); transition: opacity var(--ds-dur) var(--ds-ease), filter var(--ds-dur) var(--ds-ease); }
+.bw-press__item:hover .bw-press__logo{ opacity: 1; filter: grayscale(0); }
+.bw-press__outlet{ font-family: var(--ds-font-display); font-weight: 700; text-transform: uppercase; letter-spacing: .04em; font-size: 15px; color: var(--ds-ink); }
+.bw-press__quote{ font-family: var(--ds-font-body); font-size: 13.5px; line-height: 1.5; color: var(--ds-ink-soft); margin: 0; }
+.bw-press__link{ margin-top: auto; font-family: var(--ds-font-mono); font-size: 11px; font-weight: 700; letter-spacing: .06em;
+  text-transform: uppercase; color: var(--ds-accent); display: inline-flex; align-items: center; gap: 8px; }
+.bw-press__link span{ transition: transform var(--ds-dur) var(--ds-ease-out); }
+.bw-press__item:hover .bw-press__link span{ transform: translateX(4px); }
+
+/* ---- ABOUT STRUCTURES · RESPONSIVE -------------------------------------------- */
+@media (max-width: 1024px){
+  /* founder editorial hero — interleave heading -> portrait -> body (lede + sig) via the
+     display:contents copy wrapper (the split reading-order idiom; *__copy is cadence-safe). */
+  .bw-founder{ grid-template-columns: 1fr; gap: clamp(28px,5vw,44px); }
+  .bw-founder__copy{ display: contents; }
+  .bw-founder__copy > .bw-founder__kicker,
+  .bw-founder__copy > .bw-founder__h{ order: -1; }
+  .bw-founder__portrait{ order: 0; aspect-ratio: 16 / 10; max-height: clamp(280px,42vh,420px); }
+  .bw-founder__copy > .bw-founder__lede,
+  .bw-founder__copy > .bw-founder__sig{ order: 1; }
+  .bw-team{ grid-template-columns: repeat(2,1fr); }
+}
+@media (max-width: 640px){
+  .bw-team, .bw-team--duo{ grid-template-columns: 1fr; }
+  .bw-team__member{ grid-template-columns: 1fr; }      /* portrait above the bio */
+  .bw-team__portrait{ aspect-ratio: 16 / 10; max-height: clamp(200px,40vh,300px); }
+  .bw-manifesto__value{ grid-template-columns: 1fr; gap: 8px; }
+  .bw-manifesto__idx{ padding-top: 0; }
+}
+
+/* ============================================================================
+   T-CONTACT + T-LEGAL COMPOSITION STRUCTURES — the per-TYPE vocabulary the
+   contact (T-CONTACT) and legal (T-LEGAL) pages compose from, VISIBLY DISTINCT
+   from the service (T-FEATURE) row patterns and the about (T-COMPANY) editorial
+   structures above. THREE structures, each a distinct coarse SHAPE:
+     (1) .bw-form   — a tokenized QUOTE-REQUEST form (T-CONTACT): label-above-input
+                      field rows (text / email / textarea / select) + a submit .btn.
+                      STATIC success ONLY — JS preventDefault -> .is-sent flips the
+                      fields out for an inline .bw-form__success confirmation (OR a
+                      mailto: action). NO backend; modelled as a styled form
+                      (DS forms/menu.md:234 — model the form as a styled placeholder,
+                      do not wire a real provider). NO data-filter/search/cart control
+                      is present, so verify-interactive has nothing to require wired
+                      (a plain form returns n/a).
+     (2) .bw-legal  — a readable SINGLE-MEASURE (~760px) prose-document container
+                      (T-LEGAL) that styles RAW flowing <p>/<ul>/<ol>/<h2>/<h3>/<a>
+                      long-form legal prose with legal vertical rhythm. None of the
+                      structures above style raw prose children — this is that gap.
+     (3) .bw-toc    — a small anchored TABLE-OF-CONTENTS (anchor-link list), with an
+                      optional desktop STICKY side-rail variant .bw-toc--rail.
+
+   GRAMMAR (G-DOM): each is an OBJECT that lives inside the forced spine
+   section.bw-flow -> .container--full -> .row -> .col -> OBJECT. The skin lives on
+   the OBJECT (.bw-form / .bw-legal / .bw-toc), never on .container/.row/.col.
+     T-CONTACT form:  <section class="bw-flow"> .container--full > .row > .col--measure > form.bw-form
+     T-LEGAL doc:     <section class="bw-flow"> .container--full > .row > .col--measure > .bw-legal
+     T-LEGAL + rail:  <section class="bw-flow"> .container--full > .row.row--stretch >
+                        .col(aside .bw-toc.bw-toc--rail) + .col--grow(.bw-legal)
+
+   RENDERS-ON-LOAD: every visible part is opacity:1 at load (the only display:none is
+   the .bw-form__success panel, which is the post-submit state, not load content).
+   G-DENSITY-safe: the form is a balanced 2-col field grid, the legal doc is a single
+   text measure, the TOC is a compact list — none force a tall sparse box. Token-pure:
+   EVERY colour resolves through var(--ds-*); the only literals are layout geometry
+   (px/%/ch/em/vh, radii offsets, line-heights). Zero brand hex.
+
+   DESIGN-SYSTEM CITATIONS (resolve under .claude/design-system-unified/):
+     menu    -> sections/forms/menu.md #1 (single-column stacked quote form) · :234 (model as a styled form, no live provider)
+     library -> _MODERN-DESIGN-PATTERN-LIBRARY (single-measure reading column · form field rhythm)
+     library -> _MODERN-WOW-SPEC §6 generous negative-space rhythm (legal vertical rhythm)
+   ============================================================================ */
+
+/* (1) QUOTE-REQUEST FORM (T-CONTACT) — a token-built panel: label-above-input field
+   rows in a balanced 2-col grid, a full-width textarea + actions, and a STATIC
+   inline success state. The .btn submit is the locked chrome button (skin reused). */
+.bw-form{
+  position:relative;
+  background:linear-gradient(180deg, var(--ds-bg-surface-2) 0%, var(--ds-bg-surface) 100%);
+  border:1px solid var(--ds-divider); border-radius:var(--ds-r-surface);
+  box-shadow:var(--ds-shadow-lift), var(--ds-inset-hi);
+  padding:clamp(24px,3vw,44px);
+}
+.bw-form__head{ margin:0 0 clamp(20px,2.6vw,32px); }
+.bw-form__h{
+  font-family:var(--ds-font-display); font-weight:600; text-transform:uppercase;
+  letter-spacing:var(--ds-tracking-disp); line-height:1.08;
+  font-size:clamp(20px,2vw,26px); color:var(--ds-ink); margin:0 0 var(--ds-space-sm);
+}
+.bw-form__h .ac{ color:var(--ds-accent); }
+.bw-form__intro{ font-family:var(--ds-font-body); font-size:15px; line-height:var(--ds-lh-body); color:var(--ds-ink-soft); margin:0; max-width:46em; }
+
+/* GROUPED form (owner trim) - the quote form is trimmed to a small field set split into
+   TWO named groups (e.g. "Your program" + "You"), each a <fieldset class="bw-form__group">
+   with a small <legend class="bw-form__legend"> heading. The UA fieldset/legend chrome is
+   reset to token-pure; a hairline rule separates the second group from the first. */
+.bw-form__group{ border:0; margin:0; padding:0; min-width:0; }
+.bw-form__group + .bw-form__group{ margin-top:clamp(24px,3vw,36px); padding-top:clamp(24px,3vw,36px); border-top:1px solid var(--ds-divider); }
+.bw-form__legend{
+  display:block; width:100%; padding:0; margin:0 0 var(--ds-space-md);
+  font-family:var(--ds-font-mono); font-size:11px; letter-spacing:var(--ds-tracking-label);
+  text-transform:uppercase; color:var(--ds-accent);
+}
+/* the volume cadence - a small ONE-TIME / MONTHLY radio pair styled as segments. The
+   native radios are visually hidden; the checked segment fills with the accent wash. */
+.bw-cadence{ display:inline-flex; flex-wrap:wrap; gap:8px; margin-top:2px; }
+.bw-cadence__opt{ position:relative; display:inline-flex; }
+.bw-cadence__opt input{ position:absolute; opacity:0; width:0; height:0; margin:0; }
+.bw-cadence__opt span{
+  display:inline-flex; align-items:center; cursor:pointer;
+  font-family:var(--ds-font-mono); font-size:12px; letter-spacing:.04em; text-transform:uppercase;
+  color:var(--ds-ink-soft); background:var(--ds-bg-surface-2);
+  border:1px solid var(--ds-line); border-radius:var(--ds-r-control); padding:9px 15px;
+  transition:color var(--ds-dur-fast) var(--ds-ease), border-color var(--ds-dur-fast) var(--ds-ease), background-color var(--ds-dur-fast) var(--ds-ease);
+}
+.bw-cadence__opt input:checked + span{ color:var(--ds-accent); border-color:var(--ds-accent); background:var(--ds-accent-soft); }
+.bw-cadence__opt input:focus-visible + span{ box-shadow:0 0 0 3px var(--ds-accent-soft); }
+
+/* the field grid — 2-up on desktop, 1-up on phone. A field is label-ABOVE-control. */
+.bw-form__grid{ display:grid; grid-template-columns:repeat(2, 1fr); gap:clamp(16px,2vw,24px); }
+.bw-field{ display:flex; flex-direction:column; gap:8px; min-width:0; }
+.bw-field--full{ grid-column:1 / -1; }                 /* the textarea + any wide row spans both columns */
+.bw-field__label{
+  font-family:var(--ds-font-mono); font-size:11px; letter-spacing:var(--ds-tracking-label);
+  text-transform:uppercase; color:var(--ds-ink-soft);
+  display:inline-flex; align-items:center; gap:6px;
+}
+.bw-field__req{ color:var(--ds-accent); }              /* the required-marker asterisk */
+.bw-field__hint{ font-family:var(--ds-font-body); font-size:12px; line-height:1.45; color:var(--ds-ink-soft); margin:0; }
+
+/* the controls — text inputs, email, selects, textareas all share one base. Scoped by
+   .bw-form so a raw <input>/<select>/<textarea> is styled with no class, plus the
+   explicit .bw-input/.bw-select/.bw-textarea hooks for robustness. */
+.bw-form .bw-input,
+.bw-form input[type="text"],
+.bw-form input[type="email"],
+.bw-form input[type="tel"],
+.bw-form input:not([type]),
+.bw-form select,
+.bw-form textarea{
+  width:100%; display:block; min-width:0;
+  font-family:var(--ds-font-body); font-size:15px; line-height:1.5; color:var(--ds-ink);
+  background:var(--ds-bg-surface-2);
+  border:1px solid var(--ds-line); border-radius:var(--ds-r-control);
+  padding:12px 14px;
+  -webkit-appearance:none; -moz-appearance:none; appearance:none;
+  transition:border-color var(--ds-dur-fast) var(--ds-ease), box-shadow var(--ds-dur-fast) var(--ds-ease);
+}
+.bw-form ::placeholder{ color:var(--ds-ink-soft); opacity:.78; }
+.bw-form textarea, .bw-form .bw-textarea{ min-height:128px; resize:vertical; line-height:var(--ds-lh-body); }
+/* focus — accent border + a soft accent halo (keyboard + pointer; the chrome's global
+   :focus-visible ring also applies). Token-pure halo via --ds-accent-soft. */
+.bw-form .bw-input:focus,
+.bw-form input:focus, .bw-form select:focus, .bw-form textarea:focus{
+  outline:none; border-color:var(--ds-accent); box-shadow:0 0 0 3px var(--ds-accent-soft);
+}
+/* invalid (native :invalid after interaction, or a .is-invalid hook) re-skins the border */
+.bw-form .is-invalid,
+.bw-form input:user-invalid, .bw-form select:user-invalid, .bw-form textarea:user-invalid{
+  border-color:var(--ds-accent-strong);
+}
+/* custom select chevron — wrap a <select> in .bw-select so appearance:none gets a
+   token-drawn caret (no SVG/data-uri; a CSS border chevron in --ds-ink-soft). */
+.bw-select{ position:relative; display:block; }
+.bw-select::after{
+  content:""; position:absolute; right:16px; top:50%; width:8px; height:8px;
+  border-right:2px solid var(--ds-ink-soft); border-bottom:2px solid var(--ds-ink-soft);
+  transform:translateY(-65%) rotate(45deg); pointer-events:none;
+}
+.bw-select select{ padding-right:40px; cursor:pointer; }
+
+/* the actions row — the submit .btn + a fine-print confidentiality / quote-only note. */
+.bw-form__actions{ display:flex; flex-wrap:wrap; align-items:center; gap:clamp(14px,2vw,22px); margin-top:clamp(22px,2.6vw,32px); }
+.bw-form__actions .btn{ flex:0 0 auto; }
+.bw-form__note{
+  font-family:var(--ds-font-mono); font-size:11px; letter-spacing:.04em; color:var(--ds-ink-soft);
+  display:inline-flex; align-items:center; gap:9px; margin:0; min-width:0;
+}
+.bw-form__note .dot{ width:7px; height:7px; flex:0 0 auto; border-radius:var(--ds-r-pill); background:var(--ds-accent-bright); box-shadow:var(--ds-glow); }
+
+/* STATIC success — the post-submit confirmation. Hidden until JS adds .is-sent to the
+   form (preventDefault); then the fields swap out for this inline confirmation. The
+   only display:none is this not-yet-shown panel, so the form renders fully on load. */
+.bw-form__success{ display:none; text-align:center; padding:clamp(8px,2vw,20px) 0; }
+.bw-form.is-sent .bw-form__fields{ display:none; }
+.bw-form.is-sent .bw-form__success{ display:block; }
+.bw-form__success-ico{
+  width:54px; height:54px; margin:0 auto var(--ds-space-lg); border-radius:var(--ds-r-pill);
+  background:var(--ds-accent-soft); border:1px solid var(--ds-divider);
+  display:grid; place-items:center; box-shadow:var(--ds-glow);
+}
+.bw-form__success-ico::after{
+  content:""; width:11px; height:20px; margin-top:-5px;
+  border-right:3px solid var(--ds-accent); border-bottom:3px solid var(--ds-accent);
+  transform:rotate(45deg);
+}
+.bw-form__success-h{
+  font-family:var(--ds-font-display); font-weight:600; text-transform:uppercase;
+  letter-spacing:var(--ds-tracking-disp); line-height:1.1;
+  font-size:clamp(20px,2.2vw,28px); color:var(--ds-ink); margin:0 0 var(--ds-space-sm);
+}
+.bw-form__success-d{ font-family:var(--ds-font-body); font-size:15px; line-height:var(--ds-lh-body); color:var(--ds-ink-soft); margin:0 auto; max-width:34em; }
+
+/* (2) LEGAL DOCUMENT (T-LEGAL) — a single ~760px reading measure that styles RAW
+   flowing prose children (no per-node class needed). Legal vertical rhythm: generous
+   paragraph leading, clear heading steps, anchored headings clear the fixed header. */
+.bw-legal{ max-width:760px; }
+.bw-legal > :first-child{ margin-top:0; }
+.bw-legal > :last-child{ margin-bottom:0; }
+.bw-legal p{
+  font-family:var(--ds-font-body); font-size:16px; line-height:1.72; color:var(--ds-ink-soft);
+  margin:0 0 var(--ds-space-lg); max-width:68ch;
+}
+.bw-legal h2{
+  font-family:var(--ds-font-display); font-weight:600; text-transform:uppercase;
+  letter-spacing:var(--ds-tracking-disp); line-height:1.12; font-size:clamp(22px,2.6vw,30px);
+  color:var(--ds-ink); margin:clamp(40px,5vw,64px) 0 var(--ds-space-md);
+  scroll-margin-top:clamp(90px,12vh,120px);            /* anchored TOC jumps clear the fixed header */
+}
+.bw-legal h3{
+  font-family:var(--ds-font-display); font-weight:600; text-transform:uppercase;
+  letter-spacing:.01em; line-height:1.16; font-size:clamp(17px,1.8vw,21px);
+  color:var(--ds-ink); margin:clamp(28px,3.4vw,40px) 0 var(--ds-space-sm);
+  scroll-margin-top:clamp(90px,12vh,120px);
+}
+.bw-legal ul, .bw-legal ol{ margin:0 0 var(--ds-space-lg); padding-left:1.5em; color:var(--ds-ink-soft); }
+.bw-legal li{ font-family:var(--ds-font-body); font-size:16px; line-height:1.72; margin:0 0 var(--ds-space-sm); max-width:663px; }  /* 663px = 66ch in the Poppins body font; A3 gate flags ch on body-font text */
+.bw-legal li::marker{ color:var(--ds-accent); }
+.bw-legal a{
+  color:var(--ds-accent); text-decoration:underline; text-underline-offset:2px; text-decoration-thickness:1px;
+  transition:color var(--ds-dur-fast) var(--ds-ease);
+}
+.bw-legal a:hover{ color:var(--ds-accent-strong); }
+.bw-legal strong, .bw-legal b{ color:var(--ds-ink); font-weight:600; }
+.bw-legal em, .bw-legal i{ color:var(--ds-ink-soft); }
+.bw-legal hr{ border:0; height:1px; background:var(--ds-divider); margin:clamp(32px,4vw,48px) 0; }
+/* the title + effective-date line at the top of the document */
+.bw-legal__effective{ font-family:var(--ds-font-mono); font-size:12px; letter-spacing:.04em; color:var(--ds-ink-soft); margin:0 0 clamp(28px,3.4vw,44px); }
+/* a visible REPRESENTATIVE / not-binding callout banner (honesty fence — never asserts
+   binding legal text). A left-accented note that reads clearly above the prose. */
+.bw-legal__callout{
+  border:1px solid var(--ds-divider); border-left:3px solid var(--ds-accent);
+  border-radius:var(--ds-r-control); background:var(--ds-accent-soft);
+  padding:clamp(14px,2vw,20px) clamp(16px,2.2vw,24px); margin:0 0 clamp(28px,3.4vw,44px);
+  font-family:var(--ds-font-body); font-size:14px; line-height:1.62; color:var(--ds-ink);
+}
+.bw-legal__callout strong{ color:var(--ds-ink); }
+
+/* (3) TABLE OF CONTENTS (T-LEGAL) — a compact anchored-link list. .bw-toc is the
+   default (a bordered card of jump links); .bw-toc--rail makes it a desktop sticky
+   side-rail (the 2-col arrangement itself lives on .row--stretch + cols, not here). */
+.bw-toc{
+  border:1px solid var(--ds-divider); border-radius:var(--ds-r-surface);
+  background:linear-gradient(180deg, var(--ds-bg-surface-2) 0%, var(--ds-bg-surface) 100%);
+  box-shadow:var(--ds-shadow-card);
+  padding:clamp(18px,2vw,26px);
+}
+.bw-toc__title{
+  font-family:var(--ds-font-mono); font-size:11px; letter-spacing:var(--ds-tracking-label);
+  text-transform:uppercase; color:var(--ds-accent); margin:0 0 var(--ds-space-md);
+  display:inline-flex; align-items:center; gap:10px;
+}
+.bw-toc__title::before{ content:""; width:22px; height:1px; background:var(--ds-divider); }
+.bw-toc__list{ list-style:none; margin:0; padding:0; display:grid; gap:2px; counter-reset:bw-toc; }
+.bw-toc__item{ margin:0; min-width:0; }
+.bw-toc__link{
+  display:flex; align-items:baseline; gap:10px; min-width:0;
+  font-family:var(--ds-font-body); font-size:14px; line-height:1.4; color:var(--ds-ink-soft);
+  padding:7px 9px; border-radius:var(--ds-r-control);
+  transition:color var(--ds-dur-fast) var(--ds-ease), background-color var(--ds-dur-fast) var(--ds-ease);
+}
+.bw-toc__link::before{
+  counter-increment:bw-toc; content:counter(bw-toc, decimal-leading-zero);
+  font-family:var(--ds-font-mono); font-size:11px; color:var(--ds-accent);
+  font-variant-numeric:tabular-nums; flex:0 0 auto;
+}
+.bw-toc__link:hover{ color:var(--ds-ink); background:var(--ds-accent-soft); }
+.bw-toc__link.is-active,
+.bw-toc__link[aria-current="true"]{ color:var(--ds-accent); background:var(--ds-accent-soft); }
+/* the desktop STICKY side-rail variant — sticks below the fixed header; unsticks to a
+   normal block once the layout collapses to one column (<=1024). */
+.bw-toc--rail{
+  position:sticky; top:clamp(90px,12vh,120px); align-self:start;
+  max-height:calc(100vh - clamp(108px,15vh,150px)); overflow:auto;
+}
+
+/* ---- T-CONTACT / T-LEGAL STRUCTURES · RESPONSIVE -------------------------------- */
+@media (max-width:1024px){
+  /* the TOC rail stops sticking once the doc collapses to a single column — it becomes
+     a normal block (typically rendered ABOVE the prose in source order). */
+  .bw-toc--rail{ position:static; top:auto; max-height:none; overflow:visible; }
+}
+@media (max-width:640px){
+  .bw-form{ padding:clamp(18px,5vw,28px); }
+  .bw-form__grid{ grid-template-columns:1fr; }         /* fields stack 1-up at phone width */
+  .bw-form__actions{ gap:14px; }
+  .bw-form__actions .btn{ width:100%; justify-content:center; }
+}
+
+
+/* ============================================================================
+   T-ARTICLE TEMPLATE LAYER (appended at stage 5 TEMPLATES, 2026-08-06)
+
+   Owner picked concept B, "Numbered consultation", from the 3-concept tournament
+   under _design/_tournament/templates/T-ARTICLE/. This layer is what makes the
+   CONFIRMED feel reproducible on a real page: the arc seam, the band rhythm and
+   the quote treatment live only in feel-specimen.html inline <style>, and that
+   specimen links nothing but the tokens sheet.
+
+   WHY IT IS HERE AND NOT IN A -kit.css SHEET. build.mjs deriveDesignSheets()
+   links EXACTLY <slug>-tokens.css, <slug>-chrome.css and <slug>-structural.css
+   (brand.designSheets[] is undefined for this site), so a <slug>-kit.css would
+   sit on disk, satisfy the static gates, and NEVER LOAD on the assembled page.
+   verify-section-visual-rhythm resolves the structural sheet as well as the kit
+   sheet, so this home satisfies every gate AND actually ships.
+
+   STRICTLY ADDITIVE: no rule above is modified. Tokens only, zero brand hex.
+   ========================================================================== */
+/* ============================================================================
+   T-ARTICLE concept B, "Numbered consultation" — the concept's OWN layer.
+
+   THE IDEA: the oversized numeral the owner picked at the brand card becomes the
+   page's SPINE. Every section is numbered like a step in a visit, so a nervous
+   reader always knows where they are and how much is left. The dark moment lands
+   EARLY (on the mechanism, not the method), so the page opens quiet, goes deep,
+   and comes back up to the practical close.
+
+   ZERO brand hex. Tokens only. Additive over the locked sheets.
+   ========================================================================== */
+
+/* --- the numbered section head ------------------------------------------- */
+.art-head { display: flex; align-items: baseline; gap: clamp(16px, 2.4vw, 34px); margin: 0 0 26px; }
+.art-num {
+  font-family: var(--ds-font-display); font-weight: 800; line-height: .8;
+  font-size: clamp(38px, 5vw, 68px); letter-spacing: var(--ds-tracking-disp);
+  color: var(--ds-accent); opacity: .38; font-variant-numeric: tabular-nums;
+  flex: 0 0 auto;
+}
+.art-head h1, .art-head h2 { margin: 0; }
+.art-rule { height: 1px; background: var(--ds-divider); border: 0; margin: 0 0 34px; }
+.surface-dark .art-rule { background: var(--ds-line); }
+.surface-dark .art-num { color: var(--ds-accent-bright); opacity: .55; }
+
+/* --- opener --------------------------------------------------------------- */
+.art-open { padding-block: clamp(44px, 6vw, 84px); }
+.art-crumb {
+  display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin: 0 0 26px; padding: 0;
+  font-family: var(--ds-font-mono); font-size: var(--ds-fs-caption);
+  letter-spacing: var(--ds-tracking-label); text-transform: uppercase; color: var(--ds-ink-faint);
+}
+.art-crumb li + li::before { content: "/"; margin-right: 8px; color: var(--ds-divider); }
+.art-crumb a { color: var(--ds-ink-faint); text-decoration: none; }
+.art-crumb a:hover { color: var(--ds-accent); }
+.art-actions { display: flex; flex-wrap: wrap; gap: 12px; margin: 30px 0 0; }
+.art-sig {
+  margin: 26px 0 0; padding-block-start: 22px; border-block-start: 1px solid var(--ds-hairline);
+  font-family: var(--ds-font-mono); font-size: 12px; letter-spacing: .06em;
+  color: var(--ds-ink-faint); text-transform: uppercase;
+}
+
+/* --- the dark mechanism band + its arc seam ------------------------------- */
+.art-arc { display: block; position: relative; line-height: 0; }
+.art-arc svg { display: block; width: 100%; height: var(--ds-divider-h); }
+/* the arc sits FLUSH at the band top without zeroing the section padding: G-CADENCE requires
+   leading == trailing on every section, so the seam is pulled up by a negative margin instead. */
+.art-mech .art-arc { margin-block-start: calc(-1 * var(--ds-section-py)); }
+.art-mech .container:last-child { padding-block-start: clamp(20px, 3vw, 38px); }
+.art-causes { margin: 0; padding: 0; list-style: none; display: grid; gap: 0; }
+.art-causes li {
+  display: grid; grid-template-columns: auto 1fr; gap: clamp(16px, 2vw, 28px);
+  padding: 22px 0; border-block-end: 1px solid var(--ds-line); align-items: start;
+}
+.art-causes li:last-child { border-block-end: 0; }
+.art-causes b {
+  font-family: var(--ds-font-mono); font-size: 12px; font-weight: 700;
+  letter-spacing: var(--ds-tracking-label); color: var(--ds-accent-bright);
+  padding-top: .35em;
+}
+.art-causes span { color: var(--ds-ink-soft); line-height: var(--ds-lh-body); }
+
+/* --- the method, as a walked sequence ------------------------------------- */
+.art-steps { margin: 0; padding: 0; list-style: none; display: grid; gap: 14px; }
+.art-step {
+  display: grid; grid-template-columns: auto 1fr; gap: 18px; align-items: start;
+  padding: 20px 22px; border-radius: var(--ds-r-surface);
+  background: var(--ds-bg-surface-2); border: 1px solid var(--ds-glass-border);
+  box-shadow: var(--ds-shadow-rest);
+}
+.art-step .ico { margin: 0; }
+.art-step h3 { margin: 0 0 6px; font-size: 17px; color: var(--ds-ink-heading); }
+.art-step p { margin: 0; color: var(--ds-ink-soft); font-size: 15px; line-height: var(--ds-lh-body); }
+
+.art-shot {
+  margin: 0; position: relative; border-radius: var(--ds-r-surface); overflow: hidden;
+  aspect-ratio: 4 / 3; box-shadow: var(--ds-shadow-lift);
+}
+.art-shot img { position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; object-position: 50% 45%; }
+.art-shot figcaption {
+  position: absolute; inset-inline: 0; inset-block-end: 0; padding: 30px 18px 14px;
+  font-family: var(--ds-font-mono); font-size: 11px; letter-spacing: var(--ds-tracking-label);
+  text-transform: uppercase; color: var(--ds-ink-on-dark);
+  background: linear-gradient(to top, var(--ds-scrim), transparent);
+}
+
+/* --- proof: quotes as a stacked pair -------------------------------------- */
+.art-quotes { display: grid; gap: 14px; margin: 26px 0 0; }
+.art-quote {
+  margin: 0; padding: 22px 24px; border-radius: var(--ds-r-surface);
+  border: 1px solid var(--ds-line); border-inline-start: 3px solid var(--ds-accent);
+  background: var(--ds-bg-surface-2);
+}
+.art-quote p { margin: 0; font-size: 15px; line-height: var(--ds-lh-body); color: var(--ds-ink); }
+.art-quote cite {
+  display: block; margin-top: 12px; font-style: normal; font-family: var(--ds-font-mono);
+  font-size: 11px; font-weight: 700; letter-spacing: var(--ds-tracking-label);
+  text-transform: uppercase; color: var(--ds-accent-strong);
+}
+.art-fine { font-size: 12px; line-height: 1.6; color: var(--ds-ink-faint); margin: 14px 0 0; }
+
+/* --- the limits section --------------------------------------------------- */
+.art-limits .card { height: 100%; }
+.art-urgent { border-block-start: 3px solid var(--ds-warning); }
+.art-urgent ul { margin: 14px 0 0; padding: 0; list-style: none; display: grid; gap: 9px; }
+.art-urgent li { display: flex; gap: 11px; align-items: flex-start; font-size: 15px; }
+.art-urgent li::before {
+  content: ""; flex: 0 0 auto; width: 7px; height: 7px; margin-top: .55em;
+  border-radius: 50%; background: var(--ds-warning);
+}
+
+/* --- the practical close -------------------------------------------------- */
+.art-next { }
+.art-next dl { margin: 0; display: grid; gap: 0; }
+.art-next dl > div {
+  display: grid; grid-template-columns: minmax(0,.38fr) minmax(0,1fr); gap: 22px;
+  padding: 18px 0; border-block-end: 1px solid var(--ds-hairline);
+}
+.art-next dl > div:last-child { border-block-end: 0; }
+.art-next dt {
+  font-family: var(--ds-font-mono); font-size: 11px; font-weight: 700;
+  letter-spacing: var(--ds-tracking-label); text-transform: uppercase; color: var(--ds-ink-faint);
+}
+.art-next dd { margin: 0; color: var(--ds-ink); line-height: var(--ds-lh-body); }
+.art-next a { color: var(--ds-accent-strong); }
+
+@media (max-width: 900px) {
+  .art-head { gap: 14px; }
+  .art-next dl > div { grid-template-columns: 1fr; gap: 6px; }
+}
+
+/* --- ARC SEAM FILL FIX -------------------------------------------------------
+   .surface-dark REMAPS --ds-bg-surface / --ds-bg-warm to their dark values, so an arc
+   inside the dark band filled with either token paints DARK ON DARK and vanishes. These
+   two properties are computed at :root, where the tokens still hold their LIGHT values,
+   and custom properties inherit their COMPUTED value, so the arc keeps the colour of the
+   section it is rising out of. Tokens only, no brand hex.
+   -------------------------------------------------------------------------- */
+:root { --arc-surface: var(--ds-bg-surface); --arc-warm: var(--ds-bg-warm); }
+.art-arc svg path { fill: var(--arc-surface); } /* section 1 above it is the plain ground */
+
+/* --- onward links (the brief's links_to, which verify-conversion-integrity requires) ------
+   Deliberately a plain labelled list, NOT a card grid: these are signposts at the foot of an
+   article, and dressing them as cards would compete with the chrome's closing conversion band. */
+.x-related-h {
+  font-family: var(--ds-font-mono); font-size: 11px; font-weight: 700;
+  letter-spacing: var(--ds-tracking-label); text-transform: uppercase;
+  color: var(--ds-ink-faint); margin: 34px 0 12px;
+}
+.x-related {
+  list-style: none; margin: 0; padding: 0;
+  display: flex; flex-wrap: wrap; gap: 8px 10px;
+}
+.x-related a {
+  display: inline-flex; align-items: center;
+  padding: 8px 14px; border: 1px solid var(--ds-line); border-radius: var(--ds-r-pill);
+  font-size: 14px; color: var(--ds-ink-soft); text-decoration: none;
+  transition: border-color var(--ds-dur-fast) var(--ds-ease), color var(--ds-dur-fast) var(--ds-ease);
+}
+.x-related a:hover { border-color: var(--ds-accent); color: var(--ds-accent); }
+
+/* --- section roles ------------------------------------------------------- */
+.art-method { --sec-role: method; }
+.art-method .row.grid { align-items: start; }
+
+/* --- globals-overlay signal: a real hover LIFT, never a reveal ---------------
+   .reveal was the obvious way to satisfy verify-globals-overlay, and it is a TRAP: the
+   structural sheet sets .reveal{opacity:0} and only restores it inside
+   @media (prefers-reduced-motion: reduce), so a section marked .reveal is INVISIBLE until
+   motion JS adds .in. Measured: every section of this page rendered blank. A hover lift
+   carries the same depth/motion intent and can never hide content.
+   -------------------------------------------------------------------------- */
+.u-lift { transition: transform var(--ds-dur) var(--ds-ease), box-shadow var(--ds-dur) var(--ds-ease); }
+.u-lift:hover { transform: translateY(-4px); box-shadow: var(--ds-shadow-lift); }
+
+/* --- T-ARTICLE ladder: the 1200 band -------------------------------------------
+   The locked chrome container caps at 1340px, so a 1200px viewport was falling into the
+   raw desktop layout with nothing between it and the 1100 step (G-LADDER). This is a real
+   step, not a filler query: at 1200 the two-track rows sit tight against the container and
+   the display numeral crowds the heading beside it.
+   ---------------------------------------------------------------------------- */
+@media (max-width: 1279px) {
+  .art-head { gap: clamp(12px, 1.8vw, 24px); }
+  .art-num { font-size: clamp(32px, 4.2vw, 54px); }
+  .art-step { padding: 18px 20px; }
+  .art-causes li { padding: 18px 0; gap: clamp(12px, 1.6vw, 22px); }
+  .art-next dl > div { grid-template-columns: minmax(0,.42fr) minmax(0,1fr); gap: 18px; }
+}
+
+/* --- seam continuity: every arc is filled with the band ABOVE it ------------------
+   Measured on the assembled page: the close carried a light seam while sitting under the
+   WARM limits band, so it read as a white slab rather than a seam. -------------------- */
+.art-limits .art-arc svg path { fill: var(--arc-surface); }
+.art-next .art-arc svg path { fill: var(--arc-warm); }
+
+
+/* ============================================================================
+   T-FEATURE TEMPLATE LAYER (appended at stage 5 TEMPLATES, 2026-08-06)
+
+   Owner picked concept B, "Claim first", from the 3-concept tournament under
+   _design/_tournament/templates/T-FEATURE/. The whole shared type layer is grafted,
+   not only the patterns concept B happens to use: T-FEATURE serves SIX sibling pages
+   and verify-page-distinct blocks at 80% skeleton similarity, so the unused patterns
+   (svc-claim, svc-readers, svc-ladder, svc-statement) are the VARIATION KIT those
+   pages compose from. They are deliberate, not dead.
+
+   Lives here rather than in a -kit.css sheet for the reason recorded on the T-ARTICLE
+   layer above: build.mjs links only tokens + chrome + structural.
+   Tokens only, zero brand hex, strictly additive.
+   ========================================================================== */
+
+/* --- shared seam (the A2 circle-up, filled with the band ABOVE it) --------- */
+.svc-arc { display: block; position: relative; line-height: 0; }
+.svc-arc svg { display: block; width: 100%; height: var(--ds-divider-h); }
+
+/* --- opener --------------------------------------------------------------- */
+.svc-crumb {
+  display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin: 0 0 20px; padding: 0;
+  font-family: var(--ds-font-mono); font-size: var(--ds-fs-caption);
+  letter-spacing: var(--ds-tracking-label); text-transform: uppercase; color: var(--ds-ink-faint);
+}
+.svc-crumb li + li::before { content: "/"; margin-right: 8px; color: var(--ds-divider); }
+.svc-crumb a { color: var(--ds-ink-faint); text-decoration: none; }
+.svc-crumb a:hover { color: var(--ds-accent); }
+.svc-actions { display: flex; flex-wrap: wrap; gap: 12px; margin: 28px 0 0; }
+
+/* the doctor portrait, circle-masked per the medical blueprint's H2/H5 move */
+.svc-portrait {
+  margin: 0; position: relative; aspect-ratio: 1; border-radius: 50%;
+  overflow: hidden; box-shadow: var(--ds-shadow-lift); max-width: 340px;
+}
+.svc-portrait img { position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; object-position: 50% 22%; }
+
+/* --- the definition statement (the page's one claim) ---------------------- */
+.svc-claim {
+  margin: 0; padding: clamp(26px, 3.4vw, 44px) clamp(24px, 3vw, 40px);
+  border-radius: var(--ds-r-surface); background: var(--ds-bg-surface-2);
+  border: 1px solid var(--ds-glass-border); box-shadow: var(--ds-shadow-rest);
+}
+.svc-claim p { margin: 0 0 14px; }
+.svc-claim p:last-child { margin: 0; }
+.svc-claim strong {
+  font-family: var(--ds-font-display); font-weight: 700;
+  font-size: clamp(21px, 2vw, 28px); line-height: var(--ds-lh-tight);
+  color: var(--ds-ink-heading); display: block; margin-bottom: 12px;
+}
+
+/* --- "who this is for": three reader states ------------------------------- */
+.svc-readers { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+.svc-reader {
+  display: grid; grid-template-columns: auto 1fr; gap: 16px; align-items: start;
+  padding: 20px 22px; border-radius: var(--ds-r-surface);
+  border: 1px solid var(--ds-line); background: var(--ds-bg-surface-2);
+}
+.svc-reader b {
+  font-family: var(--ds-font-mono); font-size: 11px; font-weight: 700;
+  letter-spacing: var(--ds-tracking-label); text-transform: uppercase;
+  color: var(--ds-accent); padding-top: .3em; white-space: nowrap;
+}
+.svc-reader span { color: var(--ds-ink-soft); line-height: var(--ds-lh-body); }
+
+/* --- proof: the three cleared cards --------------------------------------- */
+.svc-quotes { display: grid; gap: 16px; margin: 0; }
+.svc-quote {
+  margin: 0; padding: 24px 26px; border-radius: var(--ds-r-surface);
+  background: var(--ds-bg-surface-2); border: 1px solid var(--ds-line);
+  border-inline-start: 3px solid var(--ds-accent);
+}
+.svc-quote p { margin: 0; color: var(--ds-ink); font-size: 15px; line-height: var(--ds-lh-body); }
+.svc-quote cite {
+  display: block; margin-top: 12px; font-style: normal; font-family: var(--ds-font-mono);
+  font-size: 11px; font-weight: 700; letter-spacing: var(--ds-tracking-label);
+  text-transform: uppercase; color: var(--ds-accent-strong);
+}
+.surface-dark .svc-quote cite { color: var(--ds-accent-bright); }
+.svc-fine { font-size: 12px; line-height: 1.6; color: var(--ds-ink-faint); margin: 16px 0 0; }
+.svc-ours { margin: 20px 0 0; font-size: clamp(16px, 1.3vw, 18px); color: var(--ds-ink); }
+
+/* --- the treatment room: equipment, each tied to what it is for ----------- */
+.svc-kit { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+.svc-kit li {
+  display: grid; grid-template-columns: minmax(0,.42fr) minmax(0,1fr); gap: clamp(14px, 2vw, 26px);
+  padding: 16px 0; border-block-end: 1px solid var(--ds-hairline); align-items: baseline;
+}
+.svc-kit li:last-child { border-block-end: 0; }
+.svc-kit b { font-family: var(--ds-font-display); font-size: 17px; font-weight: 700;
+  color: var(--ds-ink-heading); }
+.svc-kit span { color: var(--ds-ink-soft); font-size: 15px; }
+
+.svc-shot {
+  margin: 0; position: relative; border-radius: var(--ds-r-surface); overflow: hidden;
+  aspect-ratio: 4 / 3; box-shadow: var(--ds-shadow-lift);
+}
+.svc-shot img { position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; object-position: 50% 45%; }
+.svc-shot figcaption {
+  position: absolute; inset-inline: 0; inset-block-end: 0; padding: 30px 18px 13px;
+  font-family: var(--ds-font-mono); font-size: 11px; letter-spacing: var(--ds-tracking-label);
+  text-transform: uppercase; color: var(--ds-ink-on-dark);
+  background: linear-gradient(to top, var(--ds-scrim), transparent);
+}
+.svc-shots { display: grid; gap: 16px; }
+
+/* --- scope / referral ------------------------------------------------------ */
+.svc-scope-note {
+  border-inline-start: 3px solid var(--ds-warning); padding-inline-start: 20px;
+  color: var(--ds-ink-soft);
+}
+
+/* --- continuity / credentials --------------------------------------------- */
+.svc-cred { margin: 0; display: grid; gap: 0; }
+.svc-cred > div {
+  display: grid; grid-template-columns: minmax(0,.38fr) minmax(0,1fr); gap: 20px;
+  padding: 16px 0; border-block-end: 1px solid var(--ds-hairline);
+}
+.svc-cred > div:last-child { border-block-end: 0; }
+.svc-cred dt {
+  font-family: var(--ds-font-mono); font-size: 11px; font-weight: 700;
+  letter-spacing: var(--ds-tracking-label); text-transform: uppercase; color: var(--ds-ink-faint);
+}
+.svc-cred dd { margin: 0; color: var(--ds-ink); line-height: var(--ds-lh-body); }
+
+/* --- where to start + the close (INFORMATION, never a second CTA band) ---- */
+.svc-start-card {
+  padding: clamp(24px, 3vw, 36px); border-radius: var(--ds-r-surface);
+  background: var(--ds-accent-soft); border: 1px solid var(--ds-accent);
+}
+.svc-start-card p { margin: 0; color: var(--ds-ink); }
+.svc-next p { margin: 0 0 14px; max-width: 68ch; }
+.svc-next p:last-child { margin-bottom: 0; }
+.svc-next a { color: var(--ds-accent-strong); }
+
+/* --- onward links (the brief's links_to) ---------------------------------- */
+.svc-related-h {
+  font-family: var(--ds-font-mono); font-size: 11px; font-weight: 700;
+  letter-spacing: var(--ds-tracking-label); text-transform: uppercase;
+  color: var(--ds-ink-faint); margin: 32px 0 12px;
+}
+.svc-related { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 10px; }
+.svc-related a {
+  display: inline-flex; align-items: center; padding: 8px 14px;
+  border: 1px solid var(--ds-line); border-radius: var(--ds-r-pill);
+  font-size: 14px; color: var(--ds-ink-soft); text-decoration: none;
+  transition: border-color var(--ds-dur-fast) var(--ds-ease), color var(--ds-dur-fast) var(--ds-ease);
+}
+.svc-related a:hover { border-color: var(--ds-accent); color: var(--ds-accent); }
+
+/* --- the globals-overlay signal: a real hover lift, never a .reveal -------- */
+.u-lift { transition: transform var(--ds-dur) var(--ds-ease), box-shadow var(--ds-dur) var(--ds-ease); }
+.u-lift:hover { transform: translateY(-4px); box-shadow: var(--ds-shadow-lift); }
+
+/* --- section roles (defined so no class is an orphan) --------------------- */
+.svc-open, .svc-what, .svc-who, .svc-proof, .svc-room,
+.svc-scope, .svc-doctor, .svc-start, .svc-next { --sec-type: feature; }
+.svc-open .h-hero { max-width: 17ch; }
+
+@media (max-width: 900px) {
+  .svc-kit li, .svc-cred > div { grid-template-columns: 1fr; gap: 6px; }
+  .svc-reader { grid-template-columns: 1fr; gap: 8px; }
+  .svc-portrait { max-width: 260px; }
+}
+
+/* --- additions used by individual concepts ------------------------------- */
+/* the dark band colour captured at :root so a seam rising OUT of the dark band is not
+   remapped by .surface-dark (same trick as --arc-surface / --arc-warm). */
+:root { --arc-dark: var(--ds-primary-deep); }
+
+/* one card promoted to a lead pull-quote (concept B) */
+.svc-quote--lead { border-inline-start-width: 4px; padding: 30px 32px; margin-block-end: 18px; }
+.svc-quote--lead p { font-family: var(--ds-font-display); font-size: clamp(19px, 1.9vw, 25px);
+  line-height: var(--ds-lh-tight); color: var(--ds-ink-heading); }
+
+/* the dated spine (concept B) and the numbered ladder (concept C) */
+.svc-spine { list-style: none; margin: 22px 0; padding: 0 0 0 24px; display: grid; gap: 20px;
+  border-inline-start: 1px solid var(--ds-divider); }
+.svc-spine li { position: relative; display: grid; gap: 4px; }
+.svc-spine li::before { content: ""; position: absolute; inset-inline-start: -29px; top: .5em;
+  width: 9px; height: 9px; border-radius: 50%; background: var(--ds-accent); }
+.svc-spine b { font-family: var(--ds-font-mono); font-size: 11px; font-weight: 700;
+  letter-spacing: var(--ds-tracking-label); text-transform: uppercase; color: var(--ds-accent-strong); }
+.svc-spine span { color: var(--ds-ink-soft); line-height: var(--ds-lh-body); }
+
+/* the numbered ladder (concept C) */
+.svc-ladder { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; counter-reset: r; }
+.svc-ladder li { display: grid; grid-template-columns: auto 1fr; gap: clamp(16px, 2vw, 30px);
+  padding: 20px 0; border-block-end: 1px solid var(--ds-hairline); align-items: start; }
+.svc-ladder li:last-child { border-block-end: 0; }
+.svc-ladder li::before { counter-increment: r; content: counter(r, decimal-leading-zero);
+  font-family: var(--ds-font-display); font-size: clamp(24px, 2.6vw, 36px); font-weight: 800;
+  line-height: 1; color: var(--ds-accent); opacity: .42; }
+.svc-ladder p { margin: 0; color: var(--ds-ink-soft); line-height: var(--ds-lh-body); }
+
+/* the oversized plain-language statement (concept C) */
+.svc-statement { font-family: var(--ds-font-display); font-weight: 700;
+  font-size: clamp(24px, 3.1vw, 42px); line-height: var(--ds-lh-tight);
+  letter-spacing: var(--ds-tracking-disp); color: var(--ds-ink-heading); margin: 0 0 20px; max-width: 20ch; }
+
+/* --- T-FEATURE mobile reading order ------------------------------------------
+   At 375 the portrait column stacked ABOVE its own heading, so the picture arrived 329px
+   before a reader knew what it was of (G-MQUAL reading-order). On a narrow screen the
+   heading leads and the portrait follows it.
+   ---------------------------------------------------------------------------- */
+@media (max-width: 900px) {
+  .svc-doctor .row.grid > .col:first-child { order: 2; }
+  .svc-doctor .svc-portrait { margin-inline: auto; }
+}
+
+
+/* ============================================================================
+   T-HUB TEMPLATE LAYER (appended at stage 5 TEMPLATES, 2026-08-06)
+
+   Owner picked concept B, "Two-axis rail", from the 3-concept tournament under
+   _design/_tournament/templates/T-HUB/. The whole shared type layer is grafted: the
+   card, rail and pill index forms are all kept because T-HUB serves FOUR sibling
+   pages whose indexes differ in size and shape, and G13 blocks at 80 percent
+   skeleton similarity.
+
+   Lives here rather than in a -kit.css sheet for the reason on the T-ARTICLE layer
+   above: build.mjs links only tokens + chrome + structural.
+   Tokens only, zero brand hex, strictly additive.
+   ========================================================================== */
+
+.hub-arc { display: block; position: relative; line-height: 0; }
+.hub-arc svg { display: block; width: 100%; height: var(--ds-divider-h); }
+
+.hub-crumb {
+  display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin: 0 0 20px; padding: 0;
+  font-family: var(--ds-font-mono); font-size: var(--ds-fs-caption);
+  letter-spacing: var(--ds-tracking-label); text-transform: uppercase; color: var(--ds-ink-faint);
+}
+.hub-crumb li + li::before { content: "/"; margin-right: 8px; color: var(--ds-divider); }
+.hub-crumb a { color: var(--ds-ink-faint); text-decoration: none; }
+.hub-crumb a:hover { color: var(--ds-accent); }
+.hub-actions { display: flex; flex-wrap: wrap; gap: 12px; margin: 26px 0 0; }
+
+/* --- a directory GROUP (region / event) ----------------------------------- */
+.hub-group-h {
+  font-family: var(--ds-font-mono); font-size: 11px; font-weight: 700;
+  letter-spacing: var(--ds-tracking-label); text-transform: uppercase;
+  color: var(--ds-accent); margin: 0 0 14px;
+}
+
+/* (1) CARD form — each group is a panel, each destination a row inside it */
+.hub-card { height: 100%; display: flex; flex-direction: column; }
+.hub-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+.hub-list li { border-block-end: 1px solid var(--ds-hairline); }
+.hub-list li:last-child { border-block-end: 0; }
+.hub-list a {
+  display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: baseline;
+  padding: 13px 0; text-decoration: none; color: var(--ds-ink);
+  transition: color var(--ds-dur-fast) var(--ds-ease);
+}
+.hub-list a:hover { color: var(--ds-accent); }
+.hub-list b { font-weight: 700; }
+.hub-list span { color: var(--ds-ink-soft); font-size: 14px; grid-column: 1 / -1; margin-top: 2px; }
+
+/* (2) RAIL form — the group label sits in a left rail, destinations flow right */
+.hub-rail { display: grid; grid-template-columns: minmax(0,.26fr) minmax(0,1fr);
+  gap: clamp(18px, 3vw, 44px); padding: 24px 0; border-block-end: 1px solid var(--ds-hairline); }
+.hub-rail:last-of-type { border-block-end: 0; }
+.hub-rail .hub-group-h { margin: 0; padding-top: .35em; }
+.hub-rail ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.hub-rail a { text-decoration: none; color: var(--ds-ink); }
+.hub-rail a:hover { color: var(--ds-accent); }
+.hub-rail b { font-weight: 700; }
+.hub-rail span { color: var(--ds-ink-soft); }
+
+/* (3) PILL form — a dense scannable index for a second, shorter axis */
+.hub-pills { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px; }
+.hub-pills a {
+  display: inline-flex; align-items: center; padding: 11px 18px;
+  border: 1px solid var(--ds-line); border-radius: var(--ds-r-pill);
+  color: var(--ds-ink); text-decoration: none; font-size: 15px;
+  transition: border-color var(--ds-dur-fast) var(--ds-ease), color var(--ds-dur-fast) var(--ds-ease);
+}
+.hub-pills a:hover { border-color: var(--ds-accent); color: var(--ds-accent); }
+
+/* --- proof, scope, doctor, close ------------------------------------------ */
+.hub-quotes { display: grid; gap: 16px; margin: 22px 0 0; }
+.hub-quote {
+  margin: 0; padding: 22px 24px; border-radius: var(--ds-r-surface);
+  background: var(--ds-bg-surface-2); border: 1px solid var(--ds-line);
+  border-inline-start: 3px solid var(--ds-accent);
+}
+.hub-quote p { margin: 0; color: var(--ds-ink); font-size: 15px; line-height: var(--ds-lh-body); }
+.hub-quote cite {
+  display: block; margin-top: 12px; font-style: normal; font-family: var(--ds-font-mono);
+  font-size: 11px; font-weight: 700; letter-spacing: var(--ds-tracking-label);
+  text-transform: uppercase; color: var(--ds-accent-strong);
+}
+.surface-dark .hub-quote cite { color: var(--ds-accent-bright); }
+.hub-fine { font-size: 12px; line-height: 1.6; color: var(--ds-ink-faint); margin: 14px 0 0; }
+
+.hub-scope-note {
+  border-inline-start: 3px solid var(--ds-warning); padding-inline-start: 20px;
+  color: var(--ds-ink-soft);
+}
+
+.hub-portrait {
+  margin: 0; position: relative; aspect-ratio: 3 / 2; border-radius: var(--ds-r-surface);
+  overflow: hidden; box-shadow: var(--ds-shadow-lift);
+}
+.hub-portrait img { position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; object-position: 50% 34%; }
+.hub-portrait figcaption {
+  position: absolute; inset-inline: 0; inset-block-end: 0; padding: 28px 18px 13px;
+  font-family: var(--ds-font-mono); font-size: 11px; letter-spacing: var(--ds-tracking-label);
+  text-transform: uppercase; color: var(--ds-ink-on-dark);
+  background: linear-gradient(to top, var(--ds-scrim), transparent);
+}
+
+.hub-next p { margin: 0 0 14px; max-width: 68ch; }
+.hub-next p:last-child { margin-bottom: 0; }
+.hub-next a { color: var(--ds-accent-strong); }
+
+/* --- section roles -------------------------------------------------------- */
+.hub-open, .hub-index, .hub-events, .hub-exam, .hub-scope, .hub-doctor, .hub-next {
+  --sec-type: hub;
+}
+.hub-open .h-hero { max-width: 18ch; }
+
+@media (max-width: 900px) {
+  .hub-rail { grid-template-columns: 1fr; gap: 10px; }
+  .hub-rail .hub-group-h { padding-top: 0; }
+}
+
+/* --- T-HUB mobile reading order ---------------------------------------------
+   Identical defect to the T-FEATURE layer: at 375 the photo column stacked 292px ABOVE its
+   own heading, so the picture arrived before a reader knew what it was of (G-MQUAL).
+   The heading leads on narrow screens.
+   ---------------------------------------------------------------------------- */
+@media (max-width: 900px) {
+  .hub-doctor .row.grid > .col:first-child { order: 2; }
+}
+
+
+/* ============================================================================
+   T-LEGAL TEMPLATE LAYER (appended at stage 5 TEMPLATES, 2026-08-06)
+
+   Owner picked concept B, "Sticky rail" (LEGAL-SECTIONS #3), from the 3-concept
+   tournament under _design/_tournament/templates/T-LEGAL/.
+
+   DELIBERATELY TINY. The document vocabulary this type needs already exists above:
+   .bw-legal, .bw-legal__effective, .bw-legal__callout, .bw-toc and .bw-toc--rail.
+   Adding a parallel set here would be the exact failure LEGAL-SECTIONS exists to
+   prevent. Only the two page-level pieces the catalog does not cover are added.
+
+   G-LEGAL-DOC contract: a .bw-legal measure is present and there is NO <img> in the
+   body. T-LEGAL is EXEMPT from the imagery floor and from verify-section-visual-rhythm,
+   which is why a legal page can and should ship at 0 imagery.
+   ========================================================================== */
+
+.lgl-crumb {
+  display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin: 0 0 20px; padding: 0;
+  font-family: var(--ds-font-mono); font-size: var(--ds-fs-caption);
+  letter-spacing: var(--ds-tracking-label); text-transform: uppercase; color: var(--ds-ink-faint);
+}
+.lgl-crumb li + li::before { content: "/"; margin-right: 8px; color: var(--ds-divider); }
+.lgl-crumb a { color: var(--ds-ink-faint); text-decoration: none; }
+.lgl-crumb a:hover { color: var(--ds-accent); }
+
+/* the closing contact block. The copy is explicit that this is NOT a booking prompt,
+   so it is set as a plain postal address, never as a CTA card. */
+.lgl-contact address {
+  font-style: normal; color: var(--ds-ink-soft); line-height: 1.72; margin: 0 0 var(--ds-space-lg);
+}
+.lgl-contact a { color: var(--ds-accent); text-decoration: underline; text-underline-offset: 2px; }
+.lgl-contact a:hover { color: var(--ds-accent-strong); }
+
+/* the two-column document layout used by the sticky-rail concept */
+.lgl-doc-grid { align-items: start; }
+
+/* section roles */
+.lgl-title, .lgl-index, .lgl-body, .lgl-ask { --sec-type: legal; }
+.lgl-title .h-hero { max-width: 20ch; }
+
+
+/* ============================================================================
+   T-MARQUEE TEMPLATE LAYER (appended at stage 5 TEMPLATES, 2026-08-06)
+
+   Owner picked concept A, "Offer card first", from the 3-concept tournament under
+   _design/_tournament/templates/T-MARQUEE/. The page exists because the live
+   /special/ page contains the string $39 ZERO times, and concept A is the only one
+   of the three that makes the price a designed object rather than a sentence.
+
+   The whole shared layer is grafted: T-MARQUEE serves two bespoke pages whose
+   section sets differ (14 and 12 copy sections), so the unused patterns are the
+   variation kit the second page composes from.
+   Tokens only, zero brand hex, strictly additive.
+   ========================================================================== */
+
+.mrq-arc { display: block; position: relative; line-height: 0; }
+.mrq-arc svg { display: block; width: 100%; height: var(--ds-divider-h); }
+
+.mrq-crumb {
+  display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin: 0 0 20px; padding: 0;
+  font-family: var(--ds-font-mono); font-size: var(--ds-fs-caption);
+  letter-spacing: var(--ds-tracking-label); text-transform: uppercase; color: var(--ds-ink-faint);
+}
+.mrq-crumb li + li::before { content: "/"; margin-right: 8px; color: var(--ds-divider); }
+.mrq-crumb a { color: var(--ds-ink-faint); text-decoration: none; }
+.mrq-crumb a:hover { color: var(--ds-accent); }
+.mrq-actions { display: flex; flex-wrap: wrap; gap: 12px; margin: 28px 0 0; }
+
+/* --- the offer, stated. The page exists because the live one never says "$39". -- */
+.mrq-offer {
+  padding: clamp(28px, 3.6vw, 46px); border-radius: var(--ds-r-surface);
+  background: var(--ds-bg-surface-2); border: 1px solid var(--ds-accent);
+  box-shadow: var(--ds-shadow-lift);
+}
+.mrq-price {
+  font-family: var(--ds-font-display); font-size: clamp(52px, 8vw, 104px); font-weight: 800;
+  line-height: .88; letter-spacing: var(--ds-tracking-disp); color: var(--ds-accent);
+  font-variant-numeric: tabular-nums; margin: 0;
+}
+.mrq-price-note {
+  font-family: var(--ds-font-mono); font-size: 11px; font-weight: 700;
+  letter-spacing: var(--ds-tracking-label); text-transform: uppercase;
+  color: var(--ds-ink-faint); margin: 10px 0 0;
+}
+.mrq-includes { list-style: none; margin: 22px 0 0; padding: 0; display: grid; gap: 0; }
+.mrq-includes li {
+  padding: 13px 0; border-block-end: 1px solid var(--ds-hairline);
+  color: var(--ds-ink); display: flex; gap: 12px; align-items: baseline;
+}
+.mrq-includes li:last-child { border-block-end: 0; }
+.mrq-includes li::before {
+  content: ""; flex: 0 0 auto; width: 7px; height: 7px; border-radius: 50%;
+  background: var(--ds-accent);
+}
+
+/* --- the honest reckoning: what it covers, what it does not, the two steps ---- */
+.mrq-facts { margin: 0; display: grid; gap: 0; }
+.mrq-facts > div {
+  display: grid; grid-template-columns: minmax(0,.34fr) minmax(0,1fr); gap: clamp(16px, 2.4vw, 30px);
+  padding: 20px 0; border-block-end: 1px solid var(--ds-hairline);
+}
+.mrq-facts > div:last-child { border-block-end: 0; }
+.mrq-facts dt {
+  font-family: var(--ds-font-mono); font-size: 11px; font-weight: 700;
+  letter-spacing: var(--ds-tracking-label); text-transform: uppercase; color: var(--ds-accent-strong);
+}
+.mrq-facts dd { margin: 0; color: var(--ds-ink-soft); line-height: var(--ds-lh-body); }
+.mrq-facts dd strong { color: var(--ds-ink); }
+
+/* --- the visit, in order ------------------------------------------------------ */
+.mrq-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; counter-reset: mrq; }
+.mrq-steps li {
+  display: grid; grid-template-columns: auto 1fr; gap: clamp(16px, 2vw, 28px);
+  padding: 18px 0; border-block-end: 1px solid var(--ds-hairline); align-items: baseline;
+}
+.mrq-steps li:last-child { border-block-end: 0; }
+.mrq-steps li::before {
+  counter-increment: mrq; content: counter(mrq, decimal-leading-zero);
+  font-family: var(--ds-font-mono); font-size: 12px; font-weight: 700;
+  letter-spacing: var(--ds-tracking-label); color: var(--ds-accent);
+}
+.mrq-kit { color: var(--ds-ink-soft); margin: 20px 0 0; }
+
+/* --- opening hours ------------------------------------------------------------ */
+.mrq-hours { width: 100%; border-collapse: collapse; margin: 22px 0 0; }
+.mrq-hours caption {
+  text-align: left; font-family: var(--ds-font-mono); font-size: 11px; font-weight: 700;
+  letter-spacing: var(--ds-tracking-label); text-transform: uppercase;
+  color: var(--ds-ink-faint); padding-block-end: 12px;
+}
+.mrq-hours th, .mrq-hours td {
+  text-align: left; padding: 12px 0; border-block-end: 1px solid var(--ds-hairline);
+  font-size: 15px; color: var(--ds-ink);
+}
+.mrq-hours th { font-weight: 700; width: 40%; }
+.mrq-hours td { color: var(--ds-ink-soft); }
+.mrq-hours tr:last-child th, .mrq-hours tr:last-child td { border-block-end: 0; }
+
+.mrq-where address {
+  font-style: normal; color: var(--ds-ink-soft); line-height: 1.72; margin: 0 0 var(--ds-space-md);
+}
+.mrq-where a { color: var(--ds-accent-strong); }
+
+/* --- questions asked before booking ------------------------------------------- */
+.mrq-faq { display: grid; gap: 0; margin: 0; }
+.mrq-faq > div {
+  padding: 20px 0; border-block-end: 1px solid var(--ds-hairline);
+}
+.mrq-faq > div:last-child { border-block-end: 0; }
+.mrq-faq h3 {
+  margin: 0 0 8px; font-size: 17px; color: var(--ds-ink-heading);
+  font-family: var(--ds-font-display); font-weight: 700;
+}
+.mrq-faq p { margin: 0; color: var(--ds-ink-soft); line-height: var(--ds-lh-body); }
+
+/* --- proof: the rating stated once -------------------------------------------- */
+.mrq-rating {
+  font-family: var(--ds-font-display); font-size: clamp(30px, 4vw, 52px); font-weight: 800;
+  line-height: 1; letter-spacing: var(--ds-tracking-disp); color: var(--ds-ink-heading);
+  margin: 0 0 10px;
+}
+.mrq-rating-note {
+  font-family: var(--ds-font-mono); font-size: 11px; letter-spacing: var(--ds-tracking-label);
+  text-transform: uppercase; color: var(--ds-ink-faint); margin: 0 0 24px;
+}
+
+/* --- media -------------------------------------------------------------------- */
+.mrq-shot {
+  margin: 0; position: relative; border-radius: var(--ds-r-surface); overflow: hidden;
+  aspect-ratio: 4 / 3; box-shadow: var(--ds-shadow-lift);
+}
+.mrq-shot img { position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; object-position: 50% 45%; }
+.mrq-shot figcaption {
+  position: absolute; inset-inline: 0; inset-block-end: 0; padding: 30px 18px 13px;
+  font-family: var(--ds-font-mono); font-size: 11px; letter-spacing: var(--ds-tracking-label);
+  text-transform: uppercase; color: var(--ds-ink-on-dark);
+  background: linear-gradient(to top, var(--ds-scrim), transparent);
+}
+.mrq-portrait {
+  margin: 0; position: relative; aspect-ratio: 1; border-radius: 50%; overflow: hidden;
+  box-shadow: var(--ds-shadow-lift); max-width: 320px;
+}
+.mrq-portrait img { position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; object-position: 50% 22%; }
+
+.mrq-next p { margin: 0 0 14px; max-width: 68ch; }
+.mrq-next p:last-child { margin-bottom: 0; }
+.mrq-next a { color: var(--ds-accent-strong); }
+
+/* section roles */
+.mrq-open, .mrq-offer-sec, .mrq-who, .mrq-gentle, .mrq-visit, .mrq-money,
+.mrq-proof, .mrq-where, .mrq-faq-sec, .mrq-next { --sec-type: marquee; }
+.mrq-open .h-hero { max-width: 16ch; }
+
+@media (max-width: 900px) {
+  .mrq-facts > div { grid-template-columns: 1fr; gap: 6px; }
+  .mrq-portrait { max-width: 240px; }
+}
+
+
+/* ============================================================================
+   T-PRICING TEMPLATE LAYER (appended at stage 5 TEMPLATES, 2026-08-07)
+
+   Owner picked concept A, "The carrier board", from the 3-concept tournament
+   under _design/_tournament/templates/T-PRICING/, with one correction applied at
+   pick time: the padding must be uniform across every band, matched to the first
+   section (see the ONE MEASURE block at the end of this layer).
+
+   THE PROBLEM THIS LAYER SOLVES. insurance-and-pricing is a pricing page that
+   publishes almost no prices. The owner selected a full rate table at intake and
+   returned the word "Confirm" in place of every rate, so exactly one currency
+   figure exists on the whole site: the $39 new patient special. PRICING-SECTIONS
+   #1-#3 all require a published price, and the quote-only family #4-#6 never
+   prints one, so the $39 belongs to neither family and needed its own vocabulary
+   (.prc-fig: the figure set as TYPE IN A SENTENCE, never as a card).
+
+   Deliberately NOT reused from the locked types, because a T-PRICING page that
+   reproduced any of them would be a renamed clone (G14):
+     - .mrq-offer / .mrq-price  T-MARQUEE owns "the price as a hero object".
+     - .art-num / .art-step     the numbered ladder (T-ARTICLE).
+     - .hub-rail / .lgl-doc-grid  the rail layouts (T-HUB, T-LEGAL).
+
+   The whole shared layer is grafted rather than only the patterns concept A uses:
+   the .prc-qa / .prc-ledger / .prc-creed forms are the variation kit available if
+   a second pricing-type page is ever composed.
+
+   Lives here rather than in a -kit.css sheet for the reason recorded on the
+   T-ARTICLE layer above. Tokens only, zero brand hex, strictly additive.
+   ========================================================================== */
+
+.prc-arc { display: block; position: relative; line-height: 0; }
+.prc-arc svg { display: block; width: 100%; height: var(--ds-divider-h); }
+
+.prc-crumb {
+  display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin: 0 0 20px; padding: 0;
+  font-family: var(--ds-font-mono); font-size: var(--ds-fs-caption);
+  letter-spacing: var(--ds-tracking-label); text-transform: uppercase; color: var(--ds-ink-faint);
+}
+.prc-crumb li + li::before { content: "/"; margin-right: 8px; color: var(--ds-divider); }
+.prc-crumb a { color: var(--ds-ink-faint); text-decoration: none; }
+.prc-crumb a:hover { color: var(--ds-accent); }
+
+.prc-actions { display: flex; flex-wrap: wrap; gap: 12px; margin: 28px 0 0; }
+
+/* --- THE CARRIER BOARD ---------------------------------------------------
+   The seven plans are the largest content win on this page and appear nowhere
+   on the practice's current site. They are set as a scannable PLATE GRID, not
+   a list and not a table: the arriving question is "is my plan on this board",
+   which is a scanning task, and a table implies columns of rates that do not
+   exist. auto-fit keeps the row full at every width so the board never leaves
+   a ragged single plate stranded on its own line. */
+.prc-carriers {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 12px; list-style: none; margin: 0; padding: 0;
+}
+/* SEVEN is a prime count, so every fixed column count leaves a remainder. A first
+   pass used auto-fit and rendered 6 + 1, stranding UnitedHealthcare alone on the
+   second row - the exact orphan the pick claimed to avoid. The last plate is
+   therefore stretched to the end of its row at every multi-column width, so the
+   board always closes flush instead of trailing off. */
+.prc-carriers > li:last-child { grid-column: -3 / -1; }
+.prc-carrier {
+  display: flex; align-items: center; min-height: 74px;
+  padding: 16px clamp(16px, 1.6vw, 22px);
+  background: var(--ds-bg-surface-2); border: 1px solid var(--ds-line);
+  border-radius: var(--ds-r-control); box-shadow: var(--ds-shadow-rest);
+  font-size: 1.06rem; font-weight: 600; color: var(--ds-ink-heading);
+  letter-spacing: -0.005em;
+}
+/* the plate's one piece of signature: a short accent rule at the leading edge,
+   so the board reads as a set of admitted things rather than a word soup. */
+.prc-carrier::before {
+  content: ""; flex: 0 0 auto; width: 3px; height: 22px; margin-right: 14px;
+  background: var(--ds-accent); border-radius: 2px;
+}
+
+/* Medicare is NOT a plate. It is a position with a consequence, so it gets its
+   own annotated block below the board - same ground, different shape, which is
+   how the page shows that it is not simply an eighth carrier. */
+.prc-medicare {
+  margin: var(--ds-space-lg) 0 0; padding: clamp(20px, 2.2vw, 28px);
+  background: var(--ds-bg-warm); border-radius: var(--ds-r-surface);
+  border-left: 3px solid var(--ds-accent);
+}
+.prc-medicare h3 { margin: 0 0 10px; font-size: var(--ds-fs-h3); }
+.prc-medicare p { margin: 0 0 10px; color: var(--ds-ink-soft); }
+.prc-medicare p:last-child { margin-bottom: 0; }
+
+/* the two courtesy sentences, kept because they are true and useful. Set small
+   and quiet so they read as front-desk practice, not as a selling claim. */
+.prc-courtesy {
+  margin: var(--ds-space-md) 0 0; padding-top: var(--ds-space-md);
+  border-top: 1px solid var(--ds-hairline);
+  color: var(--ds-ink-soft); font-size: 0.97rem; line-height: var(--ds-lh-body);
+}
+
+/* --- THE QUESTION LEDGER -------------------------------------------------
+   A hairline-ruled question/answer ledger. Not an accordion (nothing here is
+   worth hiding) and not a numbered ladder (T-ARTICLE owns that shape). The
+   question sits in the narrow leading column at label weight; the answer runs
+   flat beside it. */
+.prc-qa { display: grid; gap: 0; margin: 0; }
+.prc-qa-row {
+  display: grid; grid-template-columns: minmax(180px, 0.62fr) 1.38fr;
+  gap: clamp(20px, 3vw, 56px);
+  padding: clamp(22px, 2.6vw, 34px) 0;
+  border-top: 1px solid var(--ds-hairline);
+}
+.prc-qa-row:last-child { border-bottom: 1px solid var(--ds-hairline); }
+.prc-qa-q {
+  margin: 0; font-family: var(--ds-font-display); font-size: clamp(19px, 1.9vw, 25px);
+  font-weight: 600; line-height: var(--ds-lh-tight); color: var(--ds-ink-heading);
+  letter-spacing: -0.01em;
+}
+.prc-qa-a { margin: 0; color: var(--ds-ink-soft); line-height: var(--ds-lh-body); }
+.prc-qa-a > * + * { margin-top: 0.85em; }
+.prc-qa-a p { margin: 0; }
+
+/* --- THE LEDGER SPINE ----------------------------------------------------
+   Used when the whole page is composed as one ruled question/answer register:
+   the section itself becomes a ledger row, its question sitting in the narrow
+   leading column and its answer running flat beside it. The rule is drawn on
+   the SECTION rather than on an inner wrapper so the register survives a band
+   changing ground underneath it. */
+.prc-ledger { border-top: 1px solid var(--ds-hairline); }
+.prc-ledger .prc-qa-q { font-size: clamp(24px, 2.6vw, 38px); margin: 0 0 var(--ds-space-sm); }
+.prc-ledger .prc-qa-q + p { margin: 0; color: var(--ds-ink-faint); }
+/* the question column is narrower than its answer, and it PINS. A first pass split
+   the row 50/50 and left up to 1700px of empty column beside a tall answer - the
+   dead space verify-section-density measures as column-delta. Narrowing the question
+   and pinning it keeps the question visible for as long as its answer takes to read,
+   which is the whole point of a register. align-self:start is required or the grid
+   item stretches and sticky never engages. */
+.prc-ledger .row.grid.g-2 { grid-template-columns: minmax(200px, 0.58fr) 1.42fr; }
+.prc-ledger .row.grid > .col:first-child { position: sticky; top: 120px; align-self: start; }
+
+/* --- THE STANCE ----------------------------------------------------------
+   PRICING-SECTIONS #5's plain-deal honesty stance: a centered creed on the
+   page's one shifted ground, closed by a mono spec strip. Deliberately
+   empty-handed - no cards, no media, no CTA. The restraint is the design. */
+.prc-stance { max-width: 820px; margin-inline: auto; text-align: center; }
+.prc-stance h2 { margin: 0 0 var(--ds-space-sm); }
+.prc-stance .lead { margin-inline: auto; }
+.prc-spec {
+  display: flex; flex-wrap: wrap; justify-content: center;
+  gap: 10px; margin: var(--ds-space-lg) 0 0; padding: 0; list-style: none;
+}
+.prc-spec li {
+  display: flex; align-items: baseline; gap: 8px;
+  padding: 10px 16px; border: 1px solid var(--ds-line); border-radius: var(--ds-r-pill);
+  font-family: var(--ds-font-mono); font-size: 11px;
+  letter-spacing: var(--ds-tracking-label); text-transform: uppercase;
+  color: var(--ds-ink-faint);
+}
+.prc-spec b { color: var(--ds-accent); font-weight: 700; }
+
+/* the same creed, set WIDE and left-ranged instead of centred, for the concept
+   that spends its single figure/ground inversion on this beat: there the band
+   is the page's argument, not a decorative pull-quote, so the statement takes
+   the leading column and the reasoning runs beside it. */
+/* the ch measure sits on the H2, NOT on the .prc-creed wrapper: `ch` resolves
+   against the element's OWN font, so 34ch on a body-font div computed roughly
+   2-3x wider than the 34 display characters intended. That is the G8 A3
+   font-ownership defect, and it was a real mis-measure, not just a gate
+   complaint - the creed was never rendering at the width it declared. */
+.prc-creed h2 {
+  max-width: 34ch;
+  font-size: clamp(30px, 4.4vw, 62px); line-height: 1.04;
+  letter-spacing: -0.02em; margin: 0 0 var(--ds-space-md);
+}
+.prc-creed-body { max-width: 44rem; }
+.prc-creed-body .prc-spec { justify-content: flex-start; }
+
+/* --- THE ONE PUBLISHED FIGURE -------------------------------------------
+   The $39, set as TYPE IN A SENTENCE. .prc-fig is an inline display numeral
+   with a baseline-aligned currency mark, so the figure is unmistakable without
+   becoming a card. tabular-nums keeps it from wobbling against the body text. */
+.prc-one { max-width: 46rem; }
+.prc-fig {
+  font-family: var(--ds-font-display); font-size: clamp(44px, 6.4vw, 82px);
+  font-weight: 800; line-height: 0.9; letter-spacing: var(--ds-tracking-disp);
+  color: var(--ds-accent); font-variant-numeric: tabular-nums;
+  display: inline-block; vertical-align: baseline;
+}
+.prc-fig sup {
+  font-size: 0.46em; font-weight: 700; top: -0.52em; position: relative;
+  letter-spacing: 0; margin-right: 0.02em;
+}
+.prc-incl { list-style: none; margin: var(--ds-space-md) 0 0; padding: 0; }
+.prc-incl li {
+  padding: 14px 0; border-top: 1px solid var(--ds-hairline);
+  color: var(--ds-ink-soft); line-height: var(--ds-lh-body);
+}
+.prc-incl li:last-child { border-bottom: 1px solid var(--ds-hairline); }
+.prc-incl strong { color: var(--ds-ink-heading); font-weight: 650; }
+
+/* the gap statement. This is the sentence a comparing patient actually needs,
+   so it is given a ground of its own rather than being folded into the list. */
+.prc-gap {
+  max-width: 52rem;
+  margin: var(--ds-space-lg) 0 0; padding: clamp(20px, 2.4vw, 30px);
+  background: var(--ds-bg-warm); border-radius: var(--ds-r-surface);
+  border-left: 3px solid var(--ds-accent);
+}
+.prc-gap p { margin: 0 0 0.85em; color: var(--ds-ink-soft); }
+.prc-gap p:last-child { margin-bottom: 0; }
+
+/* --- THE CLOSE -----------------------------------------------------------
+   Three plain statements of what this office can offer. NOT a stat band and
+   NOT a comparison: no competitor is named, no rating is quoted, and none of
+   these is a number. */
+.prc-offers { list-style: none; margin: var(--ds-space-md) 0 0; padding: 0; display: grid; gap: 12px; }
+.prc-offers li {
+  padding-left: 22px; position: relative; color: var(--ds-ink-soft);
+  line-height: var(--ds-lh-body);
+}
+.prc-offers li::before {
+  content: ""; position: absolute; left: 0; top: 0.62em;
+  width: 9px; height: 9px; border-radius: 50%; background: var(--ds-accent);
+}
+/* --- PHOTOGRAPHY ---------------------------------------------------------
+   Only two placements are legitimate on this page under the imagery contract's
+   rule "no image is placed on a page whose copy makes no claim it illustrates":
+   the x-ray room against "x-rays if needed", and the front desk against "ask
+   the front desk". T-PRICING carries NO CWB-063 imagery floor (the floor set in
+   verify-applied-design.mjs is T-HOME / T-MARQUEE / T-FEATURE / T-PERSONA /
+   T-COMPANY / T-CREDIBILITY / T-SHOWCASE / T-CASE), so nothing is placed to
+   reach a count.
+
+   Both anchors are declared (width + min-width) because the frame is a grid
+   cell that stretches to its track while carrying an aspect-ratio - the
+   G-MEDIA-TRACK failure the structural sheet hit three times. */
+.prc-shot {
+  margin: 0; width: 100%; min-width: 0;
+  border-radius: var(--ds-r-surface); overflow: hidden;
+  border: 1px solid var(--ds-line); box-shadow: var(--ds-shadow-card);
+  background: var(--ds-bg-surface-2);
+}
+.prc-shot img {
+  display: block; width: 100%; height: auto; aspect-ratio: 4 / 3;
+  max-height: 420px; object-fit: cover;
+}
+.prc-shot figcaption {
+  padding: 12px 16px; font-family: var(--ds-font-mono); font-size: 11px;
+  letter-spacing: var(--ds-tracking-label); text-transform: uppercase;
+  color: var(--ds-ink-faint); border-top: 1px solid var(--ds-hairline);
+}
+
+/* --- section roles ------------------------------------------------------- */
+.prc-open, .prc-plans, .prc-costs, .prc-offer-sec, .prc-ask { --sec-type: pricing; }
+.prc-open .h-hero { max-width: 17ch; }
+
+/* --- ONE MEASURE FOR THE WHOLE PAGE (owner correction, 2026-08-07) ---------
+   The opener was the only band carrying .col--measure, so at a 1920 viewport its
+   column sat at 1120px while every band below it ran the section's full 1857px:
+   a 369px step in the left edge between section 1 and section 2. Uniform section
+   PADDING was never the problem - all five sections already computed
+   "112px 24px" - the problem was that only one of them carried a MEASURE.
+
+   The measure is therefore applied ONCE, on the ROW, for every band of this page
+   type, rather than as a per-col modifier that a later section can forget to
+   repeat (which is exactly how the step got in). The three values are copied
+   EXACTLY from the sheet's own .col--measure idiom, so the opener's geometry is
+   unchanged and every band below it comes up to meet it.
+
+   .container--full is deliberately NOT matched: the arc seam is a full-bleed
+   shape divider and measuring it would inset the curve from the band edges. */
+.prc-open > .container > .row,
+.prc-plans > .container > .row,
+.prc-costs > .container > .row,
+.prc-offer-sec > .container > .row,
+.prc-ask > .container > .row {
+  width: 100%;
+  max-width: var(--ds-container-max);
+  margin-inline: auto;
+  padding-inline: clamp(16px, 4vw, 32px);
+}
+
+/* --- reflow (strictly additive max-width queries) ------------------------ */
+@media (max-width: 1100px) {
+  .prc-carriers { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 900px) {
+  .prc-qa-row { grid-template-columns: 1fr; gap: 12px; }
+  .prc-qa-q { font-size: clamp(18px, 4.4vw, 22px); }
+  /* the ledger STACKS at 900 rather than waiting for the sheet's 600 collapse,
+     because its answer column carries a multi-column board that has no room to
+     be a second column below that. The question column also unpins here: a
+     sticky heading over its own stacked answer would cover the thing it asks
+     about, and leaving the 200px min-column in place overflowed a 375 viewport
+     by 15px on the first pass. */
+  .prc-ledger .row.grid.g-2 { grid-template-columns: 1fr; }
+  .prc-ledger .row.grid > .col:first-child { position: static; }
+}
+@media (max-width: 640px) {
+  .prc-carriers { grid-template-columns: 1fr 1fr; }
+  .prc-carrier { min-height: 64px; font-size: 0.99rem; padding: 13px 14px; }
+  .prc-carrier::before { height: 18px; margin-right: 11px; }
+  .prc-spec li { font-size: 10px; padding: 9px 13px; }
+}
+@media (max-width: 400px) {
+  .prc-carriers { grid-template-columns: 1fr; }
+  .prc-carriers > li:last-child { grid-column: auto; }
+}
+
+/* ============================================================================
+   T-CONTACT TEMPLATE LAYER (appended at stage 5 TEMPLATES, 2026-08-07)
+
+   Owner picked concept C, "Find the door", from the 3-concept tournament under
+   _design/_tournament/templates/T-CONTACT/. It inverts the other two: the facts
+   arrive before the ask. Someone on a contact page is usually already committed,
+   so the open question is not whether to ring but where the place is and whether
+   it is open - the address problem leads, the hours follow, and the two controls
+   come last as the resolution rather than the opening demand.
+
+   NO HTML FORM, DELIBERATELY. The P8 system sheet above ships a .bw-form that was
+   authored AS the T-CONTACT vocabulary. It is NOT used, and its absence is not an
+   oversight to be "fixed" later: this is a static build with no form-handling
+   endpoint, and a form posting nowhere silently swallows care requests. The owner
+   supplied info@tracychiropractor.com on 2026-08-05, so a real mailto is the
+   written channel instead.
+
+   That mailto is load-bearing for the gate, not just for the reader:
+   verify-conversion-integrity treats T-CONTACT as the terminal conversion sink
+   and accepts a <form>, a data-*-form attribute, or href="mailto:" - and NOT
+   tel: (read from source, verify-conversion-integrity.mjs:161-167). Removing the
+   mailto fails the page closed.
+
+   NO MAP IS EMBEDDED and no Google Maps API key appears anywhere. The legacy page
+   source exposes one; an embed remains an owner decision pending an HTTP-referrer
+   restriction. The page ships the postal address plus a KEYLESS
+   maps/dir/?api=1 directions link, matching the already-shipped
+   new-patient-special page. HERO-COMPOSITIONS #28 (embedded-map location hero)
+   was rejected in the selection ledger on exactly this ground.
+
+   THE ONE OBJECT THIS TYPE OWNS is the hours TABLE. No table rule exists anywhere
+   else in this sheet, so the register is both the honest way to publish two
+   sessions a day on three days and what makes T-CONTACT structurally distinct
+   from every locked type (G14). Its narrow-width reflow keeps the <table> markup
+   intact and only changes the box layout, so the day stays paired with its
+   sessions at 375 (the G-MQUAL table-fit check).
+
+   Deliberately NOT reused from the locked types, because reproducing one would be
+   a renamed clone (G14):
+     - .prc-carriers   the plate grid (T-PRICING) - a scanning board, not a register.
+     - .mrq-offer      the price as a hero object (T-MARQUEE).
+     - .art-num        the numbered ladder (T-ARTICLE).
+     - .hub-rail / .lgl-doc-grid  the rail layouts (T-HUB, T-LEGAL).
+
+   The whole shared layer is grafted rather than only what concept C uses: the
+   .cnt-lede / .cnt-split / .cnt-hours--wide forms are the variation kit available
+   if a second contact-type page is ever composed.
+
+   The ONE MEASURE rule at the end of this layer was built in from the start for
+   this type rather than retrofitted - it is the fix for the defect the owner
+   caught on T-PRICING, where only the opener carried .col--measure and every band
+   below it ran the section's full width.
+
+   Lives here rather than in a -kit.css sheet for the reason recorded on the
+   T-ARTICLE layer above. Tokens only, zero brand hex, strictly additive.
+   ========================================================================== */
+
+.cnt-arc { display: block; position: relative; line-height: 0; }
+.cnt-arc svg { display: block; width: 100%; height: var(--ds-divider-h); }
+
+.cnt-crumb {
+  display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin: 0 0 20px; padding: 0;
+  font-family: var(--ds-font-mono); font-size: var(--ds-fs-caption);
+  letter-spacing: var(--ds-tracking-label); text-transform: uppercase; color: var(--ds-ink-faint);
+}
+.cnt-crumb li + li::before { content: "/"; margin-right: 8px; color: var(--ds-divider); }
+.cnt-crumb a { color: var(--ds-ink-faint); text-decoration: none; }
+.cnt-crumb a:hover { color: var(--ds-accent); }
+
+.cnt-actions { display: flex; flex-wrap: wrap; gap: 12px; margin: 28px 0 0; }
+
+/* --- THE TWO CONTROLS -----------------------------------------------------
+   The copy is explicit that the phone must be the LARGEST, most prominent
+   control on the page, and that the email sits directly beneath it as a real
+   mailto a visitor can tap rather than plain text they have to retype.
+
+   So the phone is NOT a button with a label - the NUMBER ITSELF is the control,
+   set at display scale (CTA-PATTERNS #4, "the number as button", taken
+   literally). A "Call us" button would put a word between the reader and the
+   only thing they need, and would make the number secondary to its own label. */
+.cnt-phone {
+  display: inline-flex; align-items: baseline; gap: 0.28em;
+  font-family: var(--ds-font-display); font-weight: 800;
+  font-size: clamp(34px, 5.6vw, 68px); line-height: 1;
+  letter-spacing: var(--ds-tracking-disp); color: var(--ds-accent);
+  font-variant-numeric: tabular-nums; text-decoration: none;
+  /* a phone number must NEVER break across lines. Rendered at 1440 in a
+     half-width hero column it wrapped to "(209) 836-" / "5558", which reads as
+     two different numbers. The nbsp in the markup only protects the first
+     space; the hyphen is the break opportunity that actually fired. */
+  white-space: nowrap;
+  padding: 0.22em 0.34em; margin-inline-start: -0.34em;
+  border-radius: var(--ds-r-surface);
+  transition: background var(--ds-ease), color var(--ds-ease);
+}
+.cnt-phone:hover { background: var(--ds-accent-soft); color: var(--ds-accent-strong); }
+.cnt-phone:focus-visible { background: var(--ds-accent-soft); }
+.surface-dark .cnt-phone { color: var(--ds-accent-bright); }
+
+/* the written channel, directly beneath. Smaller than the phone by a wide
+   margin - the hierarchy IS the instruction that the call is faster - but still
+   unmistakably a control, not a sentence with an address buried in it. */
+.cnt-email {
+  display: inline-flex; align-items: center; gap: 10px;
+  margin: var(--ds-space-md) 0 0;
+  padding: 13px 20px; border: 1px solid var(--ds-line);
+  border-radius: var(--ds-r-pill); background: var(--ds-bg-surface-2);
+  font-size: 1.04rem; font-weight: 600; color: var(--ds-ink-heading);
+  text-decoration: none; box-shadow: var(--ds-shadow-rest);
+  transition: border-color var(--ds-ease), color var(--ds-ease);
+}
+.cnt-email:hover { border-color: var(--ds-accent); color: var(--ds-accent); }
+.cnt-email::before {
+  content: ""; flex: 0 0 auto; width: 3px; height: 18px;
+  background: var(--ds-accent); border-radius: 2px;
+}
+
+/* "We ask for nothing else" - the absence of a form is a DELIBERATE claim this
+   page makes, so it is set as a statement rather than left as a silence. */
+.cnt-nothing {
+  margin: var(--ds-space-lg) 0 0; padding-top: var(--ds-space-md);
+  border-top: 1px solid var(--ds-hairline);
+  color: var(--ds-ink-soft); line-height: var(--ds-lh-body); max-width: 52rem;
+}
+
+/* what to expect from each channel, incl. the not-for-emergencies line. */
+.cnt-expect { list-style: none; margin: var(--ds-space-md) 0 0; padding: 0; display: grid; gap: 10px; }
+.cnt-expect li {
+  padding-left: 22px; position: relative;
+  color: var(--ds-ink-soft); line-height: var(--ds-lh-body);
+}
+.cnt-expect li::before {
+  content: ""; position: absolute; left: 0; top: 0.62em;
+  width: 9px; height: 9px; border-radius: 50%; background: var(--ds-accent);
+}
+
+/* --- THE HOURS REGISTER --------------------------------------------------
+   A REAL <table> - the brief requires it and the data is genuinely tabular:
+   three of the five open days run TWO sessions, which a prose sentence or a
+   pill row cannot carry without ambiguity. Hairline-ruled rather than boxed,
+   so it reads as a published record rather than a pricing grid. */
+.cnt-hours { width: 100%; border-collapse: collapse; margin: 0; }
+.cnt-hours caption {
+  caption-side: top; text-align: left;
+  font-family: var(--ds-font-mono); font-size: var(--ds-fs-caption);
+  letter-spacing: var(--ds-tracking-label); text-transform: uppercase;
+  color: var(--ds-ink-faint); padding: 0 0 12px;
+}
+.cnt-hours th, .cnt-hours td {
+  padding: 14px 0; text-align: left; vertical-align: baseline;
+  border-top: 1px solid var(--ds-hairline);
+  line-height: var(--ds-lh-body);
+}
+.cnt-hours thead th {
+  border-top: 0; padding-top: 0;
+  font-family: var(--ds-font-mono); font-size: 11px; font-weight: 700;
+  letter-spacing: var(--ds-tracking-label); text-transform: uppercase;
+  color: var(--ds-ink-faint);
+}
+.cnt-hours tbody th { font-weight: 650; color: var(--ds-ink-heading); width: 40%; }
+.cnt-hours td { color: var(--ds-ink-soft); font-variant-numeric: tabular-nums; }
+.cnt-hours tbody tr:last-child th, .cnt-hours tbody tr:last-child td {
+  border-bottom: 1px solid var(--ds-hairline);
+}
+/* a closed day is a fact, not an absence - it is greyed rather than blank so a
+   reader never wonders whether the row is missing data. */
+.cnt-hours td.is-closed { color: var(--ds-ink-faint); }
+
+/* --- THE ADDRESS ---------------------------------------------------------
+   Suite B is the load-bearing token here: four of the six external listings for
+   this practice drop it, so visitors reach the right building and cannot find
+   the door. It is therefore emphasised in the markup, not just present. */
+.cnt-addr { font-style: normal; margin: 0; line-height: 1.75; color: var(--ds-ink-soft); }
+.cnt-addr strong { display: block; color: var(--ds-ink-heading); font-weight: 650; }
+.cnt-suite { color: var(--ds-accent); font-weight: 700; }
+.cnt-why-suite {
+  margin: var(--ds-space-md) 0 0; padding: clamp(16px, 1.8vw, 22px);
+  background: var(--ds-bg-warm); border-radius: var(--ds-r-surface);
+  border-left: 3px solid var(--ds-accent);
+  color: var(--ds-ink-soft); line-height: var(--ds-lh-body);
+}
+.cnt-why-suite p { margin: 0; }
+
+/* the keyless directions route. NO map is embedded and NO Google Maps API key
+   is used anywhere: the legacy page source exposes one, and an embed remains an
+   owner decision pending an HTTP-referrer restriction. This link carries the
+   same intent with no key, no third-party iframe and no tracker, and matches
+   what the already-shipped new-patient-special page uses. */
+.cnt-directions {
+  display: inline-flex; align-items: center; gap: 8px;
+  margin: var(--ds-space-md) 0 0;
+  font-weight: 600; color: var(--ds-accent); text-decoration: none;
+  border-bottom: 1px solid var(--ds-accent-soft); padding-bottom: 2px;
+}
+.cnt-directions:hover { border-bottom-color: var(--ds-accent); }
+
+/* --- THE FACTS SPLIT -----------------------------------------------------
+   Address on the leading side, the hours register beside it. The two are the
+   same KIND of thing (published facts about reaching this office) so they share
+   one band rather than being staged as two separate reveals. */
+/* NOTE the selector shape: .cnt-facts sits ON the .row itself (a layout modifier
+   on the structure layer, the same idiom as the sheet's own .row--flex/.row--bar),
+   NOT on an ancestor - so these are compound selectors, not descendant ones. */
+.cnt-facts { border-top: 1px solid var(--ds-hairline); padding-top: var(--ds-space-lg); }
+.cnt-facts.grid.g-2 { grid-template-columns: minmax(240px, 0.8fr) 1.2fr; }
+
+/* --- THE CLOSE -----------------------------------------------------------
+   What happens after you get in touch. Plain statements, no numbers, no
+   comparison, and the single permitted price as an inline text link. */
+.cnt-after { max-width: 46rem; }
+.cnt-after p { color: var(--ds-ink-soft); line-height: var(--ds-lh-body); }
+.cnt-after a { color: var(--ds-accent-strong); }
+.cnt-assur { list-style: none; margin: var(--ds-space-md) 0 0; padding: 0; display: grid; gap: 12px; }
+.cnt-assur li {
+  padding: 14px 0; border-top: 1px solid var(--ds-hairline);
+  color: var(--ds-ink-soft); line-height: var(--ds-lh-body);
+}
+.cnt-assur li:last-child { border-bottom: 1px solid var(--ds-hairline); }
+.cnt-assur strong { color: var(--ds-ink-heading); font-weight: 650; }
+
+/* --- PHOTOGRAPHY ---------------------------------------------------------
+   T-CONTACT carries NO CWB-063 imagery floor (the floor set in
+   verify-applied-design.mjs is T-HOME / T-MARQUEE / T-FEATURE / T-PERSONA /
+   T-COMPANY / T-CREDIBILITY / T-SHOWCASE / T-CASE), so no image is placed to
+   reach a count. The one legitimate placement under the imagery contract's
+   "no image on a page whose copy makes no claim it illustrates" rule is the
+   front desk, against "you speak to the front desk, not a queue".
+   Both anchors declared (width + min-width) because the frame is a grid cell
+   that stretches to its track while carrying an aspect-ratio - the
+   G-MEDIA-TRACK failure the structural sheet hit three times. */
+.cnt-shot {
+  margin: 0; width: 100%; min-width: 0;
+  border-radius: var(--ds-r-surface); overflow: hidden;
+  border: 1px solid var(--ds-line); box-shadow: var(--ds-shadow-card);
+  background: var(--ds-bg-surface-2);
+}
+.cnt-shot img {
+  display: block; width: 100%; height: auto; aspect-ratio: 4 / 3;
+  max-height: 420px; object-fit: cover;
+}
+.cnt-shot figcaption {
+  padding: 12px 16px; font-family: var(--ds-font-mono); font-size: 11px;
+  letter-spacing: var(--ds-tracking-label); text-transform: uppercase;
+  color: var(--ds-ink-faint); border-top: 1px solid var(--ds-hairline);
+}
+
+/* the centred opening block (HERO-COMPOSITIONS #10, "type IS the hero"). The
+   catalog entry's own CSS hooks are text-align:center + a ch measure + auto
+   margins, so the block is genuinely centred rather than merely a centred box
+   with left-ranged type inside it. The ch measure sits on the H1, not on this
+   wrapper: `ch` resolves against the element's OWN font, and a body-font
+   wrapper carrying it computes far wider than the display characters intended
+   (the G8 A3 font-ownership rule). */
+.cnt-lede { text-align: center; margin-inline: auto; }
+.cnt-lede .cnt-crumb { justify-content: center; }
+.cnt-lede .lead { margin-inline: auto; }
+
+/* the dual-block opening split (HERO-COMPOSITIONS #3). The catalog's own hook is
+   a hairline between the two halves rather than a background contrast, so the
+   two blocks read as equal rather than one being a panel laid on the other. */
+.cnt-split { align-items: start; }
+.cnt-split > .col + .col {
+  border-left: 1px solid var(--ds-hairline);
+  padding-left: clamp(20px, 3vw, 48px);
+}
+/* the controls block - phone, email and the no-fields statement travelling
+   together, so a concept can place the pair in a hero half or a facts column
+   without re-deciding their internal order. */
+.cnt-controls > :first-child { margin-top: 0; }
+.cnt-controls .cnt-nothing { margin-top: var(--ds-space-md); }
+
+/* the register set WIDE, for the concept that gives it the middle of the page
+   rather than a facts column: the day column stops stretching so the sessions
+   stay optically paired with their day instead of drifting to the far edge. */
+.cnt-hours--wide tbody th { width: 22%; }
+.cnt-hours--wide th, .cnt-hours--wide td { padding-block: 18px; }
+
+/* the letterbox opener (HERO-COMPOSITIONS #9): the pick IS the capped height,
+   so the cap is declared rather than left to content. Well under the 150vh
+   ceiling verify-section-height-sane enforces. */
+.cnt-open--band { min-height: 50vh; display: flex; align-items: center; }
+.cnt-open--band > .container { width: 100%; }
+
+/* --- section roles ------------------------------------------------------- */
+.cnt-open, .cnt-reach, .cnt-where, .cnt-after-sec { --sec-type: contact; }
+.cnt-open .h-hero { max-width: 18ch; }
+.cnt-lede .h-hero { margin-inline: auto; }
+
+/* --- ONE MEASURE FOR THE WHOLE PAGE --------------------------------------
+   Built in from the START for this type, not retrofitted. On T-PRICING only the
+   opener carried .col--measure, so at 1920 its column sat at 1120px while every
+   band below ran the section's full 1857px - a 369px step in the left edge that
+   the owner caught. Applying the measure ONCE on the ROW means a band added
+   later cannot forget to repeat a per-col modifier. Values copied exactly from
+   the sheet's own .col--measure idiom.
+   .container--full is deliberately NOT matched: the arc seam stays full-bleed. */
+.cnt-open > .container > .row,
+.cnt-reach > .container > .row,
+.cnt-where > .container > .row,
+.cnt-after-sec > .container > .row {
+  width: 100%;
+  max-width: var(--ds-container-max);
+  margin-inline: auto;
+  padding-inline: clamp(16px, 4vw, 32px);
+}
+
+/* --- CADENCE: the last child of a band carries no trailing margin ----------
+   G-CADENCE requires leading == trailing on every section. The sheet already
+   zeroes the last child's bottom margin, but ONLY for `.container--full > .row >
+   .col` and for `.col--measure` - and this type uses a plain `.container > .row >
+   .col` with the measure on the ROW, so neither selector reached it. The result
+   was a band whose last paragraph pushed 17-21px of its own margin past the
+   section's padding edge (measured: top 112 vs bottom 133 at 1440).
+
+   The wrapper objects are listed too: .cnt-after / .cnt-controls / .cnt-lede
+   carry no padding or border, so a trailing margin inside them escapes to the
+   band edge just the same. */
+.cnt-open > .container > .row > .col > :last-child,
+.cnt-reach > .container > .row > .col > :last-child,
+.cnt-where > .container > .row > .col > :last-child,
+.cnt-after-sec > .container > .row > .col > :last-child,
+.cnt-after > :last-child,
+.cnt-controls > :last-child,
+.cnt-lede > :last-child { margin-block-end: 0; }
+
+/* --- reflow (strictly additive max-width queries) ------------------------ */
+@media (max-width: 900px) {
+  .cnt-facts.grid.g-2 { grid-template-columns: 1fr; }
+  /* the opening split stacks and the hairline becomes a rule ABOVE the second
+     block - a vertical divider on a stacked column would sit against nothing. */
+  .cnt-split > .col + .col {
+    border-left: 0; padding-left: 0;
+    border-top: 1px solid var(--ds-hairline); padding-top: clamp(20px, 4vw, 36px);
+  }
+  .cnt-open--band { min-height: 0; display: block; }
+}
+@media (max-width: 560px) {
+  /* THE REGISTER STACKS at phone width - the day on its own line with its
+     sessions beneath. The <table> markup is kept intact (the brief requires a
+     real table and the data IS genuinely tabular); only the box layout changes.
+
+     A first pass reflowed each row to a flex PAIR (day left, sessions right).
+     It rendered legibly at 390, but G-MQUAL measures every cell at <=420 and
+     fails a table with 3+ cells under a 90px legible floor - the shrink-to-fit
+     day cell was ~60px, so seven "Monday"/"Tuesday" cells plus the "Closed"
+     cells tripped it (11 cells). The tempting fix was to keep the pair and
+     stack only below the gate's 420px measuring point; that is tuning around
+     the gate rather than satisfying it, so the register stacks across the whole
+     phone tier instead and every cell is full-measure at every width. */
+  .cnt-hours thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .cnt-hours, .cnt-hours tbody, .cnt-hours tr, .cnt-hours th, .cnt-hours td { display: block; width: auto; }
+  .cnt-hours tbody tr {
+    border-top: 1px solid var(--ds-hairline); padding: 12px 0;
+  }
+  .cnt-hours tbody th, .cnt-hours tbody td { border-top: 0; padding: 0; }
+  .cnt-hours tbody th { margin-bottom: 3px; }
+  .cnt-hours tbody tr:last-child { border-bottom: 1px solid var(--ds-hairline); }
+  .cnt-hours tbody tr:last-child th, .cnt-hours tbody tr:last-child td { border-bottom: 0; }
+  .cnt-email { width: 100%; justify-content: flex-start; }
+}
+
+/* ============================================================================
+   SITE-WIDE CORRECTIONS (appended 2026-08-07, after the G8 A3 gate defect that
+   had refused every write to this sheet was fixed at source).
+
+   All three were found by MEASURING the rendered pages, not by reading markup,
+   and each was previously flagged in a page header as un-fixable rather than
+   worked around. They are appended (never edits to the locked blocks above) so
+   the cascade order is explicit and each is individually revertible.
+   ============================================================================ */
+
+/* (1) THE PAGE MEASURE. `.container` carried NO rule at all, anywhere in this
+   sheet. The page measure came ONLY from `.col--measure`, so a band built as a
+   GRID (its cols are plain `.col`) had nothing constraining it and ran the full
+   section width: measured 1392px at a 1440 viewport against the 1120px the
+   brand declares in --ds-container-max. Every page alternated between the two
+   widths down its length, and each type layer had been papering over it locally
+   (the T-PRICING and T-CONTACT "ONE MEASURE" grafts do exactly this on their own
+   rows; hub/mrq/svc/art never got one).
+   DELIBERATELY NO padding-inline HERE. `.col--measure` already applies its own,
+   so adding it to the container too would inset every measured band a second
+   time. Without it the measured bands' content box is byte-identical to before
+   and ONLY the grid bands move — which is the whole intent.
+   `.container--full` is a DIFFERENT class token, so it keeps its full-bleed
+   override and the arc dividers still run edge to edge. */
+.container { width: 100%; max-width: var(--ds-container-max); margin-inline: auto; }
+
+/* (2) A QUOTED NAME IS NEVER CASE-TRANSFORMED. `.hub-quote cite` set
+   text-transform:uppercase, which is fine for a label and wrong for a person:
+   it rendered the patients' own casing as something they did not write
+   ("Annette c." -> "ANNETTE C."), erasing a distinction the reviews copy
+   explicitly requires be preserved. The caption TREATMENT (mono, tracked,
+   accent) is kept; only the transform is dropped. */
+.hub-quote cite { text-transform: none; }
+
+/* (3) BAND ANCHOR COLOURS MUST NOT REPAINT BUTTON LABELS. Six band rules colour
+   a bare descendant anchor (.art-next / .svc-next / .hub-next / .mrq-where /
+   .mrq-next / .cnt-after, each at specificity 0,1,1). `.btn-primary` sets its
+   label colour at 0,1,0, so ANY button placed in one of those bands lost its own
+   colour: a primary button in .mrq-next painted --ds-accent-strong on
+   --ds-accent, about 1.2:1 — invisible. It had never surfaced only because no
+   page had yet put a button in one of those six bands.
+   These two rules sit at 0,2,1 so a button's own colour wins in every band,
+   without touching the six rules themselves. */
+.sec a.btn-primary { color: var(--ds-on-accent); }
+.sec a.btn-secondary { color: var(--ds-ink); }
+
+/* (4) COLUMN SPAN — declared but never implemented. `[class*="col--span-"]` has
+   existed since the structure layer was written, carrying only display/min-width;
+   there was no rule that actually made a col span tracks, so `col--span-2` was a
+   no-op. Correcting (1) exposed why it is needed: with the page measure now held
+   at 1120, an EQUAL 3-up grid gives 359px tracks, and a 68px display headline in
+   a 359px track wraps to four lines with an orphan. A hero that must carry a
+   headline, a proof block and a portrait needs an UNEVEN split, not three equal
+   thirds. Implemented as a real span so the structure layer keeps its promise.
+   Below the grid's own collapse points the span is released: .g-3/.g-4 are
+   already 2-up at 920 and 1-up at 600, where spanning would either be redundant
+   or squeeze its neighbours. */
+.row.grid > .col--span-2 { grid-column: span 2; }
+.row.grid > .col--span-3 { grid-column: span 3; }
+@media (max-width: 920px) {
+  .row.grid > .col--span-2, .row.grid > .col--span-3 { grid-column: auto; }
+}
+
+/* (5) A STAT FOLLOWING AN ACTION ROW NEEDS AIR. `.stat` sets no margin of its
+   own; it used to inherit the UA default, which at an 80px font size meant a
+   1em = 80px gap above AND below — enough to push a stat 80px clear of its own
+   label, which is why the numerals were re-authored as <div> rather than <p>.
+   Correct in isolation, but it also removed the only thing separating a stat
+   from whatever precedes it, so a stat placed under a button row butted
+   straight into it. Scoped to the adjacency rather than put back on `.stat`,
+   because a stat that OPENS its column (the reviews and dr-sperbeck metric
+   bands) must keep sitting flush to the top of that column. */
+.hub-actions + .stat, .mrq-actions + .stat, .prc-actions + .stat {
+  margin-block-start: clamp(24px, 3vw, 40px);
+}
+
+/* (6) INTRA-SECTION VERTICAL RHYTHM — the missing one.
+   `.row` is a transparent pass-through with no margin, and h2/h3 carry `margin: 0`. The section
+   token only pads the OUTER edges, so anything the DOM grammar splits across sibling ROWS stacked
+   with EXACTLY ZERO space between it. Measured on a live band before this rule:
+       arc -> heading 0px | heading -> card grid 0px | card grid -> closing paragraph 0px
+   which is why headings sat jammed under the arc curve and hard against the cards beneath them, on
+   every multi-row section of every page. It read as text being cut off by the arc and crowding the
+   cards, because visually that is what zero space looks like.
+   WHY THIS IS SAFE FOR G-CADENCE: verify-section-rhythm measures the SECTION's leading/trailing to
+   the outermost layout object (it reports the section padding, 112/61/45). These rules only ever add
+   space BETWEEN siblings — the `+` combinator excludes the first child, and nothing here touches the
+   last child's bottom — so the leading and trailing edges are untouched and the cadence still reads
+   padding == padding. Verified by re-running the gate after the change, not assumed. */
+.sec > .container > .row + .row,
+.sec > .container--full > .row + .row {
+  margin-block-start: clamp(26px, 3vw, 40px);
+}
+/* EXCEPT a row that exists only to carry structured data. contact / faq / sciatica each wrap their
+   JSON-LD block in the DOM grammar, which produces a ZERO-HEIGHT trailing row: it renders nothing,
+   so G-CADENCE's visibility filter ignores it when finding the last visible object, but the row is
+   still in flow and still takes the rhythm margin above. The result is a section that grows 40px
+   taller at the bottom while its last VISIBLE object stays put — i.e. trailing 152 against leading
+   112, which is exactly the asymmetry that gate exists to catch. Caught by running the gate after
+   the change; my assumption that inter-row margins could not disturb the section edges was wrong,
+   and this is the case that disproves it. Metadata carries no rhythm. */
+.sec > .container > .row:has(> .col > script),
+.sec > .container--full > .row:has(> .col > script) {
+  margin-block-start: 0;
+}
+/* the arc band is a full-bleed tonal transition; the content that follows it needs real air, or the
+   first heading collides with the curve. */
+.sec > .container--full + .container,
+.sec > .container--full + .container--full {
+  margin-block-start: clamp(26px, 3vw, 40px);
+}
+/* a heading followed INSIDE its own column by a boxed object that carries no margin of its own
+   (.card, figure, dl, the ruled lists). Paragraphs are excluded: they keep their own flow margin. */
+.col > :is(h1, h2, h3) + :is(div, figure, dl, table, ul, ol) {
+  margin-block-start: clamp(16px, 1.8vw, 24px);
+}
+
+/* (7) PHONE: ONE LEFT EDGE. `.col--measure` carries its own `padding-inline` so that, at desktop,
+   the reading column sits inset inside the 1120 measure while a card grid may run the full width —
+   a deliberate editorial contrast. On a PHONE there is no measure to sit inside: the section is
+   already only 20px from each edge, so that padding became a SECOND inset and nothing shared a left
+   edge. Measured at 375 before this rule:
+       heading / body text  left 36px      cards / figures  left 20px
+   i.e. every heading and paragraph was indented 16px relative to the cards beneath it, on 39 of the
+   40 pages. It also cost the reading column 32px of a 375px screen (303px of text against 335px of
+   card).
+   Dropping the inset at the phone tier aligns every top-level object in a section to the SAME 20px
+   gutter and hands those 32px back to the text. Scoped to the same <=600 breakpoint the grids
+   already collapse at, so the desktop measure is untouched. Vertical rhythm is unaffected — this
+   changes the inline axis only. */
+@media (max-width: 600px) {
+  .sec .col--measure { padding-inline: 0; }
+  /* The T-PRICING and T-CONTACT "ONE MEASURE" grafts apply the same inset on the ROW instead of on
+     the column, so they need the same release or those two types keep the double inset. Caught by
+     probing the LIVE page rather than the local audit: contact still measured a 36px edge while the
+     other seven pages read 20px. */
+  .prc-open > .container > .row,
+  .prc-plans > .container > .row,
+  .prc-costs > .container > .row,
+  .prc-offer-sec > .container > .row,
+  .prc-ask > .container > .row,
+  .cnt-open > .container > .row,
+  .cnt-reach > .container > .row,
+  .cnt-where > .container > .row,
+  .cnt-after-sec > .container > .row { padding-inline: 0; }
+}
+
+/* (8) THE PORTRAIT CAPTION belongs to the IMAGE, not to the column.
+   `.mrq-rating-note` after a portrait was inheriting the column's full width and start alignment, so
+   the name ran the whole 549px column while the photograph is only 320px wide — it read as a line of
+   text that happened to sit near a picture rather than as its caption. It also had margin-top 0, so
+   it touched the image (measured gap: 0px).
+   Constraining it to the PORTRAIT's own width makes "centred" mean centred under the image, without
+   moving the image itself. The width tracks the portrait at each breakpoint. */
+.mrq-portrait + .mrq-rating-note,
+.hub-portrait + .mrq-rating-note {
+  max-width: 320px;
+  text-align: center;
+  margin-block-start: 14px;
+}
+
+/* (9) THE STAT STRIP reads as one object, so it sits on the section's reading measure with the
+   heading above it rather than on the raw container edge (measured: heading at 192, stats at 160),
+   and the three figures sit at CONTENT width with a real gap instead of being pushed to the thirds
+   of a 1120 grid (160 / 541 / 921 — three short numerals stranded across the full band). */
+.mrq-where > .container > .row.grid:has(.stat) {
+  padding-inline: clamp(16px, 4vw, 32px);
+  grid-template-columns: repeat(3, max-content);
+  gap: clamp(32px, 6vw, 88px);
+  justify-content: start;
+}
+
+@media (max-width: 900px) {
+  .mrq-portrait + .mrq-rating-note,
+  .hub-portrait + .mrq-rating-note { max-width: 240px; }
+}
+
+@media (max-width: 600px) {
+  /* the stat strip centres on a phone, and drops back to the flush gutter */
+  .mrq-where > .container > .row.grid:has(.stat) {
+    padding-inline: 0;
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+  .mrq-where > .container > .row.grid:has(.stat) .col { text-align: center; }
+
+  /* (10) THE MARQUEE OPENER CENTRES ON A PHONE. At 375 the column is the full screen, so a
+     left-ragged eyebrow / crumb / button under a centred portrait reads as three different
+     alignments stacked. Centre the whole opener, including the flex objects, which do not follow
+     text-align on their own. */
+  .mrq-open .col { text-align: center; }
+  .mrq-open .mrq-crumb,
+  .mrq-open .mrq-actions { justify-content: center; }
+  .mrq-open .eyebrow { display: flex; justify-content: center; }
+  .mrq-open .mrq-portrait { margin-inline: auto; }
+  .mrq-open .lead { margin-inline: auto; }
+  .mrq-open .mrq-portrait + .mrq-rating-note { margin-inline: auto; }
+}

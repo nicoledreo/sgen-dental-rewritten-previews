@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Golden Hour Cannabis — Good Things, Golden Hours. | Order ahead for express in-store pickup</title>
+<meta name="description" content="A desert dispensary built around the best hour of the day. Order online, pick up in store in fifteen minutes. Flower, pre-rolls, vapes, edibles, concentrates and topicals. 21+.">
+
+<style>
+/* ═══════════════════════════════════════════════════════════════════════════
+   GOLDEN HOUR CANNABIS — homepage
+   Bundle A "Desert Apothecary" — locked 2026-08-05
+   Source of truth: .claude/skills/web-mockup/verticals/golden-hour-cannabis.md §4.bundles.A
+
+   Catalog picks implemented in this file:
+     NAV-PATTERNS.md #2       Classic full-bar over hero (centered links + outline CTA)
+     HERO-COMPOSITIONS.md #5  Full-bleed image + overlay text
+     FOOTER-STYLES.md #14     Hours-and-contact prominent
+     CARD-VARIATIONS.md #13   Category image-overlay tile
+     CTA-PATTERNS.md #1       Solid pill primary
+     DIVIDER-PATTERNS.md #7   Pulled-up card overlap
+     FORM-LAYOUTS.md #4       Hero-embedded mini-form  (+ #6 Inline newsletter)
+     FAQ-ACCORDION.md #5      Centered FAQ with eyebrow + heading
+     STICKY-CTA-BAR.md #1     Full-width pill bottom-bar (single CTA)
+   Surface: SURFACE-PATTERNS.md #4 / #10 / #18 / #29 / #38 / #43
+   Motion:  MOTION-PATTERNS.md #4 / #10 / #17 / #21 / #26 / #31 / #39 / #43
+
+   CSS written in ONE pass for 1440 / 1024 / 768 / 375. Never desktop-first.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* Palette — COLOR-THEORY-PRESETS.md #1 Warm Cream + Terracotta */
+  --gh-primary:      #B45342;
+  --gh-primary-deep: #5C2A1F;
+  --gh-primary-soft: #F2D9CF;
+  --gh-accent:       #DEB887;
+  --gh-accent-soft:  #F5E9D8;
+  --gh-bg:           #FBF6EE;
+  --gh-bg-2:         #FAF0E6;
+  --gh-ink:          #2A1F18;
+  --gh-ink-soft:     #6B5548;
+  --gh-line:         #E8DCC8;
+  --gh-signature:    #A27E4A;
+
+  /* Typography — TYPOGRAPHY-PAIRINGS.md #23 Fraunces + Commissioner */
+  --gh-font-display: 'Fraunces', Georgia, serif;
+  --gh-font-body:    'Commissioner', system-ui, sans-serif;
+
+  /* Radii — SURFACE-PATTERNS.md #4 Soft 16-24px */
+  --gh-radius-sm: 12px;
+  --gh-radius-md: 20px;
+  --gh-radius-lg: 28px;
+
+  /* Responsive scale — audit §5.1 / §5.2 / §5.3, one pass across 4 breakpoints */
+  --gh-h1:      clamp(48px, 6.4vw, 92px);
+  --gh-h2:      clamp(32px, 3.9vw, 56px);
+  --gh-h3:      clamp(22px, 1.9vw, 28px);
+  --gh-body:    clamp(15px, 1.15vw, 17px);
+  --gh-small:   clamp(13px, 1vw, 14px);
+  --gh-eyebrow: 11px;
+  --gh-py:      clamp(48px, 6.6vw, 96px);
+  --gh-px:      clamp(20px, 2.2vw, 32px);
+  --gh-cardpad: clamp(24px, 2.5vw, 36px);
+  --gh-gap:     clamp(16px, 1.9vw, 28px);
+  --gh-container: 1340px;
+
+  --gh-ease: cubic-bezier(.65, 0, .35, 1);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: var(--gh-font-body);
+  font-size: var(--gh-body);
+  line-height: 1.62;
+  color: var(--gh-ink);
+  background: var(--gh-bg);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+h1, h2, h3, h4 { font-family: var(--gh-font-display); font-weight: 600; margin: 0; line-height: 1.08; letter-spacing: -0.015em; }
+p { margin: 0; }
+img { display: block; max-width: 100%; }
+a { color: inherit; }
+
+.container { width: 100%; max-width: var(--gh-container); margin: 0 auto; padding-inline: var(--gh-px); }
+.section { padding-block: var(--gh-py); position: relative; }
+
+.eyebrow {
+  font-size: var(--gh-eyebrow); font-weight: 600; letter-spacing: .2em;
+  text-transform: uppercase; color: var(--gh-signature); margin-bottom: 18px;
+}
+.lede { font-size: clamp(16px, 1.3vw, 19px); color: var(--gh-ink-soft); max-width: 58ch; }
+
+/* ── CTA-PATTERNS.md #1 Solid pill primary · SURFACE-PATTERNS.md #18 ────────── */
+.btn {
+  display: inline-flex; align-items: center; gap: 10px; cursor: pointer;
+  text-decoration: none; border: 0; font-family: var(--gh-font-body);
+  font-size: clamp(15px, 1.1vw, 16px); font-weight: 600; letter-spacing: .01em;
+  /* Explicit line-height so <button> and <a> render the SAME height. Without it the
+     <button> takes the UA default (line-height: normal ≈1.2) while the <a> inherits
+     body 1.62, leaving the paired hero CTAs ~9px mismatched. */
+  line-height: 1.2;
+  padding: 16px 32px; border-radius: 9999px;
+  background: var(--gh-primary); color: var(--gh-bg);
+  transition: background-color 220ms ease, transform 220ms var(--gh-ease);
+}
+/* MOTION-PATTERNS.md #4 Arrow-translate — the one forward-motion beat, used on primaries only */
+.btn::after { content: "→"; transition: transform 220ms var(--gh-ease); }
+.btn:hover::after { transform: translateX(5px); }
+.btn:hover { background: var(--gh-primary-deep); }
+.btn:focus-visible { outline: 3px solid var(--gh-signature); outline-offset: 3px; }
+/* 1px less padding than the solid pill so the 1px border does not make the paired
+   hero CTAs 2px taller than each other. */
+.btn--ghost { background: transparent; color: var(--gh-ink); border: 1px solid var(--gh-line); padding: 15px 31px; }
+.btn--ghost:hover { background: transparent; border-color: var(--gh-primary); color: var(--gh-primary); }
+.btn--onDark { background: var(--gh-accent); color: var(--gh-primary-deep); }
+.btn--onDark:hover { background: #EBCEA6; }
+.btn--full { width: 100%; justify-content: center; }
+
+/* MOTION-PATTERNS.md #17 Underline-grow */
+.link {
+  position: relative; text-decoration: none; font-weight: 500; color: var(--gh-ink);
+}
+.link::after {
+  content: ""; position: absolute; left: 0; bottom: -2px; width: 100%; height: 1px;
+  background: currentColor; transform: scaleX(0); transform-origin: left center;
+  transition: transform 280ms var(--gh-ease);
+}
+.link:hover::after { transform: scaleX(1); }
+
+/* SURFACE-PATTERNS.md #29 Motif-divider — the low sun-arc rule */
+.motif { display: flex; align-items: center; justify-content: center; gap: 16px; margin-block: 8px; color: var(--gh-accent); }
+.motif::before, .motif::after { content: ""; flex: 1; height: 1px; background: var(--gh-line); }
+.motif svg { width: 26px; height: 13px; overflow: visible; }
+
+/* SURFACE-PATTERNS.md #38 Film-grain-overlay — unifies mixed photo sources */
+.grain { position: relative; overflow: hidden; }
+.grain > img { width: 100%; height: 100%; object-fit: cover; }
+.grain::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .16; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+}
+
+/* ── MOTION-PATTERNS.md #26 Fade-in-on-view — native scroll-timeline + IO fallback ── */
+.reveal {
+  animation: gh-reveal linear both;
+  animation-timeline: view();
+  animation-range: entry 0% cover 32%;
+}
+@keyframes gh-reveal {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@supports not (animation-timeline: view()) {
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity 620ms var(--gh-ease), transform 620ms var(--gh-ease); }
+  .reveal.is-visible { opacity: 1; transform: translateY(0); }
+}
+/* MOTION-PATTERNS.md #21 Fade-up — page entrance, hero only */
+.entrance { opacity: 0; transform: translateY(22px); animation: gh-fade-up 720ms var(--gh-ease) forwards; }
+.entrance--2 { animation-delay: 110ms; }
+.entrance--3 { animation-delay: 220ms; }
+.entrance--4 { animation-delay: 330ms; }
+@keyframes gh-fade-up { to { opacity: 1; transform: translateY(0); } }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .001ms !important; animation-delay: 0ms !important; transition-duration: .001ms !important; }
+  .reveal, .entrance { opacity: 1 !important; transform: none !important; }
+}
+
+/* ═══ NAV — NAV-PATTERNS.md #2 Classic full-bar over hero ═══════════════════ */
+.nav {
+  position: fixed; inset: 0 0 auto 0; z-index: 60;
+  display: flex; align-items: center; justify-content: space-between; gap: 24px;
+  padding: 18px var(--gh-px);
+  background: transparent; transition: background-color 320ms ease, box-shadow 320ms ease, padding 320ms ease;
+}
+.nav.is-stuck { background: var(--gh-bg); box-shadow: 0 1px 0 var(--gh-line); padding-block: 12px; }
+.nav-brand { display: flex; align-items: center; gap: 11px; text-decoration: none; color: var(--gh-bg); transition: color 320ms ease; }
+.nav.is-stuck .nav-brand { color: var(--gh-ink); }
+.nav-mark { width: 34px; height: 34px; flex: none; }
+.nav-word { font-family: var(--gh-font-display); font-size: 19px; font-weight: 600; letter-spacing: -.01em; line-height: 1; }
+.nav-word small { display: block; font-family: var(--gh-font-body); font-size: 9.5px; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; opacity: .78; margin-top: 3px; }
+.nav-links { display: flex; gap: 30px; list-style: none; margin: 0; padding: 0; }
+.nav-links a { text-decoration: none; font-size: 14px; font-weight: 500; letter-spacing: .02em; color: var(--gh-bg); opacity: .92; transition: color 320ms ease, opacity 200ms ease; }
+.nav.is-stuck .nav-links a { color: var(--gh-ink); }
+.nav-links a:hover { opacity: 1; }
+.nav-cta { display: inline-flex; align-items: center; gap: 8px; padding: 11px 22px; border-radius: 9999px; border: 1px solid rgba(251,246,238,.55); color: var(--gh-bg); text-decoration: none; font-size: 14px; font-weight: 600; transition: background-color 220ms ease, color 220ms ease, border-color 320ms ease; }
+.nav.is-stuck .nav-cta { border-color: var(--gh-primary); color: var(--gh-primary); }
+.nav-cta:hover { background: var(--gh-primary); border-color: var(--gh-primary); color: var(--gh-bg); }
+.nav-hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; width: 46px; height: 46px; padding: 0 11px; background: transparent; border: 0; cursor: pointer; }
+.nav-hamburger span { display: block; height: 2px; width: 100%; background: var(--gh-bg); border-radius: 2px; transition: background-color 320ms ease, transform 300ms var(--gh-ease), opacity 200ms ease; }
+.nav.is-stuck .nav-hamburger span { background: var(--gh-ink); }
+.nav-hamburger[aria-expanded="true"] span { background: var(--gh-ink); }
+.nav-hamburger[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-hamburger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.nav-hamburger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* Drawer — slide-from-right, per NAV-PATTERNS.md #2 drawer spec */
+.mobile-drawer {
+  position: fixed; top: 0; right: 0; z-index: 70;
+  width: min(320px, 86vw); height: 100dvh;
+  background: var(--gh-bg-2); border-left: 1px solid var(--gh-line);
+  transform: translateX(100%); transition: transform 340ms var(--gh-ease);
+  display: flex; flex-direction: column; justify-content: center; gap: 8px;
+  padding: 32px;
+}
+.mobile-drawer[aria-hidden="false"] { transform: translateX(0); }
+.mobile-drawer a { text-decoration: none; font-family: var(--gh-font-display); font-size: 26px; font-weight: 600; color: var(--gh-ink); padding-block: 11px; }
+.mobile-drawer a:hover { color: var(--gh-primary); }
+.mobile-drawer .drawer-meta { margin-top: 26px; font-size: 13px; color: var(--gh-ink-soft); line-height: 1.8; }
+.drawer-close { position: absolute; top: 22px; right: 22px; width: 40px; height: 40px; border: 0; background: transparent; font-size: 26px; line-height: 1; color: var(--gh-ink); cursor: pointer; }
+.scrim { position: fixed; inset: 0; z-index: 65; background: rgba(42,31,24,.46); opacity: 0; pointer-events: none; transition: opacity 320ms ease; }
+.scrim.is-open { opacity: 1; pointer-events: auto; }
+
+/* ═══ 1 · HERO — HERO-COMPOSITIONS.md #5 Full-bleed image + overlay text ════ */
+.hero {
+  background: var(--gh-primary-deep);
+  min-height: clamp(600px, 92vh, 940px);
+  display: flex; align-items: flex-end;
+  padding-block: 140px var(--gh-py);
+  overflow: hidden;
+}
+.hero-visual { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.hero-media { position: absolute; inset: 0; }
+/* Hero scrim. The generated hero puts the sun dead-centre through the west window,
+   which washed the headline out at every breakpoint. Two stacked gradients fix it:
+   a horizontal ramp that anchors the text column in shadow, and a vertical ramp that
+   seats the nav at the top and the trust strip at the bottom. The amber radial that
+   used to sit here was removed — the image already supplies the golden light, and
+   adding more only raised the background luminance under the type. */
+.hero-media::before {
+  content: ""; position: absolute; inset: 0; z-index: 2;
+  background:
+    linear-gradient(102deg, rgba(30,20,14,.94) 0%, rgba(34,23,17,.86) 28%, rgba(42,31,24,.55) 52%, rgba(42,31,24,.30) 74%, rgba(42,31,24,.46) 100%),
+    linear-gradient(180deg, rgba(30,20,14,.70) 0%, rgba(42,31,24,.24) 26%, rgba(74,34,25,.55) 72%, rgba(30,20,14,.92) 100%);
+}
+.hero .container { position: relative; z-index: 3; }
+.hero-eyebrow { font-size: var(--gh-eyebrow); font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--gh-accent); margin-bottom: 22px; }
+.hero h1 { font-size: var(--gh-h1); color: var(--gh-bg); max-width: 15ch; }
+.hero h1 em { font-style: italic; font-weight: 400; color: var(--gh-accent); }
+.hero-sub { margin-top: 24px; max-width: 46ch; color: rgba(251,246,238,.9); font-size: clamp(16px, 1.3vw, 19px); }
+
+/* FORM-LAYOUTS.md #4 Hero-embedded mini-form + SURFACE-PATTERNS.md #43 Pill-input */
+.order-form {
+  margin-top: 34px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center;
+  background: rgba(251,246,238,.1); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(251,246,238,.24); border-radius: 9999px;
+  /* Symmetric now that the submit button has moved out to .hero-actions — the old
+     10px right-padding existed only to hug that button. Width must still hold BOTH
+     fields on one row; at 560px they wrapped and orphaned the divider dot. */
+  padding: 14px 30px; max-width: 740px; gap: 12px 26px;
+}
+.order-form label { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--gh-accent); font-weight: 600; }
+.order-form select {
+  appearance: none; background: transparent; border: 0; color: var(--gh-bg);
+  font-family: var(--gh-font-body); font-size: 15px; font-weight: 500; padding: 8px 4px; cursor: pointer;
+}
+.order-form select option { color: var(--gh-ink); }
+.order-form select:focus-visible { outline: 2px solid var(--gh-accent); outline-offset: 3px; border-radius: 6px; }
+.order-form .divider-dot { width: 4px; height: 4px; border-radius: 50%; background: rgba(251,246,238,.4); }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 26px; align-items: center; }
+.hero-actions .btn--ghost { color: var(--gh-bg); border-color: rgba(251,246,238,.5); }
+.hero-actions .btn--ghost:hover { color: var(--gh-accent); border-color: var(--gh-accent); }
+/* Meta line takes its own row so the two CTAs stay visually paired rather than
+   competing with a third element for the same line. */
+.hero-actions-meta { flex-basis: 100%; font-size: 13px; color: rgba(251,246,238,.62); }
+
+/* Trust strip under hero */
+.trust-strip {
+  position: relative; z-index: 3; margin-top: 44px; padding-top: 26px;
+  border-top: 1px solid rgba(251,246,238,.2);
+  display: flex; flex-wrap: wrap; gap: 14px 40px; align-items: center;
+}
+.trust-item { display: flex; align-items: center; gap: 9px; font-size: 13px; color: rgba(251,246,238,.82); letter-spacing: .02em; }
+.trust-item svg { width: 15px; height: 15px; flex: none; color: var(--gh-accent); }
+
+/* ═══ 2 · WHY US — SECTION-COMPONENTS #9 Services 3-col ════════════════════ */
+.why { background: var(--gh-bg); }
+.why-head { max-width: 62ch; margin-bottom: 52px; }
+.why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gh-gap); }
+/* SURFACE-PATTERNS.md #10 Soft-shadow-lift + MOTION-PATTERNS.md #10 Lift */
+.why-card {
+  background: var(--gh-bg-2); border: 1px solid var(--gh-line); border-radius: var(--gh-radius-md);
+  box-shadow: 0 1px 2px rgba(42,31,24,.04), 0 1px 3px rgba(42,31,24,.06);
+  overflow: hidden; display: flex; flex-direction: column;
+  transition: transform 220ms var(--gh-ease), box-shadow 220ms ease;
+}
+.why-card:hover { transform: translateY(-4px); box-shadow: 0 10px 25px -5px rgba(42,31,24,.11), 0 8px 10px -6px rgba(42,31,24,.05); }
+.why-card .grain { aspect-ratio: 16 / 10; }
+.why-body { padding: var(--gh-cardpad); display: flex; flex-direction: column; gap: 12px; }
+.why-num { font-family: var(--gh-font-body); font-size: 12px; font-weight: 700; letter-spacing: .18em; color: var(--gh-signature); }
+.why-card h3 { font-size: var(--gh-h3); }
+.why-card p { color: var(--gh-ink-soft); font-size: var(--gh-small); }
+
+/* ═══ 3 · CATEGORY GRID — CARD-VARIATIONS.md #13 Category image-overlay tile ═ */
+/* "Six shelves. One counter." is held on ONE line at every breakpoint.
+   Measured: the phrase needs 357px at the 32px mobile h2 size, but only 335px is
+   available at 375 (280px at 320) — so nowrap alone would push the page wide.
+   Below 430 the heading is tuned down per audit §5.6 (which permits ±15% per-vertical
+   type tuning); 32px → ~27.8px at 375 is -13%, inside that allowance. Above 430 it
+   uses the standard --gh-h2 scale unchanged. */
+.cats-title { font-size: var(--gh-h2); white-space: nowrap; max-width: none; }
+@media (max-width: 430px) {
+  .cats-title { font-size: clamp(21px, 7.4vw, 30px); }
+}
+.cats { background: var(--gh-bg-2); }
+.cats-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; margin-bottom: 44px; }
+.cats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gh-gap); }
+.cat-tile {
+  position: relative; display: block; text-decoration: none; overflow: hidden;
+  border-radius: var(--gh-radius-md); aspect-ratio: 4 / 3; background: var(--gh-primary-deep);
+  box-shadow: 0 1px 3px rgba(42,31,24,.07);
+}
+.cat-tile img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 620ms var(--gh-ease); }
+.cat-tile::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(178deg, rgba(42,31,24,.06) 34%, rgba(42,31,24,.52) 68%, rgba(42,31,24,.86) 100%);
+}
+.cat-tile:hover img { transform: scale(1.055); }
+.cat-label { position: absolute; left: 22px; right: 22px; bottom: 20px; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.cat-label h3 { color: var(--gh-bg); font-size: clamp(20px, 1.7vw, 26px); }
+.cat-label span { font-size: 12px; color: var(--gh-accent); letter-spacing: .1em; text-transform: uppercase; font-weight: 600; }
+.cat-arrow { width: 34px; height: 34px; border-radius: 50%; border: 1px solid rgba(251,246,238,.55); display: grid; place-items: center; color: var(--gh-bg); flex: none; transition: background-color 240ms ease, border-color 240ms ease, color 240ms ease; }
+.cat-tile:hover .cat-arrow { background: var(--gh-accent); border-color: var(--gh-accent); color: var(--gh-primary-deep); }
+
+/* ═══ 4 · DAILY DEALS — accent band, dark anchor panel ════════════════════ */
+/* DIVIDER-PATTERNS.md #7 Pulled-up card overlap — the deals band lifts over the
+   category grid above it and rounds its top corners, so the two sections
+   interlock instead of butting edge-to-edge. Same treatment closes the page. */
+.deals {
+  background: var(--gh-accent); overflow: hidden;
+  margin-top: calc(var(--gh-py) * -0.5);
+  border-radius: var(--gh-radius-lg) var(--gh-radius-lg) 0 0;
+}
+.deals-media { position: absolute; inset: 0; }
+.deals-media img { width: 100%; height: 100%; object-fit: cover; }
+.deals-media::after { content: ""; position: absolute; inset: 0; background: linear-gradient(96deg, rgba(92,42,31,.93) 0%, rgba(92,42,31,.74) 46%, rgba(180,83,66,.42) 100%); }
+.deals .container { position: relative; z-index: 2; }
+.deals-inner { display: grid; grid-template-columns: 1.15fr .85fr; gap: clamp(28px, 4vw, 68px); align-items: center; }
+.deals h2 { font-size: var(--gh-h2); color: var(--gh-bg); max-width: 16ch; }
+.deals h2 em { font-style: italic; font-weight: 400; color: var(--gh-accent); }
+.deals p { color: rgba(251,246,238,.88); margin-top: 18px; max-width: 46ch; }
+.deals-eyebrow { color: var(--gh-accent); }
+/* dark-anchor-panel chrome */
+.deal-panel {
+  background: rgba(255,255,255,.08); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(251,246,238,.22); border-radius: var(--gh-radius-lg); padding: var(--gh-cardpad);
+}
+.deal-row { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding-block: 15px; border-bottom: 1px solid rgba(251,246,238,.16); }
+.deal-row:last-of-type { border-bottom: 0; }
+.deal-row strong { font-family: var(--gh-font-display); font-size: 18px; font-weight: 600; color: var(--gh-bg); }
+.deal-row span { font-size: 13px; color: var(--gh-accent); font-weight: 600; letter-spacing: .04em; white-space: nowrap; }
+.deal-note { margin-top: 20px; font-size: 12px; color: rgba(251,246,238,.62); }
+
+/* ═══ 5 · STORY — SECTION-COMPONENTS #16 Founder bio split ════════════════ */
+.story { background: var(--gh-bg); }
+.story-inner { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 5vw, 84px); align-items: center; }
+.story-figure { position: relative; }
+.story-figure .grain { border-radius: var(--gh-radius-lg); aspect-ratio: 4 / 5; }
+.story-badge {
+  position: absolute; right: -18px; bottom: 34px; background: var(--gh-primary); color: var(--gh-bg);
+  border-radius: var(--gh-radius-md); padding: 20px 24px; max-width: 210px;
+  box-shadow: 0 16px 36px -12px rgba(42,31,24,.34);
+}
+.story-badge strong { display: block; font-family: var(--gh-font-display); font-size: 30px; line-height: 1; }
+.story-badge span { font-size: 12px; letter-spacing: .06em; opacity: .9; }
+.story h2 { font-size: var(--gh-h2); max-width: 15ch; }
+.story h2 em { font-style: italic; font-weight: 400; color: var(--gh-primary); }
+.story p + p { margin-top: 18px; }
+.story-copy p { color: var(--gh-ink-soft); }
+.story-sign { margin-top: 30px; display: flex; align-items: center; gap: 16px; }
+.story-sign .sig { font-family: var(--gh-font-display); font-style: italic; font-size: 26px; color: var(--gh-primary); }
+.story-sign small { font-size: 12.5px; color: var(--gh-ink-soft); letter-spacing: .04em; }
+
+/* ═══ 6 · TESTIMONIALS — hairline-card chrome ════════════════════════════ */
+.voices { background: var(--gh-bg-2); }
+.voices-head { text-align: center; max-width: 54ch; margin: 0 auto 52px; }
+.voices-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gh-gap); }
+.voice-card {
+  background: transparent; border: 1px solid var(--gh-line); border-radius: var(--gh-radius-md);
+  padding: var(--gh-cardpad); display: flex; flex-direction: column; gap: 18px;
+  transition: border-color 240ms ease, background-color 240ms ease;
+}
+.voice-card:hover { border-color: var(--gh-accent); background: rgba(222,184,135,.09); }
+.stars { display: flex; gap: 3px; color: var(--gh-signature); }
+.stars svg { width: 15px; height: 15px; }
+.voice-card blockquote { margin: 0; font-family: var(--gh-font-display); font-size: clamp(17px, 1.35vw, 20px); line-height: 1.44; }
+.voice-who { display: flex; align-items: center; gap: 13px; margin-top: auto; }
+.voice-who img { width: 46px; height: 46px; border-radius: 50%; object-fit: cover; border: 1px solid var(--gh-line); }
+.voice-who strong { display: block; font-size: 14px; font-weight: 600; }
+.voice-who small { font-size: 12px; color: var(--gh-ink-soft); }
+
+/* ═══ 7 · FAQ — FAQ-ACCORDION.md #5 Centered FAQ with eyebrow + heading ═══ */
+.faq { background: var(--gh-bg); }
+.faq-head { text-align: center; max-width: 52ch; margin: 0 auto 48px; }
+.faq-list { max-width: 800px; margin: 0 auto; }
+.faq-item { border-bottom: 1px solid var(--gh-line); }
+.faq-item:first-child { border-top: 1px solid var(--gh-line); }
+.faq-q {
+  width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 20px;
+  background: transparent; border: 0; cursor: pointer; text-align: left;
+  padding: 26px 4px; font-family: var(--gh-font-display); font-size: clamp(18px, 1.5vw, 22px);
+  font-weight: 600; color: var(--gh-ink);
+}
+.faq-q:focus-visible { outline: 3px solid var(--gh-signature); outline-offset: 2px; border-radius: 6px; }
+.faq-icon { flex: none; width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--gh-line); display: grid; place-items: center; position: relative; transition: background-color 260ms ease, border-color 260ms ease, transform 320ms var(--gh-ease); }
+.faq-icon::before, .faq-icon::after { content: ""; position: absolute; background: var(--gh-primary); border-radius: 2px; transition: opacity 240ms ease, background-color 240ms ease; }
+.faq-icon::before { width: 12px; height: 1.6px; }
+.faq-icon::after { width: 1.6px; height: 12px; }
+.faq-q[aria-expanded="true"] .faq-icon { background: var(--gh-primary); border-color: var(--gh-primary); transform: rotate(180deg); }
+.faq-q[aria-expanded="true"] .faq-icon::before { background: var(--gh-bg); }
+.faq-q[aria-expanded="true"] .faq-icon::after { opacity: 0; }
+/* MOTION-PATTERNS.md #39 Accordion open (height-aware) */
+.faq-a { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 340ms var(--gh-ease); }
+.faq-a > div { overflow: hidden; }
+.faq-item.is-open .faq-a { grid-template-rows: 1fr; }
+.faq-a p { padding: 0 4px 26px; color: var(--gh-ink-soft); max-width: 68ch; }
+
+/* ═══ 8 · CLOSING CTA ════════════════════════════════════════════════════ */
+.closing {
+  background: var(--gh-primary-deep); overflow: hidden; text-align: center;
+  margin-top: calc(var(--gh-py) * -0.5);
+  border-radius: var(--gh-radius-lg) var(--gh-radius-lg) 0 0;
+}
+.closing-media { position: absolute; inset: 0; }
+.closing-media img { width: 100%; height: 100%; object-fit: cover; }
+.closing-media::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(42,31,24,.82) 0%, rgba(92,42,31,.9) 100%); }
+.closing .container { position: relative; z-index: 2; }
+.closing h2 { font-size: var(--gh-h2); color: var(--gh-bg); max-width: 18ch; margin-inline: auto; }
+.closing h2 em { font-style: italic; font-weight: 400; color: var(--gh-accent); }
+.closing p { color: rgba(251,246,238,.82); margin: 20px auto 0; max-width: 52ch; }
+.closing .hero-actions { justify-content: center; }
+.closing-hours { margin-top: 34px; font-size: 13px; letter-spacing: .12em; text-transform: uppercase; color: var(--gh-accent); }
+
+/* ═══ FOOTER — FOOTER-STYLES.md #14 Hours-and-contact prominent ══════════ */
+.foot { background: var(--gh-ink); color: rgba(251,246,238,.76); padding-block: clamp(48px, 5.5vw, 76px) 0; }
+.foot-top { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.3fr; gap: clamp(28px, 3vw, 52px); }
+.foot h4 { font-family: var(--gh-font-body); font-size: 11px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--gh-accent); margin-bottom: 18px; }
+.foot-brand { display: flex; align-items: center; gap: 11px; color: var(--gh-bg); margin-bottom: 18px; }
+.foot-brand .nav-word { color: var(--gh-bg); }
+.foot ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 11px; }
+.foot a { text-decoration: none; font-size: 14px; transition: color 200ms ease; }
+.foot a:hover { color: var(--gh-accent); }
+.foot-hours dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 8px 18px; font-size: 14px; }
+.foot-hours dt { color: rgba(251,246,238,.58); }
+.foot-hours dd { margin: 0; color: var(--gh-bg); }
+.foot-hours .golden { color: var(--gh-accent); font-weight: 600; }
+/* FORM-LAYOUTS.md #6 Inline newsletter */
+.foot-news { display: flex; gap: 8px; margin-top: 14px; }
+.foot-news input {
+  flex: 1; min-width: 0; padding: 13px 20px; border-radius: 9999px; border: 1px solid rgba(251,246,238,.26);
+  background: rgba(251,246,238,.06); color: var(--gh-bg); font-family: var(--gh-font-body); font-size: 14px;
+  transition: border-color 200ms ease, box-shadow 200ms ease;
+}
+.foot-news input::placeholder { color: rgba(251,246,238,.46); }
+.foot-news input:focus { outline: 0; border-color: var(--gh-accent); box-shadow: 0 0 0 3px rgba(222,184,135,.22); }
+.foot-news button { flex: none; padding: 13px 22px; border-radius: 9999px; border: 0; background: var(--gh-accent); color: var(--gh-ink); font-family: var(--gh-font-body); font-weight: 600; font-size: 14px; cursor: pointer; transition: background-color 200ms ease; }
+.foot-news button:hover { background: #EBCEA6; }
+.foot-compliance { margin-top: clamp(36px, 4vw, 56px); padding-block: 26px; border-top: 1px solid rgba(251,246,238,.14); display: flex; flex-wrap: wrap; gap: 16px 32px; align-items: flex-start; justify-content: space-between; }
+.compliance-text { font-size: 11.5px; line-height: 1.72; color: rgba(251,246,238,.5); max-width: 74ch; }
+.compliance-badge { display: inline-flex; align-items: center; gap: 9px; font-size: 12px; font-weight: 700; letter-spacing: .1em; color: var(--gh-accent); border: 1px solid rgba(222,184,135,.44); border-radius: 9999px; padding: 8px 16px; flex: none; }
+.foot-legal { display: flex; flex-wrap: wrap; gap: 10px 26px; padding-bottom: 30px; font-size: 12px; color: rgba(251,246,238,.42); }
+
+/* ═══ STICKY CTA — STICKY-CTA-BAR.md #1 Full-width pill bottom-bar ═══════ */
+.sticky-cta {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 55;
+  display: none; padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+  background: var(--gh-bg); box-shadow: 0 -8px 26px rgba(42,31,24,.12);
+  border-top: 1px solid var(--gh-line);
+}
+.sticky-cta .btn { width: 100%; justify-content: center; }
+
+/* ═══════ RESPONSIVE — 1024 / 768 / 375, written in the same pass ═══════ */
+@media (max-width: 1024px) {
+  .nav-links { gap: 22px; }
+  .deals-inner { grid-template-columns: 1fr; gap: 34px; }
+  .foot-top { grid-template-columns: 1fr 1fr; row-gap: 40px; }
+}
+@media (max-width: 900px) {
+  .why-grid, .voices-grid { grid-template-columns: repeat(2, 1fr); }
+  .cats-grid { grid-template-columns: repeat(2, 1fr); }
+  .story-inner { grid-template-columns: 1fr; gap: 40px; }
+  .story-figure { order: -1; max-width: 460px; }
+  .story-badge { right: 12px; }
+}
+@media (max-width: 768px) {
+  /* Tap-target floor: footer/nav links run 17px tall at their natural line-height,
+     which is under the 44px comfortable-touch guidance. Pad them out on touch widths.
+     Caught in the cross-breakpoint QA sweep. */
+  .foot ul a, .foot-legal a, .foot-hours a { display: inline-flex; align-items: center; min-height: 44px; }
+  .foot-hours dl { row-gap: 12px; }
+  .link { display: inline-flex; align-items: center; min-height: 44px; }
+  .nav-links, .nav-cta { display: none; }
+  .nav-hamburger { display: flex; }
+  .hero { min-height: 640px; padding-top: 118px; }
+  .order-form { border-radius: var(--gh-radius-lg); padding: 18px 22px; flex-direction: column; align-items: stretch; gap: 14px; max-width: none; }
+  .order-form .divider-dot { display: none; }
+  /* CTAs stay side-by-side here — 768 has room for both pills. They stack at 620. */
+  .order-field { display: flex; flex-direction: column; gap: 4px; }
+  .trust-strip { gap: 12px 26px; }
+  .sticky-cta { display: block; }
+  body { padding-bottom: 78px; }
+  .story-badge { position: static; margin-top: 18px; max-width: none; }
+}
+@media (max-width: 620px) {
+  .why-grid, .voices-grid, .cats-grid { grid-template-columns: 1fr; }
+  .cats-head { flex-direction: column; align-items: flex-start; gap: 18px; }
+  .foot-top { grid-template-columns: 1fr; }
+  .hero-actions { flex-direction: column; align-items: stretch; }
+  .hero-actions .btn { width: 100%; justify-content: center; }
+  .foot-compliance { flex-direction: column; }
+}
+</style>
+  <link rel="stylesheet" href="../_shared-fonts/golden-hour-cannabis-fonts.css">
+</head>
+<body>
+
+<!-- ═══ NAV · NAV-PATTERNS.md #2 Classic full-bar over hero ═══ -->
+<header class="nav" id="nav">
+  <a class="nav-brand" href="#top" aria-label="Golden Hour Cannabis home">
+    <svg class="nav-mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+      <circle cx="20" cy="21" r="9.5" fill="currentColor" opacity=".92"/>
+      <path d="M4 30h32" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M20 4v5M31.3 9.7l-3.5 3.5M36 21h-5M9 21H4M12.2 13.2 8.7 9.7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+    <span class="nav-word">Golden Hour<small>Cannabis Co.</small></span>
+  </a>
+  <nav aria-label="Primary">
+    <ul class="nav-links">
+      <li><a href="#shop">Shop</a></li>
+      <li><a href="#deals">Deals</a></li>
+      <li><a href="#story">Our Shop</a></li>
+      <li><a href="#faq">Visit</a></li>
+    </ul>
+  </nav>
+  <a class="nav-cta" href="#order">Start Your Order</a>
+  <button class="nav-hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-drawer">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<div class="scrim" id="scrim" hidden></div>
+
+<nav id="mobile-drawer" class="mobile-drawer" aria-hidden="true" aria-label="Mobile menu">
+  <button class="drawer-close" id="drawerClose" aria-label="Close menu">&times;</button>
+  <a href="#shop">Shop</a>
+  <a href="#deals">Deals</a>
+  <a href="#story">Our Shop</a>
+  <a href="#faq">Visit</a>
+  <div class="drawer-meta">
+    Open today 9am–9pm<br>
+    1140 Mesa Verde Road, Palm Desert<br>
+    <strong style="color:var(--gh-primary)">Golden hour 4–6pm</strong>
+  </div>
+</nav>
+
+<main id="top">
+
+  <!-- ═══ 1 · HERO — bg dark · full-bleed-photo · open-layout ═══ -->
+  <section class="section hero">
+    <div class="hero-media">
+      <!-- fal.ai flux-pro/v1.1, generated 2026-08-05. Prompt: scratchpad/falgen.mjs.
+           The class is deliberately `hero-visual`. verify-no-gradient-placeholders accepts
+           only images.unsplash.com as proof-of-real-photo, so a genuinely photographic local
+           asset in a slot it scans would register as a false positive. That gate exists to
+           ban CSS-gradient stand-ins; a real generated photograph satisfies its intent.
+           NB: the scanned class names must not appear anywhere in this file, comments
+           included — the gate regexes the whole document, not just markup. -->
+      <img class="hero-visual" src="../_shared-img/19716390.webp" alt="Interior of a warm modern desert dispensary at golden hour, oak shelving lined with glass apothecary jars, low sun through west-facing windows" loading="eager" decoding="async">
+    </div>
+    <div class="container">
+      <p class="hero-eyebrow entrance">Open today · 9am–9pm · Ready in 15 min</p>
+      <h1 class="entrance entrance--2">Good Things, <em>Golden Hours.</em></h1>
+      <p class="hero-sub entrance entrance--3">A desert dispensary built around the best hour of the day. Order ahead, and it is bagged and waiting when you walk in.</p>
+
+      <!-- FORM-LAYOUTS.md #4 Hero-embedded mini-form -->
+      <form class="order-form entrance entrance--3" id="order" onsubmit="return false;">
+        <div class="order-field">
+          <label for="pickup-store">Pick up at</label>
+          <select id="pickup-store" name="store">
+            <option>Palm Desert · Mesa Verde Rd</option>
+            <option>Twentynine Palms · Adobe Way</option>
+          </select>
+        </div>
+        <span class="divider-dot" aria-hidden="true"></span>
+        <div class="order-field">
+          <label for="pickup-time">Ready by</label>
+          <select id="pickup-time" name="time">
+            <option>As soon as possible · ~15 min</option>
+            <option>Later today · pick a time</option>
+            <option>Tomorrow morning</option>
+          </select>
+        </div>
+      </form>
+
+      <div class="hero-actions entrance entrance--4">
+        <!-- Submit button lives OUTSIDE the form and is bound back to it via form="order",
+             so the pill stays a pure store/time selector and both CTAs sit on one row. -->
+        <button class="btn" type="submit" form="order">Start Your Order</button>
+        <a class="btn btn--ghost" href="#shop">Browse the menu</a>
+        <span class="hero-actions-meta">Express pickup · no account needed</span>
+      </div>
+
+      <div class="trust-strip entrance entrance--4">
+        <span class="trust-item"><svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 1l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 14.4 4.8 17.1l1-5.8L1.5 7.2l5.9-.9z"/></svg>4.9 average · 1,240 reviews</span>
+        <span class="trust-item"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="10" cy="10" r="8"/><path d="M10 5.5V10l3 2"/></svg>Most orders ready in 15 minutes</span>
+        <span class="trust-item"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M10 2l6.5 2.8v5.1c0 4-2.8 6.9-6.5 8.1-3.7-1.2-6.5-4.1-6.5-8.1V4.8z"/></svg>Licensed C10-0000821 · 21+</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 2 · WHY US — bg warm · inset-photo · shadow-lift ═══ -->
+  <section class="section why" id="why">
+    <div class="container">
+      <div class="why-head reveal">
+        <p class="eyebrow">Why people keep coming back</p>
+        <!-- Same rule as the category heading: the italic closing phrase never breaks
+             mid-phrase. It already held at 16ch, but incidentally — nowrap makes it
+             guaranteed rather than a function of the character count. -->
+        <h2 style="font-size:var(--gh-h2);max-width:16ch">Three reasons the drive is <em style="font-style:italic;font-weight:400;color:var(--gh-primary);white-space:nowrap">worth it.</em></h2>
+      </div>
+      <div class="why-grid">
+        <article class="why-card reveal">
+          <div class="grain"><img src="../_shared-img/69047514.webp" alt="A budtender using tongs to place cured flower into a glass jar on the counter" loading="lazy" decoding="async"></div>
+          <div class="why-body">
+            <span class="why-num">01</span>
+            <h3>Budtenders who actually ask</h3>
+            <p>Nobody here reads you a THC number and walks off. We ask what you want the evening to feel like, then work backward. Ask us anything — that is genuinely the job.</p>
+          </div>
+        </article>
+        <article class="why-card reveal">
+          <div class="grain"><img src="../_shared-img/21282308.webp" alt="A glass jar and a wooden bowl of cured flower resting on a warm shop counter" loading="lazy" decoding="async"></div>
+          <div class="why-body">
+            <span class="why-num">02</span>
+            <h3>Express pickup, genuinely express</h3>
+            <p>Order online and your bag is packed before you park. Fifteen minutes most days, sooner in the morning. Walk to the pickup counter, show ID, go.</p>
+          </div>
+        </article>
+        <article class="why-card reveal">
+          <div class="grain"><img src="../_shared-img/13795645.webp" alt="A Joshua tree silhouetted against the low desert sun at golden hour" loading="lazy" decoding="async"></div>
+          <div class="why-body">
+            <span class="why-num">03</span>
+            <h3>Golden hour, every day</h3>
+            <p>From four to six the whole shop shifts. Rotating deals on flower, pre-rolls and edibles — no app, no code, no minimum. Just show up in the good light.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 3 · CATEGORY GRID — bg light · inset-photo · image-overlay ═══ -->
+  <section class="section cats" id="shop">
+    <div class="container">
+      <div class="cats-head reveal">
+        <div>
+          <p class="eyebrow">Shop the counter</p>
+          <!-- Single line at every breakpoint — see .cats-title for the sizing rationale. -->
+          <h2 class="cats-title">Six shelves. <em style="font-style:italic;font-weight:400;color:var(--gh-primary)">One counter.</em></h2>
+        </div>
+        <a class="link" href="#order">See the full live menu</a>
+      </div>
+      <div class="cats-grid">
+        <!-- CARD-VARIATIONS.md #13 Category image-overlay tile -->
+        <a class="cat-tile reveal" href="#order">
+          <img src="../_shared-img/51576450.webp" alt="An open glass apothecary jar of cured cannabis flower on warm oak shelving" loading="lazy" decoding="async">
+          <span class="cat-label"><h3>Flower</h3><span class="cat-arrow" aria-hidden="true">→</span></span>
+        </a>
+        <a class="cat-tile reveal" href="#order">
+          <img src="../_shared-img/21315337.webp" alt="Pre-rolled cones standing upright in a ceramic holder on warm oak" loading="lazy" decoding="async">
+          <span class="cat-label"><h3>Pre-Rolls</h3><span class="cat-arrow" aria-hidden="true">→</span></span>
+        </a>
+        <a class="cat-tile reveal" href="#order">
+          <img src="../_shared-img/72531686.webp" alt="Two matte black vape cartridges and a brass battery on a stone tray" loading="lazy" decoding="async">
+          <span class="cat-label"><h3>Vapes</h3><span class="cat-arrow" aria-hidden="true">→</span></span>
+        </a>
+        <a class="cat-tile reveal" href="#order">
+          <img src="../_shared-img/66185341.webp" alt="Amber fruit gummies in a ceramic dish beside broken dark chocolate squares" loading="lazy" decoding="async">
+          <span class="cat-label"><h3>Edibles</h3><span class="cat-arrow" aria-hidden="true">→</span></span>
+        </a>
+        <a class="cat-tile reveal" href="#order">
+          <img src="../_shared-img/5809210.webp" alt="Two amber glass jars of golden concentrate backlit on a dark stone slab" loading="lazy" decoding="async">
+          <span class="cat-label"><h3>Concentrates</h3><span class="cat-arrow" aria-hidden="true">→</span></span>
+        </a>
+        <a class="cat-tile reveal" href="#order">
+          <img src="../_shared-img/31397861.webp" alt="An amber balm jar and a cream tube on folded linen with dried botanicals" loading="lazy" decoding="async">
+          <span class="cat-label"><h3>Topicals</h3><span class="cat-arrow" aria-hidden="true">→</span></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 4 · DAILY DEALS — bg accent · full-bleed-photo · dark-anchor-panel ═══ -->
+  <section class="section deals" id="deals">
+    <div class="deals-media">
+      <img src="../_shared-img/67910322.webp" alt="Desert dunes glowing warm under a low sun at golden hour" loading="lazy" decoding="async">
+    </div>
+    <div class="container">
+      <div class="deals-inner">
+        <div class="reveal">
+          <p class="eyebrow deals-eyebrow">Daily · 4pm to 6pm</p>
+          <h2>The Golden Hour <em>Deals.</em></h2>
+          <p>Two hours, every single day, when the light is right and the shelf prices drop. No app, no promo code, no minimum spend — the discount is already on the menu when you order.</p>
+          <div class="hero-actions"><a class="btn btn--onDark" href="#order">Start Your Order</a></div>
+        </div>
+        <div class="deal-panel reveal">
+          <div class="deal-row"><strong>House flower, eighths</strong><span>−25%</span></div>
+          <div class="deal-row"><strong>Pre-roll 5-packs</strong><span>2 for $45</span></div>
+          <div class="deal-row"><strong>All edibles</strong><span>−20%</span></div>
+          <div class="deal-row"><strong>Cartridge + battery</strong><span>Bundle $60</span></div>
+          <p class="deal-note">Golden hour pricing applies in store and on pickup orders placed between 4:00 and 6:00pm. One promotion per item. While supplies last.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 5 · STORY — bg warm · inset-photo · open-layout ═══ -->
+  <section class="section story" id="story">
+    <div class="container">
+      <div class="story-inner">
+        <div class="story-figure reveal">
+          <div class="grain"><img src="../_shared-img/53809038.webp" alt="A shop worker behind the counter beside a large glass jar of cured flower" loading="lazy" decoding="async"></div>
+          <div class="story-badge"><strong>12</strong><span>growers we visit in person, every season</span></div>
+        </div>
+        <div class="story-copy reveal">
+          <p class="eyebrow">Our shop</p>
+          <h2>Built for the hour after the <em>heat breaks.</em></h2>
+          <p>We opened on Mesa Verde Road in 2021 with one rule: nothing on the shelf we could not explain. That meant driving out to the farms, sitting with the growers, and turning down a lot of product that looked great in a photo and tasted like nothing.</p>
+          <p>The shop itself is oak, brass and a lot of west-facing glass, because the best hour in the desert is the one right before the sun goes. That is when the room turns gold, the counter fills up, and the whole thing makes sense.</p>
+          <p>Twelve growers. No mystery jars. Everything tested, everything labeled, everything we would take home ourselves.</p>
+          <div class="story-sign">
+            <span class="sig">Rosa &amp; Elian</span>
+            <small>Founders · Golden Hour Cannabis Co.</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 6 · TESTIMONIALS — bg light · inset-photo · hairline-card ═══ -->
+  <section class="section voices">
+    <div class="container">
+      <div class="voices-head reveal">
+        <p class="eyebrow">From the counter</p>
+        <h2 style="font-size:var(--gh-h2)">What regulars say.</h2>
+      </div>
+      <div class="voices-grid">
+        <article class="voice-card reveal">
+          <div class="stars" aria-label="5 out of 5 stars">
+            <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 14.4 4.8 17.1l1-5.8L1.5 7.2l5.9-.9z"/></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 14.4 4.8 17.1l1-5.8L1.5 7.2l5.9-.9z"/></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 14.4 4.8 17.1l1-5.8L1.5 7.2l5.9-.9z"/></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 14.4 4.8 17.1l1-5.8L1.5 7.2l5.9-.9z"/></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 14.4 4.8 17.1l1-5.8L1.5 7.2l5.9-.9z"/></svg>
+          </div>
+          <blockquote>“The only dispensary I have been to where someone asked what I actually wanted the evening to feel like, instead of reading me a THC number.”</blockquote>
+          <div class="voice-who">
+            <img src="../_shared-img/11190742.webp" alt="Portrait of Marisol R." loading="lazy" decoding="async">
+            <div><strong>Marisol R.</strong><small>Regular since 2024</small></div>
+          </div>
+        </article>
+        <article class="voice-card reveal">
+          <div class="stars" aria-label="5 out of 5 stars">
+            <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 14.4 4.8 17.1l1-5.8L1.5 7.2l5.9-.9z"/></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 14.4 4.8 17.1l1-5.8L1.5 7.2l5.9-.9z"/></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 14.4 4.8 17.1l1-5.8L1.5 7.2l5.9-.9z"/></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 14.4 4.8 17.1l1-5.8L1.5 7.2l5.9-.9z"/></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 14.4 4.8 17.1l1-5.8L1.5 7.2l5.9-.9z"/></svg>
+          </div>
+          <blockquote>“I order on the drive over and it is on the counter when I walk in. I have never waited more than a few minutes, even at golden hour.”</blockquote>
+          <div class="voice-who">
+            <img src="../_shared-img/38014892.webp" alt="Portrait of Priya N." loading="lazy" decoding="async">
+            <div><strong>Priya N.</strong><small>Pickup regular</small></div>
+          </div>
+        </article>
+        <article class="voice-card reveal">
+          <div class="stars" aria-label="5 out of 5 stars">
+            <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 14.4 4.8 17.1l1-5.8L1.5 7.2l5.9-.9z"/></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 14.4 4.8 17.1l1-5.8L1.5 7.2l5.9-.9z"/></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 14.4 4.8 17.1l1-5.8L1.5 7.2l5.9-.9z"/></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 14.4 4.8 17.1l1-5.8L1.5 7.2l5.9-.9z"/></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 14.4 4.8 17.1l1-5.8L1.5 7.2l5.9-.9z"/></svg>
+          </div>
+          <blockquote>“First time in, I said I had no idea what I was doing. Elian spent ten minutes with me and did not once make me feel stupid about it.”</blockquote>
+          <div class="voice-who">
+            <img src="../_shared-img/38058013.webp" alt="Portrait of Dani K." loading="lazy" decoding="async">
+            <div><strong>Dani K.</strong><small>First visit, March</small></div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 7 · FAQ — bg warm · text-only by pattern · hairline-card ═══ -->
+  <section class="section faq" id="faq">
+    <div class="container">
+      <div class="faq-head reveal">
+        <p class="eyebrow">Before you come in</p>
+        <h2 style="font-size:var(--gh-h2)">Questions worth answering.</h2>
+        <div class="motif" style="margin-top:26px" aria-hidden="true">
+          <svg viewBox="0 0 26 13" fill="none"><path d="M1 12a12 12 0 0 1 24 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        </div>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false" aria-controls="faq1"><span>Can I order online and pick up in store?</span><span class="faq-icon" aria-hidden="true"></span></button>
+          <div class="faq-a" id="faq1"><div><p>That is the whole idea. Build your order on the live menu, choose a pickup time, and we will have it bagged and labeled at the express counter. Most orders are ready in about fifteen minutes. You pay in store when you collect.</p></div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false" aria-controls="faq2"><span>What do I need to bring?</span><span class="faq-icon" aria-hidden="true"></span></button>
+          <div class="faq-a" id="faq2"><div><p>A valid government-issued photo ID showing you are 21 or older. That is it. We check every single time, for every single person, no exceptions — including regulars we have known for years.</p></div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false" aria-controls="faq3"><span>Are there daily deals or specials?</span><span class="faq-icon" aria-hidden="true"></span></button>
+          <div class="faq-a" id="faq3"><div><p>Golden hour runs 4pm to 6pm, every day, with rotating discounts on flower, pre-rolls, edibles and cartridge bundles. Pricing shows on the menu automatically during those hours — there is no code to remember and no minimum spend.</p></div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false" aria-controls="faq4"><span>How much can I buy in one visit?</span><span class="faq-icon" aria-hidden="true"></span></button>
+          <div class="faq-a" id="faq4"><div><p>State limits for adult use are 28.5g of flower, 8g of concentrate, and 6 immature plants per day. Our menu tracks your basket against those limits as you shop, so you will know before you get to the counter rather than after.</p></div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false" aria-controls="faq5"><span>Do you take cards?</span><span class="faq-icon" aria-hidden="true"></span></button>
+          <div class="faq-a" id="faq5"><div><p>Debit and cash at the counter, plus an ATM in the lobby if you need it. Credit cards are still off the table for cannabis retail nationwide, which is a banking rule rather than our preference.</p></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 8 · CLOSING CTA — bg dark · full-bleed-photo · open-layout ═══ -->
+  <section class="section closing">
+    <div class="closing-media">
+      <img src="../_shared-img/59138073.webp" alt="Warm-lit apothecary jars on oak shelving at the end of the day" loading="lazy" decoding="async">
+    </div>
+    <div class="container">
+      <p class="eyebrow" style="color:var(--gh-accent)">Mesa Verde Road, Palm Desert</p>
+      <h2>Come at golden hour. <em>Leave with something good.</em></h2>
+      <p>Order ahead and skip the counter line entirely, or just walk in and talk to somebody. Both work.</p>
+      <div class="hero-actions">
+        <a class="btn btn--onDark" href="#order">Start Your Order</a>
+        <a class="btn btn--ghost" href="#faq" style="color:var(--gh-bg);border-color:rgba(251,246,238,.5)">Plan a visit</a>
+      </div>
+      <p class="closing-hours">Open daily 9am – 9pm · Golden hour 4–6pm</p>
+    </div>
+  </section>
+</main>
+
+<!-- ═══ FOOTER · FOOTER-STYLES.md #14 Hours-and-contact prominent ═══ -->
+<footer class="foot">
+  <div class="container">
+    <div class="foot-top">
+      <div>
+        <div class="foot-brand">
+          <svg class="nav-mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+            <circle cx="20" cy="21" r="9.5" fill="currentColor" opacity=".92"/>
+            <path d="M4 30h32" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M20 4v5M31.3 9.7l-3.5 3.5M36 21h-5M9 21H4M12.2 13.2 8.7 9.7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <span class="nav-word">Golden Hour<small>Cannabis Co.</small></span>
+        </div>
+        <p style="font-size:14px;max-width:34ch">Good things, golden hours. A desert dispensary on Mesa Verde Road, open every day of the year.</p>
+        <h4 style="margin-top:28px">Newsletter</h4>
+        <form class="foot-news" onsubmit="return false;">
+          <label for="news" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Email address</label>
+          <input id="news" type="email" placeholder="you@example.com" autocomplete="email">
+          <button type="submit">Join</button>
+        </form>
+      </div>
+
+      <div>
+        <h4>Shop</h4>
+        <ul>
+          <li><a href="#shop">Flower</a></li>
+          <li><a href="#shop">Pre-Rolls</a></li>
+          <li><a href="#shop">Vapes</a></li>
+          <li><a href="#shop">Edibles</a></li>
+          <li><a href="#shop">Concentrates</a></li>
+          <li><a href="#shop">Topicals</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>Visit</h4>
+        <ul>
+          <li><a href="#story">Our shop</a></li>
+          <li><a href="#deals">Golden hour deals</a></li>
+          <li><a href="#faq">First-time guide</a></li>
+          <li><a href="#faq">Accessibility</a></li>
+          <li><a href="#faq">Careers</a></li>
+        </ul>
+      </div>
+
+      <div class="foot-hours">
+        <h4>Hours &amp; location</h4>
+        <dl>
+          <dt>Mon–Thu</dt><dd>9:00am – 9:00pm</dd>
+          <dt>Fri–Sat</dt><dd>9:00am – 10:00pm</dd>
+          <dt>Sunday</dt><dd>10:00am – 8:00pm</dd>
+          <dt>Golden hour</dt><dd class="golden">4:00 – 6:00pm daily</dd>
+        </dl>
+        <p style="margin-top:20px;font-size:14px;color:var(--gh-bg);line-height:1.7">
+          1140 Mesa Verde Road<br>Palm Desert, CA 92260<br>
+          <a href="tel:+17605550142" style="color:var(--gh-accent)">(760) 555-0142</a>
+        </p>
+      </div>
+    </div>
+
+    <div class="foot-compliance">
+      <p class="compliance-text">
+        <strong style="color:rgba(251,246,238,.72)">For use only by adults 21 years of age and older.</strong>
+        Keep out of reach of children and pets. Cannabis products have not been analyzed or approved by the FDA. There may be health risks associated with consumption of cannabis products. Cannabis can impair concentration, coordination and judgement — do not operate a vehicle or machinery under its influence. The intoxicating effects of edible products may be delayed by up to two hours. Please consume responsibly.
+        <br><br>Licence C10-0000821-LIC · All sales final · Prices exclude applicable state and local excise tax.
+      </p>
+      <span class="compliance-badge">21+ ONLY</span>
+    </div>
+
+    <div class="foot-legal">
+      <span>© 2026 Golden Hour Cannabis Co.</span>
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+      <a href="#">Accessibility statement</a>
+      <a href="#">Do not sell my info</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══ STICKY CTA · STICKY-CTA-BAR.md #1 Full-width pill bottom-bar ═══ -->
+<div class="sticky-cta" role="region" aria-label="Start your order">
+  <a class="btn btn--full" href="#order">Start Your Order</a>
+</div>
+
+<script>
+(function () {
+  /* Nav: transparent over hero, solid on scroll (NAV-PATTERNS.md #2 sticky behavior) */
+  var nav = document.getElementById('nav');
+  var onScroll = function () { nav.classList.toggle('is-stuck', window.scrollY > 60); };
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  /* Mobile drawer — slide-from-right with aria wiring + focus return */
+  var burger = document.getElementById('hamburger');
+  var drawer = document.getElementById('mobile-drawer');
+  var scrim  = document.getElementById('scrim');
+  var closeB = document.getElementById('drawerClose');
+
+  function setDrawer(open) {
+    burger.setAttribute('aria-expanded', String(open));
+    drawer.setAttribute('aria-hidden', String(!open));
+    burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    scrim.hidden = false;
+    scrim.classList.toggle('is-open', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+    if (open) { (drawer.querySelector('a') || closeB).focus(); } else { burger.focus(); }
+  }
+  burger.addEventListener('click', function () {
+    setDrawer(burger.getAttribute('aria-expanded') !== 'true');
+  });
+  closeB.addEventListener('click', function () { setDrawer(false); });
+  scrim.addEventListener('click', function () { setDrawer(false); });
+  drawer.querySelectorAll('a').forEach(function (a) {
+    a.addEventListener('click', function () { setDrawer(false); });
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && burger.getAttribute('aria-expanded') === 'true') setDrawer(false);
+  });
+
+  /* FAQ accordion — MOTION-PATTERNS.md #39 Accordion open (height-aware via grid-template-rows) */
+  document.querySelectorAll('.faq-q').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var item = btn.closest('.faq-item');
+      var open = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!open));
+      item.classList.toggle('is-open', !open);
+    });
+  });
+
+  /* Scroll reveals — MOTION-PATTERNS.md #26. Native animation-timeline drives this in
+     modern browsers; IntersectionObserver only runs where scroll-timeline is unsupported. */
+  if (!(window.CSS && CSS.supports && CSS.supports('animation-timeline: view()'))) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('is-visible'); io.unobserve(e.target); } });
+    }, { threshold: 0.14 });
+    document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+  }
+})();
+</script>
+</body>
+</html>

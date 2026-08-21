@@ -1,0 +1,29 @@
+# SGEN — Veterinary Local SEO + AEO
+
+> Local SEO and AEO for veterinary practices: rank in Google Maps and get cited by ChatGPT, Gemini and Perplexity. One monthly retainer from $497, month-to-month, no setup fees.
+
+SGEN builds and ranks veterinary practice websites for both traditional search (Google search and Google Maps) and answer engines (ChatGPT, Gemini, Perplexity, Claude). Work is delivered as a single monthly retainer with no setup fee and no long-term contract.
+
+## Pages
+- [Veterinary Local SEO + AEO](https://www.sgen.com/veterinary-local-seo-aeo): the veterinary vertical landing page — method, pricing, proof and FAQ.
+
+## Pricing
+- Local SEO Only — $497/month
+- Local AEO (Accelerate) — $797/month
+- Local SEO + AEO (Authority) — $1,297/month
+All plans are billed monthly through Stripe, cancellable at any time, with no setup or kickoff fees.
+
+## Method
+A six-step system: audit and baseline, technical foundation, on-page and entity work, local surface (Google Business Profile, citations, reviews), answer-engine optimisation, then reporting and iteration.
+
+## Specialties served
+General and preventive care, veterinary dentistry and oral surgery, orthopedic and soft-tissue surgery, puppy and kitten wellness, internal medicine and diagnostics, emergency and critical care, dermatology and allergy, exotic and avian medicine, oncology and specialty referral, spay/neuter and preventive surgery.
+
+## Key answers
+- How long does it take? Local SEO typically moves in 60–120 days; AEO mentions can appear in 30–60 days.
+- Can I cancel? Yes — monthly billing through Stripe, cancel in the customer portal, no exit fee.
+- What is AEO? Answer Engine Optimization: getting cited by AI assistants, as distinct from ranking in Google.
+- Is there a contract? No. Month-to-month.
+
+## Contact
+- Apply: https://www.sgen.com/veterinary-local-seo-aeo#get-started

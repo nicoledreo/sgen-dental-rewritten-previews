@@ -1,0 +1,54 @@
+# SGEN · Chiropractic Local SEO + AEO
+
+> Chiropractic practices are the clientele here. SGEN works on two things for them: position within Google search and Maps, and whether the major assistants reference the practice when a user asks about treatment or about providers in the area. Charged as one monthly retainer opening at $497, with no setup fee and no minimum term.
+
+There are two searches in this profession. One asks whether chiropractic helps. The other asks who is nearby. Most practices only ever compete in the second. SGEN puts a practice into both answers: the listings and the map panel on one side, and what ChatGPT, Gemini, Perplexity and Claude say about the profession and about the practice within it on the other.
+
+## Pages
+- [Chiropractic Local SEO + AEO](https://www.sgen.com/chiropractic-local-seo-aeo): the chiropractic landing page. Approach, plans, reporting, evidence and questions.
+
+## Plans
+- Local SEO · $497 monthly. For practices needing to appear in front of anyone in the service area who is already looking for treatment.
+- Local AEO · $797 monthly. For practices intending to be cited when an assistant is asked about the treatment or about who provides it locally.
+- Local SEO + AEO · $1,297 monthly. Placement and citation worked in parallel, with the content and link programs running at full rate.
+Stripe bills the practice monthly. There is no setup fee, no onboarding item, and nothing a practice is required to add. Cancel whenever you choose: the practice ends it in the Stripe portal, with no notice period and no retention call.
+
+## What each plan carries
+- Local SEO · $497 monthly. Fifteen primary keyword targets reported monthly. Four patient articles each month, written against search demand. On-page work spanning five or more pages each month. A Business Profile corrected, then kept correct. Ten local citations submitted monthly. Three or more quality backlinks acquired monthly. Schema markup implemented and validated. A performance report each month.
+- Local AEO · $797 monthly. Ten prompts monitored across the four principal assistants, content shaped so it can be quoted rather than only ranked, a question-and-answer library that grows month on month, entity and schema work, and reporting on where the practice is being cited.
+- Local SEO + AEO · $1,297 monthly. Everything in both tiers, run together, with the content engine and link acquisition operating at full rate. Twenty-two deliverables in total across the two engines.
+
+## The method in detail
+Six stages, developed across 500+ chiropractic practices. Each stage carries a date, a defined deliverable, and reporting against which it can be checked.
+1. Week 1 · Audit and entity mapping. The Google footprint is assessed. Current assistant descriptions of the practice are recorded, so there is a baseline for what the models already say. The citation profiles of the practices ranking above are examined. An entity graph is constructed across 14 AI surfaces.
+2. Week 2 · Foundation rebuild. Chiropractic schema, with MedicalWebPage applied to research content so pages arguing a clinical case are typed separately from pages selling an appointment. An llms.txt file. Patient questions given structure. A Business Profile completed properly, credentials included. Page speed brought inside Core Web Vitals thresholds.
+3. Ongoing · Content engine. Between 8 and 24 pages each month. The subjects come from what patients genuinely ask: what an adjustment involves, whether it hurts, how many visits a given complaint usually takes, and where the evidence is strong against where it is thinner.
+4. Ongoing · Citation network. Mentions carrying genuine authority: local and regional press, the chiropractic directories worth appearing in such as Healthgrades, Zocdoc and the ACA Find-a-Doctor listing, association listings, and the discussion threads, video and reference material assistants draw on.
+5. Weekly · Track and iterate. Visibility is reported each week across Google and the four assistants. Work that performs receives further investment and work that does not is discontinued.
+6. Month 4+ · Scale. Once the service area is secure, coverage extends: additional locations, further service lines such as decompression, rehabilitation or personal injury work, then voice search and local video.
+
+## Presentations covered
+General and family chiropractic, sciatica and disc care, spinal decompression, auto and personal injury work, sports and performance chiropractic, prenatal and pediatric care, posture and scoliosis programs, chiropractic combined with massage or rehabilitation, and chronic pain and neuropathy programs. Solo practitioners through to multi-practitioner groups, and multi-disciplinary clinics. Any practice treating patients inside a defined service area is a fit.
+
+## The first week
+- Day 0. The subscription starts and a receipt is issued immediately. There is no onboarding period during which nothing visible happens.
+- Same day. The application takes about ninety seconds. Nothing is scheduled until a senior strategist has read it.
+- Within 24 hours. A dedicated point of contact sends the 30 day plan, the baseline audit and the prompt tracking list.
+- Within 7 days. The first deliverables are live: Business Profile corrections, schema, citations and the first content drop.
+
+## The questions asked most
+- How long before anything moves? Two different clocks run at once. Google generally needs 60 to 120 days before local position moves enough to register in the appointment book. Assistants respond faster, and a first citation often appears inside the first month or two, because they revisit their sources more often than Google reorders results. Form a view at the twelve week mark.
+- Is there a term? No. Billing runs monthly through Stripe and you cancel whenever you choose, inside the portal. No notice period, no retention call.
+- What separates AEO from SEO? One is about placement, the other about citation. SEO governs where a practice appears in the listings and across the map panel. AEO governs whether an assistant mentions it at all, which includes the occasions when the question asked is about the treatment rather than about any particular provider. Since roughly 60% of Google searches now end without a click, placement only addresses part of the decision.
+- What happens to the work if a practice leaves? Everything produced up to that date stays published and stays theirs. The invoicing simply stops.
+- Who does the work? Strategy, on-page work, technical delivery, AEO and reporting are all done in house. Copywriting and outreach go to a small number of outside specialists, the same names year after year. The point of contact does not rotate from month to month.
+- What access is required? A user account for sales@sgen.com on the website, and user-level permissions on the analytics and search reporting tools. Hosting, the domain registrar and anything financial sit outside the plan entirely and are never requested.
+
+## What is not offered
+- No minimum term, no setup fee, no termination charge.
+- No guaranteed positions. Google position generally shifts between day 60 and day 120; assistant citations tend to arrive sooner. Anyone offering results inside the first week is describing something that does not happen.
+- Paid Google Ads management is the one item quoted separately, and only where a practice wants that channel handled too.
+
+## Contact
+- Apply: https://www.sgen.com/chiropractic-local-seo-aeo#get-started
+- Email: sales@sgen.com

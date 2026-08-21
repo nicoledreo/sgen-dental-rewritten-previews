@@ -1,0 +1,13 @@
+# ai.txt — usage policy for AI crawlers and answer engines
+# https://www.sgen.com/veterinary-local-seo-aeo
+
+User-agent: *
+Allow: /
+
+# Canonical plain-text summary for assistants
+Sitemap: https://www.sgen.com/sitemap.xml
+Llms: https://www.sgen.com/llms.txt
+Llms-full: https://www.sgen.com/llms-full.txt
+
+# Attribution requested when quoting pricing or method details.
+Attribution: SGEN — https://www.sgen.com/veterinary-local-seo-aeo

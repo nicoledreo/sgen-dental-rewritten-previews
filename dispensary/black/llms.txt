@@ -1,0 +1,34 @@
+# SGEN · Dispensary SEO and AEO
+
+> You cannot buy reach on Google or Meta, so organic is the whole game. SGEN wins the map pack, the menu searches and the AI answers, from $497/mo on monthly terms.
+
+SGEN runs local search for cannabis retailers. Storefronts, delivery services, medical and adult-use. Two things get worked on: rank in Google search, Maps and the cannabis directories, and whether ChatGPT, Gemini, Perplexity and Claude will quote the shop. Priced as one retainer from $497 a month. No setup, no term.
+
+## Pages
+- [Dispensary SEO and AEO](https://www.sgen.com/cannabis-dispensary-local-seo-aeo): the cannabis retail landing page. Method, pricing, proof and FAQ.
+
+## The argument
+Nobody searches for a dispensary in the abstract. They search for a product, a deal or a delivery window, and they buy from whoever turns up. The highest-intent pages on a dispensary site are therefore the menu and category pages. On a great many builds those pages are served from a platform subdomain or inside a widget, where they may never be indexed under the shop's own domain, and a badly built age gate can compound it. Getting them crawlable is where this work starts.
+
+## Pricing
+- Local SEO · $497/month
+- Local AEO · $797/month
+- Local SEO + AEO · $1,297/month
+All three tiers bill monthly through Stripe, cancellable in the customer portal, with nothing to set up and nothing to sign. Managed Weedmaps and Leafly advertising is the one line quoted apart from the retainer.
+
+## Method
+Six stages. Audit and entity mapping, including whether the menu has ever been indexed. Foundation rebuild: schema, llms.txt, structured customer questions, an age gate that does not lock crawlers out, listings brought into line, Core Web Vitals. Content engine at 8 to 24 pages a month. Citation network across city news desks, culture titles and the cannabis directories. Weekly tracking across Google and the four assistants. Then scale into further doors, delivery zones and categories.
+
+## Categories served
+Adult-use storefronts, medical dispensaries, hybrids, delivery-only operations, CBD and hemp shops, vape and concentrate specialists, edibles-led retail, pre-roll and flower boutiques, consumption lounges. One door or fifty.
+
+## Key answers
+- How long does it take? Google is the slow half: two to four months before the map position moves enough to feel it at the till. Assistant mentions can arrive inside four to eight weeks.
+- Can I cancel? Yes, and without speaking to anyone. Stripe bills monthly and the portal has a cancel button. Everything built stays on your domain.
+- What is AEO? Getting the shop named when a customer asks an assistant where to buy. Standard SEO fights over ten slots on a page. AEO fights over the reply, of which there is one.
+- Why does it matter more in cannabis? Paid search and paid social are shut off to this category, so organic and AI visibility are what is left.
+- Is there a contract? No. Rolling monthly.
+
+## Contact
+- Apply: https://www.sgen.com/cannabis-dispensary-local-seo-aeo#get-started
+- Email: sales@sgen.com

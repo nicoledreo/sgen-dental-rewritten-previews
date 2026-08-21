@@ -1,0 +1,88 @@
+/* ============================================================================
+   CannMenus — design system tokens
+   Bundle D "Charged Charcoal" — locked 2026-08-07 (REDESIGN, supersedes B)
+   Source of truth: .claude/skills/web-mockup/verticals/cannmenus.md §4 bundles.D
+
+   Palette: measured off §1.2 gasbus.net — charcoal ground, mint primary,
+            amber secondary. Cited family: COLOR-THEORY-PRESETS.md #34.
+   Type:    TYPOGRAPHY-PAIRINGS.md #35 Archivo Black + Archivo
+   Radii:   SURFACE-PATTERNS.md #4 Soft 16-24px
+   Chrome:  SURFACE-PATTERNS.md #11 Deep-shadow-floating
+   Images:  SURFACE-PATTERNS.md #36 Clip-path-blob
+
+   THIS IS A DARK-GROUND BRAND. Every section ground is dark, so the heading ink
+   is overridden to a LIGHT value via --ds-ink-heading. Without that override the
+   shared structural.css would paint h1/h2/h3 in --ds-primary-deep (near-black)
+   on a near-black band and the headings would be invisible.
+
+   Depth order of operations (see bundle modernization_texture): colour-blocked
+   bands first, then large radii, then blob-masked photography, and only then
+   shadows. Shadows are the last 10% of the effect, not the mechanism.
+   ========================================================================== */
+
+:root {
+  /* ---- Color ---- */
+  --ds-primary:        #4ECCA3;  /* mint — the voltage; CTAs, live figures, accents */
+  --ds-primary-deep:   #171C22;  /* deepest charcoal — dark-band + footer ground */
+  --ds-primary-soft:   #0F2A24;  /* mint-tinted panel on dark */
+  --ds-accent:         #FFC54D;  /* amber — full-bleed interrupt bands, heading rules */
+  --ds-accent-soft:    #3A2E10;  /* amber-tinted panel on dark */
+  --ds-bg-surface:     #232931;  /* charcoal — the page ground */
+  --ds-bg-surface-2:   #2C333D;  /* elevated panel / card surface */
+  --ds-bg-warm:        #232931;
+  --ds-ink:            #FFFFFF;
+  --ds-ink-heading:    #FFFFFF;  /* REQUIRED on a dark brand — see header note */
+  --ds-ink-soft:       #A8B2BD;
+  --ds-line:           #3A424E;
+  --ds-ink-on-dark:    #FFFFFF;
+  --ds-ink-on-accent:  #171C22;  /* text on mint or amber — never white */
+  --ds-scrim:          rgba(11, 14, 18, 0.66);
+  --ds-signature:      #FFC54D;
+
+  /* Short aliases used on section bands so each band's role reads at point of use. */
+  --ds-bg:   var(--ds-bg-surface);
+  --ds-bg-2: var(--ds-bg-surface-2);
+
+  /* ---- Typography ---- */
+  --ds-font-display: 'Archivo Black', 'Archivo', system-ui, sans-serif;
+  --ds-font-body:    'Archivo', system-ui, -apple-system, sans-serif;
+  --ds-font-mono:    'IBM Plex Mono', ui-monospace, monospace;
+
+  /* ---- Radius — SURFACE #4 Soft 16-24px, matching the 15-25px measured on §1.2 ---- */
+  --ds-r-sm:   12px;
+  --ds-r-md:   18px;
+  --ds-r-lg:   24px;
+  --ds-r-xl:   40px;
+  --ds-r-pill: 999px;
+
+  /* ---- Shadow — SURFACE #11 Deep-shadow-floating.
+         Tuned darker than the catalog's light-surface values: on a charcoal
+         ground a 0.08 alpha shadow is invisible, so these run 0.34-0.55. ---- */
+  --ds-shadow-card: 0 10px 25px -5px rgba(0,0,0,0.34), 0 8px 10px -6px rgba(0,0,0,0.26);
+  --ds-shadow-lift: 0 22px 48px -12px rgba(0,0,0,0.55), 0 12px 20px -8px rgba(0,0,0,0.34);
+  --ds-shadow-mint: 0 18px 40px -14px rgba(78, 204, 163, 0.42);
+
+  /* ---- Spacing + layout ---- */
+  --ds-space-2xs: 4px;
+  --ds-space-xs:  8px;
+  --ds-space-sm:  12px;
+  --ds-space-md:  16px;
+  --ds-space-lg:  24px;
+  --ds-space-xl:  40px;
+  --ds-space-2xl: 64px;
+  --ds-space-3xl: 96px;
+  --ds-section-py:    clamp(56px, 8vw, 112px);
+  --ds-container-max: 1280px;
+  --ds-gutter:        clamp(20px, 3vw, 32px);
+
+  /* ---- Motion — springy, with a slight overshoot per bundle texture ---- */
+  --ds-ease:        cubic-bezier(0.34, 1.24, 0.4, 1);
+  --ds-ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+  --ds-dur:         220ms;
+  --ds-dur-slow:    520ms;
+  --ds-stagger:     80ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --ds-dur: 1ms; --ds-dur-slow: 1ms; --ds-stagger: 0ms; }
+}

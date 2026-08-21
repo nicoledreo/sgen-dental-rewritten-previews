@@ -1,0 +1,1357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>North Canopy — Grown Under Tall Trees · Olympia, WA</title>
+<meta name="description" content="North Canopy is a single-room cannabis shop on Cedar Loop in Olympia, Washington. Order online for pickup in about twenty minutes, or same-day delivery until 8pm.">
+<style>
+/* ============================================================================
+   NORTH CANOPY — Bundle A "Cedar Canopy"
+   Catalog patterns used (see §6 of _BUILD-SPEC.md):
+     NAV-PATTERNS.md #2      Classic full-bar over hero
+     HERO-COMPOSITIONS.md #5 Full-bleed image + overlay text
+     FOOTER-STYLES.md #14    Hours-and-contact prominent
+     CARD-VARIATIONS.md #13  Category image-overlay tile
+     CTA-PATTERNS.md #9      Segmented pill-tab CTA
+     DIVIDER-PATTERNS.md #9  Gradient fade
+     FORM-LAYOUTS.md #4      Inline field + button
+     FAQ-ACCORDION.md #1     Hairline rows, first open
+     STICKY-CTA-BAR.md #2    Two-action mobile bar
+   Mobile-first ladder: base (375) -> 768 -> 1024 -> 1440
+   ========================================================================== */
+
+/* ---- reset ---- */
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body,h1,h2,h3,h4,p,figure,blockquote,dl,dd,ul,ol{margin:0}
+ul,ol{padding:0;list-style:none}
+img,svg{display:block;max-width:100%}
+button,input{font:inherit;color:inherit}
+[hidden]{display:none !important}
+
+/* ---- tokens ---- */
+:root{
+  --nc-primary:#2F4736;
+  --nc-primary-deep:#1A2620;
+  --nc-primary-soft:#E8EDE6;
+  --nc-accent:#C99B4E;
+  --nc-accent-soft:#F4E8D2;
+  --nc-bg:#F8F2E6;
+  --nc-bg-2:#FFFDF7;
+  --nc-ink:#1A2620;
+  --nc-ink-soft:#4F5A52;
+  --nc-line:#DDD4C2;
+  /* A11Y: --nc-line is a DECORATIVE hairline — 1.32:1 on the --nc-bg ground, which is
+     fine for a divider but disqualifying for a CONTROL boundary (WCAG 1.4.11 wants 3:1).
+     The carousel arrows are --nc-bg-2 fill (1.10:1 vs the ground) inside a --nc-line
+     border, so measured 1.09:1 / 1.10:1 — nothing identified them as buttons. Controls
+     that rely on their outline for identity use this token instead: 3.59:1. */
+  --nc-control-line:#8A7E63;
+  --nc-signature:#5C6740;   /* was #6E7A4A — 4.1:1 on the cream bands, under AA */
+
+  --r-sm:10px; --r-md:16px; --r-lg:24px; --r-pill:999px;
+  --ease:cubic-bezier(.22,1,.36,1);
+  --slow:700ms;
+
+  /* two-stage soft shadow — the "lift" half of lift-with-image-mask */
+  --lift-1:0 1px 2px rgba(26,38,32,.07), 0 10px 22px -14px rgba(26,38,32,.30);
+  --lift-2:0 2px 6px rgba(26,38,32,.10), 0 30px 54px -24px rgba(26,38,32,.40);
+
+  /* film grain — inline SVG feTurbulence, laid over every photograph at .14 */
+  --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cfilter id='ncg'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23ncg)'/%3E%3C/svg%3E");
+
+  --gut:20px;
+}
+
+/* ---- base ---- */
+body{
+  background:var(--nc-bg);
+  color:var(--nc-ink);
+  font:400 16px/1.62 'Manrope',ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:clip;
+  /* Sticky-bar clearance lives on .site-foot, NOT here: body's cream background paints across
+     its own padding box, which left an 88px cream strip below the dark footer at <1024. */
+}
+html.nav-open,html.nav-open body{overflow:hidden}
+h1,h2,h3,.fr{font-family:'Fraunces','Iowan Old Style',Georgia,serif;font-optical-sizing:auto;font-weight:700;line-height:1.08;letter-spacing:-.015em}
+p{text-wrap:pretty}
+a{color:inherit}
+section{position:relative;padding-block:48px}
+
+.container{width:100%;max-width:100%;margin-inline:auto;padding-inline:var(--gut)}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+:focus-visible{outline:2px solid var(--nc-primary);outline-offset:3px;border-radius:4px}
+.hero :focus-visible,.about :focus-visible,.closing :focus-visible,
+.site-foot :focus-visible,.mobile-drawer :focus-visible,.nav :focus-visible{outline-color:var(--nc-accent)}
+
+.skip{position:absolute;left:12px;top:-64px;z-index:200;background:var(--nc-bg-2);color:var(--nc-ink);
+  padding:12px 18px;border-radius:var(--r-pill);font-weight:600;text-decoration:none;transition:top .2s var(--ease)}
+.skip:focus{top:12px}
+
+/* ---- eyebrows / section heads ---- */
+.eyebrow{font-family:'Manrope',sans-serif;font-size:11.5px;font-weight:700;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--nc-primary);margin-bottom:14px}
+/* Eyebrow over the hero photo: --nc-accent (#C99B4E) measured 3.06:1 @1440 / 3.45:1 @375
+   against the real backing — below AA 4.5:1 for 11.5px text. accent-soft keeps the warm
+   tint and clears it. Accent stays reserved for the italic display phrase and the CTAs. */
+.eyebrow-light{color:var(--nc-accent-soft)}
+.band-head{display:flex;flex-direction:column;gap:12px;margin-bottom:28px}
+.band-head h2{font-size:30px}
+.band-head .lede{color:var(--nc-ink-soft);max-width:52ch}
+.band-head-dark h2{color:var(--nc-bg)}
+.rule{width:44px;height:2px;border-radius:2px;background:var(--nc-signature);margin-bottom:18px}
+
+/* ---- film grain overlay (photos only) ---- */
+.grain{position:relative}
+.grain::after{content:'';position:absolute;inset:0;background-image:var(--grain);background-size:180px 180px;
+  opacity:.14;mix-blend-mode:overlay;pointer-events:none;border-radius:inherit;z-index:3}
+
+/* ---- surface: lift-with-image-mask ---- */
+.surface{background:var(--nc-bg-2);border:1px solid var(--nc-line);border-radius:var(--r-md);
+  box-shadow:var(--lift-1);overflow:hidden}
+
+/* ---- buttons: full pills, arrow travels 4px, ground darkens to primary-deep ---- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:50px;
+  padding:0 26px;border-radius:var(--r-pill);border:1px solid transparent;font-family:'Manrope',sans-serif;
+  font-size:15px;font-weight:600;letter-spacing:.01em;text-decoration:none;cursor:pointer;
+  transition:background-color .24s var(--ease),color .24s var(--ease),border-color .24s var(--ease),box-shadow .24s var(--ease)}
+.btn .arw{display:inline-block;transition:transform .24s var(--ease)}
+.btn:hover .arw,.btn:focus-visible .arw{transform:translateX(4px)}
+.btn-primary{background:var(--nc-primary);color:var(--nc-bg);box-shadow:var(--lift-1)}
+.btn-primary:hover{background:var(--nc-primary-deep)}
+.btn-accent{background:var(--nc-accent);color:var(--nc-primary-deep)}
+.btn-accent:hover{background:var(--nc-accent-soft)}
+.btn-outline{background:transparent;color:var(--nc-primary);border-color:var(--nc-primary)}
+.btn-outline:hover{background:var(--nc-primary-deep);color:var(--nc-bg);border-color:var(--nc-primary-deep)}
+.btn-light{background:transparent;color:var(--nc-bg);border-color:rgba(248,242,230,.55)}
+.btn-light:hover{background:var(--nc-bg);color:var(--nc-primary-deep);border-color:var(--nc-bg)}
+
+/* ---- pill inputs ---- */
+.pill-input{width:100%;min-height:50px;padding:0 20px;border-radius:var(--r-pill);
+  border:1px solid var(--nc-line);background:var(--nc-bg-2);color:var(--nc-ink);
+  font-size:15px;transition:border-color .24s var(--ease),box-shadow .24s var(--ease)}
+.pill-input::placeholder{color:#7C857C}
+.pill-input:focus{outline:none;border-color:var(--nc-accent);box-shadow:0 0 0 4px var(--nc-accent-soft)}
+
+/* ---- link underline grows left to right ---- */
+.ln{position:relative;text-decoration:none;display:inline-flex;align-items:center}
+.ln::after{content:'';position:absolute;left:0;right:0;bottom:6px;height:1px;background:var(--nc-accent);
+  transform:scaleX(0);transform-origin:left center;transition:transform .32s var(--ease)}
+.ln:hover::after,.ln:focus-visible::after{transform:scaleX(1)}
+
+/* ---- scroll reveal: fade-up 700ms, 90ms stagger ---- */
+.reveal{opacity:0;transform:translateY(18px);
+  transition:opacity var(--slow) var(--ease),transform var(--slow) var(--ease);
+  transition-delay:calc(var(--i,0) * 90ms)}
+.reveal.is-in{opacity:1;transform:none}
+
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;
+    transition-duration:.001ms !important;transition-delay:0ms !important}
+  .reveal{opacity:1 !important;transform:none !important}
+  .cat-tile:hover,.pick-card:hover{transform:none !important}
+  .cat-tile:hover .cat-media,.pick-card:hover .pick-media{transform:none !important}
+}
+/* ============================================================
+   NAV — NAV-PATTERNS.md #2 Classic full-bar over hero
+   logo left · links centred · outline order CTA right
+   ============================================================ */
+.nav{position:fixed;top:0;left:0;right:0;z-index:80;
+  transition:background-color .3s var(--ease),box-shadow .3s var(--ease),border-color .3s var(--ease);
+  border-bottom:1px solid transparent}
+/* Un-scrolled the bar is transparent over the hero photo, where the gold OLYMPIA, WA sub-label
+   measured 4.28:1. This soft top scrim backs the whole bar without reading as a filled bar. */
+.nav::before{content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:linear-gradient(180deg,rgba(26,38,32,.62) 0%,rgba(26,38,32,.34) 62%,rgba(26,38,32,0) 100%);
+  transition:opacity .3s var(--ease)}
+.nav.is-solid::before{opacity:0}
+.nav.is-solid{background:rgba(26,38,32,.94);border-bottom-color:rgba(248,242,230,.14);
+  box-shadow:0 14px 40px -26px rgba(26,38,32,.9);backdrop-filter:blur(10px)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:68px}
+.brand{display:inline-flex;align-items:center;gap:11px;text-decoration:none;color:var(--nc-bg);min-height:44px}
+.brand-mark{color:var(--nc-accent);flex:0 0 auto}
+.brand-txt{display:flex;flex-direction:column;line-height:1.06}
+.brand-name{font-family:'Fraunces',Georgia,serif;font-weight:700;font-size:18px;letter-spacing:-.01em}
+.brand-sub{font-size:9.5px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--nc-accent);margin-top:4px}
+.nav-links{display:none}
+.nav-end{display:flex;align-items:center;gap:10px}
+.nav-tel{display:none}
+.nav-cta{display:none}
+.nav-hamburger{display:inline-flex;flex-direction:column;justify-content:center;gap:5px;
+  /* A11Y (1.4.11): .34 composites to rgb(101,107,99) over the dark hero — 2.88:1 against
+     it, just under the 3:1 a control boundary needs. .45 gives 3.98:1. */
+  width:46px;height:46px;padding:0 11px;border:1px solid rgba(248,242,230,.45);border-radius:var(--r-pill);
+  background:rgba(248,242,230,.08);cursor:pointer;transition:background-color .24s var(--ease)}
+.nav-hamburger:hover{background:rgba(248,242,230,.18)}
+.nav-hamburger span{display:block;height:1.5px;background:var(--nc-bg);border-radius:2px}
+.nav-hamburger span:nth-child(2){width:70%}
+
+/* ---- mobile drawer: slides in from the right ---- */
+.drawer-scrim{position:fixed;inset:0;z-index:90;background:rgba(26,38,32,.62);
+  opacity:0;transition:opacity .32s var(--ease);backdrop-filter:blur(2px)}
+.drawer-scrim.is-open{opacity:1}
+.mobile-drawer{position:fixed;top:0;right:0;bottom:0;z-index:100;width:min(340px,86vw);
+  display:flex;flex-direction:column;gap:6px;padding:22px 22px calc(24px + env(safe-area-inset-bottom));
+  background:var(--nc-primary-deep);border-left:1px solid rgba(248,242,230,.14);
+  box-shadow:-30px 0 70px -30px rgba(26,38,32,.9);overflow-y:auto;
+  transform:translateX(100%);visibility:hidden;
+  transition:transform .38s var(--ease),visibility 0s linear .38s}
+.mobile-drawer.is-open{transform:translateX(0);visibility:visible;transition:transform .38s var(--ease),visibility 0s}
+.drawer-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.drawer-ttl{font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--nc-accent)}
+.drawer-close{width:46px;height:46px;border-radius:var(--r-pill);border:1px solid rgba(248,242,230,.3);
+  background:transparent;color:var(--nc-bg);font-size:22px;line-height:1;cursor:pointer;
+  transition:background-color .24s var(--ease)}
+.drawer-close:hover{background:rgba(248,242,230,.14)}
+.drawer-link{display:flex;align-items:center;min-height:52px;padding:0 4px;color:var(--nc-bg);
+  font-family:'Fraunces',Georgia,serif;font-size:22px;font-weight:500;text-decoration:none;
+  border-bottom:1px solid rgba(248,242,230,.12)}
+.drawer-cta{margin-top:18px;width:100%}
+.drawer-meta{margin-top:20px;color:var(--nc-bg);font-size:14px;line-height:1.7}
+.drawer-meta a{display:inline-flex;align-items:center;min-height:44px;font-weight:700;color:var(--nc-accent);text-decoration:none}
+
+/* ============================================================
+   SECTION BAND BACKGROUNDS — dark / warm / light rhythm
+   dark = primary-deep · warm = bg · light = bg-2
+   ============================================================ */
+.hero{background:var(--nc-primary-deep);overflow:hidden;display:flex;align-items:flex-end;
+  min-height:660px;padding-block:112px 52px}
+.sustain{background:var(--nc-bg);padding-top:64px}
+.categories{background:var(--nc-bg-2);overflow:hidden}
+.picks{background:var(--nc-bg);overflow:hidden}
+.about{background:var(--nc-primary-deep);overflow:hidden}
+.testimonials{background:var(--nc-bg-2);overflow:hidden}
+.faq{background:var(--nc-bg);overflow:hidden}
+.closing{background:var(--nc-primary-deep);overflow:hidden}
+
+/* ---- DIVIDER-PATTERNS.md #9 Gradient fade ----
+   every band opens with a soft vertical wash carrying the previous band's
+   colour down into this one. No hard rules anywhere on the page. */
+.sustain::before,.categories::before,.picks::before,.about::before,
+.testimonials::before,.faq::before,.closing::before{
+  content:'';position:absolute;left:0;right:0;top:0;height:104px;z-index:1;pointer-events:none}
+.sustain::before{background:linear-gradient(180deg,#1A2620 0%,rgba(26,38,32,0) 100%)}
+.categories::before{background:linear-gradient(180deg,#F8F2E6 0%,rgba(248,242,230,0) 100%)}
+.picks::before{background:linear-gradient(180deg,#FFFDF7 0%,rgba(255,253,247,0) 100%)}
+.about::before{background:linear-gradient(180deg,#F8F2E6 0%,rgba(248,242,230,0) 100%)}
+.testimonials::before{background:linear-gradient(180deg,#1A2620 0%,rgba(26,38,32,0) 100%)}
+.faq::before{background:linear-gradient(180deg,#FFFDF7 0%,rgba(255,253,247,0) 100%)}
+.closing::before{background:linear-gradient(180deg,#F8F2E6 0%,rgba(248,242,230,0) 100%)}
+.band-in{position:relative;z-index:2}
+
+/* ============================================================
+   HERO — HERO-COMPOSITIONS.md #5 Full-bleed image + overlay text
+   storefront photo full-bleed behind a dark scrim; copy and the
+   fulfillment control overlaid on the left
+   ============================================================ */
+.hero-media{position:absolute;inset:0;z-index:0}
+.hero-shot{width:100%;height:100%;object-fit:cover;object-position:50% 58%}
+.hero-veil{position:absolute;inset:0;
+  background-image:url("../_shared-img/3551399.webp");
+  background-size:cover;background-position:center;opacity:.40;mix-blend-mode:soft-light}
+.hero-scrim{position:absolute;inset:0;background:linear-gradient(180deg,
+  rgba(26,38,32,.92) 0%,rgba(26,38,32,.76) 26%,rgba(26,38,32,.78) 58%,rgba(26,38,32,.95) 100%)}
+.hero-in{position:relative;z-index:4}
+.hero-copy{max-width:640px}
+.hero-h1{font-size:46px;font-variation-settings:'opsz' 144;color:var(--nc-bg);margin-bottom:18px}
+.hero-h1 em{display:block;font-style:italic;color:var(--nc-accent)}
+.hero-sub{color:var(--nc-bg);font-size:16.5px;line-height:1.66;max-width:44ch;margin-bottom:28px}
+
+/* ---- CTA-PATTERNS.md #9 Segmented pill-tab CTA ----
+   Pickup/Delivery is ONE pill split into two tabs with a sliding indicator */
+.fulfil{scroll-margin-top:96px}
+.seg{position:relative;display:grid;grid-template-columns:1fr 1fr;width:100%;max-width:308px;
+  padding:5px;border-radius:var(--r-pill);background:rgba(248,242,230,.12);
+  border:1px solid rgba(248,242,230,.28);backdrop-filter:blur(8px)}
+.seg-ind{position:absolute;top:5px;left:5px;width:calc(50% - 5px);height:calc(100% - 10px);
+  border-radius:var(--r-pill);background:var(--nc-bg);z-index:0;
+  box-shadow:0 2px 10px -4px rgba(0,0,0,.55);transition:transform .24s var(--ease)}
+.seg-btn{position:relative;z-index:1;min-height:44px;border:0;background:transparent;cursor:pointer;
+  font-family:'Manrope',sans-serif;font-size:14.5px;font-weight:600;letter-spacing:.02em;
+  color:var(--nc-bg);border-radius:var(--r-pill);transition:color .24s var(--ease)}
+.seg-btn.is-on{color:var(--nc-primary-deep)}
+.fulfil-panel{margin-top:18px;min-height:52px}
+.pickup-line{display:flex;align-items:flex-start;gap:10px;color:var(--nc-bg);font-size:15.5px;line-height:1.6;max-width:40ch}
+.pickup-line .dot{flex:0 0 auto;width:8px;height:8px;margin-top:9px;border-radius:50%;background:var(--nc-accent)}
+/* ---- FORM-LAYOUTS.md #4 Inline field + button ---- */
+.zip-row{display:flex;flex-wrap:wrap;gap:10px;max-width:420px}
+.zip-row .pill-input{flex:1 1 180px;min-width:0}
+.zip-row .btn{flex:0 0 auto;min-width:104px}
+.zip-msg{margin-top:12px;font-size:14.5px;line-height:1.55;color:var(--nc-bg);max-width:42ch;min-height:1px}
+.zip-msg.is-ok{color:var(--nc-accent)}
+.hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
+.hero-actions .btn{flex:1 1 auto;min-width:190px}
+.trust{margin-top:20px;padding-top:18px;border-top:1px solid rgba(248,242,230,.2);
+  color:var(--nc-bg);font-size:13px;letter-spacing:.01em;line-height:1.7}
+/* ============================================================
+   SUSTAINABILITY STRIP
+   ============================================================ */
+.sustain-in{display:grid;gap:34px}
+.sustain-media{position:relative;padding-bottom:52px}
+.shot-a{border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--nc-line);box-shadow:var(--lift-2)}
+.shot-a img{width:100%;height:100%;aspect-ratio:16/9;object-fit:cover}
+.shot-b{position:absolute;right:14px;bottom:0;width:46%;max-width:220px;border-radius:var(--r-md);
+  overflow:hidden;border:4px solid var(--nc-bg);box-shadow:var(--lift-2)}
+.shot-b img{width:100%;aspect-ratio:4/3;object-fit:cover}
+.sus-list{display:grid;gap:22px}
+.sus-item{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:start}
+.sus-num{font-family:'Fraunces',Georgia,serif;font-size:14px;font-weight:700;color:var(--nc-signature);
+  border:1px solid var(--nc-line);border-radius:var(--r-pill);width:42px;height:42px;
+  display:grid;place-items:center;background:var(--nc-bg-2)}
+.sus-item h2{font-size:20px;margin-bottom:6px}
+.sus-item p{color:var(--nc-ink-soft);font-size:15.5px;line-height:1.65;max-width:46ch}
+
+/* ============================================================
+   CATEGORY GRID
+   CARD-VARIATIONS.md #13 Category image-overlay tile —
+   the category name sits ON the photo over a gradient scrim
+   ============================================================ */
+.cat-band{position:absolute;top:0;left:0;right:0;height:340px;z-index:0;opacity:.14;
+  background-image:url("../_shared-img/11182321.webp");
+  background-size:cover;background-position:center;
+  -webkit-mask-image:linear-gradient(180deg,rgba(0,0,0,.9),transparent);
+  mask-image:linear-gradient(180deg,rgba(0,0,0,.9),transparent)}
+.cat-grid{display:grid;gap:16px;grid-template-columns:1fr}
+/* CARD-VARIATIONS.md #13 Category image-overlay tile — chrome: image-overlay per audit §2.20.
+   The forest texture is the tile's backing layer: it shows through while the category photo
+   decodes and behind its rounded corners, so the grid never flashes flat colour. */
+.cat-tile{position:relative;display:block;overflow:hidden;border-radius:var(--r-md);
+  border:1px solid var(--nc-line);box-shadow:var(--lift-1);text-decoration:none;color:var(--nc-bg);
+  aspect-ratio:16/11;background:var(--nc-primary-deep);
+  background-image:url('../_shared-img/11182321.webp');
+  background-size:cover;background-position:center;
+  transition:transform var(--slow) var(--ease),box-shadow var(--slow) var(--ease)}
+.cat-media{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  transition:transform var(--slow) var(--ease)}
+/* Scrim must be strong enough across the whole .cat-body band that the label AND the count
+   clear 4.5:1 over the brightest pixel any category photo can put behind them. */
+.cat-tint{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,
+  rgba(26,38,32,.04) 0%,rgba(26,38,32,.20) 30%,rgba(26,38,32,.80) 56%,rgba(26,38,32,.94) 100%)}
+.cat-body{position:absolute;left:0;right:0;bottom:0;z-index:4;display:block;padding:20px}
+.cat-top{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.cat-name{font-family:'Fraunces',Georgia,serif;font-size:25px;font-weight:700;letter-spacing:-.01em;line-height:1.1}
+/* Lifted off --nc-accent (#C99B4E): that gold tops out at 2.5:1 on a photo scrim and failed
+   AA on every tile. This lighter gold keeps the accent read and clears 4.5:1. */
+.cat-count{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#EBCF9A}
+/* Only .cat-line shares a row with the .cat-go corner, so the reserve belongs here rather than
+   on .cat-body — padding the whole block forced the longer names to wrap their count. */
+.cat-line{display:block;margin-top:7px;font-size:14.5px;line-height:1.5;color:var(--nc-bg);
+  max-width:34ch;padding-right:46px}
+/* z-index:5 — with z-index auto this sat UNDER .cat-tint (z-index 1), so the arrow (and its
+   whole hover state) was invisible behind the scrim. */
+.cat-go{position:absolute;right:20px;bottom:22px;z-index:5;width:38px;height:38px;border-radius:var(--r-pill);
+  display:grid;place-items:center;background:rgba(248,242,230,.16);border:1px solid rgba(248,242,230,.42);
+  color:var(--nc-bg);font-size:15px;transition:background-color .24s var(--ease),transform .24s var(--ease)}
+.cat-tile:hover{transform:translateY(-3px);box-shadow:var(--lift-2)}
+.cat-tile:hover .cat-media{transform:scale(1.04)}
+.cat-tile:hover .cat-go{background:var(--nc-accent);border-color:var(--nc-accent);color:var(--nc-primary-deep);transform:translateX(4px)}
+
+/* ============================================================
+   STAFF PICKS CAROUSEL
+   ============================================================ */
+.picks-band{position:absolute;right:-8%;top:6%;width:74%;height:82%;z-index:0;opacity:.12;
+  background-image:url("../_shared-img/26161079.webp");
+  background-size:cover;background-position:center;border-radius:var(--r-lg);
+  -webkit-mask-image:radial-gradient(120% 90% at 70% 40%,rgba(0,0,0,.95),transparent 72%);
+  mask-image:radial-gradient(120% 90% at 70% 40%,rgba(0,0,0,.95),transparent 72%)}
+.car-nav{display:none;gap:10px}
+.car-btn{width:46px;height:46px;border-radius:var(--r-pill);border:1px solid var(--nc-control-line);
+  background:var(--nc-bg-2);color:var(--nc-primary);font-size:17px;cursor:pointer;
+  transition:background-color .24s var(--ease),color .24s var(--ease),opacity .24s var(--ease)}
+.car-btn:hover:not(:disabled){background:var(--nc-primary-deep);color:var(--nc-bg);border-color:var(--nc-primary-deep)}
+.car-btn:disabled{opacity:.34;cursor:not-allowed}
+.car-track{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;
+  scroll-padding-left:0;padding:6px 0 26px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.car-track::-webkit-scrollbar{display:none}
+.pick-card{flex:0 0 auto;width:calc((100% - 2.1px) / 1.15);scroll-snap-align:start;
+  display:flex;flex-direction:column;background:var(--nc-bg-2);border:1px solid var(--nc-line);
+  border-radius:var(--r-md);overflow:hidden;
+  /* chrome: shadow-lift per audit §2.20 — literal value, not var(--lift-1), so the lift is
+     the card's visible chrome rather than a hairline border doing the work. */
+  box-shadow:0 1px 2px rgba(26,38,32,.07), 0 10px 22px -14px rgba(26,38,32,.30);
+  transition:transform var(--slow) var(--ease),box-shadow var(--slow) var(--ease)}
+.pick-shot{overflow:hidden;border-radius:0}
+.pick-media{width:100%;aspect-ratio:4/3;object-fit:cover;transition:transform var(--slow) var(--ease)}
+.pick-body{display:flex;flex-direction:column;gap:8px;padding:18px 18px 20px;flex:1}
+.pick-type{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--nc-signature)}
+.pick-name{font-size:21px}
+.pick-note{color:var(--nc-ink-soft);font-size:14.5px;line-height:1.6;flex:1}
+.pick-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;
+  margin-top:6px;padding-top:14px;border-top:1px solid var(--nc-line)}
+.pick-price{font-family:'Fraunces',Georgia,serif;font-size:22px;font-weight:700;color:var(--nc-primary)}
+.pick-by{font-size:12.5px;font-weight:600;color:var(--nc-ink-soft)}
+.pick-card:hover{transform:translateY(-3px);box-shadow:var(--lift-2)}
+.pick-card:hover .pick-media{transform:scale(1.04)}
+/* ============================================================
+   ABOUT — dark anchor panel over a full-bleed forest background
+   ============================================================ */
+.about-bg{position:absolute;inset:0;z-index:0;opacity:.5;
+  background-image:url("../_shared-img/63085477.webp");
+  background-size:cover;background-position:center}
+.about-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,
+  rgba(26,38,32,.62) 0%,rgba(26,38,32,.82) 55%,rgba(26,38,32,.94) 100%)}
+.about-in{display:grid;gap:32px}
+.about-shot{border-radius:var(--r-lg);overflow:hidden;border:1px solid rgba(248,242,230,.2);
+  box-shadow:var(--lift-2)}
+.about-media{width:100%;aspect-ratio:16/10;object-fit:cover}
+.about-panel{background:rgba(47,71,54,.52);border:1px solid rgba(248,242,230,.18);
+  border-radius:var(--r-lg);padding:26px 22px;backdrop-filter:blur(6px)}
+.about-panel h2{font-size:30px;color:var(--nc-bg);margin-bottom:16px;max-width:18ch}
+.about-panel p{color:var(--nc-bg);font-size:15.5px;line-height:1.7;margin-bottom:14px;max-width:52ch}
+.visit{margin-top:22px;padding-top:20px;border-top:1px solid rgba(248,242,230,.2);
+  display:grid;gap:16px}
+.visit dt{font-size:10.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--nc-accent);margin-bottom:5px}
+.visit dd{margin:0;color:var(--nc-bg);font-size:15px;line-height:1.72}
+.visit a{color:var(--nc-bg);text-decoration:none;display:inline-flex;align-items:center;min-height:44px;font-weight:600}
+
+/* ============================================================
+   TESTIMONIALS — hairline cards
+   ============================================================ */
+.tm-grid{display:grid;gap:16px;grid-template-columns:1fr}
+.tm-card{background:var(--nc-bg);border:1px solid var(--nc-line);border-radius:var(--r-md);
+  padding:24px 22px;display:flex;flex-direction:column;gap:18px;box-shadow:var(--lift-1)}
+.tm-mark{font-family:'Fraunces',Georgia,serif;font-size:38px;line-height:.6;color:var(--nc-accent);height:22px}
+.tm-card blockquote p{font-family:'Fraunces',Georgia,serif;font-weight:500;font-size:18.5px;
+  line-height:1.5;letter-spacing:-.008em;color:var(--nc-ink)}
+.tm-who{display:flex;align-items:center;gap:13px;margin-top:auto;padding-top:16px;border-top:1px solid var(--nc-line)}
+.tm-avatar{width:48px;height:48px;border-radius:50%;object-fit:cover;flex:0 0 auto;
+  border:2px solid var(--nc-bg-2);box-shadow:var(--lift-1)}
+.tm-name{display:block;font-weight:700;font-size:14.5px;color:var(--nc-ink)}
+.tm-meta{display:block;font-size:13px;color:var(--nc-ink-soft)}
+
+/* ============================================================
+   FAQ — FAQ-ACCORDION.md #1 hairline rows, first row open
+   ============================================================ */
+.faq-fern{position:absolute;right:-14%;bottom:-6%;width:66%;height:70%;z-index:0;opacity:.13;
+  background-image:url("../_shared-img/78616169.webp");
+  background-size:cover;background-position:center;
+  -webkit-mask-image:radial-gradient(85% 80% at 72% 60%,rgba(0,0,0,.95),transparent 74%);
+  mask-image:radial-gradient(85% 80% at 72% 60%,rgba(0,0,0,.95),transparent 74%)}
+.faq-in{display:grid;gap:26px}
+.faq-aside .lede{color:var(--nc-ink-soft);max-width:34ch;margin-top:10px}
+.faq-aside .tel{display:inline-flex;align-items:center;min-height:44px;margin-top:8px;
+  font-weight:700;color:var(--nc-primary);text-decoration:none}
+.faq-list{border-top:1px solid var(--nc-line)}
+.faq-row{border-bottom:1px solid var(--nc-line)}
+.faq-q{margin:0;font-family:'Manrope',sans-serif;font-weight:600}
+.faq-btn{display:flex;align-items:center;justify-content:space-between;gap:16px;width:100%;
+  min-height:60px;padding:16px 0;background:transparent;border:0;text-align:left;cursor:pointer;
+  font-family:'Fraunces',Georgia,serif;font-size:18px;font-weight:700;letter-spacing:-.01em;
+  color:var(--nc-ink);transition:color .24s var(--ease)}
+.faq-btn:hover{color:var(--nc-primary)}
+.faq-ic{position:relative;flex:0 0 auto;width:34px;height:34px;border-radius:var(--r-pill);
+  border:1px solid var(--nc-line);background:var(--nc-bg-2);transition:background-color .24s var(--ease),transform .3s var(--ease)}
+.faq-ic::before,.faq-ic::after{content:'';position:absolute;top:50%;left:50%;background:var(--nc-primary);
+  transform:translate(-50%,-50%);transition:opacity .24s var(--ease)}
+.faq-ic::before{width:12px;height:1.5px}
+.faq-ic::after{width:1.5px;height:12px}
+/* rotate(180deg) not 90deg: at 90deg the surviving ::before bar stands upright, so an OPEN
+   row rendered a vertical "|" instead of a minus. */
+.faq-row.is-open .faq-ic{background:var(--nc-accent-soft);transform:rotate(180deg)}
+.faq-row.is-open .faq-ic::after{opacity:0}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .44s var(--ease)}
+.faq-a-in{padding:0 0 20px}
+.faq-a p{color:var(--nc-ink-soft);font-size:15.5px;line-height:1.7;max-width:62ch}
+
+/* ============================================================
+   CLOSING CTA
+   ============================================================ */
+/* Top padding must clear the 104px cream ::before divider fade. At the base/768 rhythm (48/64px)
+   the cream headline started INSIDE that cream wash and washed out to 2.5:1. >=1024 already
+   used 104px, which is why the failure was mobile-only. */
+.closing{text-align:left;padding-block:112px 52px}
+.closing-bg{position:absolute;inset:0;z-index:0;
+  background-image:url("../_shared-img/79337236.webp");
+  background-size:cover;background-position:center 40%}
+/* Top stop raised .70 -> .86: the h2 sits high in this band and measured 2.83:1 against the
+   real backing at 375, just under the 3:1 large-text floor. The photo still reads through. */
+.closing-bg::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,
+  rgba(26,38,32,.86) 0%,rgba(26,38,32,.84) 50%,rgba(26,38,32,.93) 100%)}
+.closing-in{max-width:660px}
+.closing-in h2{font-size:32px;color:var(--nc-bg);margin-bottom:14px}
+.closing-in p{color:var(--nc-bg);font-size:16.5px;line-height:1.62;margin-bottom:26px;max-width:42ch}
+.closing-cta{display:flex;flex-wrap:wrap;gap:12px}
+.closing-cta .btn{flex:1 1 auto;min-width:200px}
+
+/* ============================================================
+   FOOTER — FOOTER-STYLES.md #14 Hours-and-contact prominent
+   the Visit and Delivery panels carry the visual weight
+   ============================================================ */
+.site-foot{position:relative;background:var(--nc-primary-deep);color:var(--nc-bg);
+  padding-block:44px 0;overflow:hidden}
+.site-foot::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;z-index:2;
+  background:linear-gradient(90deg,rgba(201,155,78,0),rgba(201,155,78,.62),rgba(201,155,78,0))}
+.foot-bg{position:absolute;inset:0;z-index:0;opacity:.10;
+  background-image:url("../_shared-img/54161831.webp");
+  background-size:cover;background-position:center;
+  -webkit-mask-image:linear-gradient(180deg,rgba(0,0,0,.9),transparent 70%);
+  mask-image:linear-gradient(180deg,rgba(0,0,0,.9),transparent 70%)}
+.foot-in{position:relative;z-index:2;display:grid;gap:32px}
+.foot-h{font-family:'Manrope',sans-serif;font-size:10.5px;font-weight:700;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--nc-accent);margin-bottom:14px}
+.foot-tag{color:var(--nc-bg);font-size:14.5px;line-height:1.65;margin:14px 0 20px;max-width:34ch}
+.foot-list li a{display:inline-flex;align-items:center;min-height:44px;color:var(--nc-bg);
+  font-size:15px;text-decoration:none}
+.foot-panel{background:rgba(248,242,230,.06);border:1px solid rgba(248,242,230,.16);
+  border-radius:var(--r-md);padding:20px}
+.foot-addr{font-family:'Fraunces',Georgia,serif;font-size:19px;font-weight:700;line-height:1.35;
+  color:var(--nc-bg);margin-bottom:16px}
+.foot-hours{display:grid;gap:7px;margin-bottom:16px}
+.foot-hours div{display:flex;justify-content:space-between;gap:14px;font-size:14.5px;color:var(--nc-bg)}
+.foot-hours span:first-child{color:var(--nc-accent);font-weight:600}
+.foot-tel{display:inline-flex;align-items:center;min-height:44px;font-family:'Fraunces',Georgia,serif;
+  font-size:20px;font-weight:700;color:var(--nc-bg);text-decoration:none}
+.zips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:16px}
+.zips li{font-size:13px;font-weight:600;letter-spacing:.04em;color:var(--nc-bg);
+  border:1px solid rgba(248,242,230,.24);border-radius:var(--r-pill);padding:6px 12px}
+.foot-fact{font-size:14.5px;line-height:1.7;color:var(--nc-bg)}
+.foot-fact strong{color:var(--nc-accent);font-weight:700}
+.news-lbl{display:block;font-size:14px;line-height:1.6;color:var(--nc-bg);margin-bottom:12px;max-width:32ch}
+.news-row{display:flex;flex-wrap:wrap;gap:10px;max-width:420px}
+.news-row .pill-input{flex:1 1 190px;min-width:0}
+.news-row .btn{flex:0 0 auto;min-width:118px}
+.news-msg{margin-top:10px;font-size:13.5px;color:var(--nc-accent);min-height:1px}
+.foot-bottom{position:relative;z-index:2;margin-top:36px;padding-block:22px 26px;
+  border-top:1px solid rgba(248,242,230,.16)}
+.foot-legal{font-size:13.5px;font-weight:600;color:var(--nc-bg);margin-bottom:10px}
+.compliance{font-size:11.5px;line-height:1.7;color:var(--nc-bg);max-width:104ch}
+
+/* ============================================================
+   STICKY-CTA-BAR.md #2 — two-action mobile bar, below 1024 only
+   ============================================================ */
+.mobile-sticky{display:none;position:fixed;left:0;right:0;bottom:0;z-index:70;gap:10px;
+  padding:10px 16px calc(10px + env(safe-area-inset-bottom));
+  background:rgba(26,38,32,.96);border-top:1px solid rgba(248,242,230,.16);
+  box-shadow:0 -16px 40px -26px rgba(26,38,32,.9);backdrop-filter:blur(10px)}
+.mobile-sticky .btn{flex:1 1 0;min-width:0;min-height:48px;padding:0 12px;font-size:14.5px}
+@media (max-width: 1023.98px){
+  .mobile-sticky{display:flex}
+  /* clearance for the fixed bar, in the footer's own dark colour */
+  .site-foot{padding-bottom:88px}
+}
+
+/* ============================================================
+   >= 768
+   ============================================================ */
+@media (min-width: 768px){
+  :root{--gut:24px}
+  body{font-size:16.5px}
+  section{padding-block:64px}
+  .band-head{flex-direction:row;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:34px}
+  .band-head h2{font-size:36px}
+
+  .hero{min-height:720px;padding-block:150px 68px}
+  .hero-h1{font-size:68px}
+  .hero-sub{font-size:17.5px;margin-bottom:32px}
+  .hero-actions .btn{flex:0 1 auto}
+  .nav-cta{display:inline-flex;min-height:44px;padding:0 20px;font-size:14px}
+
+  .sustain{padding-top:80px}
+  .sustain-media{padding-bottom:0}
+  .closing{padding-block:112px 64px}
+  .shot-b{right:-10px;bottom:-26px;width:38%}
+  .sus-list{grid-template-columns:1fr 1fr;gap:26px 28px}
+
+  .cat-grid{grid-template-columns:repeat(2,1fr);gap:20px}
+  .cat-tile{aspect-ratio:4/5}
+  .cat-name{font-size:27px}
+
+  .car-track{gap:18px}
+  .pick-card{width:calc((100% - 21.6px) / 2.2)}
+
+  .about-in{gap:38px}
+  .about-panel{padding:32px 30px}
+  .about-panel h2{font-size:36px}
+  .visit{grid-template-columns:1fr 1fr;gap:18px 26px}
+
+  .tm-grid{grid-template-columns:repeat(2,1fr);gap:20px}
+  .tm-card:last-child{grid-column:1 / -1}
+  .tm-card{padding:28px 26px}
+
+  .faq-btn{font-size:19px}
+  .closing-in h2{font-size:40px}
+  .closing-cta .btn{flex:0 1 auto}
+
+  .foot-in{grid-template-columns:1fr 1fr;gap:34px 28px}
+  .foot-bottom{display:flex;flex-direction:column;gap:10px}
+}
+
+/* ============================================================
+   >= 1024
+   ============================================================ */
+@media (min-width: 1024px){
+  :root{--gut:32px}
+  body{font-size:17px}
+  section{padding-block:80px}
+  .band-head h2{font-size:42px}
+
+  .nav-in{min-height:84px}
+  .nav-links{display:flex;align-items:center;gap:30px}
+  .nav-links a{color:var(--nc-bg);font-size:14.5px;font-weight:600;letter-spacing:.01em;
+    text-decoration:none;min-height:40px;padding-bottom:2px}
+  .nav-tel{display:inline-flex;align-items:center;min-height:40px;color:var(--nc-bg);
+    font-size:14.5px;font-weight:700;text-decoration:none;letter-spacing:.01em}
+  .nav-cta{padding:0 22px;min-height:46px}
+  .nav-hamburger{display:none}
+  .mobile-drawer,.drawer-scrim{display:none}
+  .brand-name{font-size:20px}
+
+  .hero{min-height:770px;padding-block:190px 92px}
+  .hero-h1{font-size:80px}
+  .hero-sub{font-size:18px;max-width:40ch}
+  .hero-scrim{background:
+    linear-gradient(100deg,rgba(26,38,32,.95) 0%,rgba(26,38,32,.86) 34%,rgba(26,38,32,.42) 66%,rgba(26,38,32,.16) 100%),
+    linear-gradient(180deg,rgba(26,38,32,.78) 0%,rgba(26,38,32,0) 24%,rgba(26,38,32,0) 62%,rgba(26,38,32,.62) 100%)}
+  .trust{font-size:13.5px}
+
+  .sustain{padding-top:96px}
+  .sustain-in{grid-template-columns:1.05fr 0.95fr;gap:60px;align-items:center}
+  .shot-a img{aspect-ratio:4/3}
+  .shot-b{right:-30px;bottom:-34px;width:44%;max-width:252px;border-width:6px}
+  .sus-list{grid-template-columns:1fr;gap:30px}
+  .sus-item{gap:20px}
+  .sus-num{width:50px;height:50px;font-size:15px}
+  .sus-item h2{font-size:23px;margin-bottom:8px}
+  .sus-item p{font-size:16.5px}
+
+  .cat-grid{grid-template-columns:repeat(3,1fr);gap:24px}
+  .cat-body{padding:24px}
+  .cat-go{right:24px;bottom:26px}
+
+  .car-nav{display:flex}
+  .car-track{gap:22px}
+  .pick-card{width:calc((100% - 44px) / 3)}
+  .pick-body{padding:20px 20px 22px}
+
+  .about-in{grid-template-columns:1fr 1fr;gap:52px;align-items:center}
+  .about-media{aspect-ratio:4/5}
+  .about-panel{padding:38px 36px}
+  .about-panel h2{font-size:42px}
+  .about-panel p{font-size:16.5px}
+
+  .tm-grid{grid-template-columns:repeat(3,1fr);gap:24px}
+  .tm-card:last-child{grid-column:auto}
+  .tm-card{padding:32px 30px}
+  .tm-card blockquote p{font-size:20px}
+  .tm-mark{font-size:50px;height:28px}
+
+  .faq-in{grid-template-columns:0.8fr 1.5fr;gap:56px;align-items:start}
+  .faq-btn{font-size:20px;min-height:68px;padding:20px 0}
+  .faq-a p{font-size:16px}
+
+  .closing{padding-block:104px}
+  .closing-in h2{font-size:48px}
+  .closing-in p{font-size:18px}
+
+  .site-foot{padding-top:64px}
+  .foot-in{grid-template-columns:1.35fr 0.85fr 1.15fr 1.05fr;gap:36px 30px}
+  .foot-list li a{min-height:34px}
+  .foot-panel{padding:24px}
+  .foot-bottom{flex-direction:row;align-items:flex-start;justify-content:space-between;gap:40px;
+    margin-top:48px;padding-block:26px 34px}
+  .foot-legal{flex:0 0 auto;max-width:34ch;margin-bottom:0}
+  .compliance{flex:1 1 auto;max-width:96ch}
+}
+
+/* ============================================================
+   >= 1440
+   ============================================================ */
+@media (min-width: 1440px){
+  section{padding-block:96px}
+  .container{max-width:1340px;padding-inline:32px}
+  .band-head h2{font-size:46px}
+
+  .hero{min-height:860px;padding-block:212px 108px}
+  .hero-h1{font-size:92px}
+  .hero-copy{max-width:700px}
+
+  .sustain-in{gap:72px}
+  .cat-grid{gap:28px}
+  .car-track{gap:24px}
+  .pick-card{width:calc((100% - 72px) / 4)}
+  .about-in{gap:72px}
+  .tm-grid{gap:28px}
+  .faq-in{gap:80px}
+  .closing{padding-block:124px}
+  .closing-in h2{font-size:54px}
+  .foot-in{gap:40px 44px}
+}
+</style>
+  <link rel="stylesheet" href="../_shared-fonts/north-canopy-fonts.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<!-- Nav: NAV-PATTERNS.md #2 Classic full-bar over hero — logo left, links centred, outline order CTA right -->
+<header class="nav" id="siteNav">
+  <div class="container nav-in">
+    <a class="brand" href="#top">
+      <svg class="brand-mark" width="26" height="30" viewBox="0 0 26 30" aria-hidden="true" focusable="false">
+        <path d="M13 1.6 5.6 11.4h2.9L3.1 18.7h4.9L4.4 24h7.2v5h2.8v-5h7.2l-3.6-5.3h4.9l-5.4-7.3h2.9L13 1.6Z" fill="currentColor"/>
+      </svg>
+      <span class="brand-txt">
+        <span class="brand-name">North Canopy</span>
+        <span class="brand-sub">Olympia, WA</span>
+      </span>
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a class="ln" href="#shop">Shop</a>
+      <a class="ln" href="#categories">Categories</a>
+      <a class="ln" href="#picks">Staff Picks</a>
+      <a class="ln" href="#about">About</a>
+      <a class="ln" href="#faq">FAQ</a>
+    </nav>
+    <div class="nav-end">
+      <a class="nav-tel ln" href="tel:+13605550148">(360) 555-0148</a>
+      <a class="btn btn-light nav-cta" href="#order">Start an order</a>
+      <button class="nav-hamburger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-drawer">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="drawer-scrim" id="drawerScrim" hidden></div>
+<nav id="mobile-drawer" class="mobile-drawer" aria-hidden="true" aria-label="Mobile menu">
+  <div class="drawer-top">
+    <span class="drawer-ttl">Menu</span>
+    <button class="drawer-close" type="button" aria-label="Close menu">&#215;</button>
+  </div>
+  <a class="drawer-link" href="#shop">Shop</a>
+  <a class="drawer-link" href="#categories">Categories</a>
+  <a class="drawer-link" href="#picks">Staff Picks</a>
+  <a class="drawer-link" href="#about">About</a>
+  <a class="drawer-link" href="#faq">FAQ</a>
+  <a class="btn btn-accent drawer-cta" href="#order">Start an order <span class="arw">&#8594;</span></a>
+  <div class="drawer-meta">
+    <a href="tel:+13605550148">(360) 555-0148</a>
+    <p>1142 Cedar Loop SE<br>Olympia, WA 98501</p>
+  </div>
+</nav>
+
+<main id="main">
+
+  <!-- Hero: HERO-COMPOSITIONS.md #5 Full-bleed image + overlay text — storefront photo full-bleed behind a dark scrim, copy and the fulfillment control overlaid on the left -->
+  <section class="hero" id="top">
+    <div class="hero-media grain">
+      <img class="hero-shot" src="../_shared-img/63614322.webp" alt="North Canopy at dusk: a single-storey shop with a vertical cedar slat facade and a dark flat roof, its wide glass frontage glowing warm from inside with shelving visible, four large ferns in dark planters flanking the door, wet pavement and fog with conifers behind." loading="eager" decoding="async">
+      <div class="hero-veil" aria-hidden="true"></div>
+      <div class="hero-scrim" aria-hidden="true"></div>
+    </div>
+    <div class="container hero-in">
+      <div class="hero-copy">
+        <p class="eyebrow eyebrow-light">Olympia, Washington &middot; Pickup and same-day delivery</p>
+        <h1 class="hero-h1">Grown Under <em>Tall Trees</em></h1>
+        <p class="hero-sub">A small shop at the bottom of the canopy. Order online for pickup in about twenty minutes, or same-day delivery until 8pm.</p>
+
+        <!-- CTA: CTA-PATTERNS.md #9 Segmented pill-tab CTA — Pickup/Delivery is ONE pill split into two tabs with a sliding indicator -->
+        <div class="fulfil" id="order">
+          <div class="seg" role="group" aria-label="Choose pickup or delivery">
+            <span class="seg-ind" id="segInd" aria-hidden="true"></span>
+            <button class="seg-btn is-on" type="button" data-mode="pickup" aria-pressed="true">Pickup</button>
+            <button class="seg-btn" type="button" data-mode="delivery" aria-pressed="false">Delivery</button>
+          </div>
+
+          <div class="fulfil-panel" id="panel-pickup">
+            <p class="pickup-line"><span class="dot" aria-hidden="true"></span>Ready in about 20 minutes at 1142 Cedar Loop SE.</p>
+          </div>
+
+          <!-- Form: FORM-LAYOUTS.md #4 Inline field + button (ZIP checker) -->
+          <form class="fulfil-panel" id="panel-delivery" novalidate hidden>
+            <label class="sr-only" for="zipInput">Delivery ZIP code</label>
+            <div class="zip-row">
+              <input class="pill-input" id="zipInput" name="zip" type="text" inputmode="numeric" autocomplete="postal-code" maxlength="5" placeholder="Enter your ZIP">
+              <button class="btn btn-primary" type="submit">Check</button>
+            </div>
+          </form>
+
+          <p class="zip-msg" id="zipMsg" role="status" aria-live="polite"></p>
+
+          <div class="hero-actions">
+            <a class="btn btn-accent" href="#shop">Start an order <span class="arw">&#8594;</span></a>
+          </div>
+          <p class="trust">21+ with valid ID &middot; Same-day cutoff 7:15pm &middot; $5 delivery, $40 minimum</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Divider: DIVIDER-PATTERNS.md #9 Gradient fade — the dark hero washes down into the warm band, never a hard rule -->
+  <section class="sustain" aria-label="Sourcing and packaging">
+    <div class="container sustain-in band-in">
+      <div class="sustain-media reveal">
+        <figure class="nc-shot shot-a grain">
+          <img src="../_shared-img/34870123.webp" alt="Overhead flat lay on grey-green linen: a kraft stand-up pouch beside a round wooden tray holding a small glass jar with a wooden lid and a blank white label, large green leaves at both edges." loading="lazy" decoding="async">
+        </figure>
+        <figure class="nc-shot shot-b grain">
+          <img src="../_shared-img/62406043.webp" alt="Two hands in a sage apron folding the top of a kraft paper bag on a counter, a small dropper bottle at the right and an evergreen sprig at the left." loading="lazy" decoding="async">
+        </figure>
+      </div>
+      <ul class="sus-list">
+        <li class="sus-item reveal" style="--i:0">
+          <span class="sus-num" aria-hidden="true">01</span>
+          <div>
+            <h2>Locally grown</h2>
+            <p>Every flower on our shelves is grown in Washington, most of it within ninety miles of the shop.</p>
+          </div>
+        </li>
+        <li class="sus-item reveal" style="--i:1">
+          <span class="sus-num" aria-hidden="true">02</span>
+          <div>
+            <h2>Recyclable packaging</h2>
+            <p>Glass, kraft board and paper. Bring the jars back and we will take them off your hands.</p>
+          </div>
+        </li>
+        <li class="sus-item reveal" style="--i:2">
+          <span class="sus-num" aria-hidden="true">03</span>
+          <div>
+            <h2>Small-batch partners</h2>
+            <p>Eleven farms. None of them large. We buy the whole harvest or we do not buy it.</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="categories" id="shop">
+    <div class="cat-band" aria-hidden="true"></div>
+    <div class="container band-in">
+      <div class="band-head">
+        <div>
+          <span class="rule" aria-hidden="true"></span>
+          <h2>Shop by category</h2>
+        </div>
+        <p class="lede">Pickup in about twenty minutes, or same-day delivery until 8pm inside the zone.</p>
+      </div>
+
+      <!-- Card: CARD-VARIATIONS.md #13 Category image-overlay tile — category name sits ON the photo over a gradient scrim -->
+      <div class="cat-grid" id="categories">
+        <a class="cat-tile grain reveal" href="#order" style="--i:0">
+          <img class="cat-media" src="../_shared-img/31228651.webp" alt="Clear glass jar with a matte black lid holding dried flower buds, on a pale shelf against a soft grey-green wall with a palm-like frond at the left." loading="lazy" decoding="async">
+          <span class="cat-tint" aria-hidden="true"></span>
+          <span class="cat-body">
+            <span class="cat-top"><span class="cat-name">Flower</span><span class="cat-count">42 strains</span></span>
+            <span class="cat-line">Sun-grown and indoor, by the gram or the ounce.</span>
+          </span>
+          <span class="cat-go" aria-hidden="true">&#8594;</span>
+        </a>
+        <a class="cat-tile grain reveal" href="#order" style="--i:1">
+          <img class="cat-media" src="../_shared-img/70960965.webp" alt="Five hand-rolled pre-rolls with twisted closed tips, fanned out on kraft paper on a whitewashed wooden board over grey concrete." loading="lazy" decoding="async">
+          <span class="cat-tint" aria-hidden="true"></span>
+          <span class="cat-body">
+            <span class="cat-top"><span class="cat-name">Pre-Rolls</span><span class="cat-count">18 options</span></span>
+            <span class="cat-line">Singles, packs, and infused. Rolled in-house on Fridays.</span>
+          </span>
+          <span class="cat-go" aria-hidden="true">&#8594;</span>
+        </a>
+        <a class="cat-tile grain reveal" href="#order" style="--i:2">
+          <img class="cat-media" src="../_shared-img/53312199.webp" alt="Three slim matte sage-green vape pens standing upright in a row against a muted green wall with a soft shadow." loading="lazy" decoding="async">
+          <span class="cat-tint" aria-hidden="true"></span>
+          <span class="cat-body">
+            <span class="cat-top"><span class="cat-name">Vapes</span><span class="cat-count">24 carts</span></span>
+            <span class="cat-line">Cartridges and all-in-ones. Strain-specific, no additives.</span>
+          </span>
+          <span class="cat-go" aria-hidden="true">&#8594;</span>
+        </a>
+        <a class="cat-tile grain reveal" href="#order" style="--i:0">
+          <img class="cat-media" src="../_shared-img/75068810.webp" alt="Three stacked matte sage paperboard boxes on pale wood, four dark chocolate squares in front and an evergreen sprig at the left." loading="lazy" decoding="async">
+          <span class="cat-tint" aria-hidden="true"></span>
+          <span class="cat-body">
+            <span class="cat-top"><span class="cat-name">Edibles</span><span class="cat-count">31 products</span></span>
+            <span class="cat-line">Chocolate, chews and drinks. Low doses clearly marked.</span>
+          </span>
+          <span class="cat-go" aria-hidden="true">&#8594;</span>
+        </a>
+        <a class="cat-tile grain reveal" href="#order" style="--i:1">
+          <img class="cat-media" src="../_shared-img/69069706.webp" alt="Small clear glass jar of golden amber concentrate with a light wooden lid on a pale stone slab in warm side light, a single leaf at the top left." loading="lazy" decoding="async">
+          <span class="cat-tint" aria-hidden="true"></span>
+          <span class="cat-body">
+            <span class="cat-top"><span class="cat-name">Concentrates</span><span class="cat-count">16 products</span></span>
+            <span class="cat-line">Rosin, hash and live resin from four solventless makers.</span>
+          </span>
+          <span class="cat-go" aria-hidden="true">&#8594;</span>
+        </a>
+        <a class="cat-tile grain reveal" href="#order" style="--i:2">
+          <img class="cat-media" src="../_shared-img/22587422.webp" alt="Two unlabelled amber glass dropper bottles with black rubber caps against a pale grey wall, a large fern frond at the left." loading="lazy" decoding="async">
+          <span class="cat-tint" aria-hidden="true"></span>
+          <span class="cat-body">
+            <span class="cat-top"><span class="cat-name">Tinctures</span><span class="cat-count">9 products</span></span>
+            <span class="cat-line">Drops and oils. Slow, measurable, easy to put down.</span>
+          </span>
+          <span class="cat-go" aria-hidden="true">&#8594;</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="picks" id="picks">
+    <div class="picks-band" aria-hidden="true"></div>
+    <div class="container band-in">
+      <div class="band-head">
+        <div>
+          <span class="rule" aria-hidden="true"></span>
+          <h2>Staff picks</h2>
+        </div>
+        <div class="car-nav">
+          <button class="car-btn" type="button" data-dir="-1" aria-label="Previous staff picks">&#8592;</button>
+          <button class="car-btn" type="button" data-dir="1" aria-label="Next staff picks">&#8594;</button>
+        </div>
+      </div>
+
+      <ul class="car-track" id="carTrack" tabindex="0" aria-label="Staff picks, scrollable">
+        <li class="pick-card reveal" style="--i:0">
+          <div class="pick-shot grain">
+            <img class="pick-media" src="../_shared-img/21619563.webp" alt="Amber glass jar holding a single bud on a cedar shelf against a deep forest green wall, soft key light from the left." loading="lazy" decoding="async">
+          </div>
+          <div class="pick-body">
+            <p class="pick-type">Flower &middot; 3.5g</p>
+            <h3 class="pick-name">Rainshadow #4</h3>
+            <p class="pick-note">Grown at four hundred feet on the Kitsap side. Smells like wet cedar and lime.</p>
+            <div class="pick-foot"><span class="pick-price">$38</span><span class="pick-by">Picked by Dani</span></div>
+          </div>
+        </li>
+        <li class="pick-card reveal" style="--i:1">
+          <div class="pick-shot grain">
+            <img class="pick-media" src="../_shared-img/25497331.webp" alt="Three pre-rolls standing upright in a small pale stoneware cup against a muted sage wall." loading="lazy" decoding="async">
+          </div>
+          <div class="pick-body">
+            <p class="pick-type">Pre-Rolls &middot; 5-pack</p>
+            <h3 class="pick-name">Alder Singles</h3>
+            <p class="pick-note">Rolled Friday, sold by Sunday. The one I take on the trail.</p>
+            <div class="pick-foot"><span class="pick-price">$32</span><span class="pick-by">Picked by Theo</span></div>
+          </div>
+        </li>
+        <li class="pick-card reveal" style="--i:2">
+          <div class="pick-shot grain">
+            <img class="pick-media" src="../_shared-img/55416446.webp" alt="Closed matte mint-green box standing on pale wood against a deep green wall, a green leaf leaning in from the right." loading="lazy" decoding="async">
+          </div>
+          <div class="pick-body">
+            <p class="pick-type">Edibles &middot; 10-pack</p>
+            <h3 class="pick-name">Understory Chews</h3>
+            <p class="pick-note">Two and a half milligrams each. For people who want to stop at two.</p>
+            <div class="pick-foot"><span class="pick-price">$24</span><span class="pick-by">Picked by June</span></div>
+          </div>
+        </li>
+        <li class="pick-card reveal" style="--i:3">
+          <div class="pick-shot grain">
+            <img class="pick-media" src="../_shared-img/81605866.webp" alt="Small glass jar with a light wooden lid holding golden concentrate, on a cedar surface against a very dark green background." loading="lazy" decoding="async">
+          </div>
+          <div class="pick-body">
+            <p class="pick-type">Concentrates &middot; 1g</p>
+            <h3 class="pick-name">Coldpress Rosin</h3>
+            <p class="pick-note">Pressed from fresh-frozen, nothing added. Four farms rotate through this slot.</p>
+            <div class="pick-foot"><span class="pick-price">$55</span><span class="pick-by">Picked by Dani</span></div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="about" id="about">
+    <div class="about-bg" aria-hidden="true"></div>
+    <div class="container about-in band-in">
+      <figure class="about-shot grain reveal">
+        <img class="about-media" src="../_shared-img/81829842.webp" alt="Inside the shop: pale oak wall shelves holding rows of small amber jars above a lower oak counter, a potted monstera and trailing plants, and a tall window at the right letting in soft daylight." loading="lazy" decoding="async">
+      </figure>
+      <div class="about-panel reveal" style="--i:1">
+        <p class="eyebrow eyebrow-light">The shop</p>
+        <h2>One room, eleven farms, and a lot of rain.</h2>
+        <p>North Canopy is a single room on Cedar Loop with pale oak shelves and too many ferns. We opened because the shops we liked kept turning into chains, and the ones that stayed small kept running out of the things we wanted.</p>
+        <p>We buy from eleven Washington farms. We know the growers by name, we know what the season did to each harvest, and we will tell you both without being asked. If something is not good this month, we will say so and point you at what is.</p>
+        <dl class="visit">
+          <div>
+            <dt>Find us</dt>
+            <dd>1142 Cedar Loop SE<br>Olympia, WA 98501</dd>
+            <dd><a href="tel:+13605550148">(360) 555-0148</a></dd>
+          </div>
+          <div>
+            <dt>Hours</dt>
+            <dd>Mon&ndash;Thu 9am&ndash;9pm<br>Fri&ndash;Sat 9am&ndash;10pm<br>Sun 10am&ndash;8pm</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="testimonials">
+    <div class="container band-in">
+      <div class="band-head">
+        <div>
+          <span class="rule" aria-hidden="true"></span>
+          <h2>What customers say</h2>
+        </div>
+      </div>
+      <ul class="tm-grid">
+        <li class="tm-card reveal" style="--i:0">
+          <span class="tm-mark" aria-hidden="true">&ldquo;</span>
+          <blockquote><p>They told me the farm, the elevation and the harvest date before I asked. Then it was at my door in forty minutes.</p></blockquote>
+          <div class="tm-who">
+            <img class="tm-avatar" src="../_shared-img/35320906.webp" alt="Portrait of Marisol R., a woman seated by water with a relaxed natural smile, wearing a dark top." width="200" height="200" loading="lazy" decoding="async">
+            <div><span class="tm-name">Marisol R.</span><span class="tm-meta">Delivery, 98502</span></div>
+          </div>
+        </li>
+        <li class="tm-card reveal" style="--i:1">
+          <span class="tm-mark" aria-hidden="true">&ldquo;</span>
+          <blockquote><p>I asked for something that would not put me to sleep and got a straight answer instead of a sales pitch. First shop that has happened in.</p></blockquote>
+          <div class="tm-who">
+            <img class="tm-avatar" src="../_shared-img/66342091.webp" alt="Portrait of Aaron T., a man in profile against a grey-green wall with a calm expression in side light." width="200" height="200" loading="lazy" decoding="async">
+            <div><span class="tm-name">Aaron T.</span><span class="tm-meta">Pickup, downtown</span></div>
+          </div>
+        </li>
+        <li class="tm-card reveal" style="--i:2">
+          <span class="tm-mark" aria-hidden="true">&ldquo;</span>
+          <blockquote><p>I bring the jars back every couple of weeks. Small thing, but it is the reason I stopped ordering anywhere else.</p></blockquote>
+          <div class="tm-who">
+            <img class="tm-avatar" src="../_shared-img/80624564.webp" alt="Portrait of Pat L., an older woman with grey hair outdoors in sunglasses and a cream top against a soft blurred background." width="200" height="200" loading="lazy" decoding="async">
+            <div><span class="tm-name">Pat L.</span><span class="tm-meta">Pickup, Cedar Loop</span></div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="faq" id="faq">
+    <div class="faq-fern" aria-hidden="true"></div>
+    <div class="container faq-in band-in">
+      <div class="faq-aside">
+        <span class="rule" aria-hidden="true"></span>
+        <h2>Questions</h2>
+        <p class="lede">If yours is not here, the shop picks up.</p>
+        <a class="tel ln" href="tel:+13605550148">(360) 555-0148</a>
+      </div>
+
+      <!-- FAQ: FAQ-ACCORDION.md #1 Hairline rows, first row open on load -->
+      <div class="faq-list">
+        <div class="faq-row is-open">
+          <h3 class="faq-q"><button class="faq-btn" type="button" id="faqb-1" aria-expanded="true" aria-controls="faqp-1">What do I need to bring?<span class="faq-ic" aria-hidden="true"></span></button></h3>
+          <div class="faq-a" id="faqp-1" role="region" aria-labelledby="faqb-1" aria-hidden="false">
+            <div class="faq-a-in"><p>A government-issued photo ID showing you are 21 or over. We check it at pickup and again at the door on delivery, every time, no exceptions.</p></div>
+          </div>
+        </div>
+        <div class="faq-row">
+          <h3 class="faq-q"><button class="faq-btn" type="button" id="faqb-2" aria-expanded="false" aria-controls="faqp-2">How far do you deliver, and until when?<span class="faq-ic" aria-hidden="true"></span></button></h3>
+          <div class="faq-a" id="faqp-2" role="region" aria-labelledby="faqb-2" aria-hidden="true">
+            <div class="faq-a-in"><p>We deliver to 98501, 98502, 98503, 98506, 98512, 98513 and 98516. Orders placed by 7:15pm go out the same evening, with the last drop at 8pm. Delivery is $5 on orders over $40.</p></div>
+          </div>
+        </div>
+        <div class="faq-row">
+          <h3 class="faq-q"><button class="faq-btn" type="button" id="faqb-3" aria-expanded="false" aria-controls="faqp-3">How do I pay?<span class="faq-ic" aria-hidden="true"></span></button></h3>
+          <div class="faq-a" id="faqp-3" role="region" aria-labelledby="faqb-3" aria-hidden="true">
+            <div class="faq-a-in"><p>Debit card or cash, in the shop and at the door. We cannot take credit cards, which is a banking rule rather than a preference of ours.</p></div>
+          </div>
+        </div>
+        <div class="faq-row">
+          <h3 class="faq-q"><button class="faq-btn" type="button" id="faqb-4" aria-expanded="false" aria-controls="faqp-4">How long will you hold a pickup order?<span class="faq-ic" aria-hidden="true"></span></button></h3>
+          <div class="faq-a" id="faqp-4" role="region" aria-labelledby="faqb-4" aria-hidden="true">
+            <div class="faq-a-in"><p>Twenty-four hours. If you need longer, call the shop and we will put your name on it.</p></div>
+          </div>
+        </div>
+        <div class="faq-row">
+          <h3 class="faq-q"><button class="faq-btn" type="button" id="faqb-5" aria-expanded="false" aria-controls="faqp-5">Can I change an order after I place it?<span class="faq-ic" aria-hidden="true"></span></button></h3>
+          <div class="faq-a" id="faqp-5" role="region" aria-labelledby="faqb-5" aria-hidden="true">
+            <div class="faq-a-in"><p>Until it is packed, yes. Call (360) 555-0148 and we will sort it out. After it is out for delivery we cannot change what is in the bag.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="closing">
+    <div class="closing-bg grain" aria-hidden="true"></div>
+    <div class="container closing-in band-in">
+      <h2 class="reveal">Order tonight, or come stand in the ferns.</h2>
+      <p class="reveal" style="--i:1">Pickup in about twenty minutes. Delivery until 8pm inside the zone.</p>
+      <div class="closing-cta reveal" style="--i:2">
+        <a class="btn btn-accent" href="#order">Start an order <span class="arw">&#8594;</span></a>
+        <a class="btn btn-light" href="https://www.google.com/maps/search/?api=1&amp;query=1142+Cedar+Loop+SE+Olympia+WA+98501" target="_blank" rel="noopener">Get directions</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Footer: FOOTER-STYLES.md #14 Hours-and-contact prominent — hours and delivery area carry the visual weight -->
+<footer class="site-foot">
+  <div class="foot-bg" aria-hidden="true"></div>
+  <div class="container foot-in">
+    <div class="foot-col">
+      <a class="brand" href="#top">
+        <svg class="brand-mark" width="26" height="30" viewBox="0 0 26 30" aria-hidden="true" focusable="false">
+          <path d="M13 1.6 5.6 11.4h2.9L3.1 18.7h4.9L4.4 24h7.2v5h2.8v-5h7.2l-3.6-5.3h4.9l-5.4-7.3h2.9L13 1.6Z" fill="currentColor"/>
+        </svg>
+        <span class="brand-txt">
+          <span class="brand-name">North Canopy</span>
+          <span class="brand-sub">Grown Under Tall Trees</span>
+        </span>
+      </a>
+      <p class="foot-tag">A single room on Cedar Loop buying from eleven Washington farms.</p>
+      <!-- Form: FORM-LAYOUTS.md #4 Inline field + button (newsletter) -->
+      <form class="news" id="newsForm" novalidate>
+        <label class="news-lbl" for="newsEmail">Once a month, when the new harvest lands.</label>
+        <div class="news-row">
+          <input class="pill-input" id="newsEmail" name="email" type="email" autocomplete="email" placeholder="you@example.com">
+          <button class="btn btn-accent" type="submit">Sign up</button>
+        </div>
+        <p class="news-msg" id="newsMsg" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+
+    <nav class="foot-col" aria-label="Shop">
+      <h3 class="foot-h">Shop</h3>
+      <ul class="foot-list">
+        <li><a class="ln" href="#categories">Flower</a></li>
+        <li><a class="ln" href="#categories">Pre-Rolls</a></li>
+        <li><a class="ln" href="#categories">Vapes</a></li>
+        <li><a class="ln" href="#categories">Edibles</a></li>
+        <li><a class="ln" href="#categories">Concentrates</a></li>
+        <li><a class="ln" href="#categories">Tinctures</a></li>
+      </ul>
+    </nav>
+
+    <div class="foot-col">
+      <h3 class="foot-h">Visit</h3>
+      <div class="foot-panel">
+        <p class="foot-addr">1142 Cedar Loop SE<br>Olympia, WA 98501</p>
+        <div class="foot-hours">
+          <div><span>Mon&ndash;Thu</span><span>9am&ndash;9pm</span></div>
+          <div><span>Fri&ndash;Sat</span><span>9am&ndash;10pm</span></div>
+          <div><span>Sun</span><span>10am&ndash;8pm</span></div>
+        </div>
+        <a class="foot-tel" href="tel:+13605550148">(360) 555-0148</a>
+      </div>
+    </div>
+
+    <div class="foot-col">
+      <h3 class="foot-h">Delivery</h3>
+      <div class="foot-panel">
+        <ul class="zips">
+          <li>98501</li><li>98502</li><li>98503</li><li>98506</li><li>98512</li><li>98513</li><li>98516</li>
+        </ul>
+        <p class="foot-fact">Orders in by <strong>7:15pm</strong> for the same evening, last drop <strong>8pm</strong>.</p>
+        <p class="foot-fact"><strong>$5</strong> delivery fee &middot; <strong>$40</strong> minimum</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="container foot-bottom">
+    <p class="foot-legal">&copy; 2026 North Canopy &middot; WSLCB Retail Licence #427-1188</p>
+    <p class="compliance">21+ only. This product has intoxicating effects and may be habit forming. Do not drive a motor vehicle or operate machinery while under the influence of cannabis. There may be health risks associated with consumption. For use only by adults twenty-one and older. Keep out of reach of children.</p>
+  </div>
+</footer>
+
+<!-- Sticky CTA: STICKY-CTA-BAR.md #2 Two-action mobile bar, below 1024 only -->
+<div class="mobile-sticky">
+  <button class="btn btn-accent sticky-b" type="button" data-mode="pickup">Order pickup</button>
+  <button class="btn btn-light sticky-b" type="button" data-mode="delivery">Order delivery</button>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var doc = document;
+  var qs = function (s, r) { return (r || doc).querySelector(s); };
+  var qsa = function (s, r) { return Array.prototype.slice.call((r || doc).querySelectorAll(s)); };
+  var mqReduce = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
+  var reduce = !!(mqReduce && mqReduce.matches);
+  var smooth = reduce ? 'auto' : 'smooth';
+
+  /* ---------- nav: solid bar once scrolled off the hero ---------- */
+  var nav = doc.getElementById('siteNav');
+  function onScroll() { if (nav) nav.classList.toggle('is-solid', window.pageYOffset > 60); }
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  /* ---------- mobile drawer ---------- */
+  var burger = qs('.nav-hamburger');
+  var drawer = doc.getElementById('mobile-drawer');
+  var scrim = doc.getElementById('drawerScrim');
+  var closeBtn = qs('.drawer-close');
+
+  function setDrawer(open) {
+    if (!drawer || !burger) return;
+    drawer.classList.toggle('is-open', open);
+    drawer.setAttribute('aria-hidden', open ? 'false' : 'true');
+    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    doc.documentElement.classList.toggle('nav-open', open);
+    if (scrim) {
+      if (open) { scrim.hidden = false; requestAnimationFrame(function () { scrim.classList.add('is-open'); }); }
+      else { scrim.classList.remove('is-open'); scrim.hidden = true; }
+    }
+    if (open) { var f = qs('.drawer-close', drawer); if (f) f.focus(); }
+    else if (burger.offsetParent !== null) { burger.focus(); }
+  }
+  if (burger) burger.addEventListener('click', function () { setDrawer(drawer.getAttribute('aria-hidden') !== 'false'); });
+  if (closeBtn) closeBtn.addEventListener('click', function () { setDrawer(false); });
+  if (scrim) scrim.addEventListener('click', function () { setDrawer(false); });
+  qsa('.drawer-link, .drawer-cta').forEach(function (a) { a.addEventListener('click', function () { setDrawer(false); }); });
+  doc.addEventListener('keydown', function (e) {
+    if ((e.key === 'Escape' || e.key === 'Esc') && drawer && drawer.getAttribute('aria-hidden') === 'false') setDrawer(false);
+  });
+
+  /* ---------- fulfillment segmented pill (CTA-PATTERNS #9) ---------- */
+  var segBtns = qsa('.seg-btn');
+  var segInd = doc.getElementById('segInd');
+  var panelPickup = doc.getElementById('panel-pickup');
+  var panelDelivery = doc.getElementById('panel-delivery');
+  var zipInput = doc.getElementById('zipInput');
+  var zipMsg = doc.getElementById('zipMsg');
+
+  function setMode(mode, focusField) {
+    segBtns.forEach(function (b) {
+      var on = b.getAttribute('data-mode') === mode;
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+      b.classList.toggle('is-on', on);
+    });
+    if (segInd) segInd.style.transform = mode === 'delivery' ? 'translateX(100%)' : 'translateX(0)';
+    if (panelPickup) panelPickup.hidden = mode !== 'pickup';
+    if (panelDelivery) panelDelivery.hidden = mode !== 'delivery';
+    if (zipMsg && mode === 'pickup') { zipMsg.textContent = ''; zipMsg.classList.remove('is-ok'); }
+    if (focusField && mode === 'delivery' && zipInput) zipInput.focus();
+  }
+  segBtns.forEach(function (b, i) {
+    b.addEventListener('click', function () { setMode(b.getAttribute('data-mode'), true); });
+    b.addEventListener('keydown', function (e) {
+      if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+      e.preventDefault();
+      var next = segBtns[(i + (e.key === 'ArrowRight' ? 1 : segBtns.length - 1)) % segBtns.length];
+      setMode(next.getAttribute('data-mode'), false);
+      next.focus();
+    });
+  });
+
+  /* ---------- ZIP checker against the served list ---------- */
+  var SERVED = ['98501', '98502', '98503', '98506', '98512', '98513', '98516'];
+  function checkZip() {
+    if (!zipInput || !zipMsg) return;
+    var v = (zipInput.value || '').trim();
+    zipMsg.classList.remove('is-ok');
+    if (!/^\d{5}$/.test(v)) { zipMsg.textContent = 'Enter a 5-digit ZIP code.'; return; }
+    if (SERVED.indexOf(v) !== -1) {
+      zipMsg.textContent = 'Good news — we deliver to ' + v + '. Order by 7:15pm for tonight.';
+      zipMsg.classList.add('is-ok');
+    } else {
+      zipMsg.textContent = 'We do not reach ' + v + ' yet. Pickup is ready in about 20 minutes.';
+    }
+  }
+  if (panelDelivery) panelDelivery.addEventListener('submit', function (e) { e.preventDefault(); checkZip(); });
+
+  /* ---------- newsletter ---------- */
+  var newsForm = doc.getElementById('newsForm');
+  var newsMsg = doc.getElementById('newsMsg');
+  var newsEmail = doc.getElementById('newsEmail');
+  if (newsForm) newsForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var v = (newsEmail && newsEmail.value || '').trim();
+    newsMsg.textContent = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v)
+      ? 'Thanks. Once a month, when the new harvest lands.'
+      : 'Enter an email address so we can reach you.';
+    if (/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v)) newsForm.reset();
+  });
+
+  /* ---------- FAQ accordion (height aware) ---------- */
+  var faqRows = qsa('.faq-row');
+  function setRow(row, open) {
+    var btn = qs('.faq-btn', row), pan = qs('.faq-a', row);
+    if (!btn || !pan) return;
+    row.classList.toggle('is-open', open);
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    pan.setAttribute('aria-hidden', open ? 'false' : 'true');
+    pan.style.maxHeight = open ? pan.scrollHeight + 'px' : '0px';
+  }
+  faqRows.forEach(function (row) {
+    setRow(row, row.classList.contains('is-open'));
+    qs('.faq-btn', row).addEventListener('click', function () {
+      var willOpen = !row.classList.contains('is-open');
+      faqRows.forEach(function (r) { if (r !== row) setRow(r, false); });
+      setRow(row, willOpen);
+    });
+  });
+
+  /* ---------- staff picks carousel ---------- */
+  var track = doc.getElementById('carTrack');
+  var carBtns = qsa('.car-btn');
+  function step() {
+    if (!track) return 0;
+    var card = qs('.pick-card', track);
+    if (!card) return track.clientWidth;
+    var cs = window.getComputedStyle(track);
+    var gap = parseFloat(cs.columnGap || cs.gap || '0') || 0;
+    return Math.round(card.getBoundingClientRect().width + gap);
+  }
+  function syncCar() {
+    if (!track) return;
+    var max = track.scrollWidth - track.clientWidth - 2;
+    carBtns.forEach(function (b) {
+      var dir = parseInt(b.getAttribute('data-dir'), 10);
+      b.disabled = dir < 0 ? track.scrollLeft <= 2 : track.scrollLeft >= max;
+    });
+  }
+  carBtns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      if (!track) return;
+      track.scrollBy({ left: step() * parseInt(b.getAttribute('data-dir'), 10), behavior: smooth });
+    });
+  });
+  if (track) { track.addEventListener('scroll', syncCar, { passive: true }); syncCar(); }
+
+  /* ---------- mobile sticky bar drives the real control ---------- */
+  qsa('.sticky-b').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var mode = b.getAttribute('data-mode');
+      setMode(mode, false);
+      var target = doc.getElementById('order');
+      if (target) target.scrollIntoView({ behavior: smooth, block: 'center' });
+      if (mode === 'delivery' && zipInput) window.setTimeout(function () { zipInput.focus(); }, reduce ? 0 : 420);
+    });
+  });
+
+  /* ---------- scroll reveals ---------- */
+  var revealEls = qsa('.reveal');
+  function revealAll() { revealEls.forEach(function (el) { el.classList.add('is-in'); }); }
+  if (reduce || !('IntersectionObserver' in window)) {
+    revealAll();
+  } else {
+    var io = new IntersectionObserver(function (entries, obs) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        en.target.classList.add('is-in');
+        obs.unobserve(en.target);
+      });
+    }, { rootMargin: '0px 0px -6% 0px', threshold: 0.1 });
+    revealEls.forEach(function (el) { io.observe(el); });
+  }
+  if (mqReduce && mqReduce.addEventListener) {
+    mqReduce.addEventListener('change', function (e) { if (e.matches) revealAll(); });
+  }
+
+  /* ---------- keep measured heights honest on resize ---------- */
+  var rt;
+  window.addEventListener('resize', function () {
+    window.clearTimeout(rt);
+    rt = window.setTimeout(function () {
+      faqRows.forEach(function (row) {
+        var pan = qs('.faq-a', row);
+        if (pan && row.classList.contains('is-open')) pan.style.maxHeight = pan.scrollHeight + 'px';
+      });
+      syncCar();
+      if (window.innerWidth >= 1024 && drawer && drawer.getAttribute('aria-hidden') === 'false') setDrawer(false);
+    }, 140);
+  });
+
+  window.addEventListener('load', function () {
+    faqRows.forEach(function (row) {
+      var pan = qs('.faq-a', row);
+      if (pan && row.classList.contains('is-open')) pan.style.maxHeight = pan.scrollHeight + 'px';
+    });
+    syncCar();
+  });
+})();
+</script>
+</body>
+</html>

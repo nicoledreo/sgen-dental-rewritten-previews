@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spectacles — Prescription Glasses, Sunglasses &amp; Eye Exams</title>
+<meta name="description" content="Spectacles — designer eyewear and expert eye care. Shop frames, explore lens tech, and book an eye exam at your local Spectacles studio.">
+<!-- One accepted external dep: Google Fonts (with full system fallbacks below). -->
+<link rel="stylesheet" href="../_shared-fonts/spectacles-fonts.css">
+<style>
+/* ============================================================
+   SPECTACLES — LensCrafters remake on the SGEN engine.
+   Tokens reskinned to the VERIFIED live identity:
+   navy #192c50 + slate #557b92 + white, serif display + Sofia
+   sans, pill buttons, editorial photography + promo bands.
+   Self-contained; imagery is CSS/SVG placeholder this pass.
+   ============================================================ */
+:root{
+  /* COLOR — sampled from live lenscrafters.com */
+  --navy:#192c50;          /* primary brand — accent */
+  --navy-deep:#111f3a;
+  --slate:#557b92;         /* secondary — links / hovers / 2nd CTA */
+  --slate-deep:#41657b;
+  --ink:#20242b;           /* near-black text, never #000 */
+  --paper:#ffffff;         /* white base */
+  --mist:#f4f6f8;          /* cool light band */
+  --sand:#f3ede2;          /* warm promo band (echoes LC gold) */
+  --line:rgba(25,44,80,.12);
+  --line-2:rgba(25,44,80,.07);
+  --muted:#5b6470;
+  --body:#3f4651;
+
+  --grad-navy:linear-gradient(135deg,#23386a,#111f3a);
+  --grad-hero:linear-gradient(150deg,#1d3157 0%,#21405e 46%,#3a5f74 100%);
+  --fade-to-paper:linear-gradient(180deg,rgba(255,255,255,0) 0%,var(--paper) 78%);
+
+  --r-chip:8px; --r-card:14px; --r-panel:22px; --r-pill:9999px;
+
+  --shadow-rest:0 2px 6px 0 rgba(17,31,58,.08);
+  --shadow-card:0 16px 32px 0 rgba(17,31,58,.12);
+  --shadow-hover:0 30px 60px -14px rgba(17,31,58,.22);
+
+  --ease:cubic-bezier(.05,.5,.3,1);
+  --t-fast:.2s ease-out;
+  --t-reveal:.6s var(--ease);
+  --glass:blur(16px) saturate(180%);
+  --wrap:1240px;
+
+  --serif:"Cormorant Garamond",Georgia,"Times New Roman",serif;
+  --sans:"Sofia Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--paper);color:var(--body);
+  font-family:var(--sans);font-size:16px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 26px}
+h1,h2,h3,h4{color:var(--ink);margin:0;line-height:1.05}
+p{margin:0 0 1em}
+a{color:var(--slate);text-decoration:none}
+img{max-width:100%;display:block}
+button{font-family:inherit}
+.serif{font-family:var(--serif)}
+
+/* eyebrow / kicker (TOP-12 #10) */
+.eyebrow{
+  display:inline-flex;align-items:center;gap:11px;
+  text-transform:uppercase;letter-spacing:.18em;font-size:12px;font-weight:600;
+  color:var(--slate);margin:0 0 16px;
+}
+.eyebrow::before{content:"";width:34px;height:1.5px;background:var(--slate);display:inline-block}
+.eyebrow.on-dark{color:#a9c2d4}
+.eyebrow.on-dark::before{background:#a9c2d4}
+
+/* buttons — pill, fill↔ghost (LC + TOP-12 #9) */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  font-weight:600;font-size:14.5px;letter-spacing:.01em;cursor:pointer;
+  padding:14px 30px;border-radius:var(--r-pill);border:1.5px solid var(--navy);
+  background:var(--navy);color:#fff;white-space:nowrap;
+  transition:background-color var(--t-fast),color var(--t-fast),border-color var(--t-fast),transform var(--t-fast),box-shadow var(--t-fast);
+}
+.btn:hover{background:#fff;color:var(--navy)}
+.btn.slate{background:var(--slate);border-color:var(--slate)}
+.btn.slate:hover{background:#fff;color:var(--slate-deep)}
+.btn.ghost{background:transparent;color:var(--navy)}
+.btn.ghost:hover{background:var(--navy);color:#fff}
+.btn.on-photo{background:#fff;color:var(--navy);border-color:#fff}
+.btn.on-photo:hover{background:transparent;color:#fff}
+.btn.on-photo-ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.7)}
+.btn.on-photo-ghost:hover{background:#fff;color:var(--navy);border-color:#fff}
+.btn.sm{padding:10px 20px;font-size:13px}
+.btn.full{width:100%}
+.link-arrow{font-weight:600;color:var(--navy);display:inline-flex;align-items:center;gap:7px}
+.link-arrow .ar{transition:transform var(--t-fast)}
+.link-arrow:hover .ar{transform:translateX(4px)}
+
+/* section scaffold (TOP-12 #11 rhythm) */
+section{padding:clamp(60px,8vw,108px) 0}
+.band-mist{background:var(--mist)}
+.band-navy{background:var(--navy);color:#dbe3ee}
+.band-sand{background:var(--sand)}
+.sec-head{max-width:60ch;margin:0 0 44px}
+.sec-head.center{margin-left:auto;margin-right:auto;text-align:center}
+.sec-head h2{font-family:var(--serif);font-weight:500;font-size:clamp(30px,4.6vw,52px);letter-spacing:-.01em}
+.sec-head p{color:var(--muted);margin:14px 0 0;font-size:17px}
+.band-navy .sec-head h2{color:#fff}
+.band-navy .sec-head p{color:#aebcd0}
+
+/* ============================================================ ANNOUNCEMENT */
+.announce{
+  background:var(--navy);color:#fff;text-align:center;
+  font-size:13px;letter-spacing:.02em;padding:9px 16px;
+}
+.announce a{color:#fff;text-decoration:underline;text-underline-offset:3px;font-weight:600}
+.announce .sep{opacity:.45;margin:0 14px}
+
+/* ============================================================ HEADER */
+.site-header{position:sticky;top:0;z-index:60;background:#fff;border-bottom:1px solid var(--line-2);transition:box-shadow .3s}
+.site-header.is-stuck{box-shadow:0 6px 20px rgba(17,31,58,.07)}
+.hbar{display:flex;align-items:center;gap:22px;height:74px}
+.wordmark{font-family:var(--serif);font-weight:600;font-size:25px;letter-spacing:.02em;color:var(--navy);margin-right:6px;white-space:nowrap}
+.wordmark b{color:var(--slate)}
+.mainnav{display:flex;gap:5px;margin-right:auto}
+.mainnav a{
+  color:var(--ink);font-size:14px;font-weight:500;padding:9px 13px;border-radius:8px;
+  transition:color var(--t-fast),background var(--t-fast);
+}
+.mainnav a:hover{color:var(--navy);background:var(--mist)}
+.hicons{display:flex;align-items:center;gap:6px}
+.icon-btn{
+  width:42px;height:42px;border-radius:50%;border:0;background:transparent;cursor:pointer;
+  display:grid;place-items:center;color:var(--ink);transition:background var(--t-fast),color var(--t-fast);
+}
+.icon-btn:hover{background:var(--mist);color:var(--navy)}
+.icon-btn svg{width:21px;height:21px}
+.hamburger{display:none}
+
+/* ============================================================ HERO (v-bleed) */
+.hero{position:relative;min-height:clamp(560px,84vh,760px);display:flex;align-items:center;overflow:hidden;background:var(--navy);padding-bottom:0}
+.hero__bg{position:absolute;inset:0;z-index:0}
+.hero__photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:72% center}
+/* placeholder "lifestyle photo": layered duotone + soft light + grain feel */
+.hero__scrim{position:absolute;inset:0;z-index:1;background:
+  linear-gradient(95deg,rgba(12,22,44,.72) 0%,rgba(12,22,44,.40) 42%,rgba(12,22,44,.08) 70%)}
+.hero .wrap{position:relative;z-index:2;width:100%}
+.hero__inner{max-width:600px;color:#fff;padding:40px 0}
+.hero h1{font-family:var(--serif);font-weight:500;color:#fff;font-size:clamp(44px,6.4vw,84px);letter-spacing:-.015em;line-height:1.0;margin:0 0 20px}
+.hero h1 em{font-style:italic;color:#cfe0ec}
+.hero .lede{font-size:clamp(16px,1.9vw,20px);color:rgba(255,255,255,.84);max-width:46ch;margin:0 0 30px}
+.hero__cta{display:flex;gap:14px;flex-wrap:wrap}
+.hero__strip{position:relative;z-index:2;margin-top:auto;align-self:stretch}
+.hs-panel{display:grid;grid-template-columns:repeat(4,1fr);
+  background:rgba(13,24,48,.84);-webkit-backdrop-filter:blur(8px) saturate(160%);backdrop-filter:blur(8px) saturate(160%);
+  border:1px solid rgba(255,255,255,.12);border-bottom:0;
+  border-radius:var(--r-panel) var(--r-panel) 0 0;overflow:hidden}
+.hs-cell+.hs-cell{border-left:1px solid rgba(255,255,255,.08)}
+.hs-cell{padding:18px 22px;display:flex;gap:13px;align-items:flex-start;color:#fff}
+.hs-cell svg{width:22px;height:22px;flex:0 0 auto;color:#bcd0e0;margin-top:2px}
+.hs-cell b{display:block;font-size:13.5px;font-weight:600}
+.hs-cell span{font-size:12.5px;color:rgba(255,255,255,.78);line-height:1.4}
+.hero-wrapper{display:flex;flex-direction:column;min-height:inherit}
+
+/* booking quick-bar overlapping hero (LC pattern) */
+.quickbook{position:relative;z-index:5;margin-top:0}
+.quickbook__card{
+  background:#fff;border-radius:0 0 var(--r-panel) var(--r-panel);box-shadow:var(--shadow-card);
+  border:1px solid var(--line-2);padding:20px 26px;
+  display:flex;align-items:center;gap:20px;flex-wrap:wrap;
+}
+.quickbook__t{font-family:var(--serif);font-size:24px;color:var(--ink);font-weight:600;line-height:1.1}
+.quickbook__t small{display:block;font-family:var(--sans);font-size:12.5px;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;font-weight:600;margin-top:2px}
+.quickbook__form{display:flex;gap:10px;flex:1;min-width:280px;margin-left:auto}
+.quickbook__form input{
+  flex:1;min-width:0;border:1px solid var(--line);border-radius:var(--r-pill);
+  padding:13px 20px;font-size:15px;color:var(--ink);background:#fff;
+}
+.quickbook__form input:focus{outline:none;border-color:var(--slate);box-shadow:0 0 0 3px rgba(85,123,146,.18)}
+
+/* ============================================================ CREDENTIAL / STATS */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:30px;text-align:center}
+.stat .num{font-family:var(--serif);font-size:clamp(42px,5.4vw,62px);font-weight:600;color:var(--navy);letter-spacing:-.01em;line-height:1;font-variant-numeric:tabular-nums}
+.stat .num .suf{color:var(--slate);font-size:.6em;vertical-align:top;margin-left:1px}
+.stat .lab{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-top:12px;font-weight:600}
+
+/* ============================================================ SHOP BY SHAPE */
+.shapes{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.shape{
+  position:relative;background:#fff;border:1px solid var(--line);border-radius:var(--r-card);
+  padding:0;overflow:hidden;text-align:center;cursor:pointer;
+  transition:transform var(--t-fast),box-shadow var(--t-fast),border-color var(--t-fast);
+}
+.shape:hover{transform:translateY(-5px);box-shadow:var(--shadow-card);border-color:transparent}
+.shape__img{position:relative;display:block;aspect-ratio:2/1;overflow:hidden;background:var(--mist)}
+.shape__img img{width:100%;height:100%;object-fit:cover;transition:transform .45s var(--ease)}
+.shape__img::after{content:"";position:absolute;inset:0;background:var(--slate);mix-blend-mode:multiply;opacity:0;transition:opacity .35s var(--ease);pointer-events:none}
+.shape:hover .shape__img img{transform:scale(1.05)}
+.shape:hover .shape__img::after{opacity:.82}
+.shape .nm{display:block;font-size:14px;font-weight:600;color:var(--ink);padding:13px 8px}
+
+/* ============================================================ SHOP / PRODUCT GRID + FILTER */
+.shop-toolbar{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:30px}
+.filter-group{display:flex;gap:9px;flex-wrap:wrap;align-items:center}
+.filter-label{font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-weight:600;margin-right:2px}
+.chip{
+  border:1px solid var(--line);background:#fff;color:var(--ink);
+  font-size:13.5px;font-weight:500;padding:8px 16px;border-radius:var(--r-pill);cursor:pointer;
+  transition:all var(--t-fast);
+}
+.chip:hover{border-color:var(--slate);color:var(--navy)}
+.chip.active{background:var(--navy);border-color:var(--navy);color:#fff}
+.shop-count{margin-left:auto;font-size:13.5px;color:var(--muted)}
+.shop-count b{color:var(--ink)}
+.filter-toggle{display:none}
+
+.products{display:grid;grid-template-columns:repeat(4,1fr);gap:26px}
+.pcard{
+  background:#fff;border:1px solid var(--line-2);border-radius:var(--r-card);overflow:hidden;
+  display:flex;flex-direction:column;transition:transform .25s var(--ease),box-shadow .25s var(--ease),opacity .3s;
+}
+.pcard:hover{transform:translateY(-6px);box-shadow:var(--shadow-hover)}
+.pcard__media{position:relative;aspect-ratio:5/4;overflow:hidden;background:#fff}
+.pcard__media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .45s var(--ease)}
+.pcard:hover .pcard__media img{transform:scale(1.05)}
+.pcard__tag{position:absolute;top:12px;left:12px;background:#fff;border-radius:var(--r-pill);font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--slate);padding:5px 11px;box-shadow:var(--shadow-rest)}
+.pcard__fav{position:absolute;top:10px;right:10px;width:36px;height:36px;border-radius:50%;border:0;background:rgba(255,255,255,.92);cursor:pointer;display:grid;place-items:center;color:var(--muted);transition:color var(--t-fast),transform var(--t-fast)}
+.pcard__fav:hover{color:var(--slate);transform:scale(1.1)}
+.pcard__fav.on{color:#d8473f}
+.pcard__body{padding:17px 18px 20px;display:flex;flex-direction:column;flex:1}
+.pcard__brand{font-size:11.5px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);font-weight:600}
+.pcard__name{font-family:var(--serif);font-size:21px;font-weight:600;color:var(--ink);margin:3px 0 8px;line-height:1.1}
+.pcard__meta{font-size:12.5px;color:var(--muted);margin-bottom:14px}
+.pcard__meta .dot{margin:0 7px;opacity:.5}
+.pcard__foot{display:flex;align-items:center;justify-content:space-between;margin-top:auto;gap:10px}
+.pcard__price{font-size:15px;font-weight:600;color:var(--ink)}
+.pcard__price small{color:var(--muted);font-weight:400}
+.pcard__swatches{display:flex;gap:6px;margin-bottom:14px}
+.sw{width:17px;height:17px;border-radius:50%;border:1px solid rgba(0,0,0,.12)}
+.no-results{grid-column:1/-1;text-align:center;color:var(--muted);padding:50px 0;display:none}
+
+/* ============================================================ DEAL CAROUSEL */
+.deals{position:relative;overflow:hidden;background:var(--navy);padding:0}
+.deals__track{display:flex;transition:transform .6s var(--ease)}
+.deal{position:relative;flex:0 0 100%;min-width:100%;display:flex;align-items:center;overflow:hidden}
+.deal__photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:right center;z-index:0;filter:saturate(.92)}
+.deal__scrim{position:absolute;inset:0;z-index:1;pointer-events:none}
+.deal__inner{position:relative;z-index:2;width:100%;display:flex;align-items:center;min-height:340px;padding:62px 0}
+.deal__copy{max-width:50ch}
+.deal h3{font-family:var(--serif);font-weight:500;font-size:clamp(32px,5vw,56px);line-height:1.02;letter-spacing:-.01em;margin-bottom:14px}
+.deal p{font-size:17px;max-width:42ch;margin-bottom:26px}
+.deal--navy{background:linear-gradient(120deg,#22386b,#111f3a);color:#fff}
+.deal--navy h3{color:#fff}.deal--navy p{color:#c2cfe2}
+.deal--navy .deal__scrim{background:linear-gradient(90deg,#101d38 0%,rgba(16,29,56,.96) 30%,rgba(16,29,56,.6) 54%,rgba(16,29,56,.26) 78%,rgba(16,29,56,.22) 100%)}
+.deal--slate{background:linear-gradient(120deg,#5f8197,#3c5d72);color:#fff}
+.deal--slate h3{color:#fff}.deal--slate p{color:#e6eef3}
+.deal--slate .deal__scrim{background:linear-gradient(90deg,#365469 0%,rgba(54,84,105,.95) 30%,rgba(54,84,105,.55) 54%,rgba(54,84,105,.22) 78%,rgba(54,84,105,.18) 100%)}
+.deal--sand{background:linear-gradient(120deg,#f3ede1,#e7ddc9);color:var(--ink)}
+.deal--sand h3{color:var(--ink)}.deal--sand p{color:#6a6354}
+.deal--sand .eyebrow{color:var(--slate-deep)}.deal--sand .eyebrow::before{background:var(--slate-deep)}
+.deal--sand .deal__scrim{background:linear-gradient(90deg,#f3ede1 0%,rgba(243,237,225,.94) 28%,rgba(243,237,225,.5) 54%,rgba(243,237,225,.14) 80%,rgba(243,237,225,.1) 100%)}
+.deals__arrow{position:absolute;bottom:15px;z-index:3;width:42px;height:42px;border-radius:50%;
+  border:0;background:rgba(17,31,58,.42);-webkit-backdrop-filter:var(--glass);backdrop-filter:var(--glass);
+  color:#fff;cursor:pointer;display:grid;place-items:center;transition:background var(--t-fast)}
+.deals__arrow:hover{background:rgba(17,31,58,.72)}
+.deals__arrow svg{width:20px;height:20px}
+.deals__prev{right:70px}.deals__next{right:18px}
+.deals__dots{position:absolute;left:0;right:0;bottom:18px;z-index:3;display:flex;gap:9px;justify-content:center}
+.deals__dots button{width:9px;height:9px;border-radius:var(--r-pill);border:0;background:rgba(255,255,255,.5);box-shadow:0 0 0 1px rgba(0,0,0,.12);cursor:pointer;padding:0;transition:width var(--t-fast),background var(--t-fast)}
+.deals__dots button.active{width:26px;background:#fff}
+
+/* ============================================================ LENS EDUCATION (tabs) */
+.lens{display:grid;grid-template-columns:.9fr 1.3fr;gap:48px;align-items:start}
+.lens__tabs{display:flex;flex-direction:column;gap:8px}
+.lens__tab{
+  text-align:left;border:1px solid var(--line);background:#fff;border-radius:var(--r-card);
+  padding:18px 20px;cursor:pointer;display:flex;gap:15px;align-items:center;
+  transition:all var(--t-fast);
+}
+.lens__tab:hover{border-color:var(--slate)}
+.lens__tab.active{background:var(--navy);border-color:var(--navy)}
+.lens__tab .ic{width:40px;height:40px;border-radius:10px;background:var(--mist);display:grid;place-items:center;color:var(--navy);flex:0 0 auto}
+.lens__tab.active .ic{background:rgba(255,255,255,.14);color:#fff}
+.lens__tab .ic svg{width:22px;height:22px}
+.lens__tab .tt{display:block;font-weight:600;font-size:16px;color:var(--ink)}
+.lens__tab .ts{display:block;font-size:12.5px;color:var(--muted);margin-top:2px}
+.lens__tab.active .tt,.lens__tab.active .ts{color:#fff}
+.lens__tab.active .ts{color:#b9c6da}
+.lens__panel{display:none;background:#fff;border:1px solid var(--line);border-radius:var(--r-panel);overflow:hidden}
+.lens__panel.active{display:block;animation:fadeUp .5s var(--ease)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.lens__panel .hero-band{aspect-ratio:16/7;background:var(--grad-hero) center/cover no-repeat;position:relative}
+.lens__panel .hero-band::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(25,44,80,.10),rgba(25,44,80,.48))}
+.lens__panel .body{padding:28px 30px 30px}
+.lens__panel h3{font-family:var(--serif);font-size:30px;font-weight:600;margin-bottom:10px}
+.lens__panel p{color:var(--muted);font-size:16px}
+.lens__bullets{list-style:none;padding:0;margin:16px 0 22px;display:grid;gap:10px}
+.lens__bullets li{display:flex;gap:10px;align-items:flex-start;font-size:14.5px;color:var(--ink)}
+.lens__bullets svg{width:18px;height:18px;color:var(--slate);flex:0 0 auto;margin-top:2px}
+
+/* ============================================================ SCHEDULER (multi-step) */
+.sched{display:grid;grid-template-columns:1.55fr .9fr;gap:40px;align-items:start}
+.sched__card{background:#fff;border:1px solid var(--line);border-radius:var(--r-panel);box-shadow:var(--shadow-card);overflow:hidden}
+.sched__progress{display:flex;border-bottom:1px solid var(--line)}
+.sched__progress .pstep{flex:1;padding:16px 12px;text-align:center;font-size:12.5px;font-weight:600;color:var(--muted);position:relative;border-right:1px solid var(--line-2)}
+.sched__progress .pstep:last-child{border-right:0}
+.sched__progress .pstep .pn{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--mist);color:var(--muted);font-size:12px;margin-right:7px;transition:all var(--t-fast)}
+.sched__progress .pstep.active{color:var(--navy)}
+.sched__progress .pstep.active .pn{background:var(--navy);color:#fff}
+.sched__progress .pstep.done .pn{background:var(--slate);color:#fff}
+.sched__body{padding:30px}
+.sched__step{display:none}
+.sched__step.active{display:block;animation:fadeUp .45s var(--ease)}
+.sched__step h3{font-family:var(--serif);font-size:27px;font-weight:600;margin-bottom:6px}
+.sched__step .sub{color:var(--muted);font-size:14.5px;margin-bottom:22px}
+.field{margin-bottom:18px}
+.field label{display:block;font-size:13px;font-weight:600;color:var(--ink);margin-bottom:7px}
+.field input,.field select{
+  width:100%;border:1px solid var(--line);border-radius:10px;padding:13px 15px;font-size:16px;
+  color:var(--ink);background:#fff;font-family:inherit;
+}
+.field input:focus,.field select:focus{outline:none;border-color:var(--slate);box-shadow:0 0 0 3px rgba(85,123,146,.16)}
+.opt-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.opt{border:1px solid var(--line);border-radius:var(--r-card);padding:18px 16px;cursor:pointer;text-align:left;background:#fff;transition:all var(--t-fast)}
+.opt:hover{border-color:var(--slate)}
+.opt.sel{border-color:var(--navy);background:rgba(25,44,80,.04);box-shadow:inset 0 0 0 1px var(--navy)}
+.opt .ot{font-weight:600;color:var(--ink);font-size:15px}
+.opt .od{font-size:12.5px;color:var(--muted);margin-top:3px}
+.time-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:8px}
+.time{border:1px solid var(--line);background:#fff;border-radius:10px;padding:11px 8px;font-size:13.5px;font-weight:600;color:var(--ink);cursor:pointer;text-align:center;transition:all var(--t-fast)}
+.time:hover{border-color:var(--slate)}
+.time.sel{background:var(--navy);border-color:var(--navy);color:#fff}
+.sched__nav{display:flex;justify-content:space-between;gap:12px;margin-top:26px}
+.sched__success{display:none;text-align:center;padding:46px 30px}
+.sched__success.active{display:block;animation:fadeUp .5s var(--ease)}
+.sched__success .check{width:74px;height:74px;border-radius:50%;background:rgba(85,123,146,.12);color:var(--slate);display:grid;place-items:center;margin:0 auto 20px}
+.sched__success .check svg{width:38px;height:38px}
+.sched__success h3{font-family:var(--serif);font-size:32px;font-weight:600;margin-bottom:10px}
+.sched__success .recap{display:inline-block;text-align:left;background:var(--mist);border-radius:var(--r-card);padding:18px 22px;margin-top:16px;font-size:14px;color:var(--ink)}
+.sched__success .recap b{color:var(--navy)}
+/* trust rail */
+.sched__trust{position:sticky;top:96px;background:var(--navy);color:#fff;border-radius:var(--r-panel);padding:30px 28px}
+.sched__trust h3{font-family:var(--serif);color:#fff;font-size:26px;font-weight:600;margin-bottom:6px}
+.sched__trust > p{color:#aebcd0;font-size:14.5px}
+.trust-list{list-style:none;padding:0;margin:22px 0 0;display:grid;gap:18px}
+.trust-list li{display:flex;gap:14px;align-items:flex-start}
+.trust-list .ic{flex:0 0 auto;width:40px;height:40px;border-radius:11px;background:rgba(255,255,255,.1);display:grid;place-items:center;color:#bcd0e0}
+.trust-list .ic svg{width:21px;height:21px}
+.trust-list b{display:block;font-size:14.5px;color:#fff}
+.trust-list span{font-size:13px;color:#9fb0c6;line-height:1.45}
+
+/* ============================================================ PROOF */
+.proof{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+.quote{background:#fff;border:1px solid var(--line);border-radius:var(--r-panel);padding:30px 28px}
+.quote .stars{color:#e3a93c;letter-spacing:3px;font-size:16px;margin-bottom:14px}
+.quote p{font-family:var(--serif);font-size:21px;line-height:1.4;color:var(--ink);font-weight:500}
+.quote .by{display:flex;align-items:center;gap:12px;margin-top:18px}
+.quote .av{width:42px;height:42px;border-radius:50%;background:var(--grad-navy);color:#fff;display:grid;place-items:center;font-weight:700;font-size:15px}
+.quote .by b{font-size:14px;color:var(--ink);display:block}
+.quote .by span{font-size:12.5px;color:var(--muted)}
+.seenin{margin-top:54px;text-align:center}
+.seenin .lab{font-size:12px;text-transform:uppercase;letter-spacing:.16em;color:var(--muted);font-weight:600;margin-bottom:22px}
+.seenin .logos{display:flex;flex-wrap:wrap;gap:38px;justify-content:center;align-items:center}
+.seenin .logos span{font-family:var(--serif);font-size:23px;font-weight:600;color:var(--muted);opacity:.7;letter-spacing:.02em}
+
+/* ============================================================ FOOTER */
+.footer{background:var(--navy);color:#aebccf;padding:64px 0 28px}
+.footer__top{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr 1fr;gap:34px;padding-bottom:40px;border-bottom:1px solid rgba(255,255,255,.12)}
+.footer__brand .wordmark{color:#fff}
+.footer__brand .wordmark b{color:#9bbdd2}
+.footer__brand p{margin:14px 0 18px;font-size:14px;color:#9fb0c6;max-width:34ch}
+.footer__news{display:flex;gap:8px;max-width:330px}
+.footer__news input{flex:1;min-width:0;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);border-radius:var(--r-pill);padding:12px 18px;color:#fff;font-size:14px}
+.footer__news input::placeholder{color:#8ea1ba}
+.footer__news input:focus{outline:none;border-color:#9bbdd2}
+.footer__col h4{color:#fff;font-size:13px;text-transform:uppercase;letter-spacing:.1em;margin-bottom:16px;font-weight:600}
+.footer__col a{display:block;color:#9fb0c6;font-size:14px;padding:5px 0;transition:color var(--t-fast)}
+.footer__col a:hover{color:#fff}
+.footer__bottom{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-top:24px;font-size:13px;color:#8ea1ba}
+.footer__bottom .links{display:flex;gap:20px;flex-wrap:wrap}
+.footer__bottom a{color:#8ea1ba}.footer__bottom a:hover{color:#fff}
+
+/* ============================================================ MOBILE DRAWER */
+.drawer-backdrop{position:fixed;inset:0;background:rgba(14,22,40,.5);z-index:80;opacity:0;visibility:hidden;transition:opacity .3s}
+.drawer-backdrop.open{opacity:1;visibility:visible}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(86vw,360px);background:#fff;z-index:90;transform:translateX(100%);transition:transform .32s var(--ease);display:flex;flex-direction:column;padding:24px}
+.drawer.open{transform:none}
+.drawer__head{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px}
+.drawer__head .wordmark{font-size:22px}
+.drawer nav{display:flex;flex-direction:column;gap:2px}
+.drawer nav a{padding:14px 10px;border-radius:10px;color:var(--ink);font-size:17px;font-weight:500;border-bottom:1px solid var(--line-2)}
+.drawer nav a:hover{background:var(--mist)}
+.drawer .btn{margin-top:22px}
+
+/* ============================================================ REVEAL (TOP-12 #4) */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+.reveal.in-view{opacity:1;transform:none}
+
+/* ============================================================ RESPONSIVE */
+@media(max-width:1080px){
+  .footer__top{grid-template-columns:1fr 1fr 1fr;gap:28px}
+  .footer__brand{grid-column:1/-1}
+}
+@media(max-width:960px){
+  .products{grid-template-columns:repeat(3,1fr)}
+  .lens,.sched{grid-template-columns:1fr;gap:34px}
+  .deal__inner{flex-direction:column;text-align:center;min-height:0;padding:48px 0}
+  .deal__copy{max-width:none;margin:0 auto}
+  .deal p{margin-left:auto;margin-right:auto}
+  .deal .eyebrow{justify-content:center}
+  .deal__photo{opacity:.26}
+  .deal__scrim{display:none}
+  .sched__trust{position:static}
+  .lens__tabs{flex-direction:row;overflow-x:auto;gap:10px}
+  .lens__tab{flex:0 0 auto;min-width:200px}
+  .proof{grid-template-columns:1fr}
+}
+@media(max-width:760px){
+  .mainnav{display:none}
+  .hamburger{display:grid}
+  .hbar{height:64px;gap:10px}
+  .icon-search,.icon-account{display:none}
+  .stats{grid-template-columns:repeat(2,1fr);gap:30px 16px}
+  .shapes{grid-template-columns:repeat(3,1fr)}
+  .products{grid-template-columns:repeat(2,1fr);gap:16px}
+  .pcard__foot{flex-direction:column;align-items:stretch;gap:10px}
+  .pcard__foot .btn{width:100%}
+  .pcard__name{font-size:19px}
+  .pcard__fav{width:40px;height:40px}
+  .lens__tabs{display:grid;grid-template-columns:1fr 1fr;overflow:visible;gap:8px}
+  .lens__tab{min-width:0;flex:none;padding:14px 12px;gap:10px}
+  .lens__tab .ic{width:34px;height:34px}
+  .lens__tab .ic svg{width:19px;height:19px}
+  .lens__tab .tt{font-size:14.5px}
+  .footer__top{grid-template-columns:1fr 1fr;gap:24px 20px}
+  .hero__strip{margin-top:26px}
+  .hs-panel{grid-template-columns:1fr 1fr}
+  .hs-cell+.hs-cell{border-left:none}
+  .hs-cell:nth-child(even){border-left:1px solid rgba(255,255,255,.08)}
+  .hs-cell:nth-child(n+3){border-top:1px solid rgba(255,255,255,.08)}
+  .hs-cell{padding:15px 16px}
+  .opt-grid{grid-template-columns:1fr}
+  .time-grid{grid-template-columns:repeat(3,1fr)}
+  .proof{grid-template-columns:1fr}
+  .filter-toggle{display:inline-flex}
+  .shop-toolbar .filter-group{display:none;width:100%}
+  .shop-toolbar.open .filter-group{display:flex}
+  .shop-count{display:none}
+  .hero__cta{flex-direction:column;align-items:stretch}
+  .hero__cta .btn{width:100%}
+  .quickbook__form{margin-left:0;flex-direction:column}
+  .quickbook__form input{flex:none;width:100%}
+  .quickbook__form .btn{width:100%}
+  .quickbook__t small{display:none}
+}
+@media(max-width:440px){
+  .shapes{grid-template-columns:repeat(2,1fr)}
+  .seenin .logos{gap:22px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  .reveal{opacity:1!important;transform:none!important}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== ANNOUNCEMENT ===== -->
+<div class="announce">
+  Free 2-day delivery on frames <span class="sep">·</span> Most insurance accepted in-store <span class="sep">·</span> <a href="#scheduler">Book an eye exam today</a>
+</div>
+
+<!-- ===== HEADER ===== -->
+<header class="site-header" id="siteHeader">
+  <div class="wrap">
+    <div class="hbar">
+      <a class="wordmark" href="#top" aria-label="Spectacles home">Spec<b>tacles</b></a>
+      <nav class="mainnav" aria-label="Primary">
+        <a href="#shop">Eyeglasses</a>
+        <a href="#shop">Sunglasses</a>
+        <a href="#lenses">Lens Tech</a>
+        <a href="#deals">Offers</a>
+        <a href="#scheduler">Eye Exam</a>
+        <a href="#footer">Visit Us</a>
+      </nav>
+      <div class="hicons">
+        <button class="icon-btn icon-search" aria-label="Search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></svg>
+        </button>
+        <button class="icon-btn icon-account" aria-label="Account">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="8" r="4"/><path d="M5 21a7 7 0 0 1 14 0"/></svg>
+        </button>
+        <a class="btn sm" href="#scheduler" style="margin-left:6px">Book Exam</a>
+        <button class="icon-btn hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<a id="top"></a>
+
+<!-- ===== HERO (v-bleed) ===== -->
+<section class="hero hero-wrapper" aria-label="Spectacles eyewear">
+  <div class="hero__bg" aria-hidden="true">
+    <img src="../_shared-img/spectacles-img01.webp" alt="" class="hero__photo" loading="eager" decoding="async">
+  </div>
+  <div class="hero__scrim" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="hero__inner reveal">
+      <span class="eyebrow on-dark">SS26 · New Arrivals</span>
+      <h1>See the season in <em>sharper</em> focus.</h1>
+      <p class="lede">Designer frames, prescription-ready and fitted by certified opticians. Browse the new collection, try them on, then book your exam in person.</p>
+      <div class="hero__cta">
+        <a class="btn on-photo" href="#shop">Shop the frames</a>
+        <a class="btn on-photo-ghost" href="#scheduler">Schedule an eye exam</a>
+      </div>
+    </div>
+  </div>
+  <div class="hero__strip" aria-label="Why Spectacles">
+    <div class="wrap">
+      <div class="hs-panel">
+      <div class="hs-cell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6Z"/><path d="m9 12 2 2 4-4"/></svg><div><b>30-day guarantee</b><span>Love them or exchange</span></div></div>
+      <div class="hs-cell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M20 7H4a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2Z"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg><div><b>Insurance accepted</b><span>Most plans, online &amp; in store</span></div></div>
+      <div class="hs-cell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="m16 8 4-2v8l-4-2"/></svg><div><b>2-day delivery</b><span>Get your eyeglasses faster</span></div></div>
+      <div class="hs-cell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 9.5 12 4l9 5.5"/><path d="M5 11v8h14v-8"/><path d="M9 19v-5h6v5"/></svg><div><b>In-store expertise</b><span>Book online, fitted in person</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== QUICK-BOOK BAR ===== -->
+<div class="wrap">
+  <div class="quickbook reveal">
+    <div class="quickbook__card">
+      <div class="quickbook__t">Book an eye exam<small>For you &amp; your family</small></div>
+      <form class="quickbook__form" onsubmit="goScheduler(event)">
+        <input type="text" placeholder="Pick a date that works for you" aria-label="Preferred date">
+        <button class="btn slate" type="submit">Schedule</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CREDENTIAL STATS ===== -->
+<section aria-label="By the numbers">
+  <div class="wrap">
+    <div class="stats" id="statsBand">
+      <div class="stat reveal"><div class="num"><span class="counter" data-to="12000">0</span><span class="suf">+</span></div><div class="lab">Eye exams a year</div></div>
+      <div class="stat reveal"><div class="num"><span class="counter" data-to="1200">0</span><span class="suf">+</span></div><div class="lab">Optician training hours</div></div>
+      <div class="stat reveal"><div class="num"><span class="counter" data-to="30">0</span><span class="suf">-day</span></div><div class="lab">Perfect-fit guarantee</div></div>
+      <div class="stat reveal"><div class="num"><span class="counter" data-to="500">0</span><span class="suf">+</span></div><div class="lab">Designer styles in stock</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SHOP BY SHAPE ===== -->
+<section class="band-mist" aria-label="Shop by shape">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <span class="eyebrow" style="justify-content:center">Find your fit</span>
+      <h2>Shop by frame shape</h2>
+      <p>Not sure where to start? Pick a silhouette — we'll filter the collection for you.</p>
+    </div>
+    <div class="shapes reveal" id="shapeRow">
+      <button class="shape" data-shape="round"><span class="shape__img"><img src="../_shared-img/spectacles-img02.webp" alt="Person wearing round frames" loading="lazy" style="object-position:center" decoding="async"></span><span class="nm">Round</span></button>
+      <button class="shape" data-shape="square"><span class="shape__img"><img src="../_shared-img/spectacles-img03.webp" alt="Person wearing square frames" loading="lazy" style="object-position:center" decoding="async"></span><span class="nm">Square</span></button>
+      <button class="shape" data-shape="cat-eye"><span class="shape__img"><img src="../_shared-img/spectacles-img04.webp" alt="Person wearing cat-eye frames" loading="lazy" style="object-position:center" decoding="async"></span><span class="nm">Cat-eye</span></button>
+      <button class="shape" data-shape="rectangle"><span class="shape__img"><img src="../_shared-img/spectacles-img05.webp" alt="Person wearing rectangle frames" loading="lazy" style="object-position:center" decoding="async"></span><span class="nm">Rectangle</span></button>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SHOP / PRODUCT GRID + FILTER ===== -->
+<section id="shop" aria-label="Shop frames">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">The collection</span>
+      <h2>Shop the frames</h2>
+      <p>Filter by shape, material and house label. Every pair is prescription-ready — choose one to customize and fit at your in-person appointment.</p>
+    </div>
+
+    <div class="shop-toolbar reveal" id="shopToolbar">
+      <button class="chip filter-toggle" id="filterToggle" aria-expanded="false">⚲ Filters</button>
+      <div class="filter-group" data-facet="shape">
+        <span class="filter-label">Shape</span>
+        <button class="chip active" data-shape="all">All</button>
+        <button class="chip" data-shape="round">Round</button>
+        <button class="chip" data-shape="square">Square</button>
+        <button class="chip" data-shape="rectangle">Rectangle</button>
+        <button class="chip" data-shape="cat-eye">Cat-eye</button>
+      </div>
+      <span class="shop-count" id="shopCount"></span>
+    </div>
+    <div class="shop-toolbar reveal" style="margin-top:-14px">
+      <div class="filter-group" data-facet="material">
+        <span class="filter-label">Material</span>
+        <button class="chip active" data-material="all">All</button>
+        <button class="chip" data-material="acetate">Acetate</button>
+        <button class="chip" data-material="metal">Metal</button>
+      </div>
+    </div>
+
+    <div class="products" id="productGrid"><!-- cards injected by JS --></div>
+    <p class="no-results" id="noResults">No frames match those filters. <button class="chip" onclick="resetFilters()">Reset filters</button></p>
+
+    <div style="text-align:center;margin-top:46px" class="reveal">
+      <a class="btn ghost" href="#shop">Load more frames</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== DEAL BANNERS (full-bleed carousel) ===== -->
+<section id="deals" class="deals" aria-label="Current offers" aria-roledescription="carousel">
+  <div class="deals__track" id="dealsTrack">
+
+    <div class="deal deal--navy" role="group" aria-roledescription="slide" aria-label="1 of 3">
+      <img class="deal__photo" src="../_shared-img/spectacles-img06.webp" alt="" aria-hidden="true" loading="lazy" decoding="async">
+      <div class="deal__scrim" aria-hidden="true"></div>
+      <div class="wrap deal__inner">
+        <div class="deal__copy">
+          <span class="eyebrow on-dark">Limited-time offer</span>
+          <h3>50% off lenses<br>with any frame</h3>
+          <p>Add premium prescription lenses to any pair this season — at half the price.</p>
+          <a class="btn on-photo" href="#shop">Shop frames</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="deal deal--sand" role="group" aria-roledescription="slide" aria-label="2 of 3">
+      <img class="deal__photo" src="../_shared-img/spectacles-img07.webp" alt="" aria-hidden="true" loading="lazy" decoding="async">
+      <div class="deal__scrim" aria-hidden="true"></div>
+      <div class="wrap deal__inner">
+        <div class="deal__copy">
+          <span class="eyebrow">Sunglasses event</span>
+          <h3>Buy one, gift one</h3>
+          <p>Two-for-one on every pair of designer sunglasses — one for you, one to give.</p>
+          <a class="btn" href="#shop">Shop sunglasses</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="deal deal--slate" role="group" aria-roledescription="slide" aria-label="3 of 3">
+      <img class="deal__photo" src="../_shared-img/spectacles-img08.webp" alt="" aria-hidden="true" loading="lazy" decoding="async">
+      <div class="deal__scrim" aria-hidden="true"></div>
+      <div class="wrap deal__inner">
+        <div class="deal__copy">
+          <span class="eyebrow on-dark">This month only</span>
+          <h3>Free blue-light upgrade</h3>
+          <p>Add a blue-light filter to any prescription, on the house — book your exam to claim it.</p>
+          <a class="btn on-photo" href="#scheduler">Book an exam</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <button class="deals__arrow deals__prev" id="dealsPrev" aria-label="Previous offer">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 6l-6 6 6 6"/></svg>
+  </button>
+  <button class="deals__arrow deals__next" id="dealsNext" aria-label="Next offer">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+  </button>
+  <div class="deals__dots" id="dealsDots" role="tablist" aria-label="Choose offer"></div>
+</section>
+
+<!-- ===== LENS EDUCATION ===== -->
+<section id="lenses" aria-label="Lens technology">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Lens education</span>
+      <h2>The right lens does the heavy lifting.</h2>
+      <p>Every prescription is built on a lens. Here's what each upgrade actually does — explained plainly, recommended honestly at your exam.</p>
+    </div>
+    <div class="lens">
+      <div class="lens__tabs reveal" id="lensTabs">
+        <button class="lens__tab active" data-lens="blue">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span>
+          <span><span class="tt">Blue-light</span><span class="ts">Screen comfort</span></span>
+        </button>
+        <button class="lens__tab" data-lens="transitions">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="5"/><path d="M12 1v3M12 20v3M4.2 4.2l2 2M17.8 17.8l2 2M1 12h3M20 12h3M4.2 19.8l2-2M17.8 6.2l2-2"/></svg></span>
+          <span><span class="tt">Transitions®</span><span class="ts">Adapts to light</span></span>
+        </button>
+        <button class="lens__tab" data-lens="antiglare">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7Z"/><path d="m9 12 2 2 4-4"/></svg></span>
+          <span><span class="tt">Anti-glare</span><span class="ts">Clarity &amp; night driving</span></span>
+        </button>
+        <button class="lens__tab" data-lens="progressive">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 6h18M5 12h14M8 18h8"/></svg></span>
+          <span><span class="tt">Progressive</span><span class="ts">Near to far, seamlessly</span></span>
+        </button>
+      </div>
+      <div class="lens__panels reveal">
+        <article class="lens__panel active" data-lens="blue">
+          <div class="hero-band" style="background-image:url('../_shared-img/spectacles-img09.webp')"></div>
+          <div class="body">
+            <h3>Blue-light filtering</h3>
+            <p>A lens coating that reduces the high-energy blue light from screens and LED lighting — the kind associated with digital eye strain after long days.</p>
+            <ul class="lens__bullets">
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 4 4 10-10"/></svg>Eases tired, dry eyes during screen-heavy days</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 4 4 10-10"/></svg>Can support more comfortable evenings before sleep</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 4 4 10-10"/></svg>Adds to any prescription, clear or tinted</li>
+            </ul>
+            <a class="link-arrow" href="#scheduler">Ask about it at your exam <span class="ar">→</span></a>
+          </div>
+        </article>
+        <article class="lens__panel" data-lens="transitions">
+          <div class="hero-band" style="background-image:url('../_shared-img/spectacles-img10.webp')"></div>
+          <div class="body">
+            <h3>Transitions® adaptive</h3>
+            <p>One lens that's clear indoors and darkens automatically in sunlight — so a single pair handles your whole day without swapping to sunglasses.</p>
+            <ul class="lens__bullets">
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 4 4 10-10"/></svg>Clear inside, tinted outside — fully automatic</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 4 4 10-10"/></svg>Blocks 100% of UVA &amp; UVB rays</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 4 4 10-10"/></svg>Available in multiple tint colors</li>
+            </ul>
+            <a class="link-arrow" href="#scheduler">Ask about it at your exam <span class="ar">→</span></a>
+          </div>
+        </article>
+        <article class="lens__panel" data-lens="antiglare">
+          <div class="hero-band" style="background-image:url('../_shared-img/spectacles-img11.webp')"></div>
+          <div class="body">
+            <h3>Anti-glare (anti-reflective)</h3>
+            <p>A near-invisible coating that cuts reflections off the lens surface — sharper vision, less halo around headlights, and clearer eye contact on camera.</p>
+            <ul class="lens__bullets">
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 4 4 10-10"/></svg>Reduces glare for night driving</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 4 4 10-10"/></svg>Smudge- &amp; scratch-resistant top layer</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 4 4 10-10"/></svg>Your eyes show clearly on video calls</li>
+            </ul>
+            <a class="link-arrow" href="#scheduler">Ask about it at your exam <span class="ar">→</span></a>
+          </div>
+        </article>
+        <article class="lens__panel" data-lens="progressive">
+          <div class="hero-band" style="background-image:url('../_shared-img/spectacles-img12.webp')"></div>
+          <div class="body">
+            <h3>Progressive lenses</h3>
+            <p>Near, intermediate, and distance vision in one seamless lens — no visible line, no swapping readers. The modern replacement for bifocals.</p>
+            <ul class="lens__bullets">
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 4 4 10-10"/></svg>One pair for reading, screens &amp; distance</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 4 4 10-10"/></svg>No visible line across the lens</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 4 4 10-10"/></svg>Custom-fitted to your frame &amp; eyes</li>
+            </ul>
+            <a class="link-arrow" href="#scheduler">Ask about it at your exam <span class="ar">→</span></a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SCHEDULER ===== -->
+<section id="scheduler" class="band-mist" aria-label="Book an appointment">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Book in person</span>
+      <h2>Schedule your visit</h2>
+      <p>Frames and lenses are customized and fitted in person. Pick a service and time — it takes about a minute.</p>
+    </div>
+    <div class="sched">
+      <div class="sched__card reveal">
+        <div class="sched__progress" id="schedProgress">
+          <div class="pstep active" data-step="1"><span class="pn">1</span>Location</div>
+          <div class="pstep" data-step="2"><span class="pn">2</span>Service</div>
+          <div class="pstep" data-step="3"><span class="pn">3</span>Date &amp; time</div>
+          <div class="pstep" data-step="4"><span class="pn">4</span>Details</div>
+        </div>
+        <div class="sched__body">
+          <!-- step 1 -->
+          <div class="sched__step active" data-step="1">
+            <h3>Confirm your studio</h3>
+            <p class="sub">We're a single flagship studio in Midtown — here's where to find us.</p>
+            <button class="opt sel" style="width:100%" data-pick="store" data-group="store">
+              <div class="ot">Spectacles — Bryant Park Studio</div>
+              <div class="od">1071 Avenue of the Americas, New York · Open today till 8pm</div>
+            </button>
+            <div class="sched__nav">
+              <span></span>
+              <button class="btn" data-next>Continue</button>
+            </div>
+          </div>
+          <!-- step 2 -->
+          <div class="sched__step" data-step="2">
+            <h3>What can we help with?</h3>
+            <p class="sub">Choose the visit that fits — you can add to it in store.</p>
+            <div class="opt-grid">
+              <button class="opt" data-pick="service" data-group="service" data-value="Comprehensive eye exam"><div class="ot">Eye exam</div><div class="od">Full vision &amp; health check, ~30 min</div></button>
+              <button class="opt" data-pick="service" data-group="service" data-value="Contact-lens fitting"><div class="ot">Contact-lens fitting</div><div class="od">Sizing &amp; trial lenses</div></button>
+              <button class="opt" data-pick="service" data-group="service" data-value="Frame styling &amp; fitting"><div class="ot">Frame styling</div><div class="od">Customize the pair you saved</div></button>
+            </div>
+            <div class="sched__nav">
+              <button class="btn ghost" data-back>Back</button>
+              <button class="btn" data-next>Continue</button>
+            </div>
+          </div>
+          <!-- step 3 -->
+          <div class="sched__step" data-step="3">
+            <h3>Pick a date &amp; time</h3>
+            <p class="sub">Same-day appointments are often available.</p>
+            <div class="field">
+              <label for="schDate">Preferred date</label>
+              <input type="date" id="schDate">
+            </div>
+            <label style="display:block;font-size:13px;font-weight:600;color:var(--ink);margin-bottom:7px">Available times</label>
+            <div class="time-grid" id="timeGrid">
+              <button class="time" data-value="9:00 AM">9:00</button>
+              <button class="time" data-value="10:30 AM">10:30</button>
+              <button class="time" data-value="12:00 PM">12:00</button>
+              <button class="time" data-value="1:30 PM">1:30</button>
+              <button class="time" data-value="3:00 PM">3:00</button>
+              <button class="time" data-value="4:30 PM">4:30</button>
+              <button class="time" data-value="6:00 PM">6:00</button>
+              <button class="time" data-value="7:30 PM">7:30</button>
+            </div>
+            <div class="sched__nav">
+              <button class="btn ghost" data-back>Back</button>
+              <button class="btn" data-next>Continue</button>
+            </div>
+          </div>
+          <!-- step 4 -->
+          <div class="sched__step" data-step="4">
+            <h3>Almost done — your details</h3>
+            <p class="sub">We'll send a confirmation and a reminder.</p>
+            <div class="field"><label for="schName">Full name</label><input type="text" id="schName" placeholder="Alex Morgan"></div>
+            <div class="field"><label for="schEmail">Email</label><input type="email" id="schEmail" placeholder="you@email.com"></div>
+            <div class="field"><label for="schPhone">Mobile</label><input type="tel" id="schPhone" placeholder="(555) 012-3456"></div>
+            <div class="sched__nav">
+              <button class="btn ghost" data-back>Back</button>
+              <button class="btn slate" data-confirm>Confirm appointment</button>
+            </div>
+          </div>
+          <!-- success -->
+          <div class="sched__success" id="schedSuccess">
+            <div class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m4 12 5 5L20 6"/></svg></div>
+            <h3>You're booked.</h3>
+            <p class="sub" style="margin-bottom:0">A confirmation is on its way. We can't wait to see you.</p>
+            <div class="recap" id="schedRecap"></div>
+          </div>
+        </div>
+      </div>
+      <!-- trust rail -->
+      <aside class="sched__trust reveal">
+        <h3>Care you can trust</h3>
+        <p>Booking an exam is free and there's no obligation to buy.</p>
+        <ul class="trust-list">
+          <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1Z"/></svg></span><div><b>Certified optometrists</b><span>Independent doctors of optometry on site</span></div></li>
+          <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 22V4a2 2 0 0 1 2-2h7l5 5v15"/><path d="M14 2v5h5M9 13h6M9 17h6"/></svg></span><div><b>Bring your insurance</b><span>Most vision plans accepted in store</span></div></li>
+          <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><div><b>Same-day appointments</b><span>Often available — even tonight</span></div></li>
+          <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M20 6 9 17l-5-5"/></svg></span><div><b>30-day perfect-fit guarantee</b><span>Love your frames or we'll make it right</span></div></li>
+        </ul>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PROOF ===== -->
+<section aria-label="What customers say">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <span class="eyebrow" style="justify-content:center">Loved by patients</span>
+      <h2>Clear vision, beautifully styled.</h2>
+    </div>
+    <div class="proof">
+      <figure class="quote reveal" style="margin:0">
+        <div class="stars">★★★★★</div>
+        <p>"I browsed the collection online, booked a fitting, and walked out an hour later seeing perfectly. Fastest, most stylish exam I've ever had."</p>
+        <figcaption class="by"><span class="av">JR</span><span><b>Jordan R.</b><span>New York, NY</span></span></figcaption>
+      </figure>
+      <figure class="quote reveal" style="margin:0">
+        <div class="stars">★★★★★</div>
+        <p>"My optician walked me through every lens option without any pressure. Walked out understanding my prescription for the first time."</p>
+        <figcaption class="by"><span class="av">PA</span><span><b>Priya A.</b><span>Booked a frame fitting</span></span></figcaption>
+      </figure>
+      <figure class="quote reveal" style="margin:0">
+        <div class="stars">★★★★★</div>
+        <p>"Booked an exam at 5pm, picked frames by 6, and my glasses shipped in two days. The whole thing felt premium but easy."</p>
+        <figcaption class="by"><span class="av">MK</span><span><b>Marcus K.</b><span>Progressive lenses</span></span></figcaption>
+      </figure>
+    </div>
+    <div class="seenin reveal">
+      <div class="lab">As featured in</div>
+      <div class="logos">
+        <span>VOGUE</span><span>GQ</span><span>Esquire</span><span>WIRED</span><span>Elle</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer" id="footer">
+  <div class="wrap">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <span class="wordmark" style="font-size:28px">Spec<b>tacles</b></span>
+        <p>Designer eyewear, expert eye care, and a perfect fit — online and at your local studio.</p>
+        <form class="footer__news" onsubmit="event.preventDefault();this.reset();alert('Thanks — you are subscribed (demo).')">
+          <input type="email" placeholder="Email for new arrivals" aria-label="Email">
+          <button class="btn slate sm" type="submit">Join</button>
+        </form>
+      </div>
+      <div class="footer__col"><h4>Shop</h4><a href="#shop">Eyeglasses</a><a href="#shop">Sunglasses</a><a href="#shop">New arrivals</a><a href="#deals">Today's offers</a></div>
+      <div class="footer__col"><h4>Care</h4><a href="#scheduler">Book an eye exam</a><a href="#lenses">Lens technology</a><a href="#scheduler">Contact lenses</a><a href="#scheduler">Insurance</a></div>
+      <div class="footer__col"><h4>Company</h4><a href="#top">About Spectacles</a><a href="#footer">Visit us</a><a href="#footer">Careers</a><a href="#footer">Press</a></div>
+      <div class="footer__col"><h4>Support</h4><a href="#footer">Contact us</a><a href="#footer">Shipping &amp; returns</a><a href="#footer">FAQs</a><a href="#footer">Track order</a></div>
+    </div>
+    <div class="footer__bottom">
+      <span>© 2026 Spectacles. A concept remake — not affiliated with LensCrafters.</span>
+      <span class="links"><a href="#footer">Privacy</a><a href="#footer">Terms</a><a href="#footer">Accessibility</a><a href="#footer">Do not sell my info</a></span>
+    </div>
+  </div>
+</footer>
+
+<!-- ===== MOBILE DRAWER ===== -->
+<div class="drawer-backdrop" id="drawerBackdrop"></div>
+<aside class="drawer" id="drawer" aria-label="Mobile menu">
+  <div class="drawer__head">
+    <span class="wordmark">Spec<b>tacles</b></span>
+    <button class="icon-btn" id="drawerClose" aria-label="Close menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+  </div>
+  <nav>
+    <a href="#shop" data-drawer-link>Eyeglasses</a>
+    <a href="#shop" data-drawer-link>Sunglasses</a>
+    <a href="#lenses" data-drawer-link>Lens Tech</a>
+    <a href="#deals" data-drawer-link>Offers</a>
+    <a href="#scheduler" data-drawer-link>Eye Exam</a>
+    <a href="#footer" data-drawer-link>Visit Us</a>
+  </nav>
+  <a class="btn full" href="#scheduler" data-drawer-link>Book an eye exam</a>
+</aside>
+
+<script>
+(function(){
+  "use strict";
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---------- product catalog ---------- */
+  var FRAMES = [
+    {n:"Sterling",b:"Meridian",     shape:"rectangle", mat:"acetate", price:165, tag:"Bestseller",sw:["#1c1c22","#3a3f47","#1b2a4a"], img:"../_shared-img/spectacles-img13.webp"},
+    {n:"Quincy",  b:"Atelier No.9", shape:"square",    mat:"acetate", price:152, tag:"New",       sw:["#22252b","#3a553f","#7a4b2e"], img:"../_shared-img/spectacles-img14.webp"},
+    {n:"Lumen",   b:"Maison Vue",   shape:"round",     mat:"metal",   price:198, tag:"",          sw:["#caa64e","#9aa3ad","#2a2d33"], img:"../_shared-img/spectacles-img15.webp"},
+    {n:"Halo",    b:"Maison Vue",   shape:"round",     mat:"metal",   price:176, tag:"",          sw:["#caa46a","#c9b79c","#7d5a2e"], img:"../_shared-img/spectacles-img16.webp"},
+    {n:"Wren",    b:"Atelier No.9", shape:"square",    mat:"acetate", price:158, tag:"",          sw:["#cdd3da","#9aa3ad","#22252b"], img:"../_shared-img/spectacles-img17.webp"},
+    {n:"Margaux", b:"Maison Vue",   shape:"cat-eye",   mat:"acetate", price:169, tag:"New",       sw:["#1c1c22","#86323e","#caa46a"], img:"../_shared-img/spectacles-img18.webp"},
+    {n:"Brooks",  b:"Meridian",     shape:"rectangle", mat:"acetate", price:148, tag:"",          sw:["#5a4632","#7a4b2e","#1c1c22"], img:"../_shared-img/spectacles-img19.webp"},
+    {n:"Atlas",   b:"Field & Co",   shape:"square",    mat:"acetate", price:162, tag:"Premium",   sw:["#7a4b2e","#caa46a","#1c1c22"], img:"../_shared-img/spectacles-img20.webp"}
+  ];
+
+  var grid = document.getElementById("productGrid");
+  function swatchDots(arr){ return '<div class="pcard__swatches">'+arr.map(function(c){return '<span class="sw" style="background:'+c+'"></span>';}).join("")+'</div>'; }
+  function cardHTML(f){
+    var matLabel = f.mat.charAt(0).toUpperCase()+f.mat.slice(1);
+    var shapeLabel = f.shape.replace("-"," ");
+    return '<article class="pcard" data-shape="'+f.shape+'" data-material="'+f.mat+'">'
+      + '<div class="pcard__media">'
+      +   (f.tag?'<span class="pcard__tag">'+f.tag+'</span>':'')
+      +   '<button class="pcard__fav" aria-label="Save"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 21s-7-4.6-9.5-9A5 5 0 0 1 12 6a5 5 0 0 1 9.5 6c-2.5 4.4-9.5 9-9.5 9Z"/></svg></button>'
+      +   '<img src="'+f.img+'" alt="'+f.n+' '+shapeLabel+' frames" loading="lazy" decoding="async">'
+      + '</div>'
+      + '<div class="pcard__body">'
+      +   '<div class="pcard__brand">'+f.b+'</div>'
+      +   '<div class="pcard__name">'+f.n+'</div>'
+      +   '<div class="pcard__meta">'+shapeLabel+'<span class="dot">·</span>'+matLabel+'</div>'
+      +   swatchDots(f.sw)
+      +   '<div class="pcard__foot"><span class="pcard__price">$'+f.price+' <small>+ lenses</small></span>'
+      +     '<a class="btn slate sm" href="#scheduler">Book to customize</a></div>'
+      + '</div></article>';
+  }
+  if(grid){ grid.innerHTML = FRAMES.map(cardHTML).join(""); }
+
+  /* favorite toggles */
+  document.addEventListener("click", function(e){
+    var fav = e.target.closest && e.target.closest(".pcard__fav");
+    if(fav){ fav.classList.toggle("on"); }
+  });
+
+  /* ---------- filtering ---------- */
+  var state = {shape:"all", material:"all"};
+  var countEl = document.getElementById("shopCount");
+  function applyFilters(){
+    var cards = grid ? grid.querySelectorAll(".pcard") : [];
+    var visible = 0;
+    cards.forEach(function(c){
+      var ok = (state.shape==="all"||c.getAttribute("data-shape")===state.shape)
+            && (state.material==="all"||c.getAttribute("data-material")===state.material);
+      c.style.display = ok ? "" : "none";
+      if(ok) visible++;
+    });
+    if(countEl) countEl.innerHTML = "<b>"+visible+"</b> "+(visible===1?"frame":"frames");
+    var nr = document.getElementById("noResults");
+    if(nr) nr.style.display = visible===0 ? "block" : "none";
+  }
+  document.querySelectorAll('.filter-group').forEach(function(group){
+    var facet = group.getAttribute("data-facet");
+    group.querySelectorAll(".chip").forEach(function(chip){
+      chip.addEventListener("click", function(){
+        group.querySelectorAll(".chip").forEach(function(c){c.classList.remove("active");});
+        chip.classList.add("active");
+        state[facet] = chip.getAttribute("data-"+facet);
+        applyFilters();
+      });
+    });
+  });
+  /* shape quick-row scrolls to shop + sets filter */
+  document.querySelectorAll('#shapeRow .shape').forEach(function(s){
+    s.addEventListener("click", function(){
+      var shape = s.getAttribute("data-shape");
+      var group = document.querySelector('.filter-group[data-facet="shape"]');
+      var chip = group.querySelector('.chip[data-shape="'+shape+'"]');
+      if(chip) chip.click();
+      document.getElementById("shop").scrollIntoView({behavior:reduce?"auto":"smooth"});
+    });
+  });
+  window.resetFilters = function(){
+    state = {shape:"all",material:"all"};
+    document.querySelectorAll('.filter-group').forEach(function(group){
+      group.querySelectorAll(".chip").forEach(function(c,i){ c.classList.toggle("active", i===0); });
+    });
+    applyFilters();
+  };
+  applyFilters();
+
+  /* mobile filter toggle — reveals BOTH the shape and material rows */
+  var fT = document.getElementById("filterToggle"), tb = document.getElementById("shopToolbar");
+  if(fT) fT.addEventListener("click", function(){
+    var open = !tb.classList.contains("open");
+    document.querySelectorAll(".shop-toolbar").forEach(function(t){ t.classList.toggle("open", open); });
+    fT.setAttribute("aria-expanded", open?"true":"false");
+  });
+
+  /* ---------- deal carousel ---------- */
+  (function(){
+    var track=document.getElementById("dealsTrack");
+    if(!track) return;
+    var slides=[].slice.call(track.children), n=slides.length;
+    var dotsWrap=document.getElementById("dealsDots");
+    var sec=document.getElementById("deals");
+    var idx=0, timer=null;
+    slides.forEach(function(s,k){
+      var d=document.createElement("button");
+      d.setAttribute("role","tab"); d.setAttribute("aria-label","Offer "+(k+1));
+      d.addEventListener("click", function(){ go(k); });
+      dotsWrap.appendChild(d);
+    });
+    var dots=[].slice.call(dotsWrap.children);
+    function render(){
+      track.style.transform="translateX("+(-idx*100)+"%)";
+      dots.forEach(function(d,k){ d.classList.toggle("active", k===idx); d.setAttribute("aria-selected", k===idx?"true":"false"); });
+    }
+    function go(x){ idx=(x+n)%n; render(); restart(); }
+    function restart(){ if(reduce) return; clearInterval(timer); timer=setInterval(function(){ go(idx+1); }, 5500); }
+    document.getElementById("dealsNext").addEventListener("click", function(){ go(idx+1); });
+    document.getElementById("dealsPrev").addEventListener("click", function(){ go(idx-1); });
+    sec.addEventListener("mouseenter", function(){ clearInterval(timer); });
+    sec.addEventListener("mouseleave", restart);
+    render(); restart();
+  })();
+
+  /* ---------- lens tabs ---------- */
+  var lensTabs = document.querySelectorAll("#lensTabs .lens__tab");
+  var lensPanels = document.querySelectorAll(".lens__panel");
+  lensTabs.forEach(function(tab){
+    tab.addEventListener("click", function(){
+      var key = tab.getAttribute("data-lens");
+      lensTabs.forEach(function(t){t.classList.toggle("active", t===tab);});
+      lensPanels.forEach(function(p){p.classList.toggle("active", p.getAttribute("data-lens")===key);});
+    });
+  });
+
+  /* ---------- scheduler ---------- */
+  var sched = {step:1, store:"Spectacles — Bryant Park Studio", service:"", date:"", time:""};
+  var steps = document.querySelectorAll(".sched__step");
+  var psteps = document.querySelectorAll("#schedProgress .pstep");
+  function showStep(n){
+    sched.step = n;
+    steps.forEach(function(s){ s.classList.toggle("active", +s.getAttribute("data-step")===n); });
+    psteps.forEach(function(p){
+      var sn = +p.getAttribute("data-step");
+      p.classList.toggle("active", sn===n);
+      p.classList.toggle("done", sn<n);
+    });
+  }
+  /* option pickers (single-select per group) */
+  document.querySelectorAll("[data-pick]").forEach(function(opt){
+    opt.addEventListener("click", function(){
+      var group = opt.getAttribute("data-group");
+      document.querySelectorAll('[data-group="'+group+'"]').forEach(function(o){o.classList.remove("sel");});
+      opt.classList.add("sel");
+      if(group==="service") sched.service = opt.getAttribute("data-value");
+    });
+  });
+  /* time picker */
+  document.querySelectorAll("#timeGrid .time").forEach(function(t){
+    t.addEventListener("click", function(){
+      document.querySelectorAll("#timeGrid .time").forEach(function(x){x.classList.remove("sel");});
+      t.classList.add("sel"); sched.time = t.getAttribute("data-value");
+    });
+  });
+  document.querySelectorAll("[data-next]").forEach(function(b){
+    b.addEventListener("click", function(){
+      if(sched.step===2 && !sched.service){ flash("Please choose a service to continue."); return; }
+      if(sched.step===3){
+        var d = document.getElementById("schDate"); sched.date = d && d.value ? d.value : "";
+        if(!sched.time){ flash("Please pick a time."); return; }
+      }
+      showStep(Math.min(sched.step+1,4));
+      document.getElementById("scheduler").scrollIntoView({behavior:reduce?"auto":"smooth",block:"start"});
+    });
+  });
+  document.querySelectorAll("[data-back]").forEach(function(b){
+    b.addEventListener("click", function(){ showStep(Math.max(sched.step-1,1)); });
+  });
+  var confirmBtn = document.querySelector("[data-confirm]");
+  if(confirmBtn) confirmBtn.addEventListener("click", function(){
+    var name = (document.getElementById("schName")||{}).value || "";
+    var email = (document.getElementById("schEmail")||{}).value || "";
+    if(!name.trim() || !email.trim()){ flash("Please add your name and email."); return; }
+    steps.forEach(function(s){s.classList.remove("active");});
+    psteps.forEach(function(p){p.classList.add("done");p.classList.remove("active");});
+    var dateTxt = sched.date ? new Date(sched.date+"T00:00").toLocaleDateString(undefined,{weekday:"long",month:"long",day:"numeric"}) : "your selected date";
+    var recap = document.getElementById("schedRecap");
+    if(recap) recap.innerHTML = "<b>"+(sched.service||"Eye exam")+"</b><br>"+sched.store+"<br>"+dateTxt+" at <b>"+(sched.time||"")+"</b><br>Confirmation sent to "+email;
+    document.getElementById("schedSuccess").classList.add("active");
+    document.getElementById("scheduler").scrollIntoView({behavior:reduce?"auto":"smooth",block:"start"});
+  });
+  function flash(msg){
+    var n = document.createElement("div");
+    n.textContent = msg;
+    n.style.cssText="position:fixed;left:50%;bottom:26px;transform:translateX(-50%);background:#20242b;color:#fff;padding:12px 22px;border-radius:9999px;font-size:14px;z-index:200;box-shadow:0 12px 30px rgba(0,0,0,.25)";
+    document.body.appendChild(n);
+    setTimeout(function(){ n.style.transition="opacity .4s"; n.style.opacity="0"; setTimeout(function(){n.remove();},400); }, 2200);
+  }
+  window.goScheduler = function(e){
+    e.preventDefault();
+    document.getElementById("scheduler").scrollIntoView({behavior:reduce?"auto":"smooth"});
+  };
+
+  /* ---------- mobile drawer ---------- */
+  var drawer = document.getElementById("drawer"), backdrop = document.getElementById("drawerBackdrop");
+  function openDrawer(){ drawer.classList.add("open"); backdrop.classList.add("open"); document.getElementById("hamburger").setAttribute("aria-expanded","true"); }
+  function closeDrawer(){ drawer.classList.remove("open"); backdrop.classList.remove("open"); document.getElementById("hamburger").setAttribute("aria-expanded","false"); }
+  var ham = document.getElementById("hamburger");
+  if(ham) ham.addEventListener("click", openDrawer);
+  var dc = document.getElementById("drawerClose");
+  if(dc) dc.addEventListener("click", closeDrawer);
+  if(backdrop) backdrop.addEventListener("click", closeDrawer);
+  document.querySelectorAll("[data-drawer-link]").forEach(function(a){ a.addEventListener("click", closeDrawer); });
+
+  /* ---------- sticky header shadow ---------- */
+  var header = document.getElementById("siteHeader");
+  window.addEventListener("scroll", function(){
+    if(header) header.classList.toggle("is-stuck", window.scrollY > 10);
+  }, {passive:true});
+
+  /* ---------- reveal (TOP-12 #4) ---------- */
+  if(reduce){
+    document.querySelectorAll(".reveal").forEach(function(el){ el.classList.add("in-view"); });
+  } else if("IntersectionObserver" in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){
+          var sibs = Array.prototype.slice.call(en.target.parentNode.querySelectorAll(".reveal"));
+          en.target.style.transitionDelay = (Math.max(0,sibs.indexOf(en.target))*70)+"ms";
+          en.target.classList.add("in-view");
+          io.unobserve(en.target);
+        }
+      });
+    },{threshold:.14});
+    document.querySelectorAll(".reveal").forEach(function(el){ io.observe(el); });
+  } else {
+    document.querySelectorAll(".reveal").forEach(function(el){ el.classList.add("in-view"); });
+  }
+
+  /* ---------- count-up (TOP-12 #5) ---------- */
+  function easeOut(t){ return 1-Math.pow(1-t,3); }
+  function fmt(n){ return n.toLocaleString("en-US"); }
+  function runCounter(el){
+    var to = parseFloat(el.getAttribute("data-to"))||0;
+    if(reduce){ el.textContent = fmt(to); return; }
+    var dur=1300, start=null;
+    function step(ts){ if(start===null)start=ts; var p=Math.min((ts-start)/dur,1);
+      el.textContent = fmt(Math.round(easeOut(p)*to)); if(p<1) requestAnimationFrame(step); else el.textContent=fmt(to); }
+    el.textContent="0"; requestAnimationFrame(step);
+  }
+  var fired=false;
+  function fireCounters(){ if(fired)return; fired=true; document.querySelectorAll("#statsBand .counter").forEach(runCounter); }
+  if(reduce){ document.querySelectorAll(".counter").forEach(function(el){el.textContent=(parseFloat(el.getAttribute("data-to"))||0).toLocaleString("en-US");}); }
+  else if("IntersectionObserver" in window){
+    var band=document.getElementById("statsBand");
+    if(band){ var co=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){fireCounters();co.unobserve(e.target);}});},{threshold:.4}); co.observe(band); }
+  } else { fireCounters(); }
+})();
+</script>
+</body>
+</html>

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>SGEN Dental — Rewritten Previews</title>
+<title>SGEN Rewritten Previews</title>
 <style>
   :root {
     --bg:#fbfbfa; --fg:#1a1a19; --mut:#6b6b68; --line:#e4e4e1; --card:#fff; --acc:#c1121f; --ok:#0a7d3f;
@@ -14,99 +14,199 @@
   }
   * { box-sizing:border-box; }
   body { margin:0; background:var(--bg); color:var(--fg); font:16px/1.6 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; }
-  .wrap { max-width:820px; margin:0 auto; padding:56px 22px 80px; }
+  .wrap { max-width:880px; margin:0 auto; padding:56px 22px 80px; }
   h1 { font-size:clamp(28px,5vw,38px); line-height:1.15; margin:0 0 8px; letter-spacing:-.02em; }
-  .sub { color:var(--mut); margin:0 0 40px; }
+  .sub { color:var(--mut); margin:0 0 40px; max-width:64ch; }
   h2 { font-size:14px; text-transform:uppercase; letter-spacing:.09em; color:var(--mut); margin:44px 0 14px; font-weight:600; }
-  .decks { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px; }
-  .deck { display:block; padding:22px; background:var(--card); border:1px solid var(--line); border-radius:12px; text-decoration:none; color:inherit; transition:border-color .15s, transform .15s; }
+  .ind { margin-bottom:18px; }
+  .ind h3 { font-size:17px; margin:0 0 8px; font-weight:600; letter-spacing:-.01em; }
+  .ind h3 span { display:block; font-size:13.5px; color:var(--mut); font-weight:400; letter-spacing:0; }
+  .decks { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:12px; }
+  .deck { display:block; padding:16px 18px; background:var(--card); border:1px solid var(--line); border-radius:12px; text-decoration:none; color:inherit; transition:border-color .15s, transform .15s; }
   .deck:hover { border-color:var(--acc); transform:translateY(-2px); }
-  .deck b { display:block; font-size:19px; margin-bottom:4px; }
-  .deck span { color:var(--mut); font-size:14px; }
+  .deck b { display:block; font-size:16px; margin-bottom:2px; }
+  .deck span { color:var(--mut); font-size:13px; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; }
   table { width:100%; border-collapse:collapse; background:var(--card); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
-  th, td { text-align:left; padding:12px 16px; border-top:1px solid var(--line); font-size:15px; }
+  th, td { text-align:left; padding:11px 16px; border-top:1px solid var(--line); font-size:14.5px; }
   thead th { border-top:0; font-size:12px; text-transform:uppercase; letter-spacing:.07em; color:var(--mut); }
   tbody th { font-weight:500; }
-  .mnote { display:block; font-weight:400; font-size:13px; color:var(--mut); }
-  .stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:14px; }
+  .mnote { display:block; font-weight:400; font-size:12.5px; color:var(--mut); }
+  .stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:14px; }
   .stat { padding:18px 20px; background:var(--card); border:1px solid var(--line); border-radius:12px; }
-  .stat b { display:block; font-size:26px; letter-spacing:-.02em; color:var(--ok); }
-  .stat span { color:var(--mut); font-size:13.5px; }
+  .stat b { display:block; font-size:24px; letter-spacing:-.02em; color:var(--ok); }
+  .stat span { color:var(--mut); font-size:13px; }
   a { color:var(--acc); }
+  details { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:12px 16px; margin-bottom:10px; }
+  summary { cursor:pointer; font-weight:600; font-size:15px; }
+  summary .cnt { color:var(--mut); font-weight:400; font-size:13px; }
+  details ul { margin:10px 0 4px; padding-left:20px; columns:2; }
+  details li { font-size:14px; margin-bottom:4px; break-inside:avoid; }
   .note { margin-top:40px; padding-top:18px; border-top:1px solid var(--line); color:var(--mut); font-size:13.5px; }
+  .note li { margin-bottom:7px; }
   code { background:var(--card); border:1px solid var(--line); border-radius:5px; padding:1px 5px; font-size:13px; }
+  .tablewrap { overflow-x:auto; }
 </style>
 </head>
 <body>
 <div class="wrap">
-  <h1>SGEN Dental — rewritten previews</h1>
-  <p class="sub">The dental Local SEO&nbsp;+&nbsp;AEO landing page after a full copy rewrite, in both colourways, plus every design mockup it contains. Every on-page string was rewritten so the page is no longer near-duplicate of the chiropractic, med&nbsp;spa, veterinary, cannabis and optometry builds.</p>
+  <h1>SGEN rewritten previews</h1>
+  <p class="sub">The SGEN Local SEO&nbsp;+&nbsp;AEO landing page across all six industries, in both colourways &mdash; twelve builds in total, plus every design mockup each one contains.</p>
 
-  <h2>Landing pages</h2>
-  <div class="decks">
-    <a class="deck" href="black/"><b>Dark version &rarr;</b><span>SGEN-SEO-AEO-Dental_Black</span></a>
-    <a class="deck" href="white/"><b>Light version &rarr;</b><span>SGEN-SEO-AEO-Dental_White</span></a>
-  </div>
+  <h2>Landing pages (12)</h2>
+      <div class="ind">
+        <h3>Dental<span>Dentist Local SEO + AEO</span></h3>
+        <div class="decks">
+          <a class="deck" href="dental/black/"><b>Dark &rarr;</b><span>dental/black</span></a>
+          <a class="deck" href="dental/white/"><b>Light &rarr;</b><span>dental/white</span></a>
+        </div>
+      </div>
+      <div class="ind">
+        <h3>Veterinary<span>Veterinary Local SEO + AEO</span></h3>
+        <div class="decks">
+          <a class="deck" href="vet/black/"><b>Dark &rarr;</b><span>vet/black</span></a>
+          <a class="deck" href="vet/white/"><b>Light &rarr;</b><span>vet/white</span></a>
+        </div>
+      </div>
+      <div class="ind">
+        <h3>Chiropractic<span>Chiropractic Local SEO + AEO</span></h3>
+        <div class="decks">
+          <a class="deck" href="chiro/black/"><b>Dark &rarr;</b><span>chiro/black</span></a>
+          <a class="deck" href="chiro/white/"><b>Light &rarr;</b><span>chiro/white</span></a>
+        </div>
+      </div>
+      <div class="ind">
+        <h3>Cannabis<span>Dispensary Local SEO + AEO</span></h3>
+        <div class="decks">
+          <a class="deck" href="dispensary/black/"><b>Dark &rarr;</b><span>dispensary/black</span></a>
+          <a class="deck" href="dispensary/white/"><b>Light &rarr;</b><span>dispensary/white</span></a>
+        </div>
+      </div>
+      <div class="ind">
+        <h3>Med Spa<span>Med spa Local SEO + AEO</span></h3>
+        <div class="decks">
+          <a class="deck" href="medspa/black/"><b>Dark &rarr;</b><span>medspa/black</span></a>
+          <a class="deck" href="medspa/white/"><b>Light &rarr;</b><span>medspa/white</span></a>
+        </div>
+      </div>
+      <div class="ind">
+        <h3>Optometry<span>Optometry Local SEO + AEO</span></h3>
+        <div class="decks">
+          <a class="deck" href="opto/black/"><b>Dark &rarr;</b><span>opto/black</span></a>
+          <a class="deck" href="opto/white/"><b>Light &rarr;</b><span>opto/white</span></a>
+        </div>
+      </div>
 
-  <h2>What changed</h2>
+  <h2>Latest revision round</h2>
   <div class="stats">
-    <div class="stat"><b>74.4% &rarr; 6.0%</b><span>8-word phrase overlap with the five sibling industry pages</span></div>
-    <div class="stat"><b>108 &rarr; 6</b><span>sentences shared verbatim with a sibling page</span></div>
-    <div class="stat"><b>109 / 115</b><span>original sample-data names, cities and figures replaced</span></div>
+    <div class="stat"><b>12 / 12</b><span>mobile horizontal overflow removed, verified at 320, 360 and 390&nbsp;px</span></div>
+    <div class="stat"><b>6 / 6</b><span>light builds: the closing formula panel restyled to the CTA red</span></div>
+    <div class="stat"><b>55 &rarr; 0</b><span>em dashes in the dental copy, repunctuated by hand</span></div>
   </div>
-  <p class="note" style="margin-top:14px; padding-top:0; border:0;">The six remaining shared sentences are five generic FAQ <em>questions</em> (which should match across pages &mdash; they track search intent) and the shared SGEN cart/search chrome.</p>
 
-  <h2>Design mockups (6)</h2>
-  <table>
-    <thead><tr><th scope="col">Mockup</th><th scope="col">Dark</th><th scope="col">Light</th></tr></thead>
-    <tbody>
-      <tr>
-        <th scope="row">Bright Smile Dental<span class="mnote">General &amp; cosmetic &middot; family</span></th>
-        <td><a href="black/mockups/bright-smile-dental/bright-smile-dental.html">Dark</a></td>
-        <td><a href="white/mockups/bright-smile-dental/bright-smile-dental.html">Light</a></td>
-      </tr>
-      <tr>
-        <th scope="row">The Dental Collective<span class="mnote">Design-led studio &middot; cosmetic</span></th>
-        <td><a href="black/mockups/the-dental-collective/the-dental-collective.html">Dark</a></td>
-        <td><a href="white/mockups/the-dental-collective/the-dental-collective.html">Light</a></td>
-      </tr>
-      <tr>
-        <th scope="row">Kidspark Dental<span class="mnote">Pediatric dentistry &middot; family</span></th>
-        <td><a href="black/mockups/kidspark-dental/kidspark-dental.html">Dark</a></td>
-        <td><a href="white/mockups/kidspark-dental/kidspark-dental.html">Light</a></td>
-      </tr>
-      <tr>
-        <th scope="row">Familia Dental<span class="mnote">Bilingual family dentistry</span></th>
-        <td><a href="black/mockups/familia-dental/familia-dental.html">Dark</a></td>
-        <td><a href="white/mockups/familia-dental/familia-dental.html">Light</a></td>
-      </tr>
-      <tr>
-        <th scope="row">Pearl Dental Studio<span class="mnote">Boutique &middot; cosmetic &amp; whitening</span></th>
-        <td><a href="black/mockups/pearl-dental-studio/pearl-dental-studio.html">Dark</a></td>
-        <td><a href="white/mockups/pearl-dental-studio/pearl-dental-studio.html">Light</a></td>
-      </tr>
-      <tr>
-        <th scope="row">Sovereign Dental<span class="mnote">Private dentistry &middot; by appointment</span></th>
-        <td><a href="black/mockups/sovereign-dental/sovereign-dental.html">Dark</a></td>
-        <td><a href="white/mockups/sovereign-dental/sovereign-dental.html">Light</a></td>
-      </tr>
-    </tbody>
-  </table>
+  <h2>Design mockups (36)</h2>
+  <p class="sub" style="margin-bottom:14px;">Each build ships six sample-site mockups. They are byte-identical in the dark and light bundles, so one link serves both.</p>
+      <details>
+        <summary>Dental <span class="cnt">6 mockups</span></summary>
+        <ul>
+          <li><a href="dental/black/mockups/bright-smile-dental/bright-smile-dental.html">Bright Smile Dental</a></li>
+          <li><a href="dental/black/mockups/familia-dental/familia-dental.html">Familia Dental</a></li>
+          <li><a href="dental/black/mockups/kidspark-dental/kidspark-dental.html">Kidspark Dental</a></li>
+          <li><a href="dental/black/mockups/pearl-dental-studio/pearl-dental-studio.html">Pearl Dental Studio</a></li>
+          <li><a href="dental/black/mockups/sovereign-dental/sovereign-dental.html">Sovereign Dental</a></li>
+          <li><a href="dental/black/mockups/the-dental-collective/the-dental-collective.html">The Dental Collective</a></li>
+        </ul>
+      </details>
+      <details>
+        <summary>Veterinary <span class="cnt">6 mockups</span></summary>
+        <ul>
+          <li><a href="vet/black/mockups/beacon-animal-hospital/beacon-animal-hospital.html">Beacon Animal Hospital</a></li>
+          <li><a href="vet/black/mockups/desert-paws/desert-paws.html">Desert Paws</a></li>
+          <li><a href="vet/black/mockups/harbor-paws/harbor-paws.html">Harbor Paws</a></li>
+          <li><a href="vet/black/mockups/haven-animal-hospital/haven-animal-hospital.html">Haven Animal Hospital</a></li>
+          <li><a href="vet/black/mockups/pawspital/pawspital.html">Pawspital</a></li>
+          <li><a href="vet/black/mockups/the-pawsitive-vet/the-pawsitive-vet.html">The Pawsitive Vet</a></li>
+        </ul>
+      </details>
+      <details>
+        <summary>Chiropractic <span class="cnt">6 mockups</span></summary>
+        <ul>
+          <li><a href="chiro/black/mockups/alignwell-chiropractic/alignwell-chiropractic.html">Alignwell Chiropractic</a></li>
+          <li><a href="chiro/black/mockups/chiropro/chiropro.html">Chiropro</a></li>
+          <li><a href="chiro/black/mockups/fix-my-bones/fix-my-bones.html">Fix My Bones</a></li>
+          <li><a href="chiro/black/mockups/fulcrum-chiropractic/fulcrum-chiropractic.html">Fulcrum Chiropractic</a></li>
+          <li><a href="chiro/black/mockups/pillar-chiropractic/pillar-chiropractic.html">Pillar Chiropractic</a></li>
+          <li><a href="chiro/black/mockups/sperbeck-chiropractic/sperbeck-chiropractic.html">Sperbeck Chiropractic</a></li>
+        </ul>
+      </details>
+      <details>
+        <summary>Cannabis <span class="cnt">6 mockups</span></summary>
+        <ul>
+          <li><a href="dispensary/black/mockups/bloomhaus/bloomhaus.html">Bloomhaus</a></li>
+          <li><a href="dispensary/black/mockups/cannmenus/cannmenus.html">Cannmenus</a></li>
+          <li><a href="dispensary/black/mockups/golden-hour-cannabis/golden-hour-cannabis.html">Golden Hour Cannabis</a></li>
+          <li><a href="dispensary/black/mockups/neon-leaf/neon-leaf.html">Neon Leaf</a></li>
+          <li><a href="dispensary/black/mockups/north-canopy/north-canopy.html">North Canopy</a></li>
+          <li><a href="dispensary/black/mockups/northlight-cannabis/northlight-cannabis.html">Northlight Cannabis</a></li>
+        </ul>
+      </details>
+      <details>
+        <summary>Med Spa <span class="cnt">6 mockups</span></summary>
+        <ul>
+          <li><a href="medspa/black/mockups/aura-medi-spa/aura-medi-spa.html">Aura Medi Spa</a></li>
+          <li><a href="medspa/black/mockups/bloc-aesthetics/bloc-aesthetics.html">Bloc Aesthetics</a></li>
+          <li><a href="medspa/black/mockups/nuyu/nuyu.html">Nuyu</a></li>
+          <li><a href="medspa/black/mockups/peel-good/peel-good.html">Peel Good</a></li>
+          <li><a href="medspa/black/mockups/renew-wellness-spa/renew-wellness-spa.html">Renew Wellness Spa</a></li>
+          <li><a href="medspa/black/mockups/revive-skin-lab/revive-skin-lab.html">Revive Skin Lab</a></li>
+        </ul>
+      </details>
+      <details>
+        <summary>Optometry <span class="cnt">6 mockups</span></summary>
+        <ul>
+          <li><a href="opto/black/mockups/american-eye/american-eye.html">American Eye</a></li>
+          <li><a href="opto/black/mockups/focus-pocus/focus-pocus.html">Focus Pocus</a></li>
+          <li><a href="opto/black/mockups/metro-sunnies/metro-sunnies.html">Metro Sunnies</a></li>
+          <li><a href="opto/black/mockups/spec-ulation/spec-ulation.html">Spec Ulation</a></li>
+          <li><a href="opto/black/mockups/spectacles/spectacles.html">Spectacles</a></li>
+          <li><a href="opto/black/mockups/visualyze/visualyze.html">Visualyze</a></li>
+        </ul>
+      </details>
 
   <h2>Download</h2>
-  <div class="decks">
-    <a class="deck" href="SGEN-SEO-AEO-Dental_Black_Optimized-Rewritten.zip"><b>Dark bundle (.zip)</b><span>6.7&nbsp;MB &middot; 227 files</span></a>
-    <a class="deck" href="SGEN-SEO-AEO-Dental_White_Optimized-Rewritten.zip"><b>Light bundle (.zip)</b><span>6.7&nbsp;MB &middot; 227 files</span></a>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>Industry</th><th>Dark</th><th>Light</th></tr></thead>
+      <tbody>
+        <tr><th>Dental</th>
+          <td><a href="bundles/dental-black.zip">dental-black.zip</a> <span class="mnote">6.4 MB</span></td>
+          <td><a href="bundles/dental-white.zip">dental-white.zip</a> <span class="mnote">6.4 MB</span></td></tr>
+        <tr><th>Veterinary</th>
+          <td><a href="bundles/vet-black.zip">vet-black.zip</a> <span class="mnote">7.8 MB</span></td>
+          <td><a href="bundles/vet-white.zip">vet-white.zip</a> <span class="mnote">7.8 MB</span></td></tr>
+        <tr><th>Chiropractic</th>
+          <td><a href="bundles/chiro-black.zip">chiro-black.zip</a> <span class="mnote">9.1 MB</span></td>
+          <td><a href="bundles/chiro-white.zip">chiro-white.zip</a> <span class="mnote">9.1 MB</span></td></tr>
+        <tr><th>Cannabis</th>
+          <td><a href="bundles/dispensary-black.zip">dispensary-black.zip</a> <span class="mnote">12.2 MB</span></td>
+          <td><a href="bundles/dispensary-white.zip">dispensary-white.zip</a> <span class="mnote">12.2 MB</span></td></tr>
+        <tr><th>Med Spa</th>
+          <td><a href="bundles/medspa-black.zip">medspa-black.zip</a> <span class="mnote">9.1 MB</span></td>
+          <td><a href="bundles/medspa-white.zip">medspa-white.zip</a> <span class="mnote">9.1 MB</span></td></tr>
+        <tr><th>Optometry</th>
+          <td><a href="bundles/opto-black.zip">opto-black.zip</a> <span class="mnote">7.5 MB</span></td>
+          <td><a href="bundles/opto-white.zip">opto-white.zip</a> <span class="mnote">7.5 MB</span></td></tr>
+      </tbody>
+    </table>
   </div>
 
-  <p class="note">
-    <strong>Preview only.</strong> These copies are served <code>noindex, nofollow</code> and the site
-    <code>robots.txt</code> is <code>Disallow: /</code>, so this mirror cannot compete with the real page at
-    sgen.com &mdash; the canonical tag still points there.<br><br>
-    All case-study, Search Console, review and logo-wall figures are <strong>sample &middot; illustrative
-    data</strong> and are labelled as such on the page. The six portfolio screenshots show the original mock
-    brands; the deck captions match them deliberately, pending a re-render.
-  </p>
+  <div class="note">
+    <ul>
+      <li><b>This mirror is not indexable.</b> Every page is served <code>noindex, nofollow</code> and <code>robots.txt</code> is <code>Disallow: /</code>. Canonical tags still point at <code>www.sgen.com</code>, so these copies cannot compete with the real pages.</li>
+      <li><b>All proof data is illustrative.</b> Case-study cards, Search Console dashboards, reviews and the logo walls are fictional and labelled <em>Sample &middot; illustrative data</em> on the page.</li>
+      <li>The dental preview previously lived at <code>/black/</code> and <code>/white/</code>. Those paths still work &mdash; they now redirect to <code>/dental/black/</code> and <code>/dental/white/</code>.</li>
+      <li><code>.nojekyll</code> is required: the bundles contain <code>_xorigin/</code> and <code>mockups/_shared-*/</code> directories that GitHub Pages' Jekyll pipeline would otherwise strip.</li>
+    </ul>
+  </div>
 </div>
 </body>
 </html>

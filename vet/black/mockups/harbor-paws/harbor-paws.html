@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Harbor Paws Animal Hospital — Wellness, Dentistry, Surgery &amp; 24/7 Emergency Care</title>
+<meta name="description" content="Full-service veterinary clinic and 24/7 animal hospital for dogs and cats. Same-day appointments, wellness exams, vaccinations, dental, diagnostics, surgery and emergency care.">
+
+<!-- ============================================================================
+     Harbor Paws Animal Hospital — homepage
+     Locked bundle: B "Seafoam Clinic" (verticals/harbor-paws.md §4.bundles.B, picked 2026-08-05)
+
+     Catalog picks implemented in this build:
+       NAV-PATTERNS.md #4 Pill-grouped active-tab + icon CTA
+       HERO-COMPOSITIONS.md #25 Embedded lead-capture form hero
+       FOOTER-STYLES.md #13 Map-embedded local footer
+       CARD-VARIATIONS.md #2 Light feature card with embedded mini-visual
+       CTA-PATTERNS.md #1 Solid pill primary
+       DIVIDER-PATTERNS.md #7 Pulled-up card overlap
+     Shared:
+       FORM-LAYOUTS.md #8 Booking form with date/time/service
+       FAQ-ACCORDION.md #5 Centered FAQ with eyebrow + heading
+       STICKY-CTA-BAR.md #2 Dual-button bottom-bar
+       SECTION-COMPONENTS.md #1 / #40 / #2 / #9 / #27 / #18 / #24 / #34 / #37 / #52 / #41
+
+     CSS is written for 375 / 768 / 1024 / 1440 in ONE pass (mobile-first), never
+     desktop-first with afterthought queries.
+
+     Harbor Paws is a FICTIONAL demo business. Phone number, address, hours, clinician
+     names, review counts and testimonials are placeholder content. No real practice,
+     accreditation, or person is represented.
+     ============================================================================ -->
+
+
+
+<link rel="stylesheet" href="../_shared-fonts/harbor-paws-fonts.css">
+
+<style>
+/* ===================== TOKENS — bundle B "Seafoam Clinic" ===================== */
+:root{
+  /* A11Y: --ds-primary-deep was #087f5b, which caps white text at 5.00:1 — no tinted
+     light text can clear 4.5:1 on it. Deepened to #065f46 (white = 7.68:1) so the dark
+     bands can carry a legible text hierarchy. --ds-primary stays the brand hue but is
+     no longer used as a ground under text (white on it is only 3.12:1).
+     --ds-ink-soft #5A6F8A -> #4a5c74: the old value missed 4.5:1 on the mint and
+     accent-soft bands (4.46 / 4.17). */
+  --ds-primary:#0ca678; --ds-primary-deep:#065f46; --ds-primary-deeper:#04503c;
+  --ds-primary-soft:#c3fae8;
+  --ds-accent:#1864ab;  --ds-accent-soft:#d0ebff;
+  --ds-bg:#F5FFFA;      --ds-bg-2:#FFFFFF;        --ds-bg-warm:#FDF8EF;
+  --ds-bg-surface:#F5FFFA; --ds-bg-surface-2:#FFFFFF;
+  --ds-ink:#0E2A52;     --ds-ink-soft:#4a5c74;    --ds-line:#dee2e6;
+  /* A11Y: --ds-line is a decorative hairline (1.30:1 on white) and is fine for dividers,
+     but a FORM FIELD has to be identifiable as a control (WCAG 1.4.11, 3:1). The hero
+     card's fields are #F5FFFA on a #FFFFFF card — a 1.02:1 fill — so their border is the
+     only thing that marks them, and it needs its own darker token. */
+  --ds-field-line:#7d858e;
+  --ds-ink-on-dark:#F5FFFA;
+  --ds-scrim:rgba(8,49,61,.62);
+  --ds-signature:#F5DEB3;
+  --ds-warning:#e8590c;
+
+  --ds-font-display:'Poppins',system-ui,-apple-system,sans-serif;
+  --ds-font-body:'Nunito Sans',system-ui,-apple-system,sans-serif;
+  --ds-font-mono:'JetBrains Mono',ui-monospace,monospace;
+
+  /* SURFACE-PATTERNS.md #5 Pillowed 28-36px */
+  --ds-r-sm:16px; --ds-r-md:28px; --ds-r-lg:36px; --ds-r-xl:40px; --ds-r-pill:999px;
+
+  /* SURFACE-PATTERNS.md #11 Deep-shadow-floating */
+  --ds-shadow-card:0 10px 25px -5px rgba(14,42,82,.10), 0 8px 10px -6px rgba(14,42,82,.05);
+  --ds-shadow-lift:0 18px 40px -8px rgba(14,42,82,.16), 0 10px 14px -8px rgba(14,42,82,.07);
+
+  --ds-space-2xs:4px; --ds-space-xs:8px; --ds-space-sm:12px; --ds-space-md:16px;
+  --ds-space-lg:24px; --ds-space-xl:40px; --ds-space-2xl:64px; --ds-space-3xl:96px;
+  --ds-section-py:48px; --ds-container-max:1140px; --ds-gutter:20px;
+
+  --ds-ease:cubic-bezier(.65,0,.35,1); --ds-dur:200ms;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{
+  margin:0;background:var(--ds-bg);color:var(--ds-ink);
+  font-family:var(--ds-font-body);font-size:15px;line-height:1.65;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+img{max-width:100%;display:block}
+a{color:inherit}
+h1,h2,h3,h4{font-family:var(--ds-font-display);line-height:1.12;letter-spacing:-.02em;margin:0}
+p{margin:0}
+
+.wrap{width:100%;max-width:var(--ds-container-max);margin:0 auto;padding:0 var(--ds-gutter)}
+.section{padding:var(--ds-section-py) 0;position:relative}
+.eyebrow{
+  font-family:var(--ds-font-mono);font-size:11px;font-weight:500;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--ds-primary-deep);margin:0 0 12px
+}
+.on-dark .eyebrow{color:var(--ds-primary-soft)}
+.h2{font-size:32px;font-weight:700;margin:0 0 14px}
+.lede{font-size:15px;color:var(--ds-ink-soft);max-width:62ch;margin:0 0 28px}
+.on-dark,.on-dark .h2{color:var(--ds-ink-on-dark)}
+.on-dark .lede{color:#dbe6f2}
+
+/* CTA-PATTERNS.md #1 Solid pill primary + SURFACE-PATTERNS.md #21 Icon-led-arrow */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:14px 26px;border:0;border-radius:var(--ds-r-sm);
+  font-family:var(--ds-font-body);font-size:15px;font-weight:700;
+  text-decoration:none;cursor:pointer;
+  transition:transform 160ms var(--ds-ease),background-color 160ms ease,box-shadow 160ms ease;
+}
+.btn--primary{background:var(--ds-primary-deep);color:#fff}
+.btn--primary::after{content:"\2192";transition:transform 200ms var(--ds-ease)}
+.btn--primary:hover{transform:scale(1.04);background:var(--ds-primary-deeper)}
+.btn--primary:hover::after{transform:translateX(4px)}
+.btn--primary:active{transform:scale(.98)}
+/* A11Y: a deep-seafoam pill on a deep-seafoam band is 1.54:1 against its own ground —
+   below the 3:1 WCAG 1.4.11 floor for a UI component. On dark bands the primary button
+   inverts to the light treatment (7.53:1 both for the pill edge and its label). */
+.on-dark .btn--primary{background:var(--ds-ink-on-dark);color:var(--ds-primary-deep)}
+.on-dark .btn--primary:hover{background:#fff}
+.btn--ghost{background:transparent;color:var(--ds-accent);border:2px solid var(--ds-accent)}
+.btn--ghost:hover{transform:scale(1.04);background:var(--ds-accent-soft)}
+.btn--onDark{background:#fff;color:var(--ds-primary-deep)}
+.btn--onDark:hover{transform:scale(1.04)}
+/* Inverting .btn--primary for the dark bands made the primary and the secondary CTA two
+   identical white pills — compliant but with the hierarchy erased. The secondary becomes
+   an outlined pill: label 7.68:1 on the band, and a 2px inset ring (also 7.68:1) rather
+   than a border, so the button's box size is unchanged. */
+.on-dark .btn--onDark{background:transparent;color:var(--ds-ink-on-dark);box-shadow:inset 0 0 0 2px var(--ds-ink-on-dark)}
+.on-dark .btn--onDark:hover{background:rgba(255,255,255,.14)}
+.btn:focus-visible{outline:3px solid var(--ds-accent);outline-offset:3px}
+/* A11Y: the accent focus ring is 1.26:1 on a dark band — effectively invisible, and the
+   FOOTER is a deep band that never carried .on-dark, so its links fell through to the
+   browser default ring (#005fcc) at 1.28:1 on the seafoam. Both get the wheat signature
+   ring instead (5.85:1 on the band). */
+.on-dark a:focus-visible,.on-dark .btn:focus-visible,
+.on-dark button:focus-visible,.on-dark input:focus-visible,
+.on-dark select:focus-visible,.on-dark textarea:focus-visible,
+.foot a:focus-visible,.foot button:focus-visible{
+  outline:3px solid var(--ds-signature);outline-offset:3px
+}
+
+/* A11Y: skip link (WCAG 2.4.1) — off-screen until focused, then pinned top-left. */
+.skip-link{
+  position:absolute;left:-9999px;top:0;z-index:200;
+  background:var(--ds-primary-deep);color:#fff;padding:12px 20px;
+  border-radius:0 0 var(--ds-r-sm) 0;font-weight:700;text-decoration:none
+}
+.skip-link:focus{left:0}
+/* The ring lands OUTSIDE the pill, on the light page ground — so it has to be the dark
+   navy (6.09:1), not the wheat one (1.29:1 there) that suits the dark bands. */
+.skip-link:focus-visible{outline:3px solid var(--ds-accent);outline-offset:2px}
+
+.link{
+  color:var(--ds-ink);text-decoration:underline;text-decoration-color:var(--ds-line);
+  text-underline-offset:4px;transition:color 160ms ease,text-decoration-color 160ms ease;
+  /* A11Y: WCAG 2.2 SC 2.5.8 — inline links measured 22px tall; vertical padding lifts
+     the hit target past the 24px floor without changing the line box. */
+  padding-block:3px
+}
+.link:hover{color:var(--ds-primary-deep);text-decoration-color:var(--ds-primary)}
+
+/* MOTION-PATTERNS.md #22/#29 Stagger-grid reveal (scroll-driven, JS-free where supported) */
+.reveal{opacity:0;transform:translateY(24px);animation:hp-reveal .62s var(--ds-ease) forwards;animation-delay:calc(var(--i,0)*70ms)}
+@keyframes hp-reveal{to{opacity:1;transform:translateY(0)}}
+@supports (animation-timeline:view()){
+  .reveal{animation-timeline:view();animation-range:entry 0% cover 28%;animation-delay:calc(var(--i,0)*40ms)}
+}
+
+/* ============================ NAV — NAV-PATTERNS.md #4 ============================ */
+.nav{position:sticky;top:0;z-index:60;background:rgba(245,255,250,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--ds-line)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;gap:16px;height:64px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--ds-font-display);font-weight:700;font-size:17px;color:var(--ds-ink)}
+.brand svg{flex:0 0 auto}
+.nav-pill{display:none}
+.nav-actions{display:flex;align-items:center;gap:10px}
+.nav-call{display:none;align-items:center;gap:7px;font-family:var(--ds-font-mono);font-size:13px;font-weight:500;color:var(--ds-accent);text-decoration:none;padding:9px 14px;border-radius:var(--ds-r-pill);border:1.5px solid var(--ds-accent-soft)}
+.nav-call:hover{background:var(--ds-accent-soft)}
+.nav-cta{display:none}
+.hamburger{
+  display:inline-flex;flex-direction:column;justify-content:center;gap:5px;
+  /* A11Y: the hamburger is identified by its bars (#0E2A52, ~15:1), so its outline was not
+     strictly a 1.4.11 failure — but --ds-line put its boundary at 1.3:1 against the nav.
+     The control border token makes the whole button unambiguous at 3.7:1. */
+  width:44px;height:44px;padding:11px;background:transparent;border:1.5px solid var(--ds-field-line);
+  border-radius:var(--ds-r-sm);cursor:pointer
+}
+.hamburger span{display:block;height:2px;background:var(--ds-ink);border-radius:2px;transition:transform 220ms var(--ds-ease),opacity 160ms ease}
+.hamburger[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.hamburger[aria-expanded="true"] span:nth-child(2){opacity:0}
+.hamburger[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.hamburger:focus-visible{outline:3px solid var(--ds-accent);outline-offset:2px}
+
+.drawer{
+  position:fixed;inset:0 0 0 auto;width:min(88vw,340px);z-index:80;
+  background:var(--ds-bg-2);border-left:1px solid var(--ds-line);
+  padding:22px 22px 32px;display:flex;flex-direction:column;gap:6px;
+  transform:translateX(100%);
+  /* A11Y (WCAG 2.4.3 focus order): the closed drawer stays in the DOM off-screen, so
+     without visibility:hidden a keyboard user tabs straight INTO it — measured here at
+     Tab #4 on a 375px viewport, landing on the invisible close button. The visibility
+     change is delayed until the slide finishes on close, so the animation is unchanged. */
+  visibility:hidden;
+  transition:transform 280ms var(--ds-ease),visibility 0s 280ms;
+  box-shadow:-20px 0 44px rgba(14,42,82,.14);overflow-y:auto
+}
+.drawer[aria-hidden="false"]{transform:translateX(0);visibility:visible;transition:transform 280ms var(--ds-ease),visibility 0s 0s}
+.drawer-top{display:flex;justify-content:flex-end;margin-bottom:10px}
+.drawer-close{width:44px;height:44px;border:1.5px solid var(--ds-field-line);border-radius:var(--ds-r-sm);background:transparent;font-size:20px;line-height:1;cursor:pointer;color:var(--ds-ink)}
+.drawer a.drawer-link{padding:13px 12px;border-radius:var(--ds-r-sm);text-decoration:none;font-weight:600;font-size:16px;color:var(--ds-ink)}
+.drawer a.drawer-link:hover{background:var(--ds-primary-soft)}
+.drawer .drawer-emerg{margin-top:16px;padding:16px;border-radius:var(--ds-r-sm);background:var(--ds-accent-soft);font-size:14px}
+.drawer .drawer-emerg a{font-family:var(--ds-font-mono);font-weight:500;color:var(--ds-accent);display:block;margin-top:4px;font-size:17px}
+.scrim{position:fixed;inset:0;z-index:70;background:rgba(14,42,82,.42);opacity:0;pointer-events:none;transition:opacity 240ms ease}
+.scrim.is-open{opacity:1;pointer-events:auto}
+
+/* ============================ 01 HERO — bg: dark ============================ */
+/* HERO-COMPOSITIONS.md #25 Embedded lead-capture form hero */
+.s-hero{background:var(--ds-primary-deep);overflow:hidden;padding:0}
+/* LAYOUT BUG: this element is `class="wrap hero-grid"`. `.wrap` supplies the
+   horizontal gutter (`padding:0 var(--ds-gutter)`), but a `padding` SHORTHAND here
+   resets left/right to 0 — same specificity (0,1,0), later in source, so it wins.
+   Result: the whole hero (eyebrow, h1, lede, buttons AND the photo, which is a
+   child) sat flush against the viewport edge at every breakpoint. Use padding-block
+   so the vertical rhythm is set without touching the inherited gutter. */
+.hero-grid{display:grid;gap:28px;padding-block:44px 56px;align-items:center}
+.hero-photo{
+  width:100%;height:230px;object-fit:cover;border-radius:var(--ds-r-lg);
+  box-shadow:var(--ds-shadow-lift)
+}
+.hero h1{font-size:38px;font-weight:700;color:#fff;margin:0 0 16px}
+/* The headline is "Book today. <em>Seen today.</em>". Left to wrap naturally it broke
+   mid-phrase at 375 — "Book today. Seen" / "today." — splitting the italic clause
+   across lines. display:block makes the lockup a deliberate TWO lines at every size,
+   breaking where the sentence does. */
+.hero h1 em{font-style:italic;font-weight:600;color:var(--ds-primary-soft);display:block}
+.hero-sub{font-size:16px;color:#c9e9dd;max-width:52ch;margin:0 0 26px}
+.hero-cta-row{display:flex;flex-wrap:wrap;gap:12px}
+.hero-trust{display:flex;flex-wrap:wrap;gap:18px;margin-top:26px;padding-top:22px;border-top:1px solid rgba(255,255,255,.16)}
+.hero-trust div{font-family:var(--ds-font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#cde9de}
+
+/* the hero booking card — the #25 lead-capture affordance */
+.hero-form{
+  background:var(--ds-bg-2);border-radius:var(--ds-r-lg);padding:24px;
+  box-shadow:var(--ds-shadow-lift)
+}
+/* The hero booking card is a LIGHT panel inside the .on-dark hero, so it must
+   opt back out of the inherited near-white text or its heading is invisible. */
+.hero-form,.hero-form h2{color:var(--ds-ink)}
+/* ...and the same opt-out applies to its BUTTON. `.on-dark .btn--primary` inverts the
+   pill to near-white for the deep bands, which on this white card produced a #F5FFFA
+   pill on #FFFFFF — 1.02:1, an invisible control (WCAG 1.4.11). Restore the solid pill
+   here: 7.68:1 against the card and 7.68:1 for its label. */
+.hero-form .btn--primary{background:var(--ds-primary-deep);color:#fff}
+.hero-form .btn--primary:hover{background:var(--ds-primary-deeper)}
+.hero-form a:focus-visible,.hero-form .btn:focus-visible,
+.hero-form input:focus-visible,.hero-form select:focus-visible{
+  outline:3px solid var(--ds-accent);outline-offset:2px
+}
+.hero-form h2{font-size:19px;font-weight:700;margin:0 0 4px}
+.hero-form p.mini{font-size:13px;color:var(--ds-ink-soft);margin:0 0 16px}
+.hero-form .field label{color:var(--ds-ink-soft)}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
+.field label{font-family:var(--ds-font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ds-ink-soft)}
+.field input,.field select,.field textarea{
+  width:100%;padding:13px 14px;font-family:var(--ds-font-body);font-size:15px;color:var(--ds-ink);
+  background:var(--ds-bg);border:1.5px solid var(--ds-field-line);border-radius:var(--ds-r-sm);
+  transition:border-color 200ms ease,box-shadow 200ms ease
+}
+/* A11Y: the focus affordance here was `outline:0` plus a 22%-alpha seafoam glow — far
+   below the 3:1 the focus indicator itself must reach (WCAG 2.4.11). Fields now keep the
+   soft border tint but carry a real solid ring; the .on-dark rule above swaps it to the
+   wheat signature so it stays visible on the deep bands too. */
+.field input:focus,.field select:focus,.field textarea:focus{
+  border-color:var(--ds-primary-deep);box-shadow:0 0 0 3px rgba(6,95,70,.20)
+}
+.field input:focus-visible,.field select:focus-visible,.field textarea:focus-visible{
+  outline:3px solid var(--ds-accent);outline-offset:2px
+}
+.field-2{display:grid;gap:12px}
+
+/* ======================= 02 EMERGENCY BAND — bg: accent ======================= */
+.s-emergency{background:var(--ds-accent-soft);padding:20px 0}
+.emerg-in{display:flex;flex-direction:column;gap:10px;align-items:flex-start}
+.emerg-label{display:inline-flex;align-items:center;gap:9px;font-weight:700;font-size:15px;color:var(--ds-accent)}
+.emerg-dot{width:9px;height:9px;border-radius:50%;background:var(--ds-warning);box-shadow:0 0 0 4px rgba(232,89,12,.18)}
+.emerg-tel{font-family:var(--ds-font-mono);font-size:22px;font-weight:500;color:var(--ds-ink);text-decoration:none;letter-spacing:-.01em}
+.emerg-tel:hover{color:var(--ds-accent)}
+.emerg-note{font-size:13px;color:var(--ds-ink-soft)}
+
+/* ========================= 03 TRUST STRIP — bg: light ========================= */
+.s-trust{background:var(--ds-bg-2);padding:30px 0;border-bottom:1px solid var(--ds-line)}
+.trust-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.trust-grid > div{text-align:center}
+.trust-n{font-family:var(--ds-font-display);font-size:26px;font-weight:700;color:var(--ds-primary-deep);display:block}
+.trust-l{font-family:var(--ds-font-mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--ds-ink-soft)}
+
+/* ===================== 04 SERVICES — bg: warm · shadow-lift ===================== */
+/* CARD-VARIATIONS.md #2 Light feature card with embedded mini-visual */
+/* DIVIDER-PATTERNS.md #7 Pulled-up card overlap */
+.s-services{background:var(--ds-bg)}
+.svc-grid{display:grid;gap:18px;margin-top:30px}
+.svc-card{
+  background:var(--ds-bg-2);border:0;border-radius:var(--ds-r-lg);overflow:hidden;
+  box-shadow:0 10px 25px -5px rgba(14,42,82,.10), 0 8px 10px -6px rgba(14,42,82,.05);
+  transition:box-shadow 260ms ease,transform 260ms var(--ds-ease)
+}
+.svc-card:hover{box-shadow:var(--ds-shadow-lift);transform:translateY(-3px)}
+.svc-visual{width:100%;height:150px;object-fit:cover;transition:transform 600ms var(--ds-ease)}
+.svc-card:hover .svc-visual{transform:scale(1.06)}
+.svc-body{padding:20px}
+.svc-chip{display:inline-block;font-family:var(--ds-font-mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--ds-primary-deep);background:var(--ds-primary-soft);padding:5px 10px;border-radius:var(--ds-r-pill);margin-bottom:10px}
+.svc-card h3{font-size:19px;font-weight:600;margin:0 0 7px}
+.svc-card p{font-size:14px;color:var(--ds-ink-soft);margin:0}
+.svc-card--urgent .svc-chip{background:var(--ds-accent-soft);color:var(--ds-accent)}
+.svc-call{display:inline-flex;align-items:center;min-height:24px;gap:7px;margin-top:12px;font-family:var(--ds-font-mono);font-size:14px;font-weight:500;color:var(--ds-accent);text-decoration:none}
+.svc-call::after{content:"\2192";transition:transform 200ms var(--ds-ease)}
+.svc-call:hover{text-decoration:underline;text-underline-offset:4px}
+.svc-call:hover::after{transform:translateX(4px)}
+.svc-photo-strip{margin-top:26px;border-radius:var(--ds-r-lg);overflow:hidden;box-shadow:var(--ds-shadow-card)}
+.svc-photo-strip img{width:100%;height:180px;object-fit:cover}
+
+/* ================== 05 FIRST-VISIT STEPS — bg: light · hairline ================== */
+.s-steps{background:var(--ds-bg-2)}
+.steps-grid{display:grid;gap:14px;margin-top:28px}
+.step-card{
+  background:var(--ds-bg);border:1px solid var(--ds-line);border-radius:var(--ds-r-md);padding:20px
+}
+.step-n{font-family:var(--ds-font-mono);font-size:12px;font-weight:500;letter-spacing:.14em;color:var(--ds-primary-deep);display:block;margin-bottom:9px}
+.step-card h3{font-size:17px;font-weight:600;margin:0 0 6px}
+.step-card p{font-size:14px;color:var(--ds-ink-soft)}
+.steps-photo{margin-top:22px;border-radius:var(--ds-r-lg);overflow:hidden}
+.steps-photo img{width:100%;height:200px;object-fit:cover}
+
+/* ==================== 06 TEAM — bg: light · image-overlay ==================== */
+.s-team{background:var(--ds-bg-2)}
+.team-grid{display:grid;gap:18px;margin-top:28px}
+.team-panel{
+  position:relative;border-radius:var(--ds-r-lg);overflow:hidden;
+  background-image:url('../_shared-img/494ba0db321d.webp');
+  background-size:cover;background-position:center
+}
+.team-photo{width:100%;height:330px;object-fit:cover;display:block}
+/* A11Y: a gradient scrim gives text a DIFFERENT backdrop depending on how much text
+   there is and how light the photo is beneath — the three vet cards measured 1:1,
+   1.16:1 and 1.29:1 worst-case. The scrim now only softens the photo; the caption sits
+   on its own SOLID panel, so its contrast is fixed and computable (white 13.84:1,
+   mint cred 11.97:1, body copy 10.71:1) no matter which photo is used. */
+.team-scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,49,61,0) 30%,rgba(8,49,61,.75) 100%);pointer-events:none}
+.team-meta{position:absolute;left:0;right:0;bottom:0;padding:20px;color:#fff;background:#08313d}
+.team-meta h3{font-size:19px;font-weight:600;margin:0 0 3px;color:#fff}
+.team-meta .cred{font-family:var(--ds-font-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ds-primary-soft)}
+.team-meta p{font-size:13.5px;color:#d6e6e0;margin-top:8px}
+
+/* ============= 07 TESTIMONIALS — bg: warm · hairline-card ============= */
+.s-testimonials{background:var(--ds-bg)}
+.tst-grid{display:grid;gap:16px;margin-top:28px}
+.tst-card{background:var(--ds-bg-2);border:1px solid var(--ds-line);border-radius:var(--ds-r-md);padding:22px}
+.tst-stars{color:var(--ds-primary-deep);font-size:14px;letter-spacing:2px;margin-bottom:10px}
+.tst-card blockquote{margin:0 0 16px;font-size:15px;line-height:1.6}
+.tst-who{display:flex;align-items:center;gap:11px}
+.testimonial-photo{width:44px;height:44px;border-radius:50%;object-fit:cover;flex:0 0 auto}
+.tst-name{font-weight:700;font-size:14px}
+.tst-role{font-size:12px;color:var(--ds-ink-soft)}
+
+/* ================ 08 FAQ — bg: light · hairline-card ================ */
+/* FAQ-ACCORDION.md #5 Centered FAQ with eyebrow + heading */
+.s-faq{background:var(--ds-bg-2)}
+.faq-wrap{max-width:720px;margin:0 auto;text-align:center}
+.faq-list{margin-top:26px;text-align:left}
+.faq-item{border:1px solid var(--ds-line);border-radius:var(--ds-r-md);margin-bottom:12px;background:var(--ds-bg);overflow:hidden}
+.faq-q{
+  width:100%;display:flex;justify-content:space-between;align-items:center;gap:16px;
+  padding:18px;background:transparent;border:0;cursor:pointer;text-align:left;
+  font-family:var(--ds-font-display);font-size:16px;font-weight:600;color:var(--ds-ink)
+}
+.faq-icon{flex:0 0 auto;font-size:20px;line-height:1;color:var(--ds-primary-deep);transition:transform 280ms var(--ds-ease)}
+.faq-item[data-open="true"] .faq-icon{transform:rotate(45deg)}
+.faq-a{display:grid;grid-template-rows:0fr;transition:grid-template-rows 320ms var(--ds-ease)}
+.faq-item[data-open="true"] .faq-a{grid-template-rows:1fr}
+.faq-a > div{overflow:hidden}
+.faq-a p{padding:0 18px 18px;font-size:14.5px;color:var(--ds-ink-soft)}
+.faq-q:focus-visible{outline:3px solid var(--ds-accent);outline-offset:-3px}
+
+/* ============ 09 BOOKING — bg: dark · dark-anchor-panel ============ */
+/* FORM-LAYOUTS.md #8 Booking form with date/time/service */
+.s-book{
+  background:var(--ds-primary-deep);position:relative;overflow:hidden;isolation:isolate
+}
+/* A11Y: a decorative photo laid over a dark band with plain opacity LIGHTENS it wherever
+   the photo is light — the booking band's worst case was #2e7964, on which even pure
+   white body text only reaches 4.42:1. mix-blend-mode:multiply makes the composite
+   photo x ground, which can never be lighter than the ground, so every contrast figure
+   computed against the solid band is a guarantee rather than an average. */
+.book-bg{
+  position:absolute;inset:0;
+  background-image:url('../_shared-img/e65aacd0e375.webp');
+  background-size:cover;background-position:center;
+  mix-blend-mode:multiply;opacity:.55;pointer-events:none
+}
+.book-grid{position:relative;display:grid;gap:26px}
+.book-panel{
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);
+  border-radius:var(--ds-r-lg);padding:24px;backdrop-filter:blur(8px)
+}
+.book-panel .field label{color:#e9f6f1}
+/* Equal-specificity collision: `.field input:focus-visible` and `.on-dark input:focus-visible`
+   are both (0,2,1), so source order handed the navy ring to fields on the dark band, where
+   it measures 1.26:1. Scope it one level deeper for the panel that is actually dark. */
+.book-panel .field input:focus-visible,
+.book-panel .field select:focus-visible,
+.book-panel .field textarea:focus-visible{outline-color:var(--ds-signature)}
+.book-panel .field input,.book-panel .field select,.book-panel .field textarea{
+  background:rgba(255,255,255,.94);border-color:rgba(255,255,255,.34)
+}
+.book-note{font-size:13px;color:#e9f6f1;margin-top:12px}
+
+/* ============ 10 HOURS / LOCATION — bg: light · image-overlay ============ */
+/* FOOTER-STYLES.md #13 Map-embedded local footer + SECTION-COMPONENTS.md #52 */
+.s-contact{background:var(--ds-primary-soft)}
+.contact-grid{display:grid;gap:22px;margin-top:26px}
+.map-panel{
+  min-height:250px;border-radius:var(--ds-r-lg);overflow:hidden;
+  background-image:url('../_shared-img/8d7aa08b1d92.webp');
+  background-size:cover;background-position:center;position:relative
+}
+.map-panel::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,49,61,.08),rgba(8,49,61,.42))}
+.map-pin{position:absolute;left:18px;bottom:18px;z-index:2;background:var(--ds-bg-2);border-radius:var(--ds-r-md);padding:13px 16px;box-shadow:var(--ds-shadow-card);font-size:13.5px}
+.hours-table{width:100%;border-collapse:collapse;margin-top:6px}
+.hours-table th,.hours-table td{text-align:left;padding:9px 0;border-bottom:1px solid var(--ds-line);font-size:14px}
+.hours-table th{font-weight:600;color:var(--ds-ink)}
+.hours-table td{color:var(--ds-ink-soft);font-family:var(--ds-font-mono);font-size:13px}
+.hours-table tr:last-child th,.hours-table tr:last-child td{border-bottom:0}
+.loc-triad h3{font-size:19px;font-weight:600;margin:0 0 4px}
+.loc-qual{font-size:14px;color:var(--ds-ink-soft);margin-bottom:10px}
+
+/* ==================== 11 CLOSING CTA — bg: dark ==================== */
+.s-closing{
+  background:var(--ds-ink);position:relative;overflow:hidden;text-align:center;isolation:isolate
+}
+/* A11Y: same multiply guarantee as .book-bg — see the note there. */
+.closing-bg{
+  position:absolute;inset:0;
+  background-image:url('../_shared-img/0d94ae9f7209.webp');
+  background-size:cover;background-position:center 38%;
+  mix-blend-mode:multiply;opacity:.6;pointer-events:none
+}
+.closing-in{position:relative}
+.closing-in h2{font-size:30px;font-weight:700;color:#fff;margin:0 0 14px}
+.closing-in p{color:#c3d3e4;max-width:52ch;margin:0 auto 26px}
+
+/* ============================== FOOTER ============================== */
+.foot{background:var(--ds-primary-deep);color:#cfe9df;padding:44px 0 108px}
+.foot-grid{display:grid;gap:28px}
+.foot h3{font-family:var(--ds-font-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#bfe8d6;margin:0 0 12px;font-weight:700}
+.foot a{color:#e6f6ef;text-decoration:none;display:block;padding:4px 0;font-size:14px}
+.foot a:hover{text-decoration:underline;text-underline-offset:4px}
+.foot-brand{display:flex;align-items:center;gap:10px;font-family:var(--ds-font-display);font-weight:700;font-size:17px;color:#fff;margin-bottom:10px}
+.foot-emerg{font-family:var(--ds-font-mono);font-size:19px;color:#fff;text-decoration:none;display:block;margin-top:5px}
+.foot-stamp{margin-top:28px;padding-top:20px;border-top:1px solid rgba(255,255,255,.14);font-size:12px;color:#c8e2d8;line-height:1.7}
+
+/* ================= STICKY CTA — STICKY-CTA-BAR.md #2 ================= */
+.sticky-cta{
+  position:fixed;left:0;right:0;bottom:0;z-index:75;
+  display:flex;gap:10px;padding:10px 14px calc(10px + env(safe-area-inset-bottom));
+  background:rgba(255,255,255,.97);border-top:1px solid var(--ds-line);
+  box-shadow:0 -8px 24px rgba(14,42,82,.10)
+}
+.sticky-cta .btn{flex:1;padding:13px 14px;font-size:14px}
+.sticky-cta .btn--primary{flex:1.35}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .reveal{opacity:1;transform:none;animation:none}
+  .btn,.svc-card,.tst-card{transition:none}
+}
+/* Static-render safeguard: scroll-driven reveals hold at their start state when the page
+   is rendered without a live scroll (printing, full-page capture, reader modes). Force the
+   settled state there so content is never invisible outside an interactive scroll. */
+@media print{
+  .reveal{opacity:1 !important;transform:none !important;animation:none !important}
+  .nav,.sticky-cta,.drawer,.scrim{display:none !important}
+}
+.force-settled .reveal{opacity:1 !important;transform:none !important;animation:none !important}
+
+/* ============================ BREAKPOINTS ============================ */
+@media (min-width:768px){
+  :root{--ds-section-py:64px;--ds-gutter:24px}
+  body{font-size:16px}
+  .h2{font-size:40px}
+  .lede{font-size:16px}
+  .hero h1{font-size:52px}
+  .hero-grid{padding-block:56px 68px}
+  .hero-photo{height:300px}
+  .field-2{grid-template-columns:1fr 1fr}
+  .trust-grid{grid-template-columns:repeat(4,1fr)}
+  .svc-grid{grid-template-columns:repeat(2,1fr)}
+  .steps-grid{grid-template-columns:repeat(2,1fr)}
+  .team-grid{grid-template-columns:repeat(2,1fr)}
+  .tst-grid{grid-template-columns:repeat(2,1fr)}
+  .contact-grid{grid-template-columns:1fr 1fr;align-items:start}
+  .foot-grid{grid-template-columns:repeat(2,1fr)}
+  .emerg-in{flex-direction:row;align-items:center;justify-content:space-between;gap:20px}
+  .nav-call{display:inline-flex}
+  .svc-photo-strip img{height:230px}
+}
+@media (min-width:1024px){
+  :root{--ds-section-py:80px;--ds-gutter:32px}
+  .h2{font-size:44px}
+  .hero h1{font-size:60px}
+  .hero-grid{grid-template-columns:1.15fr .85fr;gap:44px;padding-block:72px 84px}
+  .hero-photo{height:360px}
+  .svc-grid{grid-template-columns:repeat(3,1fr)}
+  .steps-grid{grid-template-columns:repeat(4,1fr)}
+  .team-grid{grid-template-columns:repeat(3,1fr)}
+  .tst-grid{grid-template-columns:repeat(3,1fr)}
+  .book-grid{grid-template-columns:.9fr 1.1fr;align-items:center}
+  .foot-grid{grid-template-columns:1.4fr 1fr 1fr 1fr}
+  .nav-pill{
+    display:flex;align-items:center;gap:2px;padding:4px;
+    background:var(--ds-bg-2);border:1.5px solid var(--ds-line);border-radius:var(--ds-r-pill)
+  }
+  .nav-pill a{
+    padding:8px 15px;border-radius:var(--ds-r-pill);text-decoration:none;
+    font-size:14px;font-weight:600;color:var(--ds-ink-soft);transition:background 200ms ease,color 200ms ease
+  }
+  .nav-pill a:hover{color:var(--ds-ink)}
+  .nav-pill a.is-active{background:var(--ds-primary-deep);color:#fff}
+  .nav-cta{display:inline-flex}
+  .hamburger{display:none}
+  .sticky-cta{display:none}
+  .foot{padding-bottom:48px}
+  .nav-in{height:76px}
+}
+@media (min-width:1440px){
+  :root{--ds-section-py:96px}
+  .h2{font-size:48px}
+  .hero h1{font-size:66px}
+  .hero-photo{height:420px}
+}
+</style>
+</head>
+<body>
+
+<!-- A11Y: skip link — first thing in the tab order, so a keyboard or screen-reader user
+     is not forced through the whole nav on every visit (WCAG 2.4.1 Bypass Blocks). -->
+<a class="skip-link" href="#top">Skip to main content</a>
+
+<!-- ===================== NAV — NAV-PATTERNS.md #4 Pill-grouped active-tab + icon CTA ===================== -->
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="#top">
+      <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true">
+        <circle cx="16" cy="16" r="15" fill="#0ca678"/>
+        <circle cx="11.5" cy="12" r="2.6" fill="#F5FFFA"/><circle cx="20.5" cy="12" r="2.6" fill="#F5FFFA"/>
+        <circle cx="7.6" cy="17.6" r="2.2" fill="#F5FFFA"/><circle cx="24.4" cy="17.6" r="2.2" fill="#F5FFFA"/>
+        <path d="M16 16.4c3.5 0 6.2 2.6 6.2 5.3 0 2.2-1.9 3.5-4 3.5-1.2 0-1.6-.5-2.2-.5s-1 .5-2.2.5c-2.1 0-4-1.3-4-3.5 0-2.7 2.7-5.3 6.2-5.3z" fill="#F5FFFA"/>
+      </svg>
+      Harbor&nbsp;Paws
+    </a>
+
+    <nav class="nav-pill" aria-label="Section navigation">
+      <a href="harbor-paws.html" class="is-active" aria-current="page">Home</a>
+      <a href="services.html">Services</a>
+      <a href="emergency.html">Emergency</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+
+    <div class="nav-actions">
+      <a class="nav-call" href="tel:+15550172400" aria-label="Call the 24/7 emergency line">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.8a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.8 2.1z"/></svg>
+        24/7
+      </a>
+      <a class="btn btn--primary nav-cta" href="book.html">Book</a>
+      <button class="hamburger" id="navToggle" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobileDrawer">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="scrim" id="navScrim"></div>
+
+<aside class="drawer mobile-nav" id="mobileDrawer" aria-hidden="true" aria-label="Site menu">
+  <div class="drawer-top">
+    <button class="drawer-close" id="drawerClose" type="button" aria-label="Close navigation menu">&times;</button>
+  </div>
+  <a class="drawer-link" href="harbor-paws.html" aria-current="page">Home</a>
+  <a class="drawer-link" href="services.html">Services</a>
+  <a class="drawer-link" href="emergency.html">24/7 Emergency</a>
+  <a class="drawer-link" href="about.html">About Harbor Paws</a>
+  <a class="drawer-link" href="contact.html">Hours &amp; location</a>
+  <a class="drawer-link" href="book.html">Book an appointment</a>
+  <div class="drawer-emerg">
+    Emergency, any hour
+    <a href="tel:+15550172400">(555) 017-2400</a>
+  </div>
+</aside>
+
+<main id="top">
+
+  <!-- ============ 01 HERO · bg dark · full-bleed-photo · open-layout ============ -->
+  <section class="on-dark section s-hero" aria-labelledby="hero-h">
+    <div class="wrap hero-grid">
+      <div class="hero">
+        <p class="eyebrow">Same-day appointments &middot; Open 24/7</p>
+        <h1 id="hero-h">Book today. <em>Seen today.</em></h1>
+        <p class="hero-sub">A full-service veterinary clinic and animal hospital for dogs and cats on the harbour. Wellness through emergency, all under one roof &mdash; with vets who explain everything twice if you need it.</p>
+        <div class="hero-cta-row">
+          <a class="btn btn--primary" href="#book">Book an Appointment</a>
+          <a class="btn btn--onDark" href="tel:+15550172400">Call (555) 017-2400</a>
+        </div>
+        <img class="hero-photo reveal" style="--i:1;margin-top:28px"
+             src="../_shared-img/983d17cc6ffb.webp"
+             alt="A veterinarian gently examining a small white kitten held in both hands" loading="eager" fetchpriority="high" decoding="async">
+        <div class="hero-trust">
+          <div>Licensed veterinarians</div>
+          <div>Est. 2011</div>
+          <div>Dogs &amp; cats</div>
+        </div>
+      </div>
+
+      <!-- HERO-COMPOSITIONS.md #25 Embedded lead-capture form hero -->
+      <div class="hero-form reveal" style="--i:2">
+        <h2>Start a booking</h2>
+        <p class="mini">Takes about a minute. We confirm by phone within the hour.</p>
+        <div class="field">
+          <label for="h-service">What do you need?</label>
+          <select id="h-service" name="service">
+            <option>Wellness exam</option><option>Vaccinations</option><option>Dental</option>
+            <option>Diagnostics</option><option>Surgery consult</option><option>Urgent / emergency</option>
+          </select>
+        </div>
+        <div class="field-2">
+          <div class="field"><label for="h-pet">Pet name</label><input id="h-pet" name="pet-name" type="text" autocomplete="off" placeholder="Biscuit"></div>
+          <div class="field"><label for="h-species">Species</label>
+            <select id="h-species"><option>Dog</option><option>Cat</option></select>
+          </div>
+        </div>
+        <div class="field"><label for="h-date">Preferred day</label><input id="h-date" name="preferred-day" type="date" autocomplete="off"></div>
+        <a class="btn btn--primary" style="width:100%" href="#book">Continue</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==== 02 EMERGENCY BAND · bg accent · no imagery (justified) · open-layout ==== -->
+  <!-- SECTION-COMPONENTS.md #40 repositioned above the fold per §1.5 Cornell:
+       care access precedes branding. DIVIDER-PATTERNS.md #10 hard colour band step. -->
+  <section class="s-emergency section" aria-label="24 hour emergency line">
+    <div class="wrap emerg-in">
+      <span class="emerg-label"><span class="emerg-dot"></span>Emergency, any hour &mdash; no appointment needed</span>
+      <a class="emerg-tel" href="tel:+15550172400">(555) 017-2400</a>
+      <span class="emerg-note">A veterinarian is on site 24 hours, every day of the year.</span>
+    </div>
+  </section>
+
+  <!-- ==== 03 TRUST STRIP · bg light · no imagery (justified) · open-layout ==== -->
+  <section class="s-trust section" aria-label="Practice at a glance">
+    <div class="wrap">
+      <div class="trust-grid">
+        <div class="reveal" style="--i:0"><span class="trust-n">24/7</span><span class="trust-l">Emergency cover</span></div>
+        <div class="reveal" style="--i:1"><span class="trust-n">Same&nbsp;day</span><span class="trust-l">Appointments</span></div>
+        <div class="reveal" style="--i:2"><span class="trust-n">6</span><span class="trust-l">Veterinarians</span></div>
+        <div class="reveal" style="--i:3"><span class="trust-n">2011</span><span class="trust-l">Serving the harbour</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==== 04 SERVICES · bg warm · inset-photo · shadow-lift ====
+       CARD-VARIATIONS.md #2 Light feature card with embedded mini-visual
+       Order per §1.6 Merck ordering law: routine care first, acute last. -->
+  <section class="s-services section" id="services" aria-labelledby="svc-h">
+    <div class="wrap">
+      <p class="eyebrow">What we do</p>
+      <h2 class="h2" id="svc-h">Six ways we look after them.</h2>
+      <p class="lede">Routine care first, urgent care always available. Every visit ends with a plan you can actually repeat at home.</p>
+
+      <div class="svc-grid">
+        <article class="svc-card reveal" style="--i:0">
+          <img class="svc-visual" src="../_shared-img/c656dc35e2ef.webp" alt="Illustration of a dog and cat sitting beside a stethoscope" loading="lazy" decoding="async">
+          <div class="svc-body"><span class="svc-chip">Routine</span><h3>Wellness Exams</h3>
+            <p>Head-to-tail checks, weight and dental tracking, and a plan you actually understand.</p></div>
+        </article>
+        <article class="svc-card reveal" style="--i:1">
+          <img class="svc-visual" src="../_shared-img/ee6ad13552b6.webp" alt="Illustration of a shield emblem with a paw print at its centre" loading="lazy" decoding="async">
+          <div class="svc-body"><span class="svc-chip">Preventive</span><h3>Vaccinations</h3>
+            <p>Core and lifestyle schedules, timed to your pet&rsquo;s age and how they actually live.</p></div>
+        </article>
+        <article class="svc-card reveal" style="--i:2">
+          <img class="svc-visual" src="../_shared-img/78fc0bc73ef8.webp" alt="Illustration of a clean tooth beside a pet toothbrush" loading="lazy" decoding="async">
+          <div class="svc-body"><span class="svc-chip">Preventive</span><h3>Dental</h3>
+            <p>Cleaning, extractions and the home routine that keeps you out of the chair.</p></div>
+        </article>
+        <article class="svc-card reveal" style="--i:3">
+          <img class="svc-visual" src="../_shared-img/c135cb2d0117.webp" alt="Illustration of a magnifying glass over a paw print with a heartbeat line" loading="lazy" decoding="async">
+          <div class="svc-body"><span class="svc-chip">In house</span><h3>Diagnostics</h3>
+            <p>On-site imaging and bloodwork, so answers come back in hours, not days.</p></div>
+        </article>
+        <article class="svc-card reveal" style="--i:4">
+          <img class="svc-visual" src="../_shared-img/4b5d22451312.webp" alt="Illustration of a cat sleeping peacefully under a soft blanket" loading="lazy" decoding="async">
+          <div class="svc-body"><span class="svc-chip">Surgical</span><h3>Surgery</h3>
+            <p>Routine and soft-tissue procedures, with a call from the surgeon the same evening.</p></div>
+        </article>
+        <article class="svc-card svc-card--urgent reveal" style="--i:5">
+          <img class="svc-visual" src="../_shared-img/b089e401c310.webp" alt="Illustration of a harbour lighthouse glowing under a crescent moon" loading="lazy" decoding="async">
+          <div class="svc-body"><span class="svc-chip">Any hour</span><h3>Emergency</h3>
+            <p>Walk in at any hour. A veterinarian is on site, not on call, every night of the year.</p>
+            <a class="svc-call" href="tel:+15550172400">(555) 017-2400</a></div>
+        </article>
+      </div>
+
+      <div class="svc-photo-strip reveal" style="--i:6">
+        <img src="../_shared-img/58dc31bdce48.webp"
+             alt="A veterinarian carefully examining a black and tan dachshund on an exam table" loading="lazy" decoding="async">
+      </div>
+    </div>
+  </section>
+
+  <!-- ==== 05 HOURS + LOCATION · bg light · interior photo · image-overlay ====
+       SECTION-COMPONENTS.md #52 · location triad per §1.5 Cornell -->
+  <section class="s-contact section" id="contact" aria-labelledby="contact-h">
+    <div class="wrap">
+      <p class="eyebrow">Find us</p>
+      <h2 class="h2" id="contact-h">Hours, location, and the line that never closes.</h2>
+      <div class="contact-grid">
+        <div class="map-panel reveal" style="--i:0">
+          <div class="map-pin"><strong>Harbor Paws Animal Hospital</strong><br>14 Wharf Road, Harbour District</div>
+        </div>
+        <div class="loc-triad">
+          <h3>Harbor Paws Animal Hospital</h3>
+          <p class="loc-qual">Full-service clinic and 24-hour animal hospital for dogs and cats.</p>
+          <table class="hours-table">
+            <tr><th>Mon &ndash; Fri</th><td>07:30 &ndash; 19:00</td></tr>
+            <tr><th>Saturday</th><td>08:00 &ndash; 17:00</td></tr>
+            <tr><th>Sunday</th><td>09:00 &ndash; 15:00</td></tr>
+            <tr><th>Emergency</th><td>24 hours, every day</td></tr>
+          </table>
+          <p style="margin-top:16px"><a class="link" href="tel:+15550172400">(555) 017-2400</a> &middot; <a class="link" href="#book">Book online</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==== 06 FIRST VISIT · bg light · inset-photo · hairline-card ==== -->
+  <section class="s-steps section" id="steps" aria-labelledby="steps-h">
+    <div class="wrap">
+      <p class="eyebrow">Before you arrive</p>
+      <h2 class="h2" id="steps-h">Your first visit, step by step.</h2>
+      <p class="lede">Written the way pet parents actually ask it, so nothing is a surprise on the day.</p>
+      <div class="steps-grid">
+        <div class="step-card reveal" style="--i:0"><span class="step-n">01</span><h3>Book in a minute</h3><p>Pick a service and a day. We confirm by phone within the hour.</p></div>
+        <div class="step-card reveal" style="--i:1"><span class="step-n">02</span><h3>Bring three things</h3><p>Any past records, the food they eat, and a list of what you have noticed.</p></div>
+        <div class="step-card reveal" style="--i:2"><span class="step-n">03</span><h3>Meet your vet</h3><p>The same veterinarian sees you at follow-ups wherever we can manage it.</p></div>
+        <div class="step-card reveal" style="--i:3"><span class="step-n">04</span><h3>Leave with a plan</h3><p>Written, plain-language, and emailed before you reach the car park.</p></div>
+      </div>
+      <div class="steps-photo reveal" style="--i:4">
+        <img src="../_shared-img/0170f11f3b1e.webp"
+             alt="A person gently holding a silver tabby cat" loading="lazy" decoding="async">
+      </div>
+    </div>
+  </section>
+
+  <!-- ==== 07 TEAM · bg light · inset-photo · image-overlay ====
+       §1.8 counter-lesson inverted: AKC carries no per-item credentialing;
+       a clinic must, so DVM credentials sit on the card itself. -->
+  <section class="s-team section" id="team" aria-labelledby="team-h">
+    <div class="wrap">
+      <p class="eyebrow">Meet the team</p>
+      <h2 class="h2" id="team-h">The people who will actually see you.</h2>
+      <p class="lede">Six veterinarians, one building, no rotating agency staff.</p>
+      <div class="team-grid">
+        <article class="team-panel reveal" style="--i:0">
+          <img class="team-photo" src="../_shared-img/494ba0db321d.webp"
+               alt="Veterinarian holding a small dog in a bright consulting room" loading="lazy" decoding="async">
+          <div class="team-scrim"></div>
+          <div class="team-meta"><h3>Dr. Maren Ilsley</h3><span class="cred">DVM &middot; Internal medicine</span>
+            <p>Founded the practice in 2011. Takes the difficult dental cases nobody else will.</p></div>
+        </article>
+        <article class="team-panel reveal" style="--i:1">
+          <img class="team-photo" src="../_shared-img/49a8b27f16e5.webp"
+               alt="Veterinarian carefully holding a dog during an examination" loading="lazy" decoding="async">
+          <div class="team-scrim"></div>
+          <div class="team-meta"><h3>Dr. Ade Okonjo</h3><span class="cred">VMD &middot; Surgery</span>
+            <p>Soft-tissue lead. Calls every owner personally the evening after a procedure.</p></div>
+        </article>
+        <article class="team-panel reveal" style="--i:2">
+          <img class="team-photo" src="../_shared-img/1642f078c5cc.webp"
+               alt="Clinician gently settling a white cat" loading="lazy" decoding="async">
+          <div class="team-scrim"></div>
+          <div class="team-meta"><h3>Dr. Tess Ramirez</h3><span class="cred">DVM &middot; Emergency</span>
+            <p>Runs the overnight floor. Fifteen years of three-in-the-morning calm.</p></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==== 08 TESTIMONIALS · bg warm · inset-photo · hairline-card ==== -->
+  <section class="s-testimonials section" id="testimonials" aria-labelledby="tst-h">
+    <div class="wrap">
+      <p class="eyebrow">Pet parents</p>
+      <h2 class="h2" id="tst-h">What people say afterwards.</h2>
+      <p class="lede">Placeholder testimonials for this demo build &mdash; Harbor Paws is a fictional practice.</p>
+      <div class="tst-grid">
+        <article class="tst-card reveal" style="--i:0">
+          <div class="tst-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <blockquote>They called me the next morning to ask how she slept. I had not even thought to ask.</blockquote>
+          <div class="tst-who">
+            <img class="testimonial-photo" src="../_shared-img/7dd9c9e0945a.webp" alt="Silver tabby cat" loading="lazy" decoding="async">
+            <div><div class="tst-name">Priya N.</div><div class="tst-role">Cat parent, harbour district</div></div>
+          </div>
+        </article>
+        <article class="tst-card reveal" style="--i:1">
+          <div class="tst-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <blockquote>Walked in at 2am with a limping spaniel. Saw a vet in ten minutes, not a triage queue.</blockquote>
+          <div class="tst-who">
+            <img class="testimonial-photo" src="../_shared-img/cd530dffe4eb.webp" alt="Red long-coated puppy" loading="lazy" decoding="async">
+            <div><div class="tst-name">Dan M.</div><div class="tst-role">Dog parent, two spaniels</div></div>
+          </div>
+        </article>
+        <article class="tst-card reveal" style="--i:2">
+          <div class="tst-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <blockquote>The plan came by email before I got home. First vet who has ever done that.</blockquote>
+          <div class="tst-who">
+            <img class="testimonial-photo" src="../_shared-img/bc206a449eda.webp" alt="White and brown short-haired cat" loading="lazy" decoding="async">
+            <div><div class="tst-name">Aoife R.</div><div class="tst-role">Cat parent, two rescues</div></div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==== 09 FAQ · bg light · no imagery (justified) · hairline-card ====
+       FAQ-ACCORDION.md #5 Centered FAQ with eyebrow + heading
+       Questions phrased per §1.6 Merck second-person convention. -->
+  <section class="s-faq section" id="faq" aria-labelledby="faq-h">
+    <div class="wrap faq-wrap">
+      <p class="eyebrow">Common questions</p>
+      <h2 class="h2" id="faq-h">The things people ask first.</h2>
+      <div class="faq-list">
+        <div class="faq-item" data-open="true">
+          <button class="faq-q" type="button" aria-expanded="true" aria-controls="fa1">What should I bring to the first visit?<span class="faq-icon">+</span></button>
+          <div class="faq-a" id="fa1"><div><p>Any records from a previous practice, the food they currently eat (a photo of the bag is fine), and a short list of anything you have noticed at home. If your pet is anxious in the waiting room, tell us when you book and we will bring you straight through.</p></div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" type="button" aria-expanded="false" aria-controls="fa2">Do you take pet insurance?<span class="faq-icon">+</span></button>
+          <div class="faq-a" id="fa2"><div><p>We work with all major pet insurers. We ask for payment at the time of the visit and send the itemised claim documentation the same day, so reimbursement is not held up by our paperwork. For planned surgery we can prepare a written estimate in advance.</p></div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" type="button" aria-expanded="false" aria-controls="fa3">How often should my dog see a veterinarian?<span class="faq-icon">+</span></button>
+          <div class="faq-a" id="fa3"><div><p>Healthy adult dogs and cats do well with one full wellness exam a year. Puppies and kittens need a short series in the first months, and pets over about seven benefit from twice-yearly checks, because the things we are watching for change faster at that age.</p></div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" type="button" aria-expanded="false" aria-controls="fa4">Is someone really there at night?<span class="faq-icon">+</span></button>
+          <div class="faq-a" id="fa4"><div><p>Yes. A veterinarian is physically on site overnight, not on call from home. You do not need an appointment and you do not need to be an existing client to be seen in an emergency.</p></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==== 10 BOOKING · bg dark · full-bleed-photo · dark-anchor-panel ====
+       FORM-LAYOUTS.md #8 Booking form with date/time/service -->
+  <section class="on-dark section s-book" id="book" aria-labelledby="book-h">
+    <div class="book-bg"></div>
+    <div class="wrap book-grid">
+      <div>
+        <p class="eyebrow">Book an appointment</p>
+        <h2 class="h2" id="book-h">Tell us who is coming in.</h2>
+        <p class="lede">We confirm by phone within the hour during opening times. For anything urgent, call the 24/7 line instead of filling this in &mdash; it is faster.</p>
+        <a class="btn btn--onDark" href="tel:+15550172400">Call (555) 017-2400</a>
+      </div>
+      <form class="book-panel reveal" style="--i:1" onsubmit="return false;">
+        <div class="field-2">
+          <div class="field"><label for="b-name">Your name</label><input id="b-name" name="name" type="text" autocomplete="name" placeholder="Alex Moreno"></div>
+          <div class="field"><label for="b-phone">Phone</label><input id="b-phone" name="tel" type="tel" autocomplete="tel" placeholder="(555) 000-0000"></div>
+        </div>
+        <div class="field-2">
+          <div class="field"><label for="b-pet">Pet name</label><input id="b-pet" name="pet-name" type="text" autocomplete="off" placeholder="Biscuit"></div>
+          <div class="field"><label for="b-age">Pet age</label><input id="b-age" name="pet-age" type="text" autocomplete="off" placeholder="4 years"></div>
+        </div>
+        <div class="field-2">
+          <div class="field"><label for="b-service">Service</label>
+            <select id="b-service"><option>Wellness exam</option><option>Vaccinations</option><option>Dental</option><option>Diagnostics</option><option>Surgery consult</option><option>Urgent / emergency</option></select>
+          </div>
+          <div class="field"><label for="b-date">Preferred day</label><input id="b-date" name="preferred-day" type="date" autocomplete="off"></div>
+        </div>
+        <div class="field"><label for="b-notes">Anything we should know?</label><textarea id="b-notes" rows="3" placeholder="She has been off her food since Sunday."></textarea></div>
+        <button class="btn btn--primary" type="submit" style="width:100%">Request this appointment</button>
+        <p class="book-note">Demo form &mdash; this build does not submit anywhere.</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- ==== 11 CLOSING CTA · bg dark · full-bleed-photo · open-layout ==== -->
+  <section class="on-dark section s-closing" aria-labelledby="close-h">
+    <div class="closing-bg"></div>
+    <div class="wrap closing-in">
+      <h2 id="close-h">Care They Can&rsquo;t Say Thanks For.</h2>
+      <p>Book a wellness exam, or just call and ask us something. Both are free to start.</p>
+      <a class="btn btn--primary" href="#book">Book an Appointment</a>
+    </div>
+  </section>
+
+</main>
+
+<!-- ================= FOOTER — FOOTER-STYLES.md #13 Map-embedded local footer ================= -->
+<footer class="foot">
+  <div class="wrap foot-grid">
+    <div>
+      <div class="foot-brand">
+        <svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true">
+          <circle cx="16" cy="16" r="15" fill="#F5FFFA"/>
+          <circle cx="11.5" cy="12" r="2.6" fill="#087f5b"/><circle cx="20.5" cy="12" r="2.6" fill="#087f5b"/>
+          <circle cx="7.6" cy="17.6" r="2.2" fill="#087f5b"/><circle cx="24.4" cy="17.6" r="2.2" fill="#087f5b"/>
+          <path d="M16 16.4c3.5 0 6.2 2.6 6.2 5.3 0 2.2-1.9 3.5-4 3.5-1.2 0-1.6-.5-2.2-.5s-1 .5-2.2.5c-2.1 0-4-1.3-4-3.5 0-2.7 2.7-5.3 6.2-5.3z" fill="#087f5b"/>
+        </svg>
+        Harbor Paws
+      </div>
+      <p style="font-size:14px;line-height:1.7">14 Wharf Road<br>Harbour District</p>
+      <h3 style="margin-top:18px">Emergency, any hour</h3>
+      <a class="foot-emerg" href="tel:+15550172400">(555) 017-2400</a>
+    </div>
+    <div>
+      <h3>Services</h3>
+      <a href="services.html">Wellness exams</a><a href="services.html">Vaccinations</a>
+      <a href="services.html">Dental</a><a href="services.html">Diagnostics</a>
+      <a href="services.html">Surgery</a><a href="emergency.html">Emergency</a>
+    </div>
+    <div>
+      <h3>Practice</h3>
+      <a href="about.html">Our veterinarians</a><a href="about.html">About Harbor Paws</a>
+      <a href="services.html">Services</a><a href="contact.html">Hours &amp; location</a>
+    </div>
+    <div>
+      <h3>Hours</h3>
+      <p style="font-size:14px;line-height:1.9">Mon&ndash;Fri 07:30&ndash;19:00<br>Sat 08:00&ndash;17:00<br>Sun 09:00&ndash;15:00<br><strong style="color:#fff">Emergency 24/7</strong></p>
+      <a href="book.html" style="margin-top:10px;text-decoration:underline">Book online</a>
+    </div>
+  </div>
+  <div class="wrap">
+    <p class="foot-stamp">
+      Harbor Paws Animal Hospital is a <strong>fictional business created for a design demonstration</strong>.
+      The phone number, address, hours, veterinarian names and testimonials are placeholder content and
+      do not represent a real practice, person, or accreditation.
+      &copy; 2026 &middot; Demo build.
+    </p>
+  </div>
+</footer>
+
+<!-- ============ STICKY CTA — STICKY-CTA-BAR.md #2 Dual-button bottom-bar ============ -->
+<div class="sticky-cta" role="complementary" aria-label="Quick actions">
+  <a class="btn btn--primary" href="#book">Book an Appointment</a>
+  <a class="btn btn--ghost" href="tel:+15550172400">Call 24/7</a>
+</div>
+
+<script>
+(function(){
+  /* ---- nav drawer (NAV-PATTERNS.md #4 drawer state) ---- */
+  var toggle = document.getElementById('navToggle');
+  var drawer = document.getElementById('mobileDrawer');
+  var scrim  = document.getElementById('navScrim');
+  var closeB = document.getElementById('drawerClose');
+
+  /* Kept in step with design-system/nav.js, which the inner pages load — the two must
+     behave identically. `inert` and the move of focus INTO the panel on open were added
+     2026-08-06: without them a keyboard user opens the drawer and focus stays behind it
+     on the page underneath, and the closed panel sits in the tab order (measured: its
+     close button was reachable on Tab #4 at 375px). */
+  function setDrawer(open, returnFocus){
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    drawer.setAttribute('aria-hidden', open ? 'false' : 'true');
+    scrim.classList.toggle('is-open', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+    if ('inert' in drawer) drawer.inert = !open;
+    if (open) { var first = drawer.querySelector('a, button'); if (first) first.focus(); }
+    else if (returnFocus) { toggle.focus(); }
+  }
+  setDrawer(false, false);
+  toggle.addEventListener('click', function(){
+    setDrawer(toggle.getAttribute('aria-expanded') !== 'true', false);
+  });
+  closeB.addEventListener('click', function(){ setDrawer(false, true); });
+  scrim.addEventListener('click', function(){ setDrawer(false, false); });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') setDrawer(false, true);
+  });
+  Array.prototype.forEach.call(drawer.querySelectorAll('a'), function(a){
+    a.addEventListener('click', function(){ setDrawer(false); });
+  });
+
+  /* ---- FAQ accordion (MOTION-PATTERNS.md #39, grid-template-rows method) ---- */
+  Array.prototype.forEach.call(document.querySelectorAll('.faq-q'), function(btn){
+    btn.addEventListener('click', function(){
+      var item = btn.closest('.faq-item');
+      var open = item.getAttribute('data-open') === 'true';
+      item.setAttribute('data-open', open ? 'false' : 'true');
+      btn.setAttribute('aria-expanded', open ? 'false' : 'true');
+    });
+  });
+
+
+  /* ---- scroll reveal fallback where scroll-timeline is unsupported ---- */
+  if(!CSS.supports('animation-timeline: view()') && 'IntersectionObserver' in window){
+    var ro = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){ en.target.style.animationPlayState = 'running'; ro.unobserve(en.target); }
+      });
+    }, { threshold: 0.12 });
+    Array.prototype.forEach.call(document.querySelectorAll('.reveal'), function(el){
+      el.style.animationPlayState = 'paused'; ro.observe(el);
+    });
+  }
+})();
+</script>
+</body>
+</html>

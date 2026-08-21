@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BLOC Aesthetics — Your Look. Our Work.</title>
+<meta name="description" content="Bold, transparent aesthetic medicine. Qualified practitioners, published pricing, real results. No spa-speak. No hidden fees.">
+<link rel="stylesheet" href="../_shared-fonts/bloc-aesthetics-fonts.css">
+<style>
+:root{
+  --black:#0c0c0d;          /* near-black ink */
+  --true-black:#000;
+  --paper:#ffffff;          /* clean white — brief: white primary backgrounds */
+  --grey:#f1f1f2;           /* light grey card fill */
+  --grey-2:#e3e3e5;         /* lines */
+  --grey-mid:#6c6c70;       /* muted */
+  --accent:#ff3b1a;         /* bold orange-red */
+  --accent-dk:#e22e0f;
+  --line:rgba(12,12,13,.12);
+  --line-d:rgba(255,255,255,.16);
+  --wrap:1200px;
+  --disp:'Archivo', system-ui, sans-serif;
+  --sans:'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --ease:cubic-bezier(.2,.7,.2,1);
+  --t-fast:.22s ease-out;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--black);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{margin:0;font-family:var(--disp);font-weight:900;line-height:.95;letter-spacing:-.02em;text-transform:uppercase}
+p{margin:0 0 1em}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 26px}
+
+/* highlight word */
+.hl{background:var(--accent);color:#fff;padding:.02em .22em;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.hl-ink{background:var(--accent);color:var(--black)}
+.u-acc{color:var(--accent)}
+
+/* kicker */
+.kick{display:inline-flex;align-items:center;gap:10px;font-family:var(--disp);font-weight:800;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent)}
+.kick::before{content:"";width:26px;height:3px;background:var(--accent);display:inline-block}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:10px;font-family:var(--disp);font-weight:800;font-size:13px;letter-spacing:.06em;text-transform:uppercase;
+  padding:15px 28px;border:2px solid transparent;cursor:pointer;transition:var(--t-fast);border-radius:2px}
+.btn .ar{transition:transform var(--t-fast)}
+.btn:hover .ar{transform:translateX(5px)}
+.btn-accent{background:var(--accent);color:var(--black);border-color:var(--accent)}
+.btn-accent:hover{background:#fff;color:var(--black);border-color:#fff}
+.btn-dark{background:var(--black);color:#fff;border-color:var(--black)}
+.btn-dark:hover{background:var(--accent);color:var(--black);border-color:var(--accent)}
+.btn-ghost-d{background:transparent;color:#fff;border-color:rgba(255,255,255,.55)}
+.btn-ghost-d:hover{border-color:#fff;background:#fff;color:var(--black)}
+.btn-ghost-l{background:transparent;color:var(--black);border-color:var(--black)}
+.btn-ghost-l:hover{background:var(--black);color:#fff}
+
+/* sticky mobile CTA */
+.sticky-book{display:none;position:fixed;left:0;right:0;bottom:0;z-index:80;background:var(--accent);color:var(--black);
+  font-family:var(--disp);font-weight:800;font-size:14px;letter-spacing:.08em;text-transform:uppercase;
+  align-items:center;justify-content:center;gap:9px;padding:16px;border-top:3px solid var(--black);
+  transform:translateY(100%);transition:transform .3s var(--ease)}
+.sticky-book.show{transform:translateY(0)}
+
+/* ============ SPLASH ============ */
+#splash{position:fixed;inset:0;z-index:200;background:var(--black);display:grid;place-items:center;overflow:hidden}
+#splash .bigword{font-family:var(--disp);font-weight:900;color:#fff;font-size:clamp(64px,18vw,220px);letter-spacing:-.04em;line-height:1;
+  clip-path:inset(0 100% 0 0);animation:splashWipe .9s var(--ease) .15s forwards}
+#splash .bigword b{color:var(--accent)}
+#splash .bar{position:absolute;left:0;right:0;height:0;background:var(--accent);bottom:0;animation:splashBar 1.5s var(--ease) forwards}
+@keyframes splashWipe{to{clip-path:inset(0 0 0 0)}}
+@keyframes splashBar{0%{height:0;bottom:0}45%{height:100%;bottom:0}55%{height:100%;top:0;bottom:auto}100%{height:0;top:0;bottom:auto}}
+#splash.done{animation:splashOut .5s ease forwards}
+@keyframes splashOut{to{opacity:0;visibility:hidden}}
+
+/* ============ NAV ============ */
+.nav{position:sticky;top:0;z-index:90;background:var(--black);color:#fff;border-bottom:1px solid var(--line-d)}
+.nav .wrap{display:flex;align-items:center;gap:8px;height:68px}
+.brand{display:flex;align-items:baseline;gap:8px;margin-right:auto;font-family:var(--disp)}
+.brand .b{font-weight:900;font-size:26px;letter-spacing:-.03em;color:#fff;line-height:1}
+.brand .s{font-weight:600;font-size:10px;letter-spacing:.34em;color:var(--accent);text-transform:uppercase}
+.navlinks{display:flex;align-items:center;gap:2px}
+.navlinks a{font-family:var(--disp);font-weight:700;font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:#cfcfd2;padding:9px 13px;transition:var(--t-fast)}
+.navlinks a:hover{color:#fff}
+.navlinks a.book{display:none}
+.nav-cta .btn{padding:11px 20px}
+.burger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:8px;margin-left:6px}
+.burger span{width:24px;height:2.5px;background:#fff;display:block;transition:var(--t-fast)}
+
+/* ============ HERO ============ */
+.hero{background:var(--black);color:#fff;position:relative;overflow:hidden}
+.hero .wrap{display:grid;grid-template-columns:1.08fr .92fr;gap:48px;align-items:center;padding-top:72px;padding-bottom:78px}
+.hero .eyebrow{font-family:var(--disp);font-weight:800;font-size:14px;letter-spacing:.24em;color:var(--accent);text-transform:uppercase;margin-bottom:22px;overflow:hidden}
+.hero h1{font-size:clamp(50px,8.4vw,118px);font-weight:900;line-height:.86;letter-spacing:-.03em;color:#fff}
+.hero h1 .line{display:block;overflow:hidden}
+.hero h1 .line>span{display:inline-block}
+.hero .sub{margin-top:26px;max-width:30em;font-size:clamp(15px,1.6vw,18px);color:#bdbdc0;line-height:1.6}
+.hero .ctas{display:flex;flex-wrap:wrap;gap:13px;margin-top:30px}
+.hero-media{position:relative}
+.hero-media .fr{position:relative;aspect-ratio:4/5;overflow:hidden;background:#1a1a1c}
+.hero-media .fr img{width:100%;height:100%;object-fit:cover;object-position:50% 30%}
+.hero-media .tag{position:absolute;left:0;bottom:0;background:var(--accent);color:var(--black);font-family:var(--disp);font-weight:800;font-size:12px;letter-spacing:.1em;text-transform:uppercase;padding:10px 16px}
+.hero-media::after{content:"";position:absolute;inset:0;border:3px solid var(--accent);transform:translate(14px,14px);z-index:-1}
+
+/* hero anim */
+.slideup{transform:translateY(110%)}
+.hero.go h1 .line>span{animation:rise .8s var(--ease) forwards}
+.hero.go h1 .line:nth-child(2)>span{animation-delay:.09s}
+.hero.go h1 .line:nth-child(3)>span{animation-delay:.18s}
+.hero.go .eyebrow span,.hero.go .sub,.hero.go .ctas,.hero.go .hero-media{animation:fadeUp .7s var(--ease) both}
+.hero.go .sub{animation-delay:.34s}.hero.go .ctas{animation-delay:.42s}.hero.go .hero-media{animation-delay:.2s}
+.hero.go .eyebrow span{display:inline-block;animation-delay:.05s}
+@keyframes rise{to{transform:translateY(0)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+
+/* ============ MARQUEE / TRANSPARENCY ============ */
+.marq{background:var(--accent);color:var(--black);overflow:hidden;border-top:3px solid var(--black);border-bottom:3px solid var(--black)}
+.marq .track{display:flex;gap:0;white-space:nowrap;animation:scroll 26s linear infinite;will-change:transform}
+.marq span{font-family:var(--disp);font-weight:900;font-size:17px;letter-spacing:.04em;text-transform:uppercase;padding:14px 0;display:inline-flex;align-items:center}
+.marq span::after{content:"✦";margin:0 26px;font-size:13px}
+@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* sections */
+.sec{padding:96px 0}
+.sec-head{max-width:920px}
+.sec-head.center{margin:0 auto;text-align:center}
+.sec-head h2{font-size:clamp(34px,5.2vw,68px);font-weight:900;letter-spacing:-.025em;margin-top:16px;line-height:.92}
+.sec-head .dek{margin-top:16px;font-size:16.5px;color:var(--grey-mid);max-width:620px;line-height:1.6}
+.sec-head.center .dek{margin-left:auto;margin-right:auto}
+
+/* treatments */
+.treat{background:var(--paper)}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin:36px 0 26px}
+.chip{font-family:var(--disp);font-weight:700;font-size:12px;letter-spacing:.08em;text-transform:uppercase;padding:9px 16px;border:2px solid var(--black);background:#fff;color:var(--black);cursor:pointer;transition:var(--t-fast)}
+.chip:hover{background:var(--grey)}
+.chip.on{background:var(--black);color:#fff}
+.tcards{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.tcard{background:var(--black);color:#fff;padding:30px 30px 26px;display:flex;flex-direction:column;transition:var(--t-fast)}
+.tcard:hover{transform:translateY(-4px)}
+.tcard .cat{font-family:var(--disp);font-weight:700;font-size:11px;letter-spacing:.16em;color:var(--accent);text-transform:uppercase}
+.tcard h3{font-size:30px;margin:10px 0 0;color:#fff}
+.tcard p{margin:12px 0 0;color:#b6b6ba;font-size:14.5px;line-height:1.55}
+.tcard .row{display:flex;align-items:center;justify-content:space-between;margin-top:22px;padding-top:18px;border-top:1px solid var(--line-d)}
+.tcard .price{font-family:var(--disp);font-weight:800;font-size:20px;color:#fff}
+.tcard .price small{display:block;font-weight:600;font-size:10px;letter-spacing:.14em;color:var(--grey-mid);text-transform:uppercase}
+.tcard .book{font-family:var(--disp);font-weight:800;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);display:inline-flex;gap:7px}
+.tcard .book .ar{transition:transform var(--t-fast)}.tcard:hover .book .ar{transform:translateX(4px)}
+
+/* standard / manifesto */
+.standard{background:var(--black);color:#fff;position:relative;overflow:hidden}
+.standard::before{content:"";position:absolute;inset:0;background:url('../_shared-img/bloc-aesthetics-standard-bg.webp') center/cover;opacity:.13;pointer-events:none}
+.standard>.wrap{position:relative;z-index:1}
+.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:54px;border-top:2px solid var(--line-d)}
+.pillar{padding:40px 30px 36px;border-bottom:2px solid var(--line-d)}
+.pillar:not(:last-child){border-right:2px solid var(--line-d)}
+.pillar .no{font-family:var(--disp);font-weight:900;font-size:15px;color:var(--accent);letter-spacing:.1em}
+.pillar h3{font-size:30px;margin:14px 0 0;color:#fff;letter-spacing:-.02em}
+.pillar p{margin:12px 0 0;color:#aeaeb2;font-size:14.5px;line-height:1.6}
+
+/* results / before-after */
+.results{background:var(--grey)}
+.ba{max-width:880px;margin:48px auto 0;position:relative;user-select:none;background:#000}
+.ba .imgwrap{position:relative;aspect-ratio:16/10;overflow:hidden}
+.ba img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 35%}
+.ba .after{filter:saturate(1.08) contrast(1.05)}
+.ba .before{filter:grayscale(.85) brightness(.78) contrast(1.02);clip-path:inset(0 50% 0 0)}
+.ba .divider{position:absolute;top:0;bottom:0;left:50%;width:3px;background:var(--accent);transform:translateX(-1.5px);pointer-events:none}
+.ba .handle{position:absolute;top:50%;left:50%;width:48px;height:48px;border-radius:50%;background:var(--accent);transform:translate(-50%,-50%);
+  display:grid;place-items:center;color:var(--black);font-family:var(--disp);font-weight:900;font-size:16px;pointer-events:none;box-shadow:0 6px 18px rgba(0,0,0,.4)}
+.ba .lbl{position:absolute;top:14px;font-family:var(--disp);font-weight:800;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#fff;background:rgba(0,0,0,.6);padding:5px 10px;z-index:2}
+.ba .lbl.l{left:14px}.ba .lbl.r{right:14px}
+.ba input[type=range]{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:ew-resize}
+.ba-meta{max-width:880px;margin:18px auto 0;display:flex;flex-wrap:wrap;gap:14px 30px;align-items:center;justify-content:center}
+.ba-meta .m{font-family:var(--disp);font-weight:700;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--black)}
+.ba-meta .m b{color:var(--accent)}
+.ba-note{text-align:center;margin:22px auto 0;font-size:12px;color:var(--grey-mid);max-width:640px}
+
+/* community */
+.comm{background:var(--paper)}
+.cgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:48px}
+.post{position:relative;overflow:hidden;background:#000;aspect-ratio:4/5}
+.post img{width:100%;height:100%;object-fit:cover;object-position:50% 30%;transition:transform .6s var(--ease)}
+.post:hover img{transform:scale(1.05)}
+.post .meta{position:absolute;left:0;right:0;bottom:0;padding:30px 14px 12px;background:linear-gradient(180deg,transparent,rgba(0,0,0,.82));color:#fff}
+.post .handle2{font-family:var(--disp);font-weight:800;font-size:12px;letter-spacing:.04em}
+.post .cap{font-size:11.5px;color:#cfcfd2;margin-top:2px}
+.post.tall{aspect-ratio:auto}
+.cgrid .a1{grid-column:1;grid-row:1/3}.cgrid .a2{grid-column:2;grid-row:1}.cgrid .a3{grid-column:2;grid-row:2}
+.cgrid .a4{grid-column:3;grid-row:1/3}.cgrid .a5{grid-column:4;grid-row:1}.cgrid .a6{grid-column:4;grid-row:2}
+.post.cta-post{background:var(--accent);display:flex;flex-direction:column;justify-content:space-between;padding:24px 20px;text-decoration:none}
+.post.cta-post .big{font-family:var(--disp);font-weight:900;font-size:30px;color:var(--black);text-transform:uppercase;line-height:.92;letter-spacing:-.02em}
+.post.cta-post .go{font-family:var(--disp);font-weight:800;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--black);display:inline-flex;gap:8px}
+.post .badge{position:absolute;top:12px;left:12px;background:var(--accent);color:var(--black);font-family:var(--disp);font-weight:800;font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:4px 8px}
+
+/* team */
+.team{background:var(--black);color:#fff}
+.tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:52px}
+.member{background:#161618;border:1px solid var(--line-d)}
+.member .ph{aspect-ratio:1/1;overflow:hidden;background:#222}
+.member .ph img{width:100%;height:100%;object-fit:cover;object-position:50% 28%;filter:grayscale(.2)}
+.member .bd{padding:22px 22px 26px}
+.member h3{font-size:24px;color:#fff}
+.member .role{font-family:var(--disp);font-weight:700;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-top:6px}
+.member .quals{margin-top:12px;font-size:12px;color:#9a9a9e;letter-spacing:.02em}
+.member p{margin:14px 0 0;font-size:14px;color:#c2c2c6;line-height:1.55}
+
+/* pricing */
+.pricing{background:linear-gradient(180deg,#fafafa,var(--paper))}
+.ptable{margin-top:46px;border:2px solid var(--black)}
+.prow{display:grid;grid-template-columns:1.5fr 2.4fr 1fr;gap:16px;padding:18px 24px;border-bottom:1px solid var(--line);align-items:center}
+.prow:last-child{border-bottom:none}
+.prow.head{background:var(--black);color:#fff;font-family:var(--disp);font-weight:800;font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+.prow .pn{font-family:var(--disp);font-weight:800;font-size:16px;text-transform:uppercase;letter-spacing:-.01em}
+.prow .pd{font-size:13.5px;color:var(--grey-mid)}
+.prow .pp{font-family:var(--disp);font-weight:800;font-size:18px;color:var(--accent);text-align:right}
+.pricing .note{margin-top:18px;font-size:12.5px;color:var(--grey-mid)}
+
+/* reviews */
+.reviews{background:var(--grey)}
+.rgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:48px}
+.rcard{background:#fff;border:2px solid var(--black);padding:26px 24px}
+.rcard .stars{color:var(--accent);font-size:15px;letter-spacing:2px}
+.rcard .q{font-family:var(--disp);font-weight:700;font-size:18px;line-height:1.25;margin:14px 0 0;text-transform:none;letter-spacing:-.01em}
+.rcard .who{margin-top:18px;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.rcard .who span{color:var(--grey-mid);font-weight:500;text-transform:none;letter-spacing:0}
+
+/* faq */
+.faq{background:linear-gradient(180deg,var(--paper),#f6f6f7)}
+.acc{max-width:840px;margin:46px auto 0;border-top:2px solid var(--black)}
+.acc .item{border-bottom:2px solid var(--black)}
+.acc .q{width:100%;text-align:left;background:none;border:none;cursor:pointer;padding:24px 4px;display:flex;align-items:center;gap:18px;
+  font-family:var(--disp);font-weight:800;font-size:19px;text-transform:uppercase;letter-spacing:-.01em;color:var(--black)}
+.acc .q .pl{margin-left:auto;font-size:22px;color:var(--accent);transition:transform var(--t-fast)}
+.acc .item.open .q .pl{transform:rotate(45deg)}
+.acc .a{max-height:0;overflow:hidden;transition:max-height .35s var(--ease)}
+.acc .a p{margin:0;padding:0 4px 24px;font-size:15px;color:var(--grey-mid);line-height:1.6}
+
+/* final */
+.final{background:var(--black);color:#fff;text-align:center;position:relative;overflow:hidden}
+.final::before{content:"";position:absolute;inset:0;background:url('../_shared-img/bloc-aesthetics-final-bg.webp') center 22%/cover;opacity:.32;pointer-events:none}
+.final::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 42%, rgba(12,12,13,.4), rgba(12,12,13,.86));pointer-events:none}
+.final .wrap{padding:110px 26px;position:relative;z-index:1}
+.final h2{font-size:clamp(60px,14vw,180px);font-weight:900;letter-spacing:-.04em;line-height:.9}
+.final p{margin:18px auto 0;max-width:34em;color:#bdbdc0}
+.final .ctas{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+
+/* footer */
+.foot{background:var(--black);color:#8c8c90;border-top:1px solid var(--line-d);font-size:13.5px}
+.foot .top{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:36px;padding:60px 0 40px}
+.foot .b{font-family:var(--disp);font-weight:900;font-size:26px;color:#fff;letter-spacing:-.03em}
+.foot .s{font-family:var(--disp);font-weight:600;font-size:10px;letter-spacing:.32em;color:var(--accent);text-transform:uppercase;margin-top:4px}
+.foot p{margin:16px 0 0;max-width:24em;line-height:1.6;color:#7d7d82}
+.foot h4{font-family:var(--disp);font-weight:800;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#fff;margin-bottom:14px}
+.foot ul{list-style:none;margin:0;padding:0}.foot li{margin-bottom:9px}
+.foot a:hover{color:var(--accent)}
+.foot .bottom{border-top:1px solid var(--line-d);padding:20px 0;display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center}
+.foot .bottom .note{margin-right:auto;color:#5d5d62;font-size:12px;max-width:62ch;line-height:1.5}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+.stagger>*{opacity:0;transform:translateY(22px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+.stagger.in>*{opacity:1;transform:none}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  .reveal,.stagger>*{opacity:1!important;transform:none!important}
+  .hero h1 .line>span{transform:none!important}
+  #splash{display:none!important}
+}
+@media (max-width:1000px){
+  .hero .wrap{grid-template-columns:1fr;gap:40px}
+  .hero-media{max-width:440px}
+  .tcards,.pillars,.tgrid,.rgrid{grid-template-columns:1fr 1fr}
+  .pillar:nth-child(2){border-right:none}
+  .cgrid{grid-template-columns:repeat(2,1fr)}
+  .cgrid .post{grid-column:auto!important;grid-row:auto!important;aspect-ratio:4/5!important}
+}
+@media (max-width:720px){
+  .navlinks,.nav-cta{display:none}
+  .burger{display:flex}
+  .nav.open .navlinks{display:flex;position:absolute;top:68px;left:0;right:0;flex-direction:column;align-items:stretch;background:var(--black);border-bottom:1px solid var(--line-d);padding:10px 18px 18px;gap:0}
+  .nav.open .navlinks a{padding:14px 8px;border-bottom:1px solid var(--line-d)}
+  .nav.open .navlinks a.book{display:block;background:var(--accent);color:var(--black);text-align:center;margin-top:12px;border:none;padding:15px}
+  .sec{padding:64px 0}
+  .filters{flex-wrap:nowrap;gap:6px;justify-content:space-between}
+  .chip{flex:0 0 auto;padding:9px 9px;font-size:clamp(9px,2.6vw,12px);letter-spacing:.01em;white-space:nowrap;border-width:1.5px}
+  .tcards,.pillars,.tgrid,.rgrid,.cgrid{grid-template-columns:minmax(0,1fr)}
+  .pillar{border-right:none!important}
+  .prow{grid-template-columns:1fr;gap:6px;text-align:left}
+  .prow.head{display:none}
+  .prow .pp{text-align:left}
+  .post.tall{grid-row:auto;aspect-ratio:4/5}
+  .hero .ctas,.final .ctas{flex-direction:column;align-items:stretch}
+  .hero .ctas .btn,.final .ctas .btn{width:100%;justify-content:center}
+  .foot .top{grid-template-columns:1fr}
+  .sticky-book{display:flex}
+}
+</style>
+</head>
+<body>
+
+<!-- SPLASH -->
+<div id="splash" aria-hidden="true"><div class="bigword">BL<b>O</b>C</div><div class="bar"></div></div>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="wrap">
+    <a class="brand" href="#top"><span class="b">BLOC</span><span class="s">Aesthetics</span></a>
+    <div class="navlinks">
+      <a href="#treatments">Treatments</a>
+      <a href="#results">Results</a>
+      <a href="#community">Community</a>
+      <a href="#team">Team</a>
+      <a href="#pricing">Pricing</a>
+      <a class="book" href="#book">Book Now</a>
+    </div>
+    <span class="nav-cta"><a class="btn btn-accent" href="#book">Book Now</a></span>
+    <button class="burger" id="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<span id="top"></span>
+<!-- HERO -->
+<header class="hero" id="hero">
+  <div class="wrap">
+    <div class="lead">
+      <div class="eyebrow"><span>Done Pretending.</span></div>
+      <h1>
+        <span class="line"><span class="slideup">Your Look.</span></span>
+        <span class="line"><span class="slideup">Our <span class="hl">Work.</span></span></span>
+      </h1>
+      <p class="sub">Bold, transparent aesthetic medicine — qualified practitioners, published pricing, and results you can be proud to talk about. No spa-speak. No velvet curtains.</p>
+      <div class="ctas">
+        <a class="btn btn-accent" href="#book">Book Now <span class="ar">→</span></a>
+        <a class="btn btn-ghost-d" href="#treatments">See Treatments</a>
+      </div>
+    </div>
+    <div class="hero-media">
+      <div class="fr"><img src="../_shared-img/bloc-aesthetics-hero.webp" alt="Bold, confident BLOC client portrait in high-contrast studio light" loading="eager" decoding="async"></div>
+      <span class="tag">Real treatments. No pretence.</span>
+    </div>
+  </div>
+</header>
+
+<!-- TRANSPARENCY MARQUEE -->
+<div class="marq" aria-hidden="true">
+  <div class="track">
+    <span>Prices published online</span><span>Qualified practitioners only</span><span>No hidden fees</span><span>Real results from real clients</span>
+    <span>Prices published online</span><span>Qualified practitioners only</span><span>No hidden fees</span><span>Real results from real clients</span>
+  </div>
+</div>
+
+<!-- TREATMENTS -->
+<section class="sec treat" id="treatments">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="kick">The Menu</span>
+      <h2>Real Treatments.<br><span class="u-acc">No Fluff.</span></h2>
+      <p class="dek">What it does, who it's for, and what it costs — published up front. Filter by what you came for.</p>
+    </div>
+    <div class="filters reveal" id="filters">
+      <button class="chip on" data-cat="all">All</button>
+      <button class="chip" data-cat="injectables">Injectables</button>
+      <button class="chip" data-cat="skin">Skin</button>
+      <button class="chip" data-cat="laser">Laser</button>
+      <button class="chip" data-cat="body">Body</button>
+    </div>
+    <div class="tcards stagger reveal" id="tcards">
+      <article class="tcard" data-cat="injectables">
+        <span class="cat">Injectables</span><h3>Anti-Wrinkle</h3>
+        <p>Muscle-relaxing injections that soften expression lines. Subtle by default — we don't do frozen.</p>
+        <div class="row"><span class="price">$180–$420<small>Per area · published</small></span><a class="book" href="#book">Book <span class="ar">→</span></a></div>
+      </article>
+      <article class="tcard" data-cat="injectables">
+        <span class="cat">Injectables</span><h3>Dermal Filler</h3>
+        <p>Restores volume and defines structure with hyaluronic acid. Natural-looking, fully reversible.</p>
+        <div class="row"><span class="price">$450–$890<small>Per ml · published</small></span><a class="book" href="#book">Book <span class="ar">→</span></a></div>
+      </article>
+      <article class="tcard" data-cat="skin">
+        <span class="cat">Skin</span><h3>Microneedling RF</h3>
+        <p>Radiofrequency microneedling that rebuilds collagen for texture, pores, and firmness. 3-session courses.</p>
+        <div class="row"><span class="price">$320–$520<small>Per session · published</small></span><a class="book" href="#book">Book <span class="ar">→</span></a></div>
+      </article>
+      <article class="tcard" data-cat="skin">
+        <span class="cat">Skin</span><h3>Medical Peel</h3>
+        <p>Clinical-grade peels for pigment, congestion, and glow. Tailored strength to your skin — not a one-size formula.</p>
+        <div class="row"><span class="price">$150–$280<small>Per peel · published</small></span><a class="book" href="#book">Book <span class="ar">→</span></a></div>
+      </article>
+      <article class="tcard" data-cat="laser">
+        <span class="cat">Laser</span><h3>Laser Resurfacing</h3>
+        <p>Fractional laser for tone, scarring, and sun damage. Real downtime, real results — we tell you which is which.</p>
+        <div class="row"><span class="price">$390–$640<small>Per session · published</small></span><a class="book" href="#book">Book <span class="ar">→</span></a></div>
+      </article>
+      <article class="tcard" data-cat="body">
+        <span class="cat">Body</span><h3>Body Contouring</h3>
+        <p>Non-surgical fat reduction and skin tightening. Evidence-led devices — no magic-machine promises.</p>
+        <div class="row"><span class="price">$280–$700<small>Per area · published</small></span><a class="book" href="#book">Book <span class="ar">→</span></a></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- THE BLOC STANDARD -->
+<section class="sec standard">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="kick">The BLOC Standard</span>
+      <h2>Three Rules.<br>Zero Exceptions.</h2>
+    </div>
+    <div class="pillars reveal">
+      <div class="pillar"><div class="no">01</div><h3>Qualified Only</h3><p>Every treatment is delivered by a qualified, registered practitioner. No shortcuts, no "trained in a weekend" injectors. Ever.</p></div>
+      <div class="pillar"><div class="no">02</div><h3>Priced Transparently</h3><p>Our prices live online, in full. No quote-on-consultation games, no pressure, no surprise totals at the desk.</p></div>
+      <div class="pillar"><div class="no">03</div><h3>Results Documented</h3><p>We track and show real outcomes — labelled honestly with the treatment and the timeline. What you see is what we do.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS / BEFORE-AFTER -->
+<section class="sec results" id="results">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <span class="kick" style="justify-content:center">Results</span>
+      <h2>Drag It. <span class="u-acc">See It.</span></h2>
+      <p class="dek">No softening, no heavy filters. Slide to compare — and read exactly what it took.</p>
+    </div>
+    <div class="ba reveal" id="ba">
+      <div class="imgwrap">
+        <img class="after" src="../_shared-img/bloc-aesthetics-ba.webp" alt="Representative skin result, after treatment" loading="lazy" decoding="async">
+        <img class="before" id="baBefore" src="../_shared-img/bloc-aesthetics-ba.webp" alt="Representative skin, before treatment" loading="lazy" decoding="async">
+        <span class="lbl l">Before</span><span class="lbl r">After</span>
+        <div class="divider" id="baDiv"></div>
+        <div class="handle" id="baHandle">⇆</div>
+        <input type="range" min="0" max="100" value="50" id="baRange" aria-label="Before and after slider">
+      </div>
+    </div>
+    <div class="ba-meta reveal">
+      <span class="m">Treatment: <b>Microneedling RF</b></span>
+      <span class="m">Sessions: <b>3</b></span>
+      <span class="m">Timeline: <b>12 weeks</b></span>
+      <span class="m">Aftercare: <b>SPF 50 + barrier serum</b></span>
+    </div>
+    <p class="ba-note">Representative illustration shown for this design concept (single image, treated for comparison). On the live site, before-and-after slides use real client photography with written consent — unfiltered and labelled with the exact treatment, session count, and products used.</p>
+  </div>
+</section>
+
+<!-- COMMUNITY -->
+<section class="sec comm" id="community">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="kick">The Community</span>
+      <h2>People, Not <span class="u-acc">Testimonials.</span></h2>
+      <p class="dek">Real clients, real talk, peer to peer. This is who books BLOC — and why they tell their group chat.</p>
+    </div>
+    <div class="cgrid stagger reveal">
+      <div class="post tall a1"><img src="../_shared-img/bloc-aesthetics-comm-4.webp" style="object-position:50% 32%" alt="BLOC community member with glowing, healthy skin" loading="lazy" decoding="async"><span class="badge">Skin</span><div class="meta"><div class="handle2">@reni.glows</div><div class="cap">"3 peels in. My texture has never been like this."</div></div></div>
+      <div class="post a2"><img src="../_shared-img/bloc-aesthetics-comm-1.webp" style="object-position:50% 24%" alt="BLOC community member smiling" loading="lazy" decoding="async"><div class="meta"><div class="handle2">@mai.does</div><div class="cap">First filler. Zero regrets.</div></div></div>
+      <div class="post a3"><img src="../_shared-img/bloc-aesthetics-comm-5.webp" style="object-position:50% 22%" alt="BLOC community member, editorial beauty portrait" loading="lazy" decoding="async"><div class="meta"><div class="handle2">@livodette</div><div class="cap">Honestly the only clinic that talks to me like an adult.</div></div></div>
+      <div class="post tall a4"><img src="../_shared-img/bloc-aesthetics-comm-2.webp" style="object-position:50% 26%" alt="BLOC community member portrait" loading="lazy" decoding="async"><div class="meta"><div class="handle2">@theo.k</div><div class="cap">They told me what NOT to get. Trust earned.</div></div></div>
+      <div class="post a5"><img src="../_shared-img/bloc-aesthetics-comm-3.webp" style="object-position:62% 38%" alt="BLOC community member, editorial portrait" loading="lazy" decoding="async"><span class="badge">Laser</span><div class="meta"><div class="handle2">@dorian.r</div><div class="cap">Booked off the price page. No DM games.</div></div></div>
+      <a class="post cta-post a6" href="#book"><div class="big">Tag&nbsp;Us<br>@bloc</div><div class="go">Join the community →</div></a>
+    </div>
+    <p class="ba-note" style="text-align:left;margin-top:22px">Sample community content shown to illustrate layout and tone. The live site features real, consented client posts and reviews — never fabricated.</p>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section class="sec team" id="team">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="kick">The Team</span>
+      <h2>Qualified Hands.<br><span class="u-acc">Honest Mouths.</span></h2>
+    </div>
+    <div class="tgrid stagger reveal">
+      <article class="member"><div class="ph"><img src="../_shared-img/bloc-aesthetics-team-1.webp" style="object-position:84% 50%" alt="BLOC practitioner portrait" loading="lazy" decoding="async"></div><div class="bd"><h3>Dr. Andre Vaughn</h3><div class="role">Cosmetic Physician · Founder</div><div class="quals">MBBS · Adv. Injectables Cert.</div><p>"If a treatment won't do what you want, I'll tell you — and tell you what will. That's the whole job."</p></div></article>
+      <article class="member"><div class="ph"><img src="../_shared-img/bloc-aesthetics-team-2.webp" style="object-position:50% 38%" alt="BLOC practitioner portrait" loading="lazy" decoding="async"></div><div class="bd"><h3>Frankie Doyle</h3><div class="role">Aesthetic Nurse · Skin Lead</div><div class="quals">RN · Laser Safety Cert. · Dermal Therapy</div><p>"Good skin is a plan, not a panic-buy. We build yours around evidence, not trends."</p></div></article>
+      <article class="member"><div class="ph"><img src="../_shared-img/bloc-aesthetics-team-3.webp" style="object-position:12% 50%" alt="BLOC practitioner portrait" loading="lazy" decoding="async"></div><div class="bd"><h3>Marcus Ellison</h3><div class="role">Aesthetic Practitioner</div><div class="quals">RN · Cosmetic Injectables · Body Contouring</div><p>"No upsell, no scare tactics. You leave knowing exactly what you got and why."</p></div></article>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="sec pricing" id="pricing">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="kick">Published Pricing</span>
+      <h2>The Whole Price List.<br><span class="u-acc">Right Here.</span></h2>
+      <p class="dek">Transparency isn't a feature, it's the point. Here's what things cost — before you ever walk in.</p>
+    </div>
+    <div class="ptable reveal">
+      <div class="prow head"><span>Treatment</span><span>What it does</span><span>From</span></div>
+      <div class="prow"><span class="pn">Anti-Wrinkle</span><span class="pd">Softens expression lines · per area</span><span class="pp">$180</span></div>
+      <div class="prow"><span class="pn">Dermal Filler</span><span class="pd">Volume &amp; structure · per ml</span><span class="pp">$450</span></div>
+      <div class="prow"><span class="pn">Microneedling RF</span><span class="pd">Collagen &amp; texture · per session</span><span class="pp">$320</span></div>
+      <div class="prow"><span class="pn">Medical Peel</span><span class="pd">Pigment, congestion &amp; glow · per peel</span><span class="pp">$150</span></div>
+      <div class="prow"><span class="pn">Laser Resurfacing</span><span class="pd">Tone, scarring &amp; sun damage · per session</span><span class="pp">$390</span></div>
+      <div class="prow"><span class="pn">Body Contouring</span><span class="pd">Non-surgical fat &amp; skin tightening · per area</span><span class="pp">$280</span></div>
+    </div>
+    <p class="note">Ranges depend on units, areas, and your plan — confirmed honestly at consultation, never inflated. Sample pricing shown for this design concept.</p>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="sec reviews" id="reviews">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <span class="kick" style="justify-content:center">Reviews</span>
+      <h2>Direct. Honest. <span class="u-acc">Real.</span></h2>
+    </div>
+    <div class="rgrid stagger reveal">
+      <div class="rcard"><div class="stars">★★★★★</div><p class="q">"They quoted me online, charged me exactly that, and the result is unreal. No games."</p><div class="who">Priya N. <span>· Anti-wrinkle + skin</span></div></div>
+      <div class="rcard"><div class="stars">★★★★★</div><p class="q">"First time getting filler and I actually felt informed, not sold to. Subtle, exactly what I wanted."</p><div class="who">Jordan M. <span>· First-time filler</span></div></div>
+      <div class="rcard"><div class="stars">★★★★★</div><p class="q">"A clinic that talks to you like a grown-up and shows real before-and-afters. Finally."</p><div class="who">Sam O. <span>· Laser course</span></div></div>
+    </div>
+    <p class="ba-note">Sample reviews shown to illustrate tone and layout. The live site uses only real, verified, consented client reviews.</p>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="sec faq" id="faq">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="kick">No-Nonsense FAQ</span>
+      <h2>Ask It. <span class="u-acc">We'll Answer.</span></h2>
+    </div>
+    <div class="acc reveal" id="acc">
+      <div class="item open"><button class="q" aria-expanded="true">Does it hurt?<span class="pl">+</span></button><div class="a"><p>Most treatments involve mild, brief discomfort at most. We use numbing where it helps and tell you honestly what to expect — no pretending it's nothing, no scaremongering either.</p></div></div>
+      <div class="item"><button class="q" aria-expanded="false">How much does it cost?<span class="pl">+</span></button><div class="a"><p>Everything's published on this page and our full pricing section. Final cost depends on units and areas — confirmed up front at consultation, never inflated after.</p></div></div>
+      <div class="item"><button class="q" aria-expanded="false">How long does it last?<span class="pl">+</span></button><div class="a"><p>It varies by treatment: anti-wrinkle 3–4 months, filler 6–18 months, energy-based skin treatments build over a course. We'll give you realistic timelines, not best-case fantasies.</p></div></div>
+      <div class="item"><button class="q" aria-expanded="false">What qualifications do your practitioners hold?<span class="pl">+</span></button><div class="a"><p>Every injector and operator is a registered medical or nursing professional with accredited aesthetic training. Full credentials are listed on each team profile.</p></div></div>
+      <div class="item"><button class="q" aria-expanded="false">Can I combine treatments?<span class="pl">+</span></button><div class="a"><p>Often, yes — and a smart combination can get better results. We'll design a plan around your goals and skin, and tell you plainly if something isn't worth it.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final" id="book">
+  <div class="wrap reveal">
+    <h2>Ready?</h2>
+    <p>No consultation required to see our prices or our results. When you're ready, so are we.</p>
+    <div class="ctas">
+      <a class="btn btn-accent" href="#book">Book Now <span class="ar">→</span></a>
+      <a class="btn btn-ghost-d" href="#pricing">See Pricing</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="foot">
+  <div class="wrap">
+    <div class="top">
+      <div>
+        <div class="b">BLOC</div><div class="s">Aesthetics</div>
+        <p>Bold, transparent aesthetic medicine. Qualified practitioners, published pricing, real results — and zero patience for the soft-sell.</p>
+      </div>
+      <div><h4>Treatments</h4><ul><li><a href="#treatments">Injectables</a></li><li><a href="#treatments">Skin</a></li><li><a href="#treatments">Laser</a></li><li><a href="#treatments">Body</a></li></ul></div>
+      <div><h4>Clinic</h4><ul><li><a href="#team">Team</a></li><li><a href="#results">Results</a></li><li><a href="#community">Community</a></li><li><a href="#pricing">Pricing</a></li></ul></div>
+      <div><h4>Contact</h4><ul><li><a href="tel:+10000000000">+1 (000) 000 0000</a></li><li><a href="mailto:hi@blocaesthetics.com">hi@blocaesthetics.com</a></li><li>Book online, anytime</li></ul></div>
+    </div>
+    <div class="bottom">
+      <span class="note">© 2026 BLOC Aesthetics. Design concept — placeholder imagery, sample copy, and sample pricing/reviews shown for layout only. All treatments require qualified-practitioner assessment; results vary.</span>
+      <a href="#top">Privacy</a><a href="#top">Terms</a><a href="#top">Back to top ↑</a>
+    </div>
+  </div>
+</footer>
+
+<a class="sticky-book" id="stickyBook" href="#book">Book Now →</a>
+
+<script>
+(function(){
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* splash */
+  var splash = document.getElementById('splash');
+  function killSplash(){ if(!splash) return; splash.classList.add('done'); setTimeout(function(){ splash && splash.parentNode && splash.parentNode.removeChild(splash); }, 600); }
+  if(reduce){ killSplash(); } else { setTimeout(killSplash, 1500); }
+
+  /* hero animation */
+  var hero = document.getElementById('hero');
+  requestAnimationFrame(function(){ setTimeout(function(){ hero.classList.add('go'); }, reduce?0:1500); });
+
+  /* nav */
+  var nav=document.getElementById('nav'), burger=document.getElementById('burger');
+  burger.addEventListener('click', function(){ var o=nav.classList.toggle('open'); burger.setAttribute('aria-expanded', o?'true':'false'); });
+  nav.querySelectorAll('.navlinks a').forEach(function(a){ a.addEventListener('click', function(){ nav.classList.remove('open'); burger.setAttribute('aria-expanded','false'); }); });
+
+  /* sticky mobile CTA */
+  var sticky=document.getElementById('stickyBook'), heroEl=document.getElementById('hero');
+  function stickyToggle(){ if(!sticky) return; var past=window.scrollY>(heroEl.offsetHeight*0.72); var nearEnd=(window.innerHeight+window.scrollY)>(document.body.scrollHeight-240); sticky.classList.toggle('show', past&&!nearEnd); }
+  window.addEventListener('scroll', stickyToggle, {passive:true}); stickyToggle();
+
+  /* treatment filter */
+  var filters=document.getElementById('filters'), cards=[].slice.call(document.querySelectorAll('#tcards .tcard'));
+  filters.addEventListener('click', function(e){ var b=e.target.closest('.chip'); if(!b) return;
+    filters.querySelectorAll('.chip').forEach(function(c){c.classList.remove('on');}); b.classList.add('on');
+    var cat=b.getAttribute('data-cat');
+    cards.forEach(function(c){ c.style.display=(cat==='all'||c.getAttribute('data-cat')===cat)?'':'none'; });
+  });
+
+  /* before/after slider */
+  var range=document.getElementById('baRange'), before=document.getElementById('baBefore'), div=document.getElementById('baDiv'), handle=document.getElementById('baHandle');
+  function setBA(v){ before.style.clipPath='inset(0 '+(100-v)+'% 0 0)'; div.style.left=v+'%'; handle.style.left=v+'%'; }
+  if(range){ range.addEventListener('input', function(){ setBA(+range.value); }); setBA(50); }
+
+  /* accordion */
+  var acc=document.getElementById('acc');
+  function setOpen(it,o){ var p=it.querySelector('.a'); it.classList.toggle('open',o); it.querySelector('.q').setAttribute('aria-expanded',o?'true':'false'); p.style.maxHeight=o?(p.scrollHeight+'px'):'0px'; }
+  acc.querySelectorAll('.item').forEach(function(it){ setOpen(it, it.classList.contains('open'));
+    it.querySelector('.q').addEventListener('click', function(){ var willOpen=!it.classList.contains('open'); acc.querySelectorAll('.item').forEach(function(o){ if(o!==it) setOpen(o,false); }); setOpen(it,willOpen); }); });
+  window.addEventListener('resize', function(){ var o=acc.querySelector('.item.open'); if(o){ var p=o.querySelector('.a'); p.style.maxHeight=p.scrollHeight+'px'; } });
+
+  /* reveal */
+  var rev=[].slice.call(document.querySelectorAll('.reveal'));
+  function stag(el){ if(!el.classList.contains('stagger'))return; var k=el.children; for(var i=0;i<k.length;i++){k[i].style.transitionDelay=(i*70)+'ms';} }
+  if(reduce||!('IntersectionObserver' in window)){ rev.forEach(function(el){el.classList.add('in');}); }
+  else { var io=new IntersectionObserver(function(en){ en.forEach(function(e){ if(e.isIntersecting){ stag(e.target); e.target.classList.add('in'); io.unobserve(e.target);} }); },{threshold:.12,rootMargin:'0px 0px -7% 0px'}); rev.forEach(function(el){io.observe(el);}); }
+})();
+</script>
+</body>
+</html>

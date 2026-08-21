@@ -1,0 +1,1529 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pillar Chiropractic — Book an appointment online</title>
+<meta name="description" content="Persistent back, neck and posture pain assessed properly, then treated. Three clinics, ninety-minute first assessment, book online in about ninety seconds.">
+
+
+<link rel="stylesheet" href="../_shared-fonts/pillar-chiropractic-fonts.css">
+<style>
+/* ═══════════════════════════════════════════════════════════════════════════
+   PILLAR CHIROPRACTIC — HOMEPAGE
+   Bundle A · Clinical Calm — locked 2026-08-07
+   Audit: .claude/skills/web-mockup/verticals/pillar-chiropractic.md §4.bundles.A
+
+   CATALOG PICKS IMPLEMENTED IN THIS FILE
+     NAV-PATTERNS.md #3       Right-aligned link cluster + phone pill
+     HERO-COMPOSITIONS.md #25 Embedded lead-capture form hero
+     FOOTER-STYLES.md #14     Hours-and-contact prominent
+     CARD-VARIATIONS.md #4    Circle-icon service card with arrow link
+     CTA-PATTERNS.md #1       Solid pill primary
+     DIVIDER-PATTERNS.md #1   Hard edge (colour change only)
+     FORM-LAYOUTS.md #5       Multi-step wizard form
+     FORM-LAYOUTS.md #2       2-col split form (fields left + map/info right)
+     FORM-LAYOUTS.md #6       Inline newsletter
+     FAQ-ACCORDION.md #2      Plus-icon rounded card
+     STICKY-CTA-BAR.md #2     Dual-button bottom-bar (primary + secondary)
+     SURFACE-PATTERNS.md #4   Soft 16-24px corner radii
+     SURFACE-PATTERNS.md #10  Soft-shadow-lift card chrome
+     SURFACE-PATTERNS.md #18  Solid-pill-modern-marketing buttons
+     SURFACE-PATTERNS.md #26  None / pure-spacing dividers
+     SURFACE-PATTERNS.md #34  Soft-rounded image treatment
+     SURFACE-PATTERNS.md #39  Boxed-default form fields
+     MOTION-PATTERNS.md #2    Color-shift button hover
+     MOTION-PATTERNS.md #10   Lift card hover
+     MOTION-PATTERNS.md #17   Underline-grow link hover
+     MOTION-PATTERNS.md #21   Fade-up page entrance
+     MOTION-PATTERNS.md #26   Fade-in-on-view scroll
+     MOTION-PATTERNS.md #31   Default cursor (no custom cursor)
+     MOTION-PATTERNS.md #37   Form field focus micro-interaction
+     MOTION-PATTERNS.md #43   View Transitions API page transition
+
+   CSS is written for 1440 / 1024 / 768 / 375 in ONE pass — the breakpoint
+   blocks sit immediately beside the rules they modify, never bolted on.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root{
+  /* Colour · COLOR-THEORY-PRESETS.md entry 54 HIPAA Medical */
+  --plc-primary:#1A4F7A;
+  --plc-primary-deep:#0E2A4A;
+  --plc-primary-soft:#D0EBFF;
+  --plc-accent:#0CA678;
+  --plc-accent-soft:#C3FAE8;
+  --plc-bg:#FAFCFE;
+  --plc-bg-2:#FFFFFF;
+  --plc-ink:#0E2A4A;
+  --plc-ink-soft:#495057;
+  --plc-line:#E9ECEF;
+  --plc-signature:#005583;
+  --plc-ink-on-dark:#FFFFFF;
+  --plc-scrim:rgba(14,42,74,.72);
+
+  /* Type · TYPOGRAPHY-PAIRINGS.md entry 45 */
+  --plc-font-display:'Urbanist',system-ui,-apple-system,sans-serif;
+  --plc-font-body:'Plus Jakarta Sans',system-ui,-apple-system,sans-serif;
+  --plc-font-mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,monospace;
+
+  /* Radius · SURFACE-PATTERNS.md #4 Soft 16-24px */
+  --plc-r-sm:12px; --plc-r-md:20px; --plc-r-lg:28px; --plc-r-xl:32px; --plc-r-pill:999px;
+
+  /* Shadow · SURFACE-PATTERNS.md #10 Soft-shadow-lift */
+  --plc-shadow-card:0 1px 2px rgba(14,42,74,.04),0 1px 3px rgba(14,42,74,.06);
+  --plc-shadow-lift:0 12px 28px -10px rgba(14,42,74,.20);
+
+  --plc-space-2xs:4px; --plc-space-xs:8px; --plc-space-sm:12px; --plc-space-md:16px;
+  --plc-space-lg:24px; --plc-space-xl:40px; --plc-space-2xl:64px; --plc-space-3xl:96px;
+  --plc-section-py:96px; --plc-gutter:32px; --plc-container-max:1340px;
+  --plc-card-pad:36px; --plc-grid-gap:28px;
+
+  --plc-ease:cubic-bezier(.22,.61,.36,1);
+  --plc-dur:200ms;
+}
+/* Audit §5.2 — section padding / gutters / card padding per breakpoint */
+@media (max-width:1024px){ :root{ --plc-section-py:80px; --plc-card-pad:32px; --plc-grid-gap:24px; } }
+@media (max-width:768px){ :root{ --plc-section-py:64px; --plc-gutter:24px; --plc-card-pad:28px; --plc-grid-gap:20px; } }
+@media (max-width:420px){ :root{ --plc-section-py:48px; --plc-gutter:20px; --plc-card-pad:24px; --plc-grid-gap:16px; } }
+
+*,*::before,*::after{ box-sizing:border-box; }
+html{ -webkit-text-size-adjust:100%; scroll-behavior:smooth; }
+@media (prefers-reduced-motion:reduce){ html{ scroll-behavior:auto; } }
+body{
+  margin:0; background:var(--plc-bg); color:var(--plc-ink);
+  font-family:var(--plc-font-body); font-size:17px; line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+img{ max-width:100%; display:block; }
+a{ color:var(--plc-primary); }
+
+.wrap{ max-width:var(--plc-container-max); margin-inline:auto; padding-inline:var(--plc-gutter); }
+
+/* DIVIDER-PATTERNS.md #1 Hard edge + SURFACE-PATTERNS.md #26 None / pure-spacing —
+   sections are separated by a flat background change and padding, never by a rule. */
+.sec{ padding-block:var(--plc-section-py); position:relative; }
+.on-dark{ color:var(--plc-ink-on-dark); }
+
+.eyebrow{
+  font-family:var(--plc-font-mono); font-size:11px; font-weight:500;
+  letter-spacing:.18em; text-transform:uppercase; color:var(--plc-signature);
+  margin:0 0 var(--plc-space-sm);
+}
+.on-dark .eyebrow{ color:var(--plc-accent); }
+
+h1,h2,h3,h4{ font-family:var(--plc-font-display); margin:0; letter-spacing:-.02em; }
+h1{ font-size:96px; line-height:1.02; font-weight:800; letter-spacing:-.03em; }
+h2{ font-size:56px; line-height:1.08; font-weight:700; }
+h3{ font-size:28px; line-height:1.22; font-weight:700; }
+h4{ font-size:20px; line-height:1.3; font-weight:600; }
+p{ margin:0 0 var(--plc-space-md); }
+.lede{ font-size:20px; color:var(--plc-ink-soft); max-width:62ch; }
+.on-dark .lede{ color:rgba(255,255,255,.76); }
+.sec-head{ max-width:64ch; margin-bottom:var(--plc-space-2xl); }
+
+/* CTA-PATTERNS.md #1 Solid pill primary · SURFACE-PATTERNS.md #18 · MOTION-PATTERNS.md #2 Color-shift */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:10px;
+  font-family:var(--plc-font-body); font-size:16px; font-weight:600; line-height:1;
+  padding:17px 32px; border:0; border-radius:var(--plc-r-pill); cursor:pointer;
+  text-decoration:none; white-space:nowrap;
+  background:var(--plc-accent); color:#04231A;
+  transition:background-color var(--plc-dur) var(--plc-ease), color var(--plc-dur) var(--plc-ease), border-color var(--plc-dur) var(--plc-ease);
+}
+.btn:hover{ background:var(--plc-primary); color:#fff; }
+.btn:focus-visible{ outline:3px solid var(--plc-primary); outline-offset:3px; }
+.btn--ghost{ background:transparent; color:var(--plc-ink); border:1px solid var(--plc-line); }
+.btn--ghost:hover{ background:transparent; border-color:var(--plc-primary); color:var(--plc-primary); }
+.on-dark .btn--ghost{ color:#fff; border-color:rgba(255,255,255,.34); }
+.on-dark .btn--ghost:hover{ border-color:#fff; color:#fff; background:rgba(255,255,255,.06); }
+.btn--sm{ font-size:15px; padding:13px 22px; }
+.btn--block{ width:100%; }
+
+/* ── Mobile buttons: one size, full width ─────────────────────────────────
+   At desktop the CTAs are pills sized to their label, so a pair like
+   "Book your first visit" / "See what a first visit involves" comes out at two
+   very different widths. Stacked on a phone that reads as a mistake, so below
+   769px every button collapses to the same full-width, same-height pill.
+   --sm is normalised too, otherwise the wizard's Back button stays short next
+   to Continue. nowrap is released so a long label wraps instead of overflowing
+   a 335px-wide column at 375.                                              */
+@media (max-width:768px){
+  .btn,
+  .btn--sm{
+    width:100%; padding:16px 24px; font-size:16px;
+    white-space:normal; text-align:center; min-height:52px;
+  }
+  .hero-actions,
+  .closing-actions,
+  .wizard-foot{ flex-direction:column; align-items:stretch; }
+  .wizard-foot{ flex-direction:column-reverse; }
+  .wizard-note{ text-align:center; }
+}
+/* The sticky bar's own rules live further down the file, so its equal-width
+   override has to be declared AFTER them — see the §STICKY CTA block. */
+
+/* MOTION-PATTERNS.md #17 Underline-grow link hover */
+.tlink{
+  color:var(--plc-primary); text-decoration:none; font-weight:600;
+  background-image:linear-gradient(var(--plc-accent),var(--plc-accent));
+  background-repeat:no-repeat; background-position:0 100%; background-size:0% 2px;
+  transition:background-size .25s var(--plc-ease); padding-bottom:2px;
+}
+.tlink:hover{ background-size:100% 2px; }
+
+/* MOTION-PATTERNS.md #21 Fade-up entrance + #26 Fade-in-on-view scroll */
+.reveal{ opacity:0; transform:translateY(16px); transition:opacity .6s var(--plc-ease), transform .6s var(--plc-ease); }
+.reveal.is-in{ opacity:1; transform:none; }
+@media (prefers-reduced-motion:reduce){ .reveal{ opacity:1; transform:none; transition:none; } }
+
+/* ═══ NAV · NAV-PATTERNS.md #3 Right-aligned link cluster + phone pill ═══ */
+.nav{
+  position:sticky; top:0; z-index:60; background:rgba(14,42,74,.92);
+  backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(255,255,255,.10);
+}
+.nav-inner{ display:flex; align-items:center; justify-content:space-between; gap:var(--plc-space-lg); height:78px; }
+.brand{ display:inline-flex; align-items:center; gap:12px; text-decoration:none; color:#fff; }
+.brand svg{ width:26px; height:31px; flex:0 0 auto; }
+.brand rect{ fill:#fff; }
+.brand .seg-accent{ fill:var(--plc-accent); }
+.brand b{ font-family:var(--plc-font-display); font-weight:800; font-size:22px; letter-spacing:-.02em; }
+.nav-cluster{ display:flex; align-items:center; gap:var(--plc-space-lg); }
+.nav-links{ display:flex; align-items:center; gap:26px; list-style:none; margin:0; padding:0; }
+.nav-links a{
+  color:rgba(255,255,255,.84); text-decoration:none; font-size:15px; font-weight:500;
+  padding:6px 0; border-bottom:1px solid transparent; transition:color var(--plc-dur) var(--plc-ease), border-color var(--plc-dur) var(--plc-ease);
+}
+.nav-links a:hover{ color:#fff; border-bottom-color:var(--plc-accent); }
+/* the phone pill — the dual-path nav observed on the-chiro-guy and bodyset */
+.phone-pill{
+  display:inline-flex; align-items:center; gap:8px; text-decoration:none;
+  font-family:var(--plc-font-mono); font-size:13px; letter-spacing:.02em; font-weight:500;
+  color:#fff; padding:10px 16px; border:1px solid rgba(255,255,255,.28); border-radius:var(--plc-r-pill);
+  transition:border-color var(--plc-dur) var(--plc-ease), background-color var(--plc-dur) var(--plc-ease);
+}
+.phone-pill:hover{ border-color:var(--plc-accent); background:rgba(12,166,120,.14); }
+.hamburger{
+  display:none; width:46px; height:46px; align-items:center; justify-content:center;
+  background:transparent; border:1px solid rgba(255,255,255,.28); border-radius:var(--plc-r-sm);
+  cursor:pointer; padding:0;
+}
+.hamburger span{ display:block; width:19px; height:2px; background:#fff; border-radius:2px; position:relative; transition:background-color var(--plc-dur) var(--plc-ease); }
+.hamburger span::before,.hamburger span::after{
+  content:""; position:absolute; left:0; width:19px; height:2px; background:#fff; border-radius:2px;
+  transition:transform var(--plc-dur) var(--plc-ease);
+}
+.hamburger span::before{ top:-6px; } .hamburger span::after{ top:6px; }
+.hamburger[aria-expanded="true"] span{ background:transparent; }
+.hamburger[aria-expanded="true"] span::before{ transform:translateY(6px) rotate(45deg); }
+.hamburger[aria-expanded="true"] span::after{ transform:translateY(-6px) rotate(-45deg); }
+
+/* Mobile drawer — NAV-PATTERNS.md #3 drawer state */
+.drawer{
+  position:fixed; inset:0 0 0 auto; width:min(88vw,400px); z-index:80;
+  background:var(--plc-primary-deep); color:#fff; padding:26px var(--plc-gutter) 34px;
+  transform:translateX(100%); transition:transform .32s var(--plc-ease);
+  display:flex; flex-direction:column; gap:var(--plc-space-lg); overflow-y:auto;
+}
+.drawer[aria-hidden="false"]{ transform:translateX(0); }
+.drawer-top{ display:flex; align-items:center; justify-content:space-between; }
+.drawer-close{
+  width:44px; height:44px; border-radius:var(--plc-r-sm); background:transparent;
+  border:1px solid rgba(255,255,255,.28); color:#fff; font-size:22px; line-height:1; cursor:pointer;
+}
+.drawer-nav{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; }
+.drawer-nav a{
+  display:block; padding:16px 0; color:#fff; text-decoration:none;
+  font-family:var(--plc-font-display); font-size:22px; font-weight:600;
+  border-bottom:1px solid rgba(255,255,255,.12);
+}
+.drawer-foot{ margin-top:auto; display:flex; flex-direction:column; gap:12px; }
+.drawer-meta{ font-family:var(--plc-font-mono); font-size:12px; color:rgba(255,255,255,.6); line-height:1.8; }
+.scrim{
+  position:fixed; inset:0; background:rgba(8,20,36,.6); z-index:70;
+  opacity:0; pointer-events:none; transition:opacity .3s var(--plc-ease);
+}
+.scrim.is-open{ opacity:1; pointer-events:auto; }
+@media (prefers-reduced-motion:reduce){ .drawer,.scrim{ transition:none; } }
+
+/* ═══ §1 HERO · HERO-COMPOSITIONS.md #25 Embedded lead-capture form hero ═══
+   bg: dark (var(--plc-ink)) · imagery: full-bleed-photo · chrome: open-layout   */
+/* Desktop y-padding set to a flat 200px on request. The ≤1024 / ≤768 overrides
+   below deliberately keep their smaller scale — 200px top AND bottom on a 780px
+   phone viewport would spend half the screen on empty ink. */
+.hero{ background:var(--plc-ink); overflow:hidden; padding-block:200px; }
+/* The photo runs at full strength — ALL the darkening is done by the ::after
+   gradient, so there is one control surface instead of two multiplying. The
+   previous pass dimmed the photo to .32 AND laid an opaque-ink gradient over
+   it, which left 0% of the image visible on the left and ~13% on the right. */
+.hero-photo{
+  position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+  opacity:1; z-index:0;
+}
+.hero::after{
+  content:""; position:absolute; inset:0; z-index:1;
+  background:
+    /* bottom-left corner scrim — the trust row sits over the patient's white
+       top, which measured 3.5:1 on the horizontal ramp alone. Weighted to the
+       corner so the bottom-RIGHT of the photo stays open. */
+    radial-gradient(130% 78% at 6% 104%, rgba(8,24,43,.78) 0%, rgba(8,24,43,.42) 40%, rgba(8,24,43,0) 72%),
+    /* the left→right reveal: solid behind the headline column, opening out
+       across the photo. Measured worst-case at 1440: h1 6.7:1, sub 6.2:1,
+       trust 5.1:1 — all clear of WCAG AA 4.5. */
+    linear-gradient(97deg,
+      rgba(8,24,43,.94) 0%, rgba(9,28,50,.88) 26%, rgba(11,34,60,.70) 48%,
+      rgba(14,42,74,.46) 72%, rgba(14,42,74,.34) 100%);
+}
+.hero .wrap{ position:relative; z-index:2; }
+.hero-grid{ display:grid; grid-template-columns:1.05fr .95fr; gap:var(--plc-space-3xl); align-items:center; }
+.hero-eyebrow{
+  display:inline-flex; align-items:center; gap:10px; font-family:var(--plc-font-mono);
+  font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--plc-accent);
+  border:1px solid rgba(12,166,120,.42); border-radius:var(--plc-r-pill); padding:8px 15px;
+  margin-bottom:var(--plc-space-lg);
+}
+.hero-eyebrow i{ width:7px; height:7px; border-radius:50%; background:var(--plc-accent); display:inline-block; }
+.hero h1{ color:#fff; margin-bottom:var(--plc-space-lg); }
+.hero h1 em{ font-style:normal; color:var(--plc-accent); display:block; }
+.hero-sub{ font-size:20px; color:rgba(255,255,255,.78); max-width:52ch; margin-bottom:var(--plc-space-xl); }
+/* The stat row that used to sit under these buttons was removed on request.
+   .hero-actions is now the last thing in the column, so its bottom margin goes
+   with it — otherwise the column ends on dead space. */
+.hero-actions{ display:flex; flex-wrap:wrap; gap:var(--plc-space-md); margin-bottom:0; }
+
+/* the embedded lead-capture panel — this is what makes it HERO #25 rather than a plain split */
+.hero-form{
+  background:var(--plc-bg-2); border-radius:var(--plc-r-xl); padding:var(--plc-card-pad);
+  box-shadow:0 30px 70px -28px rgba(4,16,32,.6); color:var(--plc-ink);
+}
+.hero-form h2{ font-size:24px; line-height:1.25; margin-bottom:6px; }
+.hero-form .sub{ font-size:14px; color:var(--plc-ink-soft); margin-bottom:var(--plc-space-lg); }
+.hero-form-grid{ display:grid; gap:14px; }
+.field label{
+  display:block; font-family:var(--plc-font-mono); font-size:10px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--plc-ink-soft); margin-bottom:6px;
+}
+/* SURFACE-PATTERNS.md #39 Boxed-default + MOTION-PATTERNS.md #37 Form field focus */
+.field select,.field input{
+  width:100%; padding:14px 16px; font-family:var(--plc-font-body); font-size:15px;
+  color:var(--plc-ink); background:var(--plc-bg-2); border:1px solid var(--plc-line);
+  border-radius:var(--plc-r-sm); appearance:none;
+  transition:border-color var(--plc-dur) var(--plc-ease), box-shadow var(--plc-dur) var(--plc-ease);
+}
+.field select{ background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path d='M1 1l5 5 5-5' stroke='%23495057' stroke-width='1.6' fill='none' stroke-linecap='round'/></svg>"); background-repeat:no-repeat; background-position:right 16px center; padding-right:42px; }
+.field select:focus,.field input:focus{ outline:0; border-color:var(--plc-primary); box-shadow:0 0 0 3px rgba(26,79,122,.20); }
+.field-pair{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+/* Named .hero-note, not .foot — a bare .foot here collided with the site
+   footer rule below and rendered this line on a dark navy block inside the
+   white booking card. Caught by eyeballing the 1440 capture. */
+.hero-note{ font-size:12px; color:var(--plc-ink-soft); margin:14px 0 0; text-align:center; }
+
+@media (max-width:1024px){
+  .hero{ padding-block:88px 80px; }
+  .hero h1{ font-size:80px; }
+  .hero-grid{ gap:var(--plc-space-2xl); grid-template-columns:1fr .9fr; }
+  .hero-sub{ font-size:18px; }
+}
+@media (max-width:768px){
+  .hero{ padding-block:64px 56px; }
+  .hero h1{ font-size:64px; }
+  .hero-grid{ grid-template-columns:1fr; gap:var(--plc-space-xl); }
+  /* The grid collapses to one column here, so the white copy now runs the FULL
+     width — straight into the light end of the horizontal ramp. Measured 2.0-2.4:1
+     before this override. Rotate the gradient to vertical: open at the top (the
+     h1 is large-text, it only needs 3:1 and measured 9.3), dip darkest across the
+     trust band, then open again under the booking card. */
+  .hero::after{
+    background:linear-gradient(180deg,
+      rgba(8,24,43,.78) 0%, rgba(9,28,50,.83) 28%, rgba(11,34,60,.88) 50%,
+      rgba(12,38,66,.84) 62%, rgba(14,42,74,.60) 80%, rgba(14,42,74,.42) 100%);
+  }
+}
+@media (max-width:420px){
+  .hero h1{ font-size:44px; }           /* audit §5.6 — 44 not 48, keeps the second beat off a third line */
+  .hero-sub{ font-size:17px; }
+  /* At 375 the eyebrow measured 54px tall — the label was wrapping to two lines
+     inside the pill, which left the dot floating against a two-line block. The
+     tracking is what overran it (33 chars × .18em ≈ 284px into ~286px of room),
+     so tighten tracking here rather than shrink the type. */
+  .hero-eyebrow{ letter-spacing:.12em; }
+  .field-pair{ grid-template-columns:1fr; }
+}
+
+/* ═══ §2 STAT STRIP · bg light · chrome open-layout ═══ */
+.stats{ background:var(--plc-bg-2); padding-block:var(--plc-space-2xl); }
+.stats-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:var(--plc-grid-gap); }
+.stat-item{ padding-left:var(--plc-space-lg); border-left:2px solid var(--plc-accent); }
+.stat-item b{ display:block; font-family:var(--plc-font-display); font-size:52px; font-weight:800; letter-spacing:-.03em; line-height:1; color:var(--plc-signature); }
+.stat-item span{ display:block; font-family:var(--plc-font-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--plc-ink-soft); margin-top:10px; }
+@media (max-width:1024px){ .stat-item b{ font-size:44px; } }
+@media (max-width:768px){ .stats-grid{ grid-template-columns:1fr 1fr; gap:var(--plc-space-xl) var(--plc-grid-gap); } }
+@media (max-width:420px){ .stat-item b{ font-size:36px; } }
+
+/* ═══ §3 PROBLEM FRAMING · bg warm · imagery inset-photo · chrome open-layout ═══ */
+.problem{ background:var(--plc-bg); }
+.problem-grid{ display:grid; grid-template-columns:1fr 1fr; gap:var(--plc-space-3xl); align-items:center; }
+/* SURFACE-PATTERNS.md #34 Soft-rounded image treatment */
+.problem-photo{ width:100%; aspect-ratio:4/5; object-fit:cover; border-radius:var(--plc-r-lg); background:var(--plc-primary-soft); }
+.problem h2 em{ font-style:normal; color:var(--plc-primary); }
+.problem ul{ list-style:none; margin:var(--plc-space-lg) 0 0; padding:0; }
+.problem li{ position:relative; padding:14px 0 14px 34px; border-bottom:1px solid var(--plc-line); font-size:18px; }
+.problem li::before{ content:""; position:absolute; left:0; top:23px; width:18px; height:2px; border-radius:2px; background:var(--plc-accent); }
+@media (max-width:1024px){ .problem-grid{ gap:var(--plc-space-2xl); } }
+@media (max-width:768px){ .problem-grid{ grid-template-columns:1fr; } .problem-photo{ aspect-ratio:16/10; } }
+
+/* ═══ §4 SERVICES · bg light · imagery inset-photo · chrome hairline-card ═══
+   CARD-VARIATIONS.md #4 Circle-icon service card with arrow link                */
+.services{ background:var(--plc-bg-2); }
+.services-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:var(--plc-grid-gap); }
+.service-card{
+  background:var(--plc-bg-2); border:1px solid var(--plc-line); border-radius:var(--plc-r-lg);
+  overflow:hidden; display:flex; flex-direction:column; text-decoration:none; color:inherit;
+  transition:transform var(--plc-dur) var(--plc-ease), box-shadow var(--plc-dur) var(--plc-ease), border-color var(--plc-dur) var(--plc-ease);
+}
+/* MOTION-PATTERNS.md #10 Lift */
+.service-card:hover{ transform:translateY(-2px); box-shadow:var(--plc-shadow-lift); border-color:transparent; }
+.service-card:focus-visible{ outline:3px solid var(--plc-primary); outline-offset:3px; }
+.service-card img{ width:100%; aspect-ratio:16/11; object-fit:cover; background:var(--plc-primary-soft); }
+.service-body{ padding:var(--plc-card-pad); display:flex; flex-direction:column; flex:1; gap:10px; }
+.service-icon{
+  width:46px; height:46px; border-radius:50%; background:var(--plc-accent-soft);
+  display:grid; place-items:center; margin-bottom:6px;
+}
+.service-icon svg{ width:22px; height:22px; stroke:var(--plc-signature); fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+.service-card p{ font-size:15px; color:var(--plc-ink-soft); margin:0; flex:1; }
+.service-more{
+  display:inline-flex; align-items:center; gap:8px; margin-top:10px;
+  font-family:var(--plc-font-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--plc-primary);
+}
+.service-more svg{ width:14px; height:14px; transition:transform var(--plc-dur) var(--plc-ease); }
+.service-card:hover .service-more svg{ transform:translateX(4px); }
+@media (max-width:1024px){ .services-grid{ grid-template-columns:repeat(2,1fr); } }
+@media (max-width:420px){ .services-grid{ grid-template-columns:1fr; } }
+
+/* ═══ §5 PROCESS · bg dark · chrome dark-anchor-panel ═══ */
+.process{ background:var(--plc-primary-deep); overflow:hidden; }
+.process .wrap{ position:relative; z-index:2; }
+.process-spine{ position:absolute; right:-60px; top:50%; transform:translateY(-50%); opacity:.10; z-index:1; width:340px; }
+.process-spine rect{ fill:var(--plc-accent); }
+.process-layout{ display:grid; grid-template-columns:.85fr 1.15fr; gap:var(--plc-space-3xl); align-items:start; }
+.process-photo{ width:100%; aspect-ratio:3/4; object-fit:cover; border-radius:var(--plc-r-lg); }
+.process-steps{ display:grid; gap:var(--plc-space-md); }
+.process-step{
+  background:rgba(255,255,255,.06); border-radius:var(--plc-r-lg); padding:var(--plc-card-pad);
+  display:grid; grid-template-columns:72px 1fr; gap:var(--plc-space-lg); align-items:start;
+  position:relative; overflow:hidden;
+}
+.process-step .n{ font-family:var(--plc-font-display); font-size:40px; font-weight:800; color:var(--plc-accent); line-height:1; letter-spacing:-.03em; }
+.process-step h4{ color:#fff; margin-bottom:6px; }
+.process-step p{ margin:0; font-size:15px; color:rgba(255,255,255,.72); }
+
+/* ── timeline motion · MOTION-PATTERNS.md #21 fade-up + #10 lift ──────────
+   Each step carries an inline --i (0-3) so the whole cascade is driven by one
+   calc() instead of four nth-child blocks. Three beats per step, in order:
+     1. the card slides up + in            (--i * 130ms)
+     2. its number fades in                (+180ms)
+     3. the accent rail draws down its edge (+340ms)
+   Total settle for step 04 is 390 + 340 + 600 = 1.33s, which is why the
+   capture script's 1400ms wait still catches every card at rest.            */
+.process-step.reveal{
+  opacity:0; transform:translate3d(-14px,26px,0) scale(.985);
+  transition:opacity .7s var(--plc-ease), transform .7s var(--plc-ease);
+  transition-delay:calc(var(--i,0) * 130ms);
+}
+.process-step.reveal.is-in{
+  opacity:1; transform:none;
+  transition-delay:calc(var(--i,0) * 130ms);
+}
+
+.process-step .n{
+  transition:opacity .5s var(--plc-ease), transform .5s var(--plc-ease);
+}
+.process-step.reveal .n{ opacity:0; transform:translateY(10px) scale(.9); }
+.process-step.reveal.is-in .n{
+  opacity:1; transform:none;
+  transition-delay:calc(var(--i,0) * 130ms + 180ms);
+}
+
+/* the rail — this is the bit that reads as a timeline rather than a stack */
+.process-step::before{
+  content:""; position:absolute; left:0; top:0; bottom:0; width:3px;
+  background:linear-gradient(180deg, var(--plc-accent), rgba(12,166,120,.18));
+  transform:scaleY(0); transform-origin:top;
+  transition:transform .6s var(--plc-ease);
+}
+.process-step.is-in::before{
+  transform:scaleY(1);
+  transition-delay:calc(var(--i,0) * 130ms + 340ms);
+}
+
+/* MOTION-PATTERNS.md #10 lift — scoped to :hover only. An earlier attempt put
+   the hover timing on `.process-step.is-in`, but re-declaring the `transition`
+   shorthand there reset transition-delay to 0s and silently flattened the whole
+   stagger. Overriding on :hover alone leaves the entrance cascade intact, and
+   transition-delay:0s keeps the lift instant rather than inheriting --i. */
+.process-step.is-in:hover{
+  transform:translateY(-3px); background:rgba(255,255,255,.10);
+  transition:transform .35s var(--plc-ease), background-color .35s var(--plc-ease);
+  transition-delay:0s;
+}
+
+@media (prefers-reduced-motion:reduce){
+  .process-step.reveal,
+  .process-step.reveal.is-in,
+  .process-step.reveal .n,
+  .process-step.reveal.is-in .n{ opacity:1; transform:none; transition:none; transition-delay:0s; }
+  .process-step::before,
+  .process-step.is-in::before{ transform:scaleY(1); transition:none; transition-delay:0s; }
+  .process-step.is-in:hover{ transform:none; }
+}
+
+@media (max-width:1024px){ .process-layout{ grid-template-columns:1fr; gap:var(--plc-space-2xl); } .process-photo{ aspect-ratio:16/9; } }
+@media (max-width:420px){ .process-step{ grid-template-columns:1fr; gap:10px; } .process-step .n{ font-size:32px; } }
+
+/* ═══ §6 FOUNDER · bg warm · imagery inset-photo · chrome open-layout ═══ */
+.founder{ background:var(--plc-bg); }
+.founder-grid{ display:grid; grid-template-columns:.9fr 1.1fr; gap:var(--plc-space-3xl); align-items:center; }
+.founder-media{ position:relative; }
+.founder-photo{ width:100%; aspect-ratio:4/5; object-fit:cover; border-radius:var(--plc-r-lg); background:var(--plc-primary-soft); }
+.founder-inset{
+  position:absolute; right:-26px; bottom:-26px; width:46%; aspect-ratio:4/3; object-fit:cover;
+  border-radius:var(--plc-r-md); border:6px solid var(--plc-bg); background:var(--plc-primary-soft);
+}
+.founder-quote{ font-family:var(--plc-font-display); font-size:30px; line-height:1.3; font-weight:600; letter-spacing:-.02em; margin:0 0 var(--plc-space-lg); }
+.creds{ list-style:none; margin:var(--plc-space-lg) 0 0; padding:0; display:grid; gap:10px; }
+.creds li{ font-family:var(--plc-font-mono); font-size:12px; letter-spacing:.06em; color:var(--plc-ink-soft); padding-left:22px; position:relative; }
+.creds li::before{ content:""; position:absolute; left:0; top:8px; width:11px; height:2px; background:var(--plc-accent); border-radius:2px; }
+@media (max-width:1024px){ .founder-grid{ gap:var(--plc-space-2xl); } .founder-quote{ font-size:26px; } }
+@media (max-width:768px){ .founder-grid{ grid-template-columns:1fr; } .founder-inset{ right:-14px; bottom:-14px; width:40%; } }
+@media (max-width:420px){ .founder-quote{ font-size:22px; } .founder-inset{ display:none; } }
+
+/* ═══ §7 PRICING · bg light · chrome shadow-lift ═══ */
+.pricing{ background:var(--plc-bg-2); }
+.price-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:var(--plc-grid-gap); align-items:stretch; }
+.price-card{
+  background:var(--plc-bg-2); border-radius:var(--plc-r-lg); padding:var(--plc-card-pad);
+  box-shadow:0 12px 28px -14px rgba(14,42,74,.22); display:flex; flex-direction:column; gap:14px;
+  transition:transform var(--plc-dur) var(--plc-ease), box-shadow var(--plc-dur) var(--plc-ease);
+}
+.price-card:hover{ transform:translateY(-2px); box-shadow:0 20px 44px -16px rgba(14,42,74,.30); }
+.price-card--featured{ background:var(--plc-ink); color:#fff; }
+.price-card--featured .price-meta,.price-card--featured .price-list li{ color:rgba(255,255,255,.74); }
+.price-tag{ font-family:var(--plc-font-display); font-size:44px; font-weight:800; letter-spacing:-.03em; line-height:1; }
+.price-card--featured .price-tag{ color:var(--plc-accent); }
+.price-meta{ font-family:var(--plc-font-mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--plc-ink-soft); }
+.price-list{ list-style:none; margin:6px 0 0; padding:0; display:grid; gap:10px; flex:1; }
+.price-list li{ font-size:15px; color:var(--plc-ink-soft); padding-left:24px; position:relative; }
+.price-list li::before{ content:""; position:absolute; left:0; top:9px; width:12px; height:2px; border-radius:2px; background:var(--plc-accent); }
+.price-badge{
+  align-self:flex-start; font-family:var(--plc-font-mono); font-size:10px; letter-spacing:.14em;
+  text-transform:uppercase; background:var(--plc-accent); color:#04231A; padding:6px 12px; border-radius:var(--plc-r-pill);
+}
+@media (max-width:1024px){ .price-tag{ font-size:38px; } }
+@media (max-width:768px){ .price-grid{ grid-template-columns:1fr 1fr; } .price-card--featured{ grid-column:1 / -1; order:-1; } }
+@media (max-width:420px){ .price-grid{ grid-template-columns:1fr; } }
+
+/* ═══ §8 TESTIMONIALS · bg accent · chrome hairline-card ═══ */
+.voices{ background:var(--plc-accent-soft); }
+.voices-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:var(--plc-grid-gap); }
+.voice-card{
+  background:var(--plc-bg-2); border:1px solid rgba(14,42,74,.10); border-radius:var(--plc-r-lg);
+  padding:var(--plc-card-pad); display:flex; flex-direction:column; gap:var(--plc-space-md);
+}
+.voice-card blockquote{ margin:0; font-family:var(--plc-font-display); font-size:21px; line-height:1.42; font-weight:600; letter-spacing:-.01em; flex:1; }
+.voice-who{ display:flex; align-items:center; gap:12px; padding-top:var(--plc-space-md); border-top:1px solid var(--plc-line); }
+/* initial monogram, never a stock portrait — audit §2.3 DON'T list */
+.mono-avatar{
+  width:44px; height:44px; border-radius:50%; background:var(--plc-primary-soft); color:var(--plc-signature);
+  display:grid; place-items:center; font-family:var(--plc-font-display); font-weight:800; font-size:16px; flex:0 0 auto;
+}
+.voice-who .meta{ font-size:13px; color:var(--plc-ink-soft); line-height:1.45; }
+.voice-who .meta b{ display:block; color:var(--plc-ink); font-family:var(--plc-font-display); font-size:15px; }
+@media (max-width:1024px){ .voices-grid{ grid-template-columns:1fr 1fr; } .voice-card:last-child{ grid-column:1 / -1; } }
+@media (max-width:420px){ .voices-grid{ grid-template-columns:1fr; } .voice-card:last-child{ grid-column:auto; } }
+
+/* ═══ §9 BOOKING · bg light · imagery inset-photo · chrome shadow-lift ═══
+   SECTION-COMPONENTS.md #37 CTA form (split 40/60)
+   FORM-LAYOUTS.md #2 2-col split frame · FORM-LAYOUTS.md #5 Multi-step wizard  */
+.booking{ background:var(--plc-bg-2); }
+/* Even 50/50 split — the photo carries the same visual weight as the wizard.
+   align-items:stretch (not start) is what lets the image match the panel's
+   height instead of sitting short above dead space. */
+.booking-grid{ display:grid; grid-template-columns:1fr 1fr; gap:var(--plc-space-3xl); align-items:stretch; }
+.booking-photo{
+  width:100%; height:100%; min-height:460px; object-fit:cover;
+  border-radius:var(--plc-r-xl); background:var(--plc-primary-soft);
+}
+.clinic{ padding:18px 0; border-bottom:1px solid var(--plc-line); }
+.clinic:last-of-type{ border-bottom:0; }
+
+/* Locations moved out of the split and laid out horizontally beneath it.
+   A hard repeat(3,1fr), NOT auto-fit: auto-fit sizes to the container, so with
+   only three items a 1276px row resolved to five tracks and left two empty
+   columns of dead space on the right. Three explicit tracks down to 600px,
+   then a single stack — at 3-up below that the hours line has under 160px and
+   starts breaking mid-string. */
+.clinic-row{
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:var(--plc-grid-gap); margin-top:var(--plc-space-2xl);
+}
+@media (max-width:600px){ .clinic-row{ grid-template-columns:1fr; } }
+.clinic-row .clinic{
+  padding:var(--plc-space-lg) 0 0; border-bottom:0;
+  border-top:2px solid var(--plc-accent);
+}
+.clinic-row .clinic.reveal{ transition-delay:calc(var(--i,0) * 110ms); }
+.clinic-call{ margin:var(--plc-space-lg) 0 0; font-size:14px; color:var(--plc-ink-soft); }
+.clinic b{ font-family:var(--plc-font-display); font-size:19px; font-weight:700; display:block; }
+.clinic span{ font-size:14px; color:var(--plc-ink-soft); }
+.clinic .hrs{ font-family:var(--plc-font-mono); font-size:11px; letter-spacing:.08em; color:var(--plc-signature); display:block; margin-top:4px; }
+.booking-panel{
+  background:var(--plc-bg-2); border-radius:var(--plc-r-xl); padding:var(--plc-card-pad);
+  box-shadow:0 18px 46px -20px rgba(14,42,74,.28);
+}
+.wizard-rail{ display:flex; align-items:center; gap:8px; margin-bottom:var(--plc-space-lg); }
+.wizard-rail .dot{ flex:1; height:4px; border-radius:2px; background:var(--plc-line); transition:background-color var(--plc-dur) var(--plc-ease); }
+.wizard-rail .dot.is-done{ background:var(--plc-accent); }
+.wizard-count{ font-family:var(--plc-font-mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--plc-ink-soft); white-space:nowrap; }
+.step{ display:none; }
+.step.is-active{ display:block; }
+.step h3{ margin-bottom:6px; }
+.step .hint{ font-size:14px; color:var(--plc-ink-soft); margin-bottom:var(--plc-space-lg); }
+.choice-grid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.choice{
+  border:1px solid var(--plc-line); border-radius:var(--plc-r-md); padding:16px;
+  background:var(--plc-bg-2); cursor:pointer; text-align:left; font-family:var(--plc-font-body);
+  transition:border-color var(--plc-dur) var(--plc-ease), background-color var(--plc-dur) var(--plc-ease);
+}
+.choice:hover{ border-color:var(--plc-primary); }
+.choice[aria-pressed="true"]{ border-color:var(--plc-accent); background:var(--plc-accent-soft); }
+.choice b{ display:block; font-family:var(--plc-font-display); font-size:16px; font-weight:700; }
+.choice span{ font-size:13px; color:var(--plc-ink-soft); }
+.slot-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+.slot{
+  border:1px solid var(--plc-line); border-radius:var(--plc-r-sm); padding:12px 6px;
+  background:var(--plc-bg-2); cursor:pointer; font-family:var(--plc-font-mono); font-size:13px;
+  transition:border-color var(--plc-dur) var(--plc-ease), background-color var(--plc-dur) var(--plc-ease);
+}
+.slot:hover{ border-color:var(--plc-primary); }
+.slot[aria-pressed="true"]{ border-color:var(--plc-accent); background:var(--plc-accent-soft); }
+.wizard-foot{ display:flex; align-items:center; justify-content:space-between; gap:var(--plc-space-md); margin-top:var(--plc-space-lg); }
+.wizard-note{ font-size:12px; color:var(--plc-ink-soft); }
+.confirm{ display:flex; align-items:flex-start; gap:14px; padding:18px; border-radius:var(--plc-r-md); background:var(--plc-accent-soft); }
+.confirm svg{ width:24px; height:24px; flex:0 0 auto; stroke:var(--plc-signature); fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+@media (max-width:1024px){ .booking-grid{ gap:var(--plc-space-2xl); } .slot-grid{ grid-template-columns:repeat(3,1fr); } .booking-photo{ min-height:400px; } }
+/* stacked: wizard first, photo under it — and the photo drops its stretch
+   min-height, which only exists to match the panel in the 2-col layout */
+@media (max-width:768px){
+  .booking-grid{ grid-template-columns:1fr; }
+  .booking-panel{ order:-1; }
+  .booking-photo{ min-height:0; aspect-ratio:16/10; height:auto; }
+}
+@media (max-width:420px){ .choice-grid{ grid-template-columns:1fr; } .slot-grid{ grid-template-columns:repeat(2,1fr); } .wizard-foot{ flex-direction:column-reverse; align-items:stretch; } }
+
+/* ═══ §10 FAQ · bg warm · chrome hairline-card · FAQ-ACCORDION.md #2 Plus-icon rounded card ═══ */
+.faq{ background:var(--plc-bg); }
+.faq-grid{ display:grid; grid-template-columns:1fr 1fr; gap:var(--plc-grid-gap); align-items:start; }
+.faq-item{ background:var(--plc-bg-2); border:1px solid var(--plc-line); border-radius:var(--plc-r-lg); overflow:hidden; }
+.faq-q{
+  width:100%; display:flex; align-items:center; justify-content:space-between; gap:var(--plc-space-md);
+  padding:22px var(--plc-space-lg); background:transparent; border:0; cursor:pointer; text-align:left;
+  font-family:var(--plc-font-display); font-size:18px; font-weight:600; color:var(--plc-ink);
+}
+.faq-q:focus-visible{ outline:3px solid var(--plc-primary); outline-offset:-3px; }
+.faq-plus{ position:relative; width:22px; height:22px; flex:0 0 auto; }
+.faq-plus::before,.faq-plus::after{
+  content:""; position:absolute; left:50%; top:50%; background:var(--plc-accent); border-radius:2px;
+  transform:translate(-50%,-50%); transition:transform .3s var(--plc-ease), opacity .3s var(--plc-ease);
+}
+.faq-plus::before{ width:16px; height:2px; }
+.faq-plus::after{ width:2px; height:16px; }
+.faq-q[aria-expanded="true"] .faq-plus::after{ transform:translate(-50%,-50%) rotate(90deg); opacity:0; }
+/* MOTION-PATTERNS.md #39-family accordion behaviour, height-aware via grid-template-rows */
+.faq-a{ display:grid; grid-template-rows:0fr; transition:grid-template-rows .32s var(--plc-ease); }
+.faq-item.is-open .faq-a{ grid-template-rows:1fr; }
+.faq-a > div{ overflow:hidden; }
+.faq-a p{ margin:0; padding:0 var(--plc-space-lg) 24px; font-size:15px; color:var(--plc-ink-soft); }
+@media (prefers-reduced-motion:reduce){ .faq-a{ transition:none; } }
+@media (max-width:768px){ .faq-grid{ grid-template-columns:1fr; } }
+
+/* ═══ §11 CLOSING CTA · bg dark · imagery + chrome image-overlay ═══ */
+.closing{ background:var(--plc-ink); }
+.closing-panel{
+  border-radius:var(--plc-r-xl); overflow:hidden; position:relative;
+  background-image:url('../_shared-img/224389935.webp');
+  background-size:cover; background-position:center;
+  padding:var(--plc-space-3xl) var(--plc-space-2xl);
+  display:grid; place-items:center; text-align:center; min-height:420px;
+}
+.closing-panel::before{ content:""; position:absolute; inset:0; background:var(--plc-scrim); }
+.closing-inner{ position:relative; z-index:2; max-width:64ch; }
+.closing h2{ color:#fff; margin-bottom:var(--plc-space-md); }
+.closing p{ color:rgba(255,255,255,.80); font-size:19px; margin-bottom:var(--plc-space-xl); }
+.closing-actions{ display:flex; flex-wrap:wrap; gap:var(--plc-space-md); justify-content:center; }
+/* Forces the subtitle to break after the em dash so it reads as two balanced
+   lines instead of an uneven three. Suppressed below 769px, where the copy
+   already wraps on its own and a hard break would strand a short line. */
+.lbrk{ display:none; }
+@media (min-width:769px){ .lbrk{ display:inline; } }
+@media (max-width:420px){ .closing-panel{ padding:var(--plc-space-2xl) var(--plc-space-lg); min-height:340px; } }
+
+/* ═══ FOOTER · FOOTER-STYLES.md #14 Hours-and-contact prominent ═══ */
+footer.foot{ background:var(--plc-primary-deep); color:#fff; padding-block:var(--plc-space-3xl) var(--plc-space-xl); }
+.foot-grid{ display:grid; grid-template-columns:1.3fr 1fr 1fr 1.1fr; gap:var(--plc-space-2xl); }
+.foot h4{ font-size:13px; font-family:var(--plc-font-mono); font-weight:500; letter-spacing:.16em; text-transform:uppercase; color:var(--plc-accent); margin-bottom:var(--plc-space-md); }
+.foot ul{ list-style:none; margin:0; padding:0; display:grid; gap:10px; }
+.foot a{ color:rgba(255,255,255,.78); text-decoration:none; font-size:15px; }
+.foot a:hover{ color:#fff; text-decoration:underline; text-underline-offset:3px; }
+.foot-addr{ font-size:14px; color:rgba(255,255,255,.74); line-height:1.7; }
+.foot-addr b{ color:#fff; font-family:var(--plc-font-display); font-size:16px; display:block; }
+.foot-addr .hrs{ font-family:var(--plc-font-mono); font-size:11px; letter-spacing:.06em; color:var(--plc-accent); display:block; margin-top:4px; }
+/* FORM-LAYOUTS.md #6 Inline newsletter */
+.nl{ display:flex; gap:10px; margin-top:var(--plc-space-md); }
+.nl input{ flex:1; min-width:0; padding:13px 16px; border-radius:var(--plc-r-pill); border:1px solid rgba(255,255,255,.24); background:rgba(255,255,255,.06); color:#fff; font-family:var(--plc-font-body); font-size:14px; }
+.nl input::placeholder{ color:rgba(255,255,255,.5); }
+.nl input:focus{ outline:0; border-color:var(--plc-accent); box-shadow:0 0 0 3px rgba(12,166,120,.22); }
+.foot-base{ margin-top:var(--plc-space-2xl); padding-top:var(--plc-space-lg); border-top:1px solid rgba(255,255,255,.12); display:flex; flex-wrap:wrap; gap:var(--plc-space-md); justify-content:space-between; }
+.foot-base p{ margin:0; font-family:var(--plc-font-mono); font-size:11px; letter-spacing:.05em; color:rgba(255,255,255,.55); line-height:1.9; }
+@media (max-width:1024px){ .foot-grid{ grid-template-columns:1fr 1fr; gap:var(--plc-space-xl); } }
+@media (max-width:420px){ .foot-grid{ grid-template-columns:1fr; } .nl{ flex-direction:column; } .nl .btn{ width:100%; } }
+/* Touch targets — measured at 375, footer nav links rendered 19px tall.
+   Padding lifts them past the 44px minimum without changing the desktop rhythm. */
+@media (max-width:768px){
+  .foot ul{ gap:0; }
+  .foot ul a{ display:inline-block; padding:12px 0; }
+  .brand{ padding-block:7px; }
+}
+
+/* ═══ STICKY CTA · STICKY-CTA-BAR.md #2 Dual-button bottom-bar — mobile only ═══ */
+.sticky-cta{
+  position:fixed; left:0; right:0; bottom:0; z-index:65; display:none;
+  gap:10px; padding:12px var(--plc-gutter) calc(12px + env(safe-area-inset-bottom));
+  background:rgba(14,42,74,.96); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+  border-top:1px solid rgba(255,255,255,.12);
+}
+.sticky-cta .btn{ flex:1; padding:15px 18px; font-size:15px; }
+/* The bar is a dark surface but is not marked .on-dark, so the ghost button
+   inherited dark ink on dark and rendered an unreadable empty pill. Caught by
+   eyeballing the 375 capture. */
+.sticky-cta .btn--ghost{ flex:0 0 34%; color:#fff; border-color:rgba(255,255,255,.34); background:transparent; }
+.sticky-cta .btn--ghost:hover{ border-color:#fff; background:rgba(255,255,255,.08); color:#fff; }
+@media (max-width:768px){
+  .sticky-cta{ display:flex; }
+  body{ padding-bottom:82px; }   /* clear the bar so the footer is never covered */
+  /* Equal-width pair. This is the one place buttons stay side by side on mobile,
+     so "same size" means matching flex rather than full width — and it must be
+     declared here, after .sticky-cta .btn--ghost{flex:0 0 34%} above, or source
+     order hands the 66/34 weighting straight back. */
+  .sticky-cta .btn,
+  .sticky-cta .btn--ghost{
+    flex:1 1 0; width:auto; min-height:48px; padding:14px 12px; font-size:15px;
+  }
+}
+@media (min-width:769px){ .sticky-cta{ display:none; } }
+
+/* nav collapse — audit §5.4: the links collapse, the booking CTA never does */
+@media (max-width:1024px){ .nav-links{ gap:20px; } }
+@media (max-width:900px){
+  .nav-links{ display:none; }
+  .hamburger{ display:inline-flex; }
+  .phone-pill{ display:none; }
+}
+/* Audit §5.4: the links collapse into the drawer, the booking CTA never does.
+   An earlier pass hid it entirely at 375, which contradicted that lock — the
+   label shortens to "Book" instead so the action survives every breakpoint. */
+@media (max-width:420px){
+  .nav-inner{ height:66px; }
+  .brand b{ font-size:19px; }
+  .nav-cta{ padding:11px 15px; font-size:14px; }
+  .cta-rest{ display:none; }
+}
+
+/* Global type steps — audit §5.1 */
+@media (max-width:1024px){ h2{ font-size:48px; } h3{ font-size:26px; } body{ font-size:16px; } .lede{ font-size:19px; } }
+@media (max-width:768px){ h2{ font-size:40px; } h3{ font-size:24px; } .lede{ font-size:18px; } }
+@media (max-width:420px){ h2{ font-size:32px; } h3{ font-size:22px; } body{ font-size:15px; } .lede{ font-size:17px; } }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   MOBILE OVERFLOW FIX — 2026-08-07
+   Scoped entirely inside max-width:768px. Nothing at 769px and above is
+   touched; desktop rendering is byte-identical before and after this block.
+
+   Symptom: on any viewport narrower than ~528px the document stopped
+   shrinking, leaving dead white space down the right-hand side.
+
+   Cause: grid children default to `min-width:auto`, which means a grid item
+   will not shrink below its own min-content width. In the two-column pricing
+   grid (and the two-column footer grid) that floor was ~248px per track, so
+   2 tracks + gap pinned the document to a hard 528px floor regardless of how
+   narrow the viewport got. The rest of the page then rendered against a
+   528px canvas inside a 375-430px screen — hence the white gutter.
+
+   Fix: allow the grid children to shrink (min-width:0), and drop the pricing
+   grid to a single column below 640px where two columns no longer fit the
+   card content honestly.
+   ══════════════════════════════════════════════════════════════════════════ */
+@media (max-width:768px){
+  .price-grid > *,
+  .foot-grid > *,
+  .services-grid > *,
+  .voices-grid > *,
+  .faq-grid > *,
+  .booking-grid > *,
+  .problem-grid > *,
+  .founder-grid > *,
+  .hero-grid > *,
+  .process-layout > *,
+  .process-step > *,
+  .stats-grid > *,
+  .choice-grid > *,
+  .slot-grid > *,
+  .field-pair > *{ min-width:0; }
+
+  /* Long unbroken strings (emails, phone numbers, addresses) are the other
+     way a narrow column gets forced open. */
+  .foot a,
+  .foot-addr,
+  .clinic span,
+  .hero-note{ overflow-wrap:anywhere; }
+}
+
+/* Two pricing columns stop being honest below 640 — the tier cards carry a
+   price, a meta line and a 4-5 item list each. Single column from here down. */
+@media (max-width:640px){
+  .price-grid{ grid-template-columns:1fr; }
+  .price-card--featured{ grid-column:auto; order:-1; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ NAV · NAV-PATTERNS.md #3 Right-aligned link cluster + phone pill ═══ -->
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="#top" aria-label="Pillar Chiropractic home">
+      <svg viewBox="0 0 34 40" aria-hidden="true">
+        <rect class="seg-accent" x="4" y="2" width="26" height="9" rx="4.5"/>
+        <rect x="7" y="15" width="20" height="9" rx="4.5"/>
+        <rect x="10" y="28" width="14" height="9" rx="4.5"/>
+      </svg>
+      <b>Pillar</b>
+    </a>
+
+    <nav class="nav-cluster" aria-label="Primary">
+      <ul class="nav-links">
+        <li><a href="#services">What we treat</a></li>
+        <li><a href="#process">Your first visit</a></li>
+        <li><a href="#founder">Our team</a></li>
+        <li><a href="#pricing">Fees</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+      <a class="phone-pill" href="tel:+15550142"><span aria-hidden="true">&#9742;</span> +1 555 0142</a>
+      <a class="btn btn--sm nav-cta" href="#booking">Book<span class="cta-rest"> your first visit</span></a>
+      <button class="hamburger" id="navToggle" aria-label="Open menu" aria-controls="mobileDrawer" aria-expanded="false">
+        <span></span>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<div class="scrim" id="navScrim" hidden></div>
+
+<aside class="drawer" id="mobileDrawer" aria-hidden="true" aria-label="Mobile menu">
+  <div class="drawer-top">
+    <a class="brand" href="#top" aria-label="Pillar Chiropractic home">
+      <svg viewBox="0 0 34 40" aria-hidden="true">
+        <rect class="seg-accent" x="4" y="2" width="26" height="9" rx="4.5"/>
+        <rect x="7" y="15" width="20" height="9" rx="4.5"/>
+        <rect x="10" y="28" width="14" height="9" rx="4.5"/>
+      </svg>
+      <b>Pillar</b>
+    </a>
+    <button class="drawer-close" id="drawerClose" aria-label="Close menu">&times;</button>
+  </div>
+  <ul class="drawer-nav">
+    <li><a href="#services">What we treat</a></li>
+    <li><a href="#process">Your first visit</a></li>
+    <li><a href="#founder">Our team</a></li>
+    <li><a href="#pricing">Fees</a></li>
+    <li><a href="#booking">Book online</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+  <div class="drawer-foot">
+    <a class="btn btn--block" href="#booking">Book your first visit</a>
+    <a class="btn btn--ghost btn--block" href="tel:+15550142">Call +1 555 0142</a>
+    <p class="drawer-meta">Northgate · Riverside · Eastfield<br>Mon–Fri 07:30–19:00 · Sat 08:00–14:00</p>
+  </div>
+</aside>
+
+<main id="top">
+
+<!-- ═══ §1 HERO — HERO-COMPOSITIONS.md #25 Embedded lead-capture form hero ═══ -->
+<section class="sec on-dark hero">
+  <img class="hero-photo" src="../_shared-img/49694938.webp" alt="A chiropractor performing a spinal adjustment on a patient lying on a treatment table in a bright, daylight-filled clinic room." fetchpriority="high" loading="eager" decoding="async">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <span class="hero-eyebrow"><i aria-hidden="true"></i> Three clinics · Seen within 5 days</span>
+        <h1>Find the cause.<em>Fix the pain.</em></h1>
+        <p class="hero-sub">Persistent back, neck and posture pain assessed properly, then treated. Pick a
+          service, a clinic and a time — the whole booking takes about ninety seconds.</p>
+        <div class="hero-actions">
+          <a class="btn" href="#booking">Book your first visit</a>
+          <a class="btn btn--ghost" href="#process">See what a first visit involves</a>
+        </div>
+      </div>
+
+      <!-- the embedded lead-capture panel is what makes this HERO #25 -->
+      <div class="hero-form">
+        <h2>Start your booking</h2>
+        <p class="sub">Two fields here, the rest below. No card details, no referral needed.</p>
+        <div class="hero-form-grid">
+          <div class="field">
+            <label for="h-service">What brings you in</label>
+            <select id="h-service">
+              <option>Back or neck pain</option>
+              <option>Headaches and jaw tension</option>
+              <option>Posture or scoliosis review</option>
+              <option>Sports or performance</option>
+              <option>Not sure yet</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="h-clinic">Nearest clinic</label>
+            <select id="h-clinic">
+              <option>Northgate</option>
+              <option>Riverside</option>
+              <option>Eastfield</option>
+            </select>
+          </div>
+          <a class="btn btn--block" href="#booking">Choose a time</a>
+        </div>
+        <p class="hero-note">Next opening <strong>Thursday 09:20</strong> at Northgate</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ §2 STAT STRIP ═══ -->
+<section class="sec stats">
+  <div class="wrap">
+    <div class="stats-grid reveal">
+      <div class="stat-item"><b>12</b><span>Years in practice</span></div>
+      <div class="stat-item"><b>8,400</b><span>Patients treated</span></div>
+      <div class="stat-item"><b>3</b><span>Neighbourhood clinics</span></div>
+      <div class="stat-item"><b>5</b><span>Average days to appointment</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ §3 PROBLEM FRAMING ═══ -->
+<section class="sec problem">
+  <div class="wrap">
+    <div class="problem-grid">
+      <div class="reveal">
+        <p class="eyebrow">The pattern we see most</p>
+        <h2>You have been managing it. <em>For years.</em></h2>
+        <p class="lede">Most people who walk in have already tried the obvious things. The pain gets quiet for a
+          while, then comes back in the same place. That is not bad luck — it usually means the cause was never
+          found, only the symptom was.</p>
+        <ul>
+          <li>Painkillers that work until they stop working</li>
+          <li>A scan that came back clear, with no plan attached</li>
+          <li>Stretches from the internet that help for an afternoon</li>
+          <li>Being told to rest, then to move, then to rest again</li>
+        </ul>
+      </div>
+      <div class="reveal">
+        <img class="problem-photo" src="../_shared-img/206282097.webp" alt="A person standing by a bright window with both hands pressed to their lower back." loading="lazy" decoding="async">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ §4 SERVICES · CARD-VARIATIONS.md #4 Circle-icon service card with arrow link ═══ -->
+<section class="sec services" id="services">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow">What we treat</p>
+      <h2>Four things, done properly.</h2>
+      <p class="lede">We are a chiropractic practice, not a wellness centre. That means a narrow list and a deep
+        one — every case starts with the same full assessment.</p>
+    </div>
+
+    <div class="services-grid">
+      <a class="service-card reveal" href="#booking">
+        <img src="../_shared-img/38083927.webp" alt="Practitioner hands applying a spinal adjustment across a patient's upper back." loading="lazy" decoding="async">
+        <div class="service-body">
+          <span class="service-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 3v18M8 6h8M8.5 11h7M9 16h6"/></svg>
+          </span>
+          <h3>Spinal and lower back</h3>
+          <p>Disc irritation, sciatica, facet pain and the stiffness that arrives after a desk week. The most
+            common reason people book.</p>
+          <span class="service-more">Book this <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </div>
+      </a>
+
+      <a class="service-card reveal" href="#booking">
+        <img src="../_shared-img/217349748.webp" alt="Chiropractor performing a careful cervical adjustment on a patient in a bright treatment room." loading="lazy" decoding="async">
+        <div class="service-body">
+          <span class="service-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="6" r="3"/><path d="M12 9v6M8 15h8M9 20h6"/></svg>
+          </span>
+          <h3>Neck, jaw and headaches</h3>
+          <p>Cervicogenic headaches, jaw tension and the neck that never fully turns. Assessed before anything
+            is adjusted.</p>
+          <span class="service-more">Book this <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </div>
+      </a>
+
+      <a class="service-card reveal" href="#booking">
+        <img src="../_shared-img/236967524.webp" alt="Anatomical illustration of the cervical spine rendered on a cream background." loading="lazy" decoding="async">
+        <div class="service-body">
+          <span class="service-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M7 3c4 3 4 6 0 9s-4 6 0 9M17 3c-4 3-4 6 0 9s4 6 0 9"/></svg>
+          </span>
+          <h3>Posture and scoliosis</h3>
+          <p>Structural review with imaging read in the room, plus a loading plan. For adolescents and adults
+            managing a curve long-term.</p>
+          <span class="service-more">Book this <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </div>
+      </a>
+
+      <a class="service-card reveal" href="#booking">
+        <img src="../_shared-img/128217340.webp" alt="Athlete stretching a hamstring on a red running track." loading="lazy" decoding="async">
+        <div class="service-body">
+          <span class="service-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M4 17l5-5 3 3 8-8"/><path d="M15 7h5v5"/></svg>
+          </span>
+          <h3>Sport and performance</h3>
+          <p>Range restored, load managed, and a return-to-training plan that survives contact with an actual
+            training week.</p>
+          <span class="service-more">Book this <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ §5 PROCESS · dark anchor in the middle band ═══ -->
+<section class="sec on-dark process" id="process">
+  <svg class="process-spine" viewBox="0 0 120 400" aria-hidden="true">
+    <rect x="42" y="6"   width="36" height="20" rx="9"/>
+    <rect x="40" y="40"  width="40" height="20" rx="9"/>
+    <rect x="38" y="74"  width="44" height="20" rx="9"/>
+    <rect x="36" y="108" width="48" height="20" rx="9"/>
+    <rect x="34" y="142" width="52" height="20" rx="9"/>
+    <rect x="32" y="176" width="56" height="20" rx="9"/>
+    <rect x="30" y="210" width="60" height="20" rx="9"/>
+    <rect x="28" y="244" width="64" height="20" rx="9"/>
+    <rect x="26" y="278" width="68" height="20" rx="9"/>
+    <rect x="24" y="312" width="72" height="20" rx="9"/>
+    <rect x="22" y="346" width="76" height="20" rx="9"/>
+  </svg>
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow">Your first visit</p>
+      <h2>Ninety minutes. No guesswork.</h2>
+      <p class="lede">The thing that stops most people booking is not knowing what happens. So here it is, in
+        order. Nothing gets adjusted until step three.</p>
+    </div>
+
+    <div class="process-layout">
+      <img class="process-photo reveal" src="../_shared-img/266214041.webp" alt="Practitioner assessing a patient's shoulder range of motion during a standing examination." loading="lazy" decoding="async">
+      <div class="process-steps">
+        <div class="process-step reveal" style="--i:0">
+          <span class="n">01</span>
+          <div><h4>History, properly taken</h4><p>Twenty minutes on what happened, what you have already tried,
+            and what your week actually looks like. Most of the answer is in here.</p></div>
+        </div>
+        <div class="process-step reveal" style="--i:1">
+          <span class="n">02</span>
+          <div><h4>Orthopaedic and neurological exam</h4><p>Range, strength, reflexes, and the specific tests for
+            your presentation. If you have imaging, we read it with you in the room.</p></div>
+        </div>
+        <div class="process-step reveal" style="--i:2">
+          <span class="n">03</span>
+          <div><h4>Findings and a written plan</h4><p>What we found, what is causing it, how many visits we expect,
+            and what it costs. In writing, before treatment starts.</p></div>
+        </div>
+        <div class="process-step reveal" style="--i:3">
+          <span class="n">04</span>
+          <div><h4>First treatment</h4><p>Adjustment plus soft-tissue work if it is indicated, then two or three
+            things to do at home. If we are not the right people, we will say so and refer you.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ §6 PRACTITIONER ═══ -->
+<section class="sec founder" id="founder">
+  <div class="wrap">
+    <div class="founder-grid">
+      <div class="founder-media reveal">
+        <img class="founder-photo" src="../_shared-img/213844486.webp" alt="Portrait of a clinician in teal scrubs standing with arms folded." loading="lazy" decoding="async">
+        <img class="founder-inset" src="../_shared-img/220275965.webp" alt="A calm treatment room with a therapy table, a window and a green feature wall." loading="lazy" decoding="async">
+      </div>
+      <div class="reveal">
+        <p class="eyebrow">Who you will see</p>
+        <p class="founder-quote">“If I cannot tell you why it hurts by the end of the first visit, I have not
+          done my job — and I will tell you that too.”</p>
+        <p class="lede">Dr. R. Aleyna founded Pillar after twelve years split between hospital musculoskeletal
+          clinics and private practice. The rule here is the one she set on day one: find the cause, write it
+          down, and never sell a plan longer than the evidence supports.</p>
+        <ul class="creds">
+          <li>Doctor of Chiropractic · registered practitioner</li>
+          <li>12 years in musculoskeletal practice</li>
+          <li>Post-graduate certification in sports rehabilitation</li>
+          <li>Clinical lead across all three Pillar clinics</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ §7 FEES · sets price expectation BEFORE the booking engine (§1.7 staging) ═══ -->
+<section class="sec pricing" id="pricing">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow">Fees</p>
+      <h2>Published, before you book.</h2>
+      <p class="lede">Most practices make you call for this. Every fee is on the page, and the plan length is
+        agreed in writing at the first visit.</p>
+    </div>
+
+    <div class="price-grid">
+      <div class="price-card reveal">
+        <span class="price-meta">Single session</span>
+        <span class="price-tag">85</span>
+        <span class="price-meta">Per follow-up visit · 30 minutes</span>
+        <ul class="price-list">
+          <li>Adjustment and soft-tissue work</li>
+          <li>Progress re-check each visit</li>
+          <li>Home programme updated as you go</li>
+          <li>No minimum commitment</li>
+        </ul>
+        <a class="btn btn--ghost btn--block" href="#booking">Book a session</a>
+      </div>
+
+      <div class="price-card price-card--featured reveal">
+        <span class="price-badge">Start here</span>
+        <span class="price-meta">First visit</span>
+        <span class="price-tag">140</span>
+        <span class="price-meta">90 minutes · assessment and first treatment</span>
+        <ul class="price-list">
+          <li>Full history and case review</li>
+          <li>Orthopaedic and neurological examination</li>
+          <li>Existing imaging read with you in the room</li>
+          <li>Written findings and plan before treatment</li>
+          <li>First adjustment included</li>
+        </ul>
+        <a class="btn btn--block" href="#booking">Book your first visit</a>
+      </div>
+
+      <div class="price-card reveal">
+        <span class="price-meta">Care plan</span>
+        <span class="price-tag">640</span>
+        <span class="price-meta">8 visits · agreed after assessment</span>
+        <ul class="price-list">
+          <li>Eight follow-up visits at a reduced rate</li>
+          <li>Only offered where the assessment supports it</li>
+          <li>Re-assessment at visit four</li>
+          <li>Unused visits refunded, no questions</li>
+        </ul>
+        <a class="btn btn--ghost btn--block" href="#booking">Ask about a plan</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ §8 TESTIMONIALS · initial monograms, never stock faces ═══ -->
+<section class="sec voices">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow">Patient outcomes</p>
+      <h2>What changed, specifically.</h2>
+    </div>
+    <div class="voices-grid">
+      <div class="voice-card reveal">
+        <blockquote>“I had been managing it for four years. Three visits in, I stopped thinking about my back.”</blockquote>
+        <div class="voice-who">
+          <span class="mono-avatar" aria-hidden="true">MK</span>
+          <span class="meta"><b>M. K.</b>Chronic lower back pain · Northgate</span>
+        </div>
+      </div>
+      <div class="voice-card reveal">
+        <blockquote>“First person to actually explain what the scan meant. The plan was two pages and I understood all of it.”</blockquote>
+        <div class="voice-who">
+          <span class="mono-avatar" aria-hidden="true">JR</span>
+          <span class="meta"><b>J. R.</b>Sciatica · Riverside</span>
+        </div>
+      </div>
+      <div class="voice-card reveal">
+        <blockquote>“Told me I needed six visits, not sixteen. That is the reason I have sent four people here.”</blockquote>
+        <div class="voice-who">
+          <span class="mono-avatar" aria-hidden="true">AD</span>
+          <span class="meta"><b>A. D.</b>Neck pain and headaches · Eastfield</span>
+        </div>
+      </div>
+    </div>
+    <p style="margin-top:var(--plc-space-xl);font-family:var(--plc-font-mono);font-size:11px;letter-spacing:.08em;color:rgba(14,42,74,.6)">
+      Placeholder patient quotes — demo content for a fictional practice.
+    </p>
+  </div>
+</section>
+
+<!-- ═══ §9 BOOKING ENGINE · FORM-LAYOUTS.md #5 wizard inside a #2 split frame ═══ -->
+<section class="sec booking" id="booking">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow">Book online</p>
+      <h2>Four steps. About ninety seconds.</h2>
+      <p class="lede">No card details and no referral. You will get a confirmation with exactly what to bring.</p>
+    </div>
+
+    <div class="booking-grid">
+      <!-- image side of the split — even 50/50 against the wizard -->
+      <img class="booking-photo reveal" src="../_shared-img/173448312.webp" alt="A bright, modern clinic consulting room with a desk, chair and soft daylight." loading="lazy" decoding="async">
+
+      <!-- FORM-LAYOUTS.md #5 Multi-step wizard form -->
+      <div class="booking-panel reveal">
+        <div class="wizard-rail">
+          <span class="dot is-done" data-dot="1"></span><span class="dot" data-dot="2"></span>
+          <span class="dot" data-dot="3"></span><span class="dot" data-dot="4"></span>
+          <span class="wizard-count" id="wizCount">Step 1 of 4</span>
+        </div>
+
+        <div class="step is-active" data-step="1">
+          <h3>What brings you in?</h3>
+          <p class="hint">Not sure is a valid answer — the assessment is the same either way.</p>
+          <div class="choice-grid">
+            <button class="choice" type="button" aria-pressed="true"><b>Back or neck pain</b><span>The most common reason</span></button>
+            <button class="choice" type="button" aria-pressed="false"><b>Headaches and jaw</b><span>Cervicogenic presentations</span></button>
+            <button class="choice" type="button" aria-pressed="false"><b>Posture or scoliosis</b><span>Structural review</span></button>
+            <button class="choice" type="button" aria-pressed="false"><b>Sport and performance</b><span>Range and load</span></button>
+          </div>
+        </div>
+
+        <div class="step" data-step="2">
+          <h3>Which clinic suits you?</h3>
+          <p class="hint">All three run the same assessment and the same fees.</p>
+          <div class="choice-grid">
+            <button class="choice" type="button" aria-pressed="true"><b>Northgate</b><span>18 Halden Row</span></button>
+            <button class="choice" type="button" aria-pressed="false"><b>Riverside</b><span>4 Mill Quay</span></button>
+            <button class="choice" type="button" aria-pressed="false"><b>Eastfield</b><span>221 Eastfield Lane</span></button>
+            <button class="choice" type="button" aria-pressed="false"><b>Earliest available</b><span>Any of the three</span></button>
+          </div>
+        </div>
+
+        <div class="step" data-step="3">
+          <h3>Pick a time</h3>
+          <p class="hint">Showing 90-minute first-visit slots at Northgate this week.</p>
+          <div class="slot-grid">
+            <button class="slot" type="button" aria-pressed="true">Thu 09:20</button>
+            <button class="slot" type="button" aria-pressed="false">Thu 14:00</button>
+            <button class="slot" type="button" aria-pressed="false">Fri 08:00</button>
+            <button class="slot" type="button" aria-pressed="false">Fri 16:40</button>
+            <button class="slot" type="button" aria-pressed="false">Sat 08:30</button>
+            <button class="slot" type="button" aria-pressed="false">Sat 11:10</button>
+            <button class="slot" type="button" aria-pressed="false">Mon 07:30</button>
+            <button class="slot" type="button" aria-pressed="false">Mon 12:20</button>
+          </div>
+        </div>
+
+        <div class="step" data-step="4">
+          <h3>Where do we send the confirmation?</h3>
+          <p class="hint">We will include what to bring and where to park.</p>
+          <div class="hero-form-grid">
+            <div class="field-pair">
+              <div class="field"><label for="b-first">First name</label><input id="b-first" type="text" placeholder="Alex"></div>
+              <div class="field"><label for="b-last">Last name</label><input id="b-last" type="text" placeholder="Moreau"></div>
+            </div>
+            <div class="field"><label for="b-email">Email</label><input id="b-email" type="email" placeholder="alex@example.com"></div>
+            <div class="field"><label for="b-phone">Mobile</label><input id="b-phone" type="tel" placeholder="+1 555 0142"></div>
+          </div>
+          <div class="confirm" style="margin-top:var(--plc-space-lg)">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+            <div>
+              <strong>Initial assessment · 90 minutes · 140</strong><br>
+              <span style="font-size:14px;color:var(--plc-ink-soft)">Thursday 09:20 at Northgate with Dr. R. Aleyna</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="wizard-foot">
+          <button class="btn btn--ghost btn--sm" type="button" id="wizBack" disabled>Back</button>
+          <span class="wizard-note" id="wizNote">Free to cancel up to 24 hours before</span>
+          <button class="btn" type="button" id="wizNext">Continue</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- locations, horizontal beneath the split (audit §2.5.2 content, re-laid-out) -->
+    <div class="clinic-row">
+      <div class="clinic reveal" style="--i:0">
+        <b>Northgate</b><span>18 Halden Row, Northgate</span>
+        <span class="hrs">Mon–Fri 07:30–19:00 · Sat 08:00–14:00</span>
+      </div>
+      <div class="clinic reveal" style="--i:1">
+        <b>Riverside</b><span>4 Mill Quay, Riverside</span>
+        <span class="hrs">Mon–Fri 08:00–18:00</span>
+      </div>
+      <div class="clinic reveal" style="--i:2">
+        <b>Eastfield</b><span>221 Eastfield Lane, Eastfield</span>
+        <span class="hrs">Tue–Sat 08:00–17:00</span>
+      </div>
+    </div>
+    <p class="clinic-call reveal">
+      Prefer to talk it through first? <a class="tlink" href="tel:+15550142">Call +1 555 0142</a>
+    </p>
+  </div>
+</section>
+
+<!-- ═══ §10 FAQ · FAQ-ACCORDION.md #2 Plus-icon rounded card ═══ -->
+<section class="sec faq" id="faq">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow">Before you book</p>
+      <h2>The questions we get most.</h2>
+    </div>
+    <div class="faq-grid">
+      <div class="faq-item reveal">
+        <button class="faq-q" aria-expanded="false"><span>Does an adjustment hurt?</span><span class="faq-plus" aria-hidden="true"></span></button>
+        <div class="faq-a"><div><p>Usually not. Most people describe pressure and a release rather than pain. If a
+          technique is not comfortable for you, we use a different one — there is more than one way to do this,
+          and nothing happens without you agreeing to it first.</p></div></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q" aria-expanded="false"><span>Do I need a referral or a scan?</span><span class="faq-plus" aria-hidden="true"></span></button>
+        <div class="faq-a"><div><p>No referral needed. You do not need a scan either — most presentations do not
+          require imaging, and we will tell you honestly if yours does. If you already have imaging, bring it and
+          we will read it with you.</p></div></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q" aria-expanded="false"><span>How many visits will I need?</span><span class="faq-plus" aria-hidden="true"></span></button>
+        <div class="faq-a"><div><p>You will get a number in writing at the end of the first visit, based on what
+          the examination found. Most cases sit between four and eight visits. If it is going to be more than
+          that, we say so up front rather than extending a plan later.</p></div></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q" aria-expanded="false"><span>What if chiropractic is not right for me?</span><span class="faq-plus" aria-hidden="true"></span></button>
+        <div class="faq-a"><div><p>Then we tell you at the first visit and refer you to whoever is right. That
+          happens often enough that it is written into how we assess. You still get the written findings.</p></div></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q" aria-expanded="false"><span>How long is the first appointment?</span><span class="faq-plus" aria-hidden="true"></span></button>
+        <div class="faq-a"><div><p>Ninety minutes. That covers history, the full orthopaedic and neurological
+          examination, reading any imaging you bring, the written plan, and your first treatment. Follow-ups are
+          thirty minutes.</p></div></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q" aria-expanded="false"><span>Can I cancel or move my appointment?</span><span class="faq-plus" aria-hidden="true"></span></button>
+        <div class="faq-a"><div><p>Free up to 24 hours before, from the link in your confirmation email. Inside 24
+          hours we charge half the visit fee, because that slot usually cannot be filled.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ §11 CLOSING CTA ═══ -->
+<section class="sec on-dark closing">
+  <div class="wrap">
+    <div class="closing-panel reveal">
+      <div class="closing-inner">
+        <h2>Stop managing it.</h2>
+        <p>Book a ninety-minute assessment and leave with a written answer —<br class="lbrk">
+          what is causing it, how long it takes to fix, and what it costs.</p>
+        <div class="closing-actions">
+          <a class="btn" href="#booking">Book your first visit</a>
+          <a class="btn btn--ghost" href="tel:+15550142">Call +1 555 0142</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ═══ FOOTER · FOOTER-STYLES.md #14 Hours-and-contact prominent ═══ -->
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a class="brand" href="#top" style="margin-bottom:18px" aria-label="Pillar Chiropractic home">
+          <svg viewBox="0 0 34 40" aria-hidden="true">
+            <rect class="seg-accent" x="4" y="2" width="26" height="9" rx="4.5"/>
+            <rect x="7" y="15" width="20" height="9" rx="4.5"/>
+            <rect x="10" y="28" width="14" height="9" rx="4.5"/>
+          </svg>
+          <b>Pillar</b>
+        </a>
+        <p class="foot-addr" style="margin-top:14px">Three neighbourhood clinics. One assessment standard.
+          Book online, or call and we will find you a slot.</p>
+        <h4 style="margin-top:26px">Get openings by email</h4>
+        <div class="nl">
+          <label for="nl-email" class="visually-hidden" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Email address</label>
+          <input id="nl-email" type="email" placeholder="you@example.com">
+          <button class="btn btn--sm" type="button">Join</button>
+        </div>
+      </div>
+
+      <div>
+        <h4>Clinics and hours</h4>
+        <p class="foot-addr">
+          <b>Northgate</b>18 Halden Row
+          <span class="hrs">Mon–Fri 07:30–19:00 · Sat 08:00–14:00</span>
+        </p>
+        <p class="foot-addr" style="margin-top:16px">
+          <b>Riverside</b>4 Mill Quay
+          <span class="hrs">Mon–Fri 08:00–18:00</span>
+        </p>
+        <p class="foot-addr" style="margin-top:16px">
+          <b>Eastfield</b>221 Eastfield Lane
+          <span class="hrs">Tue–Sat 08:00–17:00</span>
+        </p>
+      </div>
+
+      <div>
+        <h4>What we treat</h4>
+        <ul>
+          <li><a href="#services">Spinal and lower back</a></li>
+          <li><a href="#services">Neck, jaw and headaches</a></li>
+          <li><a href="#services">Posture and scoliosis</a></li>
+          <li><a href="#services">Sport and performance</a></li>
+        </ul>
+        <h4 style="margin-top:26px">Practice</h4>
+        <ul>
+          <li><a href="#founder">Our team</a></li>
+          <li><a href="#process">Your first visit</a></li>
+          <li><a href="#pricing">Fees</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="tel:+15550142">+1 555 0142</a></li>
+          <li><a href="mailto:hello@pillarchiro.example">hello@pillarchiro.example</a></li>
+        </ul>
+        <h4 style="margin-top:26px">Book</h4>
+        <p class="foot-addr">Online booking is open 24 hours. Next opening Thursday 09:20 at Northgate.</p>
+        <a class="btn btn--sm" href="#booking" style="margin-top:14px">Book your first visit</a>
+      </div>
+    </div>
+
+    <div class="foot-base">
+      <p>© 2026 Pillar Chiropractic · Privacy · Terms · Accessibility</p>
+      <p>Fictional practice built as a design mockup. All names, fees, numbers and quotes are placeholder content.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══ STICKY CTA · STICKY-CTA-BAR.md #2 Dual-button bottom-bar — mobile only ═══ -->
+<div class="sticky-cta" aria-label="Quick actions">
+  <a class="btn" href="#booking">Book your first visit</a>
+  <a class="btn btn--ghost" href="tel:+15550142" aria-label="Call the practice">Call</a>
+</div>
+
+<script>
+(function(){
+  'use strict';
+
+  /* ── Mobile drawer — NAV-PATTERNS.md #3 drawer state ── */
+  var toggle = document.getElementById('navToggle');
+  var drawer = document.getElementById('mobileDrawer');
+  var scrim  = document.getElementById('navScrim');
+  var close  = document.getElementById('drawerClose');
+
+  function setDrawer(open){
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    drawer.setAttribute('aria-hidden', open ? 'false' : 'true');
+    if (open) { scrim.hidden = false; requestAnimationFrame(function(){ scrim.classList.add('is-open'); }); }
+    else { scrim.classList.remove('is-open'); setTimeout(function(){ scrim.hidden = true; }, 300); }
+    document.body.style.overflow = open ? 'hidden' : '';
+  }
+  toggle.addEventListener('click', function(){
+    setDrawer(toggle.getAttribute('aria-expanded') !== 'true');
+  });
+  close.addEventListener('click', function(){ setDrawer(false); });
+  scrim.addEventListener('click', function(){ setDrawer(false); });
+  drawer.addEventListener('click', function(e){ if (e.target.closest('a')) setDrawer(false); });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && drawer.getAttribute('aria-hidden') === 'false') setDrawer(false);
+  });
+
+  /* ── FAQ accordion ── */
+  Array.prototype.forEach.call(document.querySelectorAll('.faq-q'), function(btn){
+    btn.addEventListener('click', function(){
+      var item = btn.closest('.faq-item');
+      var open = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', open ? 'false' : 'true');
+      item.classList.toggle('is-open', !open);
+    });
+  });
+
+  /* ── Booking wizard — FORM-LAYOUTS.md #5 Multi-step ── */
+  var steps = document.querySelectorAll('.step');
+  var dots  = document.querySelectorAll('.wizard-rail .dot');
+  var back  = document.getElementById('wizBack');
+  var next  = document.getElementById('wizNext');
+  var count = document.getElementById('wizCount');
+  var note  = document.getElementById('wizNote');
+  var cur = 1, total = steps.length;
+
+  function render(){
+    Array.prototype.forEach.call(steps, function(s){
+      s.classList.toggle('is-active', Number(s.getAttribute('data-step')) === cur);
+    });
+    Array.prototype.forEach.call(dots, function(d){
+      d.classList.toggle('is-done', Number(d.getAttribute('data-dot')) <= cur);
+    });
+    count.textContent = 'Step ' + cur + ' of ' + total;
+    back.disabled = cur === 1;
+    next.textContent = cur === total ? 'Confirm booking' : 'Continue';
+    note.textContent = cur === total
+      ? 'You will get a confirmation email in a few seconds'
+      : 'Free to cancel up to 24 hours before';
+  }
+  next.addEventListener('click', function(){ if (cur < total) { cur++; render(); } });
+  back.addEventListener('click', function(){ if (cur > 1) { cur--; render(); } });
+  render();
+
+  /* single-select behaviour inside each step */
+  Array.prototype.forEach.call(document.querySelectorAll('.step'), function(step){
+    Array.prototype.forEach.call(step.querySelectorAll('.choice, .slot'), function(btn){
+      btn.addEventListener('click', function(){
+        var group = btn.classList.contains('slot') ? '.slot' : '.choice';
+        Array.prototype.forEach.call(step.querySelectorAll(group), function(o){
+          o.setAttribute('aria-pressed', 'false');
+        });
+        btn.setAttribute('aria-pressed', 'true');
+      });
+    });
+  });
+
+  /* ── MOTION-PATTERNS.md #26 Fade-in-on-view ── */
+  var reveals = document.querySelectorAll('.reveal');
+  if (!window.matchMedia || !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(en){
+          if (en.isIntersecting) { en.target.classList.add('is-in'); io.unobserve(en.target); }
+        });
+      }, { rootMargin: '0px 0px -8% 0px', threshold: 0.06 });
+      Array.prototype.forEach.call(reveals, function(el){ io.observe(el); });
+    } else {
+      Array.prototype.forEach.call(reveals, function(el){ el.classList.add('is-in'); });
+    }
+  } else {
+    Array.prototype.forEach.call(reveals, function(el){ el.classList.add('is-in'); });
+  }
+})();
+</script>
+</body>
+</html>
